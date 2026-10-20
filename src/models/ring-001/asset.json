@@ -1,0 +1,64 @@
+{
+  "$comment": "Fichier généré par scripts/models/build-model.mjs. Ne pas modifier à la main.",
+  "modelId": "ring-001",
+  "glb": "/models/ring-001/ring-001.glb",
+  "glbBytes": 195676,
+  "rawGlbBytes": 4208804,
+  "simplification": {
+    "relativeError": 0.0005,
+    "appliesTo": "métal uniquement ; pierres non modifiées"
+  },
+  "compression": "EXT_meshopt_compression + KHR_mesh_quantization (positions 16 bits, normales 12 bits)",
+  "nodes": {
+    "B__gem_side": {
+      "trianglesRaw": 3180,
+      "trianglesWeb": 3180,
+      "maxDeviationMm": 0,
+      "p99DeviationMm": 0
+    },
+    "B__metal_settings_side": {
+      "trianglesRaw": 87816,
+      "trianglesWeb": 8252,
+      "maxDeviationMm": 0.0206,
+      "p99DeviationMm": 0.0112
+    },
+    "B__metal_shank": {
+      "trianglesRaw": 4176,
+      "trianglesWeb": 2492,
+      "maxDeviationMm": 0.0166,
+      "p99DeviationMm": 0.0113
+    },
+    "A__gem_side": {
+      "trianglesRaw": 1908,
+      "trianglesWeb": 1908,
+      "maxDeviationMm": 0,
+      "p99DeviationMm": 0
+    },
+    "A__gem_center": {
+      "trianglesRaw": 166,
+      "trianglesWeb": 166,
+      "maxDeviationMm": 0,
+      "p99DeviationMm": 0
+    },
+    "A__metal_settings_side": {
+      "trianglesRaw": 38832,
+      "trianglesWeb": 6320,
+      "maxDeviationMm": 0.0087,
+      "p99DeviationMm": 0.0058
+    },
+    "A__metal_head_center": {
+      "trianglesRaw": 5728,
+      "trianglesWeb": 1940,
+      "maxDeviationMm": 0.0064,
+      "p99DeviationMm": 0.0042
+    },
+    "A__metal_shank": {
+      "trianglesRaw": 5512,
+      "trianglesWeb": 3462,
+      "maxDeviationMm": 0.0195,
+      "p99DeviationMm": 0.013
+    }
+  },
+  "trianglesWeb": 27720,
+  "maxDeviationMm": 0.0206
+}

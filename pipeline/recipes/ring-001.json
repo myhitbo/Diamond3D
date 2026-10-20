@@ -1,0 +1,32 @@
+{
+  "$comment": "Recette de conversion du fichier Ring.3dm. Elle ne crée aucune géométrie : elle dit seulement quels objets du fichier vont dans quelle pièce web. Les groupes et calques cités ont été relevés dans le fichier lors de l'audit de la phase 0.",
+  "modelId": "ring-001",
+  "source": {
+    "cad": "cad/originals/Ring.3dm",
+    "sha256": "7517160f25c0e02d8567d05ec6f2ec346034ad2a3b1d1fd22bd5fc01892d9dca",
+    "referenceStl": "cad/originals/Ring.stl",
+    "referenceStlSha256": "58df1364450b567cb6ebd1a9fbf0f619c87f9f0feb645e88bdcd2e00632948d6"
+  },
+  "productionLayers": ["Metal 01", "Gem 03"],
+  "fingerSizeCurvePrefix": "Ring Rail ",
+  "pieces": {
+    "A": {
+      "label": "Bague solitaire marquise",
+      "parts": [
+        { "id": "metal_shank", "kind": "metal", "role": "shank", "select": { "layer": "Metal 01", "groupsAll": ["Group09"], "groupsNone": ["Group05", "Group06", "Group07"] } },
+        { "id": "metal_head_center", "kind": "metal", "role": "head", "select": { "layer": "Metal 01", "groupsAll": ["Group05"] } },
+        { "id": "metal_settings_side", "kind": "metal", "role": "settings", "select": { "layer": "Metal 01", "groupsAny": ["Group06", "Group07"] } },
+        { "id": "gem_center", "kind": "gem", "role": "center", "slot": "center", "select": { "layer": "Gem 03", "block": "Diamond_Marquise" } },
+        { "id": "gem_side", "kind": "gem", "role": "side", "select": { "layer": "Gem 03", "block": "Diamond_Round", "groupsAll": ["Group10"] } }
+      ]
+    },
+    "B": {
+      "label": "Alliance dégradée",
+      "parts": [
+        { "id": "metal_shank", "kind": "metal", "role": "shank", "select": { "layer": "Metal 01", "ungrouped": true } },
+        { "id": "metal_settings_side", "kind": "metal", "role": "settings", "select": { "layer": "Metal 01", "groupsAny": ["Group13", "Group15"] } },
+        { "id": "gem_side", "kind": "gem", "role": "side", "select": { "layer": "Gem 03", "block": "Diamond_Round", "groupsAny": ["Group14", "Group16"] } }
+      ]
+    }
+  }
+}

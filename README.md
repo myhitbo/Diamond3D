@@ -7,6 +7,8 @@ Le site complet, les devis et le paiement ne sont pas encore développés.
 - Architecture : [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 - Préparation des modèles 3D : [`docs/MODEL_PIPELINE.md`](docs/MODEL_PIPELINE.md)
 - Règles de prix : [`docs/PRICING_RULES.md`](docs/PRICING_RULES.md) (aucune règle définie à ce jour)
+- Cahier des charges (phases 3 à 8) : [`docs/CAHIER_DES_CHARGES.md`](docs/CAHIER_DES_CHARGES.md)
+- Analyse concurrentielle : [`docs/ANALYSE_CONCURRENCE.md`](docs/ANALYSE_CONCURRENCE.md)
 - Tâches : [`TODO.md`](TODO.md) · Historique : [`CHANGELOG.md`](CHANGELOG.md)
 
 ## Démarrage

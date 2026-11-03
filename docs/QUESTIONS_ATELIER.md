@@ -10,11 +10,11 @@ Bonjour,
 
 Le prototype 3D de la bague marquise fonctionne. Pour avancer sur les prix, le devis et les autres modèles, j'ai dix questions. Des réponses partielles suffisent pour commencer.
 
-1. **La bague marquise** : la forme en « 8 » au bout de l'alliance est-elle normale sur la pièce finie ? Dans quels métaux la proposez-vous ?
-2. **Bibliothèque CGTrader** : pour élargir le catalogue, nous partons de modèles achetés sur CGTrader (têtes, corps, bagues complètes en `.3dm`). Je vous enverrai une sélection : pouvez-vous dire pour chacun s'il est fabricable tel quel dans votre atelier, ce qu'il faut corriger (épaisseurs, griffes, sièges, taille), et lesquels vous voulez vraiment proposer ? Et avez-vous des photos studio de vos pièces réelles pour calibrer les couleurs à l'écran ?
+1. **La bague marquise** : la forme en « 8 » au bout de l'alliance est-elle normale sur la pièce finie ? *(Métaux déjà répondus le 22/10 : or 14 et 18 k jaune / rose / blanc, platine.)*
+2. **Bibliothèque DD Diamond** (dd-diamond.com) : quel est votre lien avec DD Diamond, et avons-nous le droit écrit d'utiliser leurs designs et leurs photos ? Ont-ils les fichiers Rhino / Matrix de ces bijoux ? Quels modèles voulez-vous en premier ? Pour ceux qui n'ont pas de fichier, nous passerons par CGTrader ou par une modélisation : vous validerez la fabricabilité de chacun.
 3. **Comment calculez-vous un prix aujourd'hui ?** Un exemple complet et chiffré (métal au cours du jour, pertes, façon, sertissage, pierre, marge, TVA) me suffit pour commencer. Et pouvez-vous chiffrer à la main une vingtaine de configurations de référence pour que je vérifie le calcul automatique ?
 4. **Données du fondeur** : densités de vos alliages (18 k jaune, blanc, rose, platine), pourcentage de perte, et poids réels des pierres du modèle actuel.
-5. **Pierres** : diamant naturel, laboratoire ou les deux ? Quels certificats ? Quelles formes et tailles par modèle ? Pierres de couleur oui ou non ? Avez-vous un stock certifié à vendre en priorité ?
+5. **Pierres** *(déjà répondu le 22/10 : diamant naturel et synthétique, diamants de couleur, émeraude / saphir / rubis)* : quels certificats ? Quelles formes et tailles par modèle ? Vos pierres de couleur « synthétiques » sont-elles de vraies pierres synthétiques (corindon, béryl de laboratoire) ou du verre ? La loi impose de les nommer différemment. Avez-vous un stock certifié à vendre en priorité ?
 6. **Tailles** : quelle plage fabriquez-vous, et que proposez-vous si le client se trompe (remise à taille offerte ? combien de fois ? limites sur les alliances serties) ? Envoyez-vous un baguier ? Maquette résine à essayer avant fabrication ?
 7. **Options** : gravure intérieure (laser ? polices ? hébreu ?), finitions (poli, brossé, martelé), autres variantes ?
 8. **Commande** : acompte à combien de pourcent, moyens de paiement acceptés (Stripe ou autre compte existant ?), livraison et assurance, délai total de fabrication, nombre de modifications incluses avant lancement ?
@@ -42,9 +42,11 @@ Le prototype 3D de la bague marquise fonctionne (fichier Rhino → modèle web d
 5. L'or blanc est-il rhodié ? Le platine est-il poli ou satiné ?
 6. La marquise 6 × 3 mm : quel poids réel en carats ? Quel poids pour les 6 rondes de 1,4 mm et les 10 rondes de 1,3 à 2,3 mm de l'alliance ?
 
-## 2. Bibliothèque de modèles (CGTrader)
+## 2. Bibliothèque de modèles (DD Diamond, CGTrader)
 
-Le catalogue sera élargi à partir de modèles achetés sur CGTrader (`.3dm` / STL : têtes, corps, bagues complètes). Ces fichiers ne sont pas garantis fabricables : votre validation est indispensable.
+Les designs de référence viennent de dd-diamond.com. Fichiers 3D : CAO de DD Diamond ou de ses ateliers en priorité, sinon CGTrader ou modélisation. Les fichiers achetés ne sont pas garantis fabricables : votre validation est indispensable.
+
+**Préalable** : lien avec DD Diamond, droit écrit d'utiliser leurs designs et photos, existence des fichiers CAO, ordre de priorité des modèles ?
 
 7. Pour chaque modèle de la sélection que je vous enverrai : fabricable tel quel ? Sinon, que faut-il corriger (épaisseur minimale du corps, section des griffes, sièges des pierres, tolérances de sertissage) ?
 8. Pouvez-vous faire ces corrections dans Rhino/Matrix, ou faut-il un prestataire CAO ? Combien de temps par modèle ?

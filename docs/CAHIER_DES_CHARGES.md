@@ -72,7 +72,7 @@ Priorité : **P1** indispensable à la mise en ligne commerciale · **P2** aprè
 | CAT-2 | Page modèle statique par langue (`/fr/bague/<slug>`, `/en/ring/<slug>`, `/he/טבעת/<slug>`) avec configurateur intégré, textes éditoriaux, données structurées `Product`/`Offer`, image Open Graph pré-rendue. | P1 |
 | CAT-3 | Pages statiques indexables par variante principale (modèle × métal × forme de pierre), avec image pré-rendue, liens canoniques. | P2 |
 | CAT-4 | Recherche et filtres (catégorie, métal, forme, budget). | P2 |
-| CAT-5 | Un minimum de **4 bagues** publiées au lancement, dont une avec au moins deux têtes de pierre. Source : bibliothèque CGTrader (têtes, corps, bagues complètes) + fichiers de l'atelier, validés par l'atelier (PIP-7). | P1 |
+| CAT-5 | Un minimum de **4 bagues** publiées au lancement, dont une avec au moins deux têtes de pierre. Designs de référence : catalogue **DD Diamond** (dd-diamond.com), sous réserve d'un droit d'usage écrit. Fichiers 3D : CAO de DD Diamond / de ses ateliers en priorité, sinon CGTrader (PIP-7) ou modélisation ; tout est validé par l'atelier. | P1 |
 
 ### 3.2 Configurateur 3D
 | Réf. | Exigence | Priorité |
@@ -80,8 +80,8 @@ Priorité : **P1** indispensable à la mise en ligne commerciale · **P2** aprè
 | CFG-1 | Conserver l'existant [V] : rotation/zoom souris et tactile, 4 vues, réinitialisation, chargement, erreur avec « Réessayer », repli sans WebGL, rendu à la demande, repli qualité basse. | P1 |
 | CFG-2 | **Composants ancrés** : têtes de pierre, corps, galeries déclarés comme pièces avec point d'ancrage ; seules les combinaisons déclarées fabricables sont proposées ; validation automatique de l'alignement (tolérance < 0,05 mm) au build. | P1 |
 | CFG-3 | Formes de pierre : chaque forme proposée correspond à une tête réellement modélisée ; les autres restent « indisponibles » avec raison [V, règle existante]. | P1 |
-| CFG-4 | Pierre : forme, dimensions/poids, couleur, pureté, origine (naturel / laboratoire), certificat (GIA/IGI/HRD, numéro) ; pierres de couleur (saphir, rubis, émeraude…) avec rendu dédié. | P1 (diamant), P2 (couleur) |
-| CFG-5 | Métaux : or 18 k jaune/blanc/rose, platine 950 ; palladium, or 14 k, argent selon l'atelier [A]. Teintes calibrées sur photos de pièces réelles (CFG-10). | P1 |
+| CFG-4 | Pierre : forme, dimensions/poids, couleur, pureté, certificat (GIA/IGI/HRD, numéro). **Origine en trois catégories distinctes : naturelle / synthétique / imitation** (réponse atelier du 22/10). Libellés légaux par pays : en français « synthétique » obligatoire, « de laboratoire » / « de culture » interdits (décret 2002-65, voir `REPONSES_ATELIER.md`). Diamants : naturel, synthétique, de couleur (noir, rose, bleu, autres) avec mention du traitement. Pierres de couleur : émeraude, saphir, rubis, avec un rendu dédié. | P1 (diamant), P2 (couleur) |
+| CFG-5 | Métaux (confirmés par l'atelier le 22/10) : or **14 k et 18 k**, jaune / blanc / rose, et **platine**. Densité et prix distincts par titre. Teintes calibrées sur photos de pièces réelles (CFG-10). | P1 |
 | CFG-6 | Finitions (poli, brossé, martelé, sablé) par zone, si le modèle le déclare. | P2 |
 | CFG-7 | Gravure intérieure : texte (latin et hébreu), polices, aperçu 3D, limite de caractères selon la circonférence disponible, incluse dans la fiche de fabrication. | P2 |
 | CFG-8 | Taille de doigt : saisie en France/US/UK/Israël/mm avec conversion ; affichage « modélisé en 51½, fabriqué à votre taille » ; pas de géométrie paramétrique en temps réel (décision phase 0 maintenue). | P1 |

@@ -6,6 +6,8 @@ Deux versions : une **courte** (10 questions, pour un premier échange ou un mes
 
 ## Relance après la synthèse du 3 novembre (questions encore ouvertes)
 
+*Envoyée par WhatsApp le 3 novembre 2026, en version courte (7 questions : coûts ou prix client, fonte incluse ou non, platine, 3 niveaux de marge, grille des diamants, 20 bagues chiffrées, tailles / paiement / livraison). En attente de réponse.*
+
 Bonjour,
 
 Merci pour la synthèse, elle débloque le moteur de prix. Il me reste des points à préciser, surtout sur les prix :

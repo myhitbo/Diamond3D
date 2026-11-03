@@ -28,5 +28,16 @@
         { "id": "gem_side", "kind": "gem", "role": "side", "select": { "layer": "Gem 03", "block": "Diamond_Round", "groupsAny": ["Group14", "Group16"] } }
       ]
     }
+  },
+  "webRetouch": {
+    "$comment": "Retouches web uniquement (pipeline/web_retouch.py), demandées par l'atelier le 3/11/2026 : griffes rabattues, « 8 » supprimés. Le fichier de fabrication n'est pas modifié.",
+    "ringCentreFrom": ["A__metal_shank", "B__metal_shank"],
+    "prongParams": { "crownFraction": 0.7, "crownRadiusFraction": 0.8, "beadOverlap": 0.8, "maxGapMm": 0.4 },
+    "prongs": [
+      { "metal": "A__metal_head_center", "gems": ["A__gem_center"] },
+      { "metal": "A__metal_settings_side", "gems": ["A__gem_side"] },
+      { "metal": "B__metal_settings_side", "gems": ["B__gem_side"] }
+    ],
+    "removeBasketBottoms": [{ "metal": "B__metal_settings_side", "gems": ["B__gem_side"], "tMinMm": -1.8, "tMaxMm": -1.6 }]
   }
 }

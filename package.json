@@ -12,7 +12,8 @@
     "test": "vitest run",
     "test:e2e": "playwright test",
     "models:extract": "node scripts/models/build-model.mjs",
-    "models:validate": "tsx scripts/models/validate-models.ts"
+    "models:validate": "tsx scripts/models/validate-models.ts",
+    "models:retouch": "node scripts/models/retouch-published.mjs"
   },
   "dependencies": {
     "@react-three/drei": "10.7.9",

@@ -17,7 +17,12 @@
    - lit la taille de doigt sur la courbe « Ring Rail … ».
 2. **Optimisation** (`scripts/models/optimize-glb.mjs`) : soudure des sommets, simplification du **métal seulement** (meshoptimizer, erreur relative 0,05 %, bords verrouillés), quantification (positions 16 bits, normales 12 bits), compression `EXT_meshopt_compression`.
 3. **Mesure** (`pipeline/measure_deviation.py`) : écart réel entre GLB brut et GLB simplifié, par échantillonnage de 20 000 points dans les deux sens, en mm.
-4. **Rapports** : `src/models/<id>/geometry.json` et `src/models/<id>/asset.json`.
+4. **Retouches web** (si la recette contient `webRetouch`) : `pipeline/web_retouch.py` calcule, `scripts/models/apply-web-edits.mjs` applique, sur le GLB brut et avant l'optimisation.
+   - griffes : l'extrémité de chaque tige qui tient une pierre est abaissée à mi-couronne et rabattue vers la pierre ;
+   - plaques basses des paniers (les « 8 » vus en enfilade) : supprimées ; les bouts de tiges qu'elles masquaient reçoivent un bouchon plat ;
+   - rien d'autre n'est créé ; le fichier de fabrication n'est pas touché ; le rapport `asset.json` décrit la retouche (`webRetouch`).
+   Sans le `.3dm`, `npm run models:retouch -- <id>` applique la même retouche au modèle publié (une seule fois).
+5. **Rapports** : `src/models/<id>/geometry.json` et `src/models/<id>/asset.json`.
 
 ## Choix du niveau de simplification (ring-001)
 

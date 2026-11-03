@@ -19,8 +19,26 @@ mkdirSync(join('public/models', id), { recursive: true });
 const run = (cmd, args) => execFileSync(cmd, args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'inherit'] });
 
 process.stdout.write(run(py, ['-I', 'pipeline/extract_3dm.py', `pipeline/recipes/${id}.json`, '--out-glb', raw, '--out-meta', `src/models/${id}/geometry.json`]));
-run('node', ['scripts/models/optimize-glb.mjs', raw, out, witness, String(ERROR)]);
-const deviation = JSON.parse(run(py, ['-I', 'pipeline/measure_deviation.py', raw, witness]));
+// Retouches web (griffes rabattues, plaques en « 8 » supprimées…) si la recette en déclare.
+// Le GLB brut d'origine est conservé ; l'écart mesuré porte sur la simplification seule.
+const recipe = JSON.parse(readFileSync(`pipeline/recipes/${id}.json`, 'utf8'));
+let source = raw;
+let retouch;
+if (recipe.webRetouch) {
+  const edits = join(inter, `${id}.web-edits.json`);
+  source = join(inter, `${id}.retouched.glb`);
+  const summary = JSON.parse(run(py, ['-I', 'pipeline/web_retouch.py', raw, `pipeline/recipes/${id}.json`, edits]));
+  run('node', ['scripts/models/apply-web-edits.mjs', raw, edits, source, '--no-compress']);
+  retouch = {
+    appliedTo: 'GLB brut issu du .3dm',
+    request: "Atelier, 3/11/2026 : griffes rabattues et « 8 » supprimés, pour le web uniquement",
+    prongsAdjusted: Object.fromEntries(Object.entries(summary.prongs).map(([k, v]) => [k, v.length])),
+    removedFaces: summary.removedFaces,
+    addedCapTriangles: summary.addedCaps ?? {},
+  };
+}
+run('node', ['scripts/models/optimize-glb.mjs', source, out, witness, String(ERROR)]);
+const deviation = JSON.parse(run(py, ['-I', 'pipeline/measure_deviation.py', source, witness]));
 
 const report = {
   $comment: 'Fichier généré par scripts/models/build-model.mjs. Ne pas modifier à la main.',
@@ -33,6 +51,7 @@ const report = {
   nodes: deviation,
   trianglesWeb: Object.values(deviation).reduce((s, n) => s + n.trianglesWeb, 0),
   maxDeviationMm: Math.max(...Object.values(deviation).map((n) => n.maxDeviationMm)),
+  ...(retouch ? { webRetouch: retouch } : {}),
 };
 writeFileSync(`src/models/${id}/asset.json`, JSON.stringify(report, null, 2) + '\n');
 console.log(`${out} : ${report.glbBytes} octets, ${report.trianglesWeb} triangles, écart max ${report.maxDeviationMm} mm`);

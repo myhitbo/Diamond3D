@@ -76,7 +76,7 @@ Les tests navigateur vérifient l'état réel de la scène (nœuds rendus, coule
 ## E. Limites techniques
 
 **Modèle CAO**
-1. **Griffes non recoupées** : elles dépassent d'environ 4 mm au-dessus des pierres, comme dans le fichier. Le rendu est fidèle à la CAO, mais pas au bijou fini. À confirmer, puis préparer une version « griffes coupées » dans Rhino.
+1. **Griffes non recoupées** : ce sont des tiges droites, comme dans le fichier de fonte. *Correction du 3/11/2026 : mesuré sur le modèle, leur bout dépasse la table des pierres de 0,25 à 0,5 mm, et non d'environ 4 mm comme écrit initialement ; c'est leur forme droite qui fait « pas fini ».* Retouche web faite le 3/11 (griffes rabattues sur la couronne), voir `MODEL_PIPELINE.md`.
 2. **Une seule pierre centrale** : la tête est propre à la marquise (deux griffes de pointe). Aucune autre forme ne peut être proposée sans une tête modélisée.
 3. **Taille de doigt** : seule la 51½ est modélisée. Les autres tailles changeraient la géométrie de l'anneau ; elles restent à la charge de l'atelier.
 4. Une forme en « 8 » est visible à l'extrémité gauche de l'alliance (sièges de pierres). Elle provient du fichier ; à vérifier dans Rhino.

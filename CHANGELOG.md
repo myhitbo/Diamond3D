@@ -1,5 +1,12 @@
 # Historique
 
+## 0.1.1 — 2026-11-03 — Retouche web de ring-001
+
+- Demande de l'atelier : griffes rabattues et « 8 » supprimés, pour le web uniquement.
+- `pipeline/web_retouch.py` + `scripts/models/apply-web-edits.mjs` : 48 griffes ajustées, 452 triangles de plaques supprimés, 88 triangles de bouchons ajoutés. Étape intégrée à `models:extract` ; `models:retouch` pour le modèle publié.
+- GLB : 194 272 octets, 27 356 triangles. Test de non-régression `pipeline/tests/test_web_retouch.py`. Suite navigateur complète : 28/28.
+- Correction du rapport de phase 2 : les griffes dépassaient de 0,25 à 0,5 mm, pas de 4 mm.
+
 ## 0.1.0 — 2026-10-20 — Prototype technique (phase 2)
 
 - Pipeline CAO → web : extraction du `.3dm` sans Rhino (maillages de rendu enregistrés), séparation des deux bagues par recette, recoupement avec le STL, métadonnées des pierres, simplification mesurée du métal, compression meshopt.

@@ -3,9 +3,11 @@
 ## Bloquant avant la suite
 - [ ] Test sur appareils réels : iPhone (Safari), Android milieu de gamme, ordinateur avec GPU. Une préversion privée nécessite ton accord.
 - [ ] Relancer la campagne de mesure complète (`scripts/perf/measure.mjs`), interrompue deux fois.
-- [ ] Relancer la suite navigateur complète (`npm run test:e2e`) : seuls 6 des 28 tests ont été rejoués après le dernier changement.
+- [x] Suite navigateur complète relancée le 3/11 : 28/28 (Chromium, rendu logiciel).
 - [x] Réponse de l'atelier pour ring-001 (3/11) : griffes à replier et « 8 » à supprimer sur la version web ; le maquettiste ne peut pas le faire.
-- [ ] Retouche web de ring-001 dans le pipeline : griffes coupées et arrondies juste au-dessus de la pierre, maillages du « 8 » retirés, fichier de fabrication intact. Captures à faire valider par l'atelier. Nécessite `Ring.3dm` dans `cad/originals/`.
+- [x] Retouche web de ring-001 (3/11) : griffes rabattues, plaques en « 8 » supprimées, modèle publié. Planche : `docs/images/retouche-ring-001-avant-apres.jpg`.
+- [ ] Faire valider la planche avant/après par l'atelier (attention aux deux griffes de pointe de la marquise, qui forment un biseau de profil).
+- [ ] À réception de `Ring.3dm`, régénérer avec `npm run models:extract -- ring-001` : la retouche est refaite sur le GLB brut.
 - [ ] Teintes des métaux conformes aux photos : en attente des photos studio de l'atelier.
 
 ## Modèles

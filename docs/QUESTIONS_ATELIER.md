@@ -1,5 +1,34 @@
 # Questions à l'atelier — préparation des phases 3 à 6
 
+Deux versions : une **courte** (10 questions, pour un premier échange ou un message rapide) et une **complète** (56 questions, à remplir au fil des phases).
+
+---
+
+## Version courte (10 questions)
+
+Bonjour,
+
+Le prototype 3D de la bague marquise fonctionne. Pour avancer sur les prix, le devis et les autres modèles, j'ai dix questions. Des réponses partielles suffisent pour commencer.
+
+1. **La bague marquise** : les griffes longues (4 mm au-dessus de la pierre) et la forme en « 8 » au bout de l'alliance sont-elles normales, ou faut-il une version corrigée pour le web ? Dans quels métaux la proposez-vous ?
+2. **Pouvez-vous m'envoyer 3 autres fichiers Rhino** (`.3dm` + STL si possible), dont une bague proposée avec plusieurs formes de pierre centrale ? Avec des photos studio des pièces réelles pour calibrer les couleurs à l'écran.
+3. **Comment calculez-vous un prix aujourd'hui ?** Un exemple complet et chiffré (métal au cours du jour, pertes, façon, sertissage, pierre, marge, TVA) me suffit pour commencer. Et pouvez-vous chiffrer à la main une vingtaine de configurations de référence pour que je vérifie le calcul automatique ?
+4. **Données du fondeur** : densités de vos alliages (18 k jaune, blanc, rose, platine), pourcentage de perte, et poids réels des pierres du modèle actuel.
+5. **Pierres** : diamant naturel, laboratoire ou les deux ? Quels certificats ? Quelles formes et tailles par modèle ? Pierres de couleur oui ou non ? Avez-vous un stock certifié à vendre en priorité ?
+6. **Tailles** : quelle plage fabriquez-vous, et que proposez-vous si le client se trompe (remise à taille offerte ? combien de fois ? limites sur les alliances serties) ? Envoyez-vous un baguier ? Maquette résine à essayer avant fabrication ?
+7. **Options** : gravure intérieure (laser ? polices ? hébreu ?), finitions (poli, brossé, martelé), autres variantes ?
+8. **Commande** : acompte à combien de pourcent, moyens de paiement acceptés (Stripe ou autre compte existant ?), livraison et assurance, délai total de fabrication, nombre de modifications incluses avant lancement ?
+9. **Organisation** : qui répond aux demandes de devis et sous quel délai ? Souhaitez-vous utiliser le configurateur en boutique sur tablette ? Avez-vous déjà un site, un domaine, un logo, des CGV ?
+10. **Marchés et langues** : français et anglais sont prêts ; l'hébreu dès le lancement ? Quels pays vendez-vous en priorité, et en quelle devise facturez-vous ?
+
+Le plus urgent : les points 1 à 4. Les fichiers peuvent être déposés dans un dossier partagé ; je confirme sous 48 h s'ils sont exploitables tels quels.
+
+Merci.
+
+---
+
+## Version complète (56 questions)
+
 Bonjour,
 
 Le prototype 3D de la bague marquise fonctionne (fichier Rhino → modèle web de 191 Ko, écart max 0,02 mm, configurateur FR/EN sur mobile et ordinateur). Pour passer à la suite — autres modèles, prix, devis, commande — j'ai besoin de vos réponses et de quelques fichiers. Répondez directement sous chaque point, même partiellement ; « je ne sais pas » ou « à décider » sont des réponses utiles.

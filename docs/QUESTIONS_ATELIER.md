@@ -10,8 +10,8 @@ Bonjour,
 
 Le prototype 3D de la bague marquise fonctionne. Pour avancer sur les prix, le devis et les autres modèles, j'ai dix questions. Des réponses partielles suffisent pour commencer.
 
-1. **La bague marquise** : les griffes longues (4 mm au-dessus de la pierre) et la forme en « 8 » au bout de l'alliance sont-elles normales, ou faut-il une version corrigée pour le web ? Dans quels métaux la proposez-vous ?
-2. **Pouvez-vous m'envoyer 3 autres fichiers Rhino** (`.3dm` + STL si possible), dont une bague proposée avec plusieurs formes de pierre centrale ? Avec des photos studio des pièces réelles pour calibrer les couleurs à l'écran.
+1. **La bague marquise** : la forme en « 8 » au bout de l'alliance est-elle normale sur la pièce finie ? Dans quels métaux la proposez-vous ?
+2. **Bibliothèque CGTrader** : pour élargir le catalogue, nous partons de modèles achetés sur CGTrader (têtes, corps, bagues complètes en `.3dm`). Je vous enverrai une sélection : pouvez-vous dire pour chacun s'il est fabricable tel quel dans votre atelier, ce qu'il faut corriger (épaisseurs, griffes, sièges, taille), et lesquels vous voulez vraiment proposer ? Et avez-vous des photos studio de vos pièces réelles pour calibrer les couleurs à l'écran ?
 3. **Comment calculez-vous un prix aujourd'hui ?** Un exemple complet et chiffré (métal au cours du jour, pertes, façon, sertissage, pierre, marge, TVA) me suffit pour commencer. Et pouvez-vous chiffrer à la main une vingtaine de configurations de référence pour que je vérifie le calcul automatique ?
 4. **Données du fondeur** : densités de vos alliages (18 k jaune, blanc, rose, platine), pourcentage de perte, et poids réels des pierres du modèle actuel.
 5. **Pierres** : diamant naturel, laboratoire ou les deux ? Quels certificats ? Quelles formes et tailles par modèle ? Pierres de couleur oui ou non ? Avez-vous un stock certifié à vendre en priorité ?
@@ -35,20 +35,22 @@ Le prototype 3D de la bague marquise fonctionne (fichier Rhino → modèle web d
 
 ## 1. Validation du modèle actuel (bague marquise + alliance, `Ring.3dm`)
 
-1. Les griffes dépassent d'environ 4 mm au-dessus de la pierre dans le fichier. Est-ce volontaire pour la fonte (griffes coupées ensuite) ? Si oui, pouvez-vous fournir une version « griffes coupées » pour l'affichage web ?
+1. *(Griffes longues : réponse déjà donnée, à reporter dans `TODO.md`.)*
 2. À l'extrémité gauche de l'alliance, les sièges des pierres forment un « 8 » visible. Est-ce normal sur la pièce finie ?
 3. Les deux bagues sont-elles vendues ensemble, séparément, ou les deux ?
 4. Dans quels métaux proposez-vous réellement ce modèle ? (or 18 k jaune / blanc / rose, platine 950, autre ?)
 5. L'or blanc est-il rhodié ? Le platine est-il poli ou satiné ?
 6. La marquise 6 × 3 mm : quel poids réel en carats ? Quel poids pour les 6 rondes de 1,4 mm et les 10 rondes de 1,3 à 2,3 mm de l'alliance ?
 
-## 2. Fichiers 3D supplémentaires
+## 2. Bibliothèque de modèles (CGTrader)
 
-7. Pouvez-vous fournir 3 autres fichiers `.3dm` (idéalement une bague de fiançailles, une alliance, et une bague proposée avec au moins deux têtes de pierre différentes) ?
-8. Pour chaque fichier : quel logiciel et quelle version (Rhino 5/6/7/8, Matrix, MatrixGold) ? Les maillages de rendu sont-ils enregistrés dans le fichier ?
-9. Les pierres sont-elles des blocs Rhino (comme dans `Ring.3dm`) ou des solides libres ? Les objets sont-ils groupés par pièce et par calque ?
-10. Existe-t-il un fichier STL de référence pour chaque bague ?
-11. Avez-vous des photos studio des pièces réelles correspondant à ces fichiers (fond neutre, plusieurs angles) ? Elles servent à calibrer les teintes des métaux et des pierres à l'écran.
+Le catalogue sera élargi à partir de modèles achetés sur CGTrader (`.3dm` / STL : têtes, corps, bagues complètes). Ces fichiers ne sont pas garantis fabricables : votre validation est indispensable.
+
+7. Pour chaque modèle de la sélection que je vous enverrai : fabricable tel quel ? Sinon, que faut-il corriger (épaisseur minimale du corps, section des griffes, sièges des pierres, tolérances de sertissage) ?
+8. Pouvez-vous faire ces corrections dans Rhino/Matrix, ou faut-il un prestataire CAO ? Combien de temps par modèle ?
+9. Quelles têtes et quels corps voulez-vous combiner entre eux ? Faut-il un point d'ancrage commun (hauteur et diamètre de la galerie) pour que toute tête se monte sur tout corps ?
+10. En quelle taille de doigt les modèles doivent-ils être ramenés pour l'affichage web (actuellement 51½) ?
+11. Avez-vous des photos studio de vos pièces réelles (fond neutre, plusieurs angles) ? Elles servent à calibrer les teintes des métaux et des pierres à l'écran.
 
 ## 3. Pierres
 
@@ -124,8 +126,8 @@ Le prototype 3D de la bague marquise fonctionne (fichier Rhino → modèle web d
 
 ## Ce que j'attends concrètement, par ordre d'urgence
 
-1. Réponses aux questions 1 à 6 (validation du modèle actuel).
-2. Les 3 fichiers `.3dm` + STL + photos studio (questions 7 à 11).
+1. Réponses aux questions 2 à 6 (validation du modèle actuel).
+2. Validation de la sélection CGTrader + photos studio (questions 7 à 11).
 3. Densités, pertes, poids réels des pierres (questions 6, 20, 21).
 4. Méthode de prix et les 20 configurations de référence (questions 18 à 30).
 5. Le reste peut suivre au fil des phases.

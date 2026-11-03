@@ -72,7 +72,7 @@ Priorité : **P1** indispensable à la mise en ligne commerciale · **P2** aprè
 | CAT-2 | Page modèle statique par langue (`/fr/bague/<slug>`, `/en/ring/<slug>`, `/he/טבעת/<slug>`) avec configurateur intégré, textes éditoriaux, données structurées `Product`/`Offer`, image Open Graph pré-rendue. | P1 |
 | CAT-3 | Pages statiques indexables par variante principale (modèle × métal × forme de pierre), avec image pré-rendue, liens canoniques. | P2 |
 | CAT-4 | Recherche et filtres (catégorie, métal, forme, budget). | P2 |
-| CAT-5 | Un minimum de **4 bagues** publiées au lancement, dont une avec au moins deux têtes de pierre. [A : fourniture des fichiers] | P1 |
+| CAT-5 | Un minimum de **4 bagues** publiées au lancement, dont une avec au moins deux têtes de pierre. Source : bibliothèque CGTrader (têtes, corps, bagues complètes) + fichiers de l'atelier, validés par l'atelier (PIP-7). | P1 |
 
 ### 3.2 Configurateur 3D
 | Réf. | Exigence | Priorité |
@@ -160,6 +160,8 @@ Priorité : **P1** indispensable à la mise en ligne commerciale · **P2** aprè
 | PIP-4 | Rendu d'images statiques (packshots) par configuration principale pour catalogue, OG et e-mails, par script (Chromium headless, même scène). | P1 |
 | PIP-5 | Certificat de modèle généré : empreinte source, écart max/p99, triangles, date, validateur. | P2 |
 | PIP-6 | Budget par modèle en CI : GLB ≤ 400 Ko, écart max ≤ 0,05 mm, appels de dessin ≤ 20 ; échec sinon. | P1 |
+| PIP-7 | **Modèles CGTrader** : chaque modèle acheté est tracé (URL de la fiche, vendeur, licence, date, capture de la licence, prix) dans sa recette ; refus au build si la licence n'est pas renseignée. Fiches « digital use only » ou « not for 3D printing » exclues du catalogue vendable. Validation de fabricabilité par l'atelier obligatoire avant `workshopValidated`. | P1 |
+| PIP-8 | Protection des modèles tiers : le GLB web est retraité (fusion, simplification, quantification), servi sans lien de téléchargement direct, sans nom de fichier d'origine ; obfuscation/URL signées dès qu'un modèle CGTrader est publié. | P1 |
 
 ---
 
@@ -271,6 +273,9 @@ Total phases 3–6 (mise en ligne commerciale) : **41 à 59 jours de développem
 | Risque | Impact | Parade |
 |---|---|---|
 | Fichiers CAO hétérogènes (pas de maillages de rendu, objets non groupés) | délais ×2 sur la phase 3 | règles de préparation Rhino (MODEL_PIPELINE), audit à réception, chiffrage par fichier |
+| **Licence CGTrader** : la licence Royalty Free n'autorise que l'usage « incorporé », interdit de céder le fichier « sous la forme téléchargée ou imprimée en 3D » et impose d'empêcher l'utilisateur final d'accéder au modèle ; la vente de bijoux fabriqués à partir d'un modèle n'est pas explicitement couverte ; certaines fiches sont « usage numérique uniquement » | litige, retrait du catalogue | vérifier chaque fiche (PIP-7), protéger le GLB (PIP-8), **obtenir une confirmation écrite de CGTrader ou du vendeur** pour la fabrication et la vente de bijoux, ou acheter une licence étendue / commander une modélisation exclusive [D] |
+| Modèles CGTrader non fabricables (épaisseurs, griffes, sièges, tailles hétérogènes) | rendu ≠ bijou livré | validation atelier, corrections Rhino chiffrées par modèle |
+| Modèles CGTrader non exclusifs : d'autres vendeurs proposent les mêmes designs | perte de différenciation | personnaliser par l'atelier, combiner composants, privilégier à terme les créations maison |
 | Règles de prix incomplètes ou changeantes | prix faux, perte de confiance | statut « indicatif » tant que non validées ; 20 configurations de référence ; journal des versions |
 | Rendu non conforme aux pièces réelles (teintes, pierres) | retours, litiges | calibration photo obligatoire (CFG-10), mention explicite « rendu 3D, non contractuel » tant que non validé |
 | Performance sur appareils réels inconnue [V] | abandon mobile | tests réels dès la phase 3, budgets CI, repli qualité basse existant |

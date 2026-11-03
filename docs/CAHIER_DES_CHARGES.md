@@ -72,7 +72,7 @@ Priorité : **P1** indispensable à la mise en ligne commerciale · **P2** aprè
 | CAT-2 | Page modèle statique par langue (`/fr/bague/<slug>`, `/en/ring/<slug>`, `/he/טבעת/<slug>`) avec configurateur intégré, textes éditoriaux, données structurées `Product`/`Offer`, image Open Graph pré-rendue. | P1 |
 | CAT-3 | Pages statiques indexables par variante principale (modèle × métal × forme de pierre), avec image pré-rendue, liens canoniques. | P2 |
 | CAT-4 | Recherche et filtres (catégorie, métal, forme, budget). | P2 |
-| CAT-5 | Un minimum de **4 bagues** publiées au lancement, dont une avec au moins deux têtes de pierre. Designs de référence : catalogue **DD Diamond** (dd-diamond.com), sous réserve d'un droit d'usage écrit. Fichiers 3D : CAO de DD Diamond / de ses ateliers en priorité, sinon CGTrader (PIP-7) ou modélisation ; tout est validé par l'atelier. | P1 |
+| CAT-5 | Un minimum de **4 bagues** publiées au lancement, dont une avec au moins deux têtes de pierre. Source des modèles : bibliothèque **CGTrader** (partie gratuite et payante, PIP-7) et fichiers de l'atelier ; tout est validé par l'atelier. | P1 |
 
 ### 3.2 Configurateur 3D
 | Réf. | Exigence | Priorité |

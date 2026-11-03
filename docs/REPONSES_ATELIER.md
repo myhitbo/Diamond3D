@@ -21,7 +21,7 @@ Légende : **[V]** vérifié · **[I]** inféré · **[?]** à confirmer.
 >
 > Pour le platine j'ai jamais eu de demande, c'est rare en Israël, faut que je me renseigne.
 
-Complément du propriétaire : **le platine est finalement confirmé**. Bibliothèque de modèles : **https://www.dd-diamond.com/**.
+Compléments du propriétaire : **le platine est finalement confirmé**. Bibliothèque de modèles : **CGTrader**, y compris sa partie gratuite. **dd-diamond.com** est un exemple de site avec de la 3D (rectification du 3 novembre), pas une bibliothèque.
 
 ### Ce qui est acquis
 
@@ -43,30 +43,30 @@ Complément du propriétaire : **le platine est finalement confirmé**. Biblioth
    - Les règles israéliennes et américaines n'ont pas été vérifiées [?].
    - Décision : dans le configurateur, trois catégories distinctes, **naturelle / synthétique / imitation**, jamais confondues. Libellé français « diamant synthétique », avec un libellé adapté par pays (« lab-grown » en anglais, à vérifier pour chaque marché). L'atelier doit dire ce qu'il vend réellement : pierres synthétiques ou verre [?].
 2. **Diamants de couleur** : les diamants noirs et beaucoup de diamants de couleur du commerce sont traités, ou synthétiques. L'origine (naturelle / traitée / synthétique) doit être indiquée par pierre [I ; à confirmer avec le certificat].
-3. **Bibliothèque DD Diamond** : voir ci-dessous.
+3. **Exemple DD Diamond** : voir ci-dessous.
 
-### Bibliothèque : dd-diamond.com (analysé le 3 novembre 2026)
+### Exemple de site : dd-diamond.com (analysé le 3 novembre 2026)
 
-**Ce que c'est** [V] : la boutique en ligne (Shopify) de **DD.Diamond**, fondée en 2015 par David Douieb (diplômé du GIA), avec Tal Douieb aux ventes. Bureaux à Anvers, en France et en Israël. Bijoux réalisés par des ateliers français. Il y a un formulaire « Design Your Jewelry ». Certaines fiches produit ont une vue « 360 » (photos).
+Rectification du propriétaire : DD Diamond est un **exemple de site avec 3D**, pas une source de modèles. La bibliothèque de modèles est **CGTrader** (voir `CAHIER_DES_CHARGES.md`, PIP-7).
 
-**Ce n'est pas une bibliothèque de fichiers 3D** [V] : le site ne vend ni ne publie aucun fichier CAO. C'est un **catalogue de designs avec photos**.
+**Qui** [V] : boutique Shopify de DD.Diamond, fondée en 2015 par David Douieb (diplômé du GIA), bureaux à Anvers, en France et en Israël ; 333 produits dont 127 bagues ; bagues de 290 $ à 12 900 $ (médiane 1 700 $) ; métaux or 14/18 k jaune / blanc / rose et platine.
 
-**Contenu du catalogue** (lecture du catalogue public, 333 produits) [V] :
-- 127 bagues, 23 alliances, 59 colliers, 51 boucles d'oreilles, 47 bracelets, 11 pièces homme ;
-- formes les plus fréquentes dans les titres de bagues : poire (43), émeraude (30), ronde (30), halo (30), pavé (29), ovale (21), marquise (19), éternité (19), coussin (10) ;
-- options déjà proposées : or 14 k et 18 k jaune / blanc / rose, platine, carats de 0,10 à 1,40 ct, saphirs bleus et roses, tailles US 3 à 13,5 ;
-- prix des bagues (USD) : de 290 $ à 12 900 $, médiane 1 700 $.
+**Ce que fait réellement leur « 3D »** (fiche *Floating Pear Ring*, inspectée dans un navigateur) [V] :
+- ce n'est **pas de la 3D** : c'est l'application Shopify **Magic 360** (Magic Toolbox), qui fait défiler **36 photos** (1280 × 1040) de la vraie bague prises sur un plateau tournant ; bouton « 360° », « Drag to spin », zoom, plein écran ;
+- aucun moteur 3D, aucun fichier de modèle ;
+- la rotation ne se fait que sur un axe horizontal ;
+- le tour à 360° n'existe **qu'en or blanc** ; l'or jaune et l'or rose n'ont que des photos fixes. Changer de métal ne change pas le tour ;
+- aucune configuration : pierre, carat et forme ne se choisissent pas visuellement ; « autres tailles de diamant sur demande » par e-mail ; bouton « Request a quote » ;
+- page lourde : environ **11 Mo** téléchargés, pisteurs Facebook / Google / Klaviyo, contact WhatsApp.
 
-**Interprétation** [I] : DD Diamond sert de **référence de designs** (quels bijoux proposer et sous quelles options). Les fichiers 3D restent à obtenir : CAO existante de DD Diamond ou de ses ateliers, achat sur CGTrader, ou modélisation.
-
-**Questions bloquantes** [?] :
-1. Quel est le lien entre DD Diamond et l'atelier de Yonathan Cohen (même entreprise, partenaire, fournisseur, simple inspiration) ?
-2. Avez-vous le **droit d'utiliser ces designs et ces photos** ? Sans accord écrit, reproduire les créations d'une autre marque expose à une action en contrefaçon (droit d'auteur, dessins et modèles).
-3. DD Diamond ou ses ateliers ont-ils les **fichiers CAO** (Rhino / Matrix) de ces bijoux ? Si oui, le pipeline actuel les convertit directement : c'est la meilleure option, de loin.
-4. Quels modèles en priorité ? (Suggestion : les 10 bagues les plus vendues, puis les solitaires classiques rond / ovale / poire / émeraude.)
+**Ce qu'il faut en retenir** [I] :
+- Le point fort est réel : ce sont des **photos du vrai bijou**, donc un réalisme total pour la pièce photographiée. Le client voit la vraie pierre. C'est ce que montrent aussi James Allen et Blue Nile avec leurs vidéos de diamants.
+- Les limites sont celles de la photo : un shooting de 36 vues par bijou **et par métal**, aucune variante sans nouveau shooting, rotation sur un seul axe, poids important.
+- Pour JR Diamond, la bonne réponse combine les deux : le **configurateur 3D** pour toutes les combinaisons (métal, pierre, forme), plus des **photos ou un tour à 360° de la pièce réelle** quand elle existe, affichés à côté du rendu (exigence CFG-10). On garde la preuve de la photo et la souplesse de la 3D.
+- À reprendre de DD Diamond : bouton « Demander un devis » visible, contact WhatsApp (important en Israël), guide des tailles, page d'éducation sur les diamants, photos portées sur la main.
 
 ### Sources
 
 - Définition synthétique / imitation : https://4cs.gia.edu/en-us/blog/what-are-synthetic-gemstones-3/ · https://www.gia.edu/gem-imitation · https://jckonline.com/?p=34528
 - Réglementation française : https://www.economie.gouv.fr/dgccrf/laction-de-la-dgccrf/les-enquetes/qualite-et-conformite-des-bijoux-comportant-des-pierres · https://vitrinelinguistique.oqlf.gouv.qc.ca/fiche-gdt/fiche/26529621/diamant-synthetique · https://www.assemblee-nationale.fr/dyn/17/questions/QANR5L17QE5268.pdf
-- DD Diamond : https://www.dd-diamond.com/ · https://www.dd-diamond.com/pages/about · https://www.dd-diamond.com/pages/design-your-jewelry · catalogue public `https://www.dd-diamond.com/products.json`
+- DD Diamond (exemple) : https://www.dd-diamond.com/products/floating-pear-ring (inspection navigateur), https://www.dd-diamond.com/ · https://www.dd-diamond.com/pages/about · https://www.dd-diamond.com/pages/design-your-jewelry · catalogue public `https://www.dd-diamond.com/products.json`

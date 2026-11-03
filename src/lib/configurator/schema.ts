@@ -92,6 +92,11 @@ const StoneVariant = z.object({
   shape: StoneShape,
   name: Localized,
   nodes: z.array(z.string()).min(1),
+  /**
+   * Poids commercial de la pierre pour ces dimensions (tableau de conversion publié), affiché au client.
+   * Distinct de l'estimation géométrique ; `confirmedByWorkshop` passe à true avec le poids réel.
+   */
+  nominalCarat: z.object({ value: z.number().positive(), source: z.string().url(), confirmedByWorkshop: z.boolean() }).optional(),
 });
 
 /** Forme étudiée mais non disponible : on dit pourquoi, on ne simule rien. */
@@ -107,6 +112,8 @@ const StoneSlot = z.object({
   variants: z.array(StoneVariant).min(1),
   defaultVariant: z.string(),
   unavailableShapes: z.array(UnavailableShape),
+  /** D'autres tailles de pierre peuvent être étudiées par l'atelier, hors configurateur. */
+  otherSizesOnRequest: z.boolean().optional(),
 });
 
 export const ModelDefinition = z.object({

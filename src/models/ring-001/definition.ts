@@ -58,9 +58,18 @@ export const ring001 = {
           name: { fr: 'Marquise 6,0 × 3,0 mm', en: 'Marquise 6.0 × 3.0 mm' },
           // La pierre et sa tête (panier + griffes de pointe) forment un tout indissociable.
           nodes: ['A__gem_center', 'A__metal_head_center'],
+          // Tableau Stuller : marquise 6 × 3 mm ≈ 0,25 ct. Source unique ; poids réel à fournir par l'atelier.
+          // Le volume du modèle donne 0,18 ct : l'écart vient des proportions de taille, à confirmer.
+          nominalCarat: {
+            value: 0.25,
+            source: 'https://blog.stuller.com/wp-content/uploads/2023/12/Millimeter-to-Diamond-Carat-Weight-Conversion-Chart-2.pdf',
+            confirmedByWorkshop: false,
+          },
         },
       ],
       defaultVariant: 'marquise-6x3',
+      // Le carat ne peut pas grossir sans redessiner la bague : les six diamants latéraux touchent déjà la marquise.
+      otherSizesOnRequest: true,
       unavailableShapes: [
         { shape: 'round', reason: 'requires_dedicated_head' },
         { shape: 'oval', reason: 'requires_dedicated_head' },

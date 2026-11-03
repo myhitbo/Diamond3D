@@ -59,6 +59,15 @@ test('les formes non modélisées sont signalées comme indisponibles', async ({
   await expect(page.getByText(/Autres formes : Ronde, Ovale, Poire/)).toBeVisible();
 });
 
+test('le poids de la pierre centrale est affiché, autres tailles sur demande', async ({ page }) => {
+  await page.goto(URL);
+  await expect(page.getByTestId('center-carat')).toHaveText(/≈ 0,25 ct \(poids usuel pour ces dimensions, à confirmer par l’atelier\)/);
+  await expect(page.getByText(/Autre taille de pierre : sur demande/)).toBeVisible();
+  // La composition « Alliance » n'a pas de pierre centrale : rien à afficher.
+  await page.getByRole('radio', { name: 'Alliance' }).click();
+  await expect(page.getByTestId('center-carat')).toHaveCount(0);
+});
+
 test('réinitialiser revient à la configuration initiale', async ({ page }) => {
   await page.goto(URL);
   await ready(page);

@@ -69,6 +69,7 @@ export default function Configurator({ modelId, locale }: { modelId: string; loc
   const metal = METALS[state.metal];
   const pieces = model.compositions.find((c) => c.id === state.composition)!.pieces;
   const centerSlot = model.stoneSlots.find((s) => pieces.includes(s.piece));
+  const centerVariant = centerSlot?.variants.find((v) => v.id === state.stones[centerSlot.id]);
   const stones = stoneSummary(model, state);
   const weight = metalWeightEstimateG(model, state);
   const onReady = useCallback(() => setReady(true), []);
@@ -170,6 +171,12 @@ export default function Configurator({ modelId, locale }: { modelId: string; loc
               value={state.stones[centerSlot.id]}
               onChange={(id) => dispatch({ type: 'change', change: { stones: { [centerSlot.id]: id } } })}
             />
+            {centerVariant?.nominalCarat && (
+              <p className={styles.value} data-testid="center-carat">
+                {t.nominalCarat(formatNumber(locale, centerVariant.nominalCarat.value, 2), centerVariant.nominalCarat.confirmedByWorkshop)}
+              </p>
+            )}
+            {centerSlot.otherSizesOnRequest && <p className={styles.note}>{t.otherSizesNote}</p>}
             {centerSlot.unavailableShapes.length > 0 && (
               <details className={styles.details}>
                 <summary>
@@ -219,6 +226,9 @@ export default function Configurator({ modelId, locale }: { modelId: string; loc
                 {stones.map((g) => (
                   <span key={g.shape} className={styles.stoneLine}>
                     {g.count} × {t.shapes[g.shape as keyof typeof t.shapes]} {g.sizesMm.join(' – ')} mm
+                    {centerVariant?.nominalCarat && g.shape === centerVariant.shape && g.count === 1
+                      ? ` · ≈ ${formatNumber(locale, centerVariant.nominalCarat.value, 2)} ct`
+                      : ''}
                   </span>
                 ))}
               </dd>

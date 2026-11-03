@@ -6,6 +6,83 @@ Légende : **[V]** vérifié · **[I]** inféré · **[?]** à confirmer.
 
 ---
 
+## 3 novembre 2026 — Synthèse écrite de l'échange avec l'atelier
+
+Source : `docs/atelier/2026-11-03_synthese_reponses.docx` (document de travail transmis par le propriétaire). Les montants sont ceux communiqués, **indicatifs**.
+
+### Modèle marquise (ring-001)
+- Le fichier est fait pour la fabrication et l'impression 3D, pas pour le web.
+- Version web : **replier visuellement les griffes** et **supprimer la forme en « 8 »** au bout de l'alliance.
+- Le maquettiste **ne peut pas** faire la modification : une solution de retouche est à trouver de notre côté. Voir « Conséquences ».
+
+### Métaux (confirmé)
+Or 18 k et 14 k (jaune, blanc, rose), platine. **Pas d'argent 925** : il noircit et ne correspond pas au positionnement voulu.
+
+### Autres modèles et photos
+L'atelier va chercher 3 modèles `.3dm` (et leurs STL si possible), dont une bague à plusieurs formes de pierre centrale, ainsi que des photos studio de bijoux réels. Transmission ultérieure.
+
+### Prix
+
+Exemple de référence : solitaire en or jaune 14 k, environ 2,5 g, diamant de laboratoire 1 ct.
+
+| Poste | Montant communiqué |
+|---|---|
+| Diamant de laboratoire 1 ct | ≈ 132 USD |
+| Maquette 3D | 10 USD |
+| Impression 3D | ≈ 20–25 USD |
+| Reprise de fonte et polissage | 10 USD/g, soit ≈ 25 USD pour 2,5 g |
+| Serti de la pierre centrale (≤ 2 ct) | ≈ 10 USD |
+| Polissage final | ≈ 5 USD |
+| Rhodiage (or blanc uniquement) | ≈ 20–25 USD selon le bijou |
+
+Métal facturé au client particulier :
+- or 14 k : 370–380 ILS/g, pour un coût d'achat de 270–280 ILS/g selon le cours ;
+- or 18 k : 470–480 ILS/g ;
+- professionnels (bijouteries) : or 18 k à 500–550 ILS/g selon la pièce.
+
+Sertissage : pierre centrale ≤ 2 ct ≈ 10 USD, > 2 ct ≈ 20–25 USD, petites pierres ou pavage ≈ 1,50 USD/pierre, rivière ≈ 2–3 USD/pierre au maximum.
+
+TVA israélienne à ajouter. Le taux standard est de **18 %** depuis le 1ᵉʳ janvier 2025 [V : guides fiscaux concordants, source primaire non relue].
+
+Marge : **variable selon la complexité**. Un solitaire classique et une pièce très personnalisée n'ont pas la même marge ; certaines marges demandent un échange.
+
+### Poids
+Le poids de la maquette sert de référence, mais le poids réel varie. Exemple : des boucles d'oreilles estimées à 4,5 g ont pesé 4,35 g une fois fabriquées (−3,3 %). Les poids doivent être affichés comme **approximatifs**. Pas encore de densités d'alliages ni de taux de perte standard.
+
+### Pierres et certificats
+- Diamants naturels et de laboratoire.
+- Certificat disponible **à partir de 0,50 ct** : GIA pour les naturels, IGI pour les laboratoires. Des naturels non certifiés peuvent être proposés moins cher.
+- Projet : un **certificat global par bijou** émis par un laboratoire (titre du métal, poids et qualité des pierres), utile pour l'assurance.
+
+### Tailles et après-vente
+- **Première mise à taille offerte.** Après un an, payante : rétrécissement ≈ 100 ILS, agrandissement sur devis selon le métal ajouté.
+- Réparations et entretien possibles grâce à l'atelier.
+
+### Gravure et finitions
+Gravure laser, **20 à 25 polices**, en hébreu, anglais, chinois et autres langues. Un cahier de finitions existe.
+
+### Commandes et fabrication
+- Délai standard : **14 jours ouvrés** (≈ 3 semaines). L'urgence en 2–3 jours reste exceptionnelle et ne doit **pas** être annoncée.
+- Particuliers en direct : acompte de **50 %**, ou 30 % pour un client hésitant (pour bloquer une pierre).
+- **Site : paiement intégral à la commande**, expédition une fois le bijou terminé.
+
+### Organisation
+Le responsable de l'atelier prépare les devis, plutôt en fin de journée. Un logo existe.
+
+### Langues
+Français et anglais prévus ; hébreu au lancement à confirmer.
+
+### Conséquences pour le projet
+1. **Griffes et « 8 » : c'est à nous de les corriger.** Piste [I] : retouche faite dans le pipeline, sur la version web uniquement. Les griffes seraient coupées juste au-dessus de la pierre, avec une extrémité arrondie, et les maillages du « 8 » retirés. Le fichier de fabrication reste intact. Le résultat est soumis à validation visuelle de l'atelier. « Replier » les griffes (les courber sur la pierre) est plus difficile que les couper : à faire valider sur une capture avant d'aller plus loin.
+2. **Moteur de prix** : la structure est connue (métal au gramme + postes de façon + pierre + sertissage par pierre + options + TVA). Il manque la marge sur les postes en USD, le taux de change et la règle d'arrondi. Voir `PRICING_RULES.md`.
+3. **Prix affiché** : avec une marge variable, le site doit afficher un prix **indicatif** (« à partir de »), confirmé par l'atelier dans le devis. C'est cohérent avec le statut indicatif / calculé / confirmé du cahier des charges.
+4. **Poids** : afficher « ≈ » et une fourchette d'environ ±5 % [I, à partir de l'unique exemple de −3,3 %].
+5. **Paiement** : intégral sur le site, acompte de 50 % en direct. À refléter dans DEV-5.
+6. **Délai** : afficher « 14 jours ouvrés », sans option express.
+7. **Libellés** : pour une vente en Israël, « diamant de laboratoire » est l'usage. En France, le décret 2002-65 impose « synthétique » (voir plus bas). Les libellés doivent donc dépendre du pays.
+
+---
+
 ## 22 octobre 2026 — Yonathan Cohen (WhatsApp, transmis par le propriétaire le 3 novembre)
 
 ### Message reçu

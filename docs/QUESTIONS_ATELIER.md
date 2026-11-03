@@ -4,6 +4,27 @@ Deux versions : une **courte** (10 questions, pour un premier échange ou un mes
 
 ---
 
+## Relance après la synthèse du 3 novembre (questions encore ouvertes)
+
+Bonjour,
+
+Merci pour la synthèse, elle débloque le moteur de prix. Il me reste des points à préciser, surtout sur les prix :
+
+1. Les montants en USD (diamant 132 $, maquette, impression, fonte, sertissage, polissage) sont-ils **vos coûts** ou **les prix facturés au client** ? Si ce sont des coûts, quelle marge appliquez-vous dessus ?
+2. Les 370–380 ILS/g de l'or 14 k incluent-ils déjà la reprise de fonte et le polissage à 10 $/g, ou s'y ajoutent-ils ?
+3. Prix du **platine** au gramme ?
+4. Pour la marge variable : pouvez-vous définir 3 niveaux (par exemple solitaire simple / bijou personnalisé / pièce complexe), avec un coefficient pour chacun ?
+5. Prix des diamants : avez-vous une grille (forme, carat, couleur, pureté, naturel ou laboratoire, avec ou sans certificat) ou un fournisseur dont je peux reprendre les prix ?
+6. Taux USD → ILS : lequel utilisez-vous, et à quelle fréquence le mettez-vous à jour ?
+7. Pouvez-vous chiffrer à la main **une vingtaine de configurations** (modèle, métal, pierre, taille) pour que je vérifie le calcul automatique ?
+8. Plage de tailles fabriquées ? Envoyez-vous un baguier ?
+9. Moyens de paiement, livraison et assurance, conditions d'annulation ?
+10. Hébreu au lancement : oui ou non ? Marchés prioritaires et devise de facturation ?
+
+Pour la bague marquise, je m'occupe de la retouche web (griffes et « 8 ») et je vous enverrai des captures à valider.
+
+---
+
 ## Version courte (10 questions)
 
 Bonjour,

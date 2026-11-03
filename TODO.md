@@ -9,6 +9,7 @@
 
 ## Modèles
 - [ ] Bibliothèque DD Diamond (dd-diamond.com) = designs de référence : obtenir le droit d'usage écrit (designs et photos), demander les fichiers CAO existants, fixer l'ordre de priorité. Voir `docs/REPONSES_ATELIER.md`.
+- [ ] CGTrader, partie gratuite (filtre « Free », formats `.3dm`) : télécharger 2 ou 3 bagues gratuites pour tester le pipeline sur un fichier tiers, sans rien acheter. Candidats vus le 3/11 : « solitaire ring », « Wedding Ring N145 », « Eternal Majesty ring », « Vintage Woman Diamond Ring », « Wedding Rings C29 ». Licence à relever sur chaque fiche. Pas de copies de marques.
 - [ ] Pour les designs sans fichier, CGTrader : sélectionner les modèles (têtes, corps, bagues complètes en `.3dm`), vérifier la licence de **chaque** fiche, faire valider la fabricabilité par l'atelier, puis les intégrer au pipeline (voir `docs/CAHIER_DES_CHARGES.md`, PIP-7).
 - [ ] Têtes de pierre supplémentaires pour ring-001 (même ancrage), et prise en charge par le pipeline de variantes issues de fichiers séparés.
 - [ ] Version web « griffes coupées », si l'atelier confirme.

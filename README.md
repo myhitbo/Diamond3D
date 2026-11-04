@@ -9,6 +9,7 @@ Le site complet, les devis et le paiement ne sont pas encore développés.
 - Règles de prix : [`docs/PRICING_RULES.md`](docs/PRICING_RULES.md) (aucune règle définie à ce jour)
 - Cahier des charges (phases 3 à 8) : [`docs/CAHIER_DES_CHARGES.md`](docs/CAHIER_DES_CHARGES.md)
 - Réponses de l'atelier : [`docs/REPONSES_ATELIER.md`](docs/REPONSES_ATELIER.md)
+- Stratégie et pistes pour se démarquer : [`docs/STRATEGIE.md`](docs/STRATEGIE.md)
 - Analyse concurrentielle : [`docs/ANALYSE_CONCURRENCE.md`](docs/ANALYSE_CONCURRENCE.md)
 - Tâches : [`TODO.md`](TODO.md) · Historique : [`CHANGELOG.md`](CHANGELOG.md)
 

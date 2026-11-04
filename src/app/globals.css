@@ -104,3 +104,23 @@ button {
     transition: none !important;
   }
 }
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.site-nav > nav:first-child a {
+  color: var(--muted);
+  text-decoration: none;
+  padding: 4px 0;
+}
+
+.site-nav > nav:first-child a[aria-current='page'] {
+  color: var(--ink);
+  border-bottom: 1px solid var(--gold);
+}

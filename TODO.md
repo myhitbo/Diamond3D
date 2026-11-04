@@ -29,6 +29,12 @@
 - [ ] Avocat israélien : la bague configurée relève-t-elle de l'exception « fabriqué sur mesure » au droit d'annulation ? Délai étendu pour nouveaux immigrants ? Poinçon ?
 - [ ] Version hébreu (RTL) après le français.
 
+## FAQ (`/fr/faq`, contenu : `src/content/faq.ts`)
+- [ ] Faire valider par l'atelier les 5 réponses « À confirmer » : modèle hors catalogue, paiement (moyens acceptés), annulation et retour (avec l'avocat), livraison à l'étranger, entretien.
+- [ ] Faire relire par l'atelier les réponses issues de déductions : gravure de l'alliance de kiddouchin après la cérémonie, contrôle du titre et des pierres pour une transformation, alliances serties tout autour difficiles à mettre à taille.
+- [ ] Ajouter un contact réel (WhatsApp de l'atelier) sous « Une autre question ? ».
+- [ ] Retirer le badge « Brouillon » quand plus aucune réponse n'est « À confirmer ».
+
 ## Prix
 - [x] Moteur de prix indicatif en ₪ TTC (4/11), non branché : `src/lib/pricing/engine.ts`. Il refuse de calculer tant qu'il manque un paramètre.
 - [ ] Brancher le prix « à partir de » dans le configurateur dès que `src/config/pricing.ts` ne contient plus de `null` pour ring-001.

@@ -9,7 +9,7 @@ const fr = {
   metalFamilies: { yellow: 'Or jaune', white: 'Or blanc', rose: 'Or rose', platinum: 'Platine' },
   titre: 'Titre de l’or',
   titres: { '14k': '14 carats', '18k': '18 carats', platinum: '950' },
-  titreNote: 'Le 18 carats contient plus d’or (75 %) que le 14 carats (58,5 %) : il est plus jaune, plus lourd et plus cher. Le 14 carats est plus dur.',
+  titreNote: 'Le 18 carats contient plus d’or (75 %) que le 14 carats (58,5 %) : il est plus jaune, plus lourd et plus cher. Le 14 carats est en général plus dur.',
   otherShapes: 'Autres formes',
   otherShapesNote: 'Une autre forme demande une tête de sertissage dédiée, pas encore modélisée pour ce bijou. L’atelier peut l’étudier sur demande.',
   shapes: { round: 'Ronde', oval: 'Ovale', pear: 'Poire', emerald: 'Émeraude', princess: 'Princesse', marquise: 'Marquise', unknown: 'Inconnue' },
@@ -49,6 +49,15 @@ const fr = {
   canvasLabel: 'Aperçu 3D interactif du bijou. Glissez pour tourner, pincez ou faites défiler pour zoomer.',
   hint: 'Glisser pour tourner · pincer pour zoomer',
   draftBadge: 'Brouillon · non validé par l’atelier',
+  navLabel: 'Navigation',
+  navFaq: 'Questions fréquentes',
+  faqTitle: 'Questions fréquentes',
+  faqLede: 'Tout ce qu’on nous demande sur nos bijoux, nos diamants et notre atelier, avec des réponses franches.',
+  faqDraft: 'Brouillon · certaines réponses sont en attente de validation par l’atelier',
+  faqToConfirm: 'À confirmer',
+  faqSources: 'Sources',
+  faqContact: 'Une autre question ? Écrivez-nous : l’atelier vous répond directement.',
+  faqBack: 'Configurer un bijou',
 };
 
 type Dict = typeof fr;
@@ -62,7 +71,7 @@ const en: Dict = {
   metalFamilies: { yellow: 'Yellow gold', white: 'White gold', rose: 'Rose gold', platinum: 'Platinum' },
   titre: 'Gold karat',
   titres: { '14k': '14 karat', '18k': '18 karat', platinum: '950' },
-  titreNote: '18 karat holds more gold (75%) than 14 karat (58.5%): it is yellower, heavier and more expensive. 14 karat is harder.',
+  titreNote: '18 karat holds more gold (75%) than 14 karat (58.5%): it is yellower, heavier and more expensive. 14 karat is generally harder.',
   otherShapes: 'Other shapes',
   otherShapesNote: 'Another shape needs a dedicated setting head, not yet modelled for this piece. The workshop can study it on request.',
   shapes: { round: 'Round', oval: 'Oval', pear: 'Pear', emerald: 'Emerald', princess: 'Princess', marquise: 'Marquise', unknown: 'Unknown' },
@@ -102,6 +111,15 @@ const en: Dict = {
   canvasLabel: 'Interactive 3D preview of the jewel. Drag to rotate, pinch or scroll to zoom.',
   hint: 'Drag to rotate · pinch to zoom',
   draftBadge: 'Draft · not yet validated by the workshop',
+  navLabel: 'Navigation',
+  navFaq: 'FAQ',
+  faqTitle: 'Frequently asked questions',
+  faqLede: 'Everything people ask us about our jewellery, our diamonds and our workshop, answered plainly.',
+  faqDraft: 'Draft · some answers are awaiting validation by the workshop',
+  faqToConfirm: 'To be confirmed',
+  faqSources: 'Sources',
+  faqContact: 'Another question? Write to us: the workshop answers you directly.',
+  faqBack: 'Configure a piece',
 };
 
 export const DICTIONARIES: Record<Locale, Dict> = { fr, en };

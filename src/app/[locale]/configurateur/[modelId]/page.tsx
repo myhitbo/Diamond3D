@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Configurator from '@/components/configurator/Configurator';
-import { DICTIONARIES } from '@/i18n/dictionaries';
+import SiteHeader from '@/components/site/SiteHeader';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
 import { MODELS, getModel } from '@/models';
 
@@ -27,22 +26,9 @@ export default async function Page({ params }: { params: Params }) {
   const { locale, modelId } = await params;
   const model = getModel(modelId);
   if (!model || !LOCALES.includes(locale as Locale)) notFound();
-  const t = DICTIONARIES[locale as Locale];
   return (
     <>
-      <header className="site-header">
-        <Link href={`/${locale}/configurateur/${modelId}`} className="wordmark">
-          JR Diamond
-        </Link>
-        <p className="tagline">{t.brandTagline}</p>
-        <nav className="lang" aria-label="Langue / Language">
-          {LOCALES.map((l) => (
-            <Link key={l} href={`/${l}/configurateur/${modelId}`} hrefLang={l} aria-current={l === locale ? 'page' : undefined}>
-              {l}
-            </Link>
-          ))}
-        </nav>
-      </header>
+      <SiteHeader locale={locale as Locale} path={`/configurateur/${modelId}`} />
       <main>
         <Configurator modelId={modelId} locale={locale as Locale} />
       </main>

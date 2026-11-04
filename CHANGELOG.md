@@ -8,6 +8,7 @@
 - Poids du métal affiché « ≈ … g (± 5 %) » ; délai de fabrication « 14 jours ouvrés ».
 - Tailles des pierres avec une virgule décimale en français.
 - Moteur de prix indicatif en ₪ TTC (non branché).
+- Page FAQ (`/fr/faq`, `/en/faq`) : 24 questions en 6 thèmes, réponses sourcées, 5 marquées « À confirmer ». Données structurées FAQPage (réponses validées seulement). Lien dans l'en-tête, en-tête commun aux pages.
 
 ## 0.1.1 — 2026-11-03 — Retouche web de ring-001
 

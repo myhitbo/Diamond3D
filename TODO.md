@@ -20,12 +20,20 @@
 - [ ] Recevoir les 3 modèles `.3dm` + STL + photos studio promis par l'atelier (3/11).
 - [ ] Ajouter au configurateur : or 14 k, platine, diamants de couleur, émeraude / saphir / rubis, origine naturelle / synthétique / imitation (libellés légaux par pays). Retirer l'argent s'il apparaît : non proposé par l'atelier. Certificat GIA / IGI dès 0,50 ct.
 
+## Lancement en Israël (décisions du 4/11, voir `docs/STRATEGIE.md` §6)
+- [ ] Envoyer `docs/PROCEDURE_PHOTO_ATELIER.md` à l'atelier.
+- [ ] Prix affichés en ₪ TTC (TVA 18 %).
+- [ ] Alliance de kiddouchin : obtenir un modèle simple (atelier ou CGTrader), page et guide.
+- [ ] Parcours « transformation de bijoux de famille » : photos de l'ancien bijou + demande de devis.
+- [ ] Avocat israélien : la bague configurée relève-t-elle de l'exception « fabriqué sur mesure » au droit d'annulation ? Délai étendu pour nouveaux immigrants ? Poinçon ?
+- [ ] Version hébreu (RTL) après le français.
+
 ## Prix
 - [ ] Lever les 9 points « Manque » de `docs/PRICING_RULES.md` (marge sur les postes en USD, double comptage, change, platine…).
 
 ## Site
 - [ ] Délai affiché : 14 jours ouvrés, sans option express. Paiement intégral sur le site.
 - [ ] Phase 4 : formulaire de devis (configuration, coordonnées, photos) et choix du stockage.
-- [ ] Adresses traduites (`/en/configurator/…`), hébreu RTL.
+- [ ] Adresses traduites (`/en/configurator/…`).
 - [ ] Tests Safari et Firefox.
 - [ ] Calibrer les teintes des métaux sur des photos authentiques.

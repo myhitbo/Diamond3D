@@ -144,6 +144,8 @@ DD Diamond, Alyra et iJewel ne promettent aucune de ces trois choses ensemble [V
 
 ## 5. Plan de 90 jours
 
+*Remplacé le 4/11 par le plan ajusté de la section 6 (lancement en Israël).*
+
 | Semaines | Objectif | Livrables |
 |---|---|---|
 | 1–3 | Rendre un premier modèle vendable | Prix « à partir de », carat sur un solitaire, photo réelle, formulaire de devis, WhatsApp |
@@ -153,13 +155,30 @@ DD Diamond, Alyra et iJewel ne promettent aucune de ces trois choses ensemble [V
 
 ---
 
-## 6. Questions pour le propriétaire
+## 6. Décisions du propriétaire (4/11)
 
-1. Marché prioritaire au lancement : Israël d'abord (plus simple : ni import ni douane), ou la France tout de suite ?
-2. L'atelier accepte-t-il de filmer chaque pierre et de photographier chaque étape ? C'est le cœur de la promesse.
-3. La transformation de bijoux de famille et l'alliance de kiddouchin : Yonathan les fait-il déjà ?
-4. Combien de pièces par semaine l'atelier peut-il absorber en plus de son activité actuelle ?
-5. Budget d'acquisition mensuel (publicité, contenus) ?
+| # | Question | Réponse | Conséquence |
+|---|---|---|---|
+| 1 | Marché prioritaire | **Israël** | Prix en ₪ TTC (TVA 18 %), sans douane ni import. Langues : français (clientèle francophone d'Israël), puis hébreu (RTL), puis anglais. Lancement en France reporté après les premières ventes. |
+| 2 | Filmer chaque pierre, photographier chaque étape | **Oui** | Les trois promesses du positionnement deviennent tenables. Procédure à remettre à l'atelier : [`PROCEDURE_PHOTO_ATELIER.md`](PROCEDURE_PHOTO_ATELIER.md). |
+| 3 | Transformation de bijoux de famille, alliance de kiddouchin | **Oui, déjà pratiquées** | Deux produits à lancer dès la phase 1 : besoin d'un modèle d'alliance simple (fichier atelier ou CGTrader) et d'un parcours « transformation » (photos de l'ancien bijou + devis). |
+| 4 | Capacité en plus | **Illimitée** | Pas de liste d'attente ni de quota. Le délai de 14 jours ouvrés reste la seule promesse. À revoir si le délai réel dérape [I]. |
+| 5 | Budget d'acquisition | **Selon les revenus** | Démarrage sans budget fixe : acquisition gratuite d'abord (communauté, WhatsApp, prescripteurs, vidéos tirées de la 3D, SEO). Publicité payante ensuite, financée par une part de la marge des ventes (pourcentage à fixer) [I]. |
+
+### Droit israélien applicable dès le lancement
+- **Annulation d'une vente à distance** : 14 jours à compter de la réception du bien ou du document récapitulatif, le plus tardif des deux. Frais d'annulation : au plus 5 % du prix ou 100 ₪, le moins élevé des deux [V, sources secondaires concordantes].
+- **Exception sur mesure** : les biens fabriqués spécialement à la demande du client sont exclus du droit d'annulation (art. 14c de la loi de protection du consommateur de 1981, et règlement d'annulation de 2010 : « fabriqués spécialement selon des mesures ou exigences particulières ») [V, deux sources concordantes, texte officiel non lu].
+- **Point ouvert** : une bague composée à partir d'options standard du configurateur relève-t-elle de cette exception ? Non tranché [S]. À faire valider par un avocat israélien avant de rédiger les conditions de vente.
+- **Délai étendu** : certaines catégories (nouveaux immigrants, personnes âgées, personnes handicapées) bénéficieraient d'un délai prolongé [S, une seule source, pour une vente par téléphone]. Pertinent : une partie de la clientèle francophone est composée de nouveaux immigrants. À vérifier avec le même avocat.
+- **Poinçon en Israël** : obligation non vérifiée [S].
+
+### Plan de 90 jours ajusté
+| Semaines | Objectif | Livrables |
+|---|---|---|
+| 1–3 | Premier modèle vendable en Israël | Prix « à partir de » en ₪ TTC, carat sur un solitaire, photo réelle, formulaire de devis, WhatsApp, alliance de kiddouchin |
+| 4–6 | Prouver | 4 modèles, vidéos de pierres, suivi de fabrication, parcours « transformation », premières ventes et premiers avis |
+| 7–9 | Attirer sans budget fixe | Guides en français (kiddouchin, synthétique/naturel, tailles, transformation), vidéos 3D, prescripteurs ; version hébreu |
+| 10–13 | Mesurer, puis réinvestir | Statistiques, première publicité financée par les ventes ; étude de la France (transitaire, transport assuré, TVA) |
 
 ## Sources
 
@@ -168,4 +187,5 @@ DD Diamond, Alyra et iJewel ne promettent aucune de ces trois choses ensemble [V
 - Prix des diamants de laboratoire (sources inégales, tendance seulement) : https://www.bengarelick.com/blogs/news/lab-diamond-prices-by-size-2026 · https://velur.de/en/blog/lab-diamant-preisentwicklung-2026/ · https://caratradar.com/diamond-prices/lab-grown-diamonds/
 - Transformation de bijoux anciens : https://news.centurionjewelry.com/sales-strategy/detail/the-diamond-dispatch-heirloom-redesign-movement-turning-memories-into-masterpieces · https://pamelalauz.com/blogs/redesign/melting-old-gold-to-create-new-jewellery-a-jeweller-explains-when-you-can-and-when-you-shouldn-t
 - Transport assuré : https://www.bigcommerce.com/apps/malca-amit-shipping-services · https://www.shipaid.com/blogs/ecommerce-shipping/does-fedex-insure-jewelry-understanding-limits-and-liability
+- Annulation des ventes à distance en Israël : https://lot.com/il/en/regulations/consumer-protection-law-cancellation-notice · https://www.wisebuy.co.il/article.aspx?aid=468 · https://protocol.co.il/remote-selling-transaction-cancellation/ · https://www.chamber.org.il/newslobby/articles/85859/
 - DD Diamond, données de l'atelier, décret 2002-65 : voir `REPONSES_ATELIER.md` et `ANALYSE_CONCURRENCE.md`.

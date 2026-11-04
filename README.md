@@ -24,11 +24,10 @@ il n'est pas nécessaire de disposer du fichier CAO pour lancer le site.
 
 ## Régénérer un modèle depuis le fichier CAO
 
-Les fichiers CAO originaux ne sont **pas** versionnés (voir [`cad/README.md`](cad/README.md)).
+Les fichiers CAO sont dans `cad/originals/` (dépôt privé, voir [`cad/README.md`](cad/README.md)).
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r pipeline/requirements.txt
-cp /chemin/vers/Ring.3dm /chemin/vers/Ring.stl cad/originals/ && chmod 444 cad/originals/*
 npm run models:extract -- ring-001   # .3dm → GLB brut → GLB optimisé + rapports
 npm run models:validate              # contrôle définition + GLB avant publication
 ```
@@ -43,6 +42,15 @@ npm run build && npm run test:e2e          # navigateur, ordinateur + mobile ém
 ```
 
 Dans un environnement sans navigateur Playwright téléchargé, indiquer Chromium avec `CHROMIUM_PATH=/chemin/vers/chrome`.
+
+## Préversion claude.ai
+
+```bash
+npm run preview:build   # → preview/dist/index.html, page unique publiable comme Artifact claude.ai
+```
+
+Même code de configurateur, assemblé sans Next.js, modèle 3D intégré à la page (claude.ai ne sert pas les `.glb`).
+Préversion actuelle (privée) : https://claude.ai/artifact/9DTFa5XeY4THn1gpKfmHjv
 
 ## Outils de mesure
 

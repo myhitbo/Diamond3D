@@ -1,7 +1,7 @@
 # À faire
 
 ## Bloquant avant la suite
-- [ ] Test sur appareils réels : iPhone (Safari), Android milieu de gamme, ordinateur avec GPU. Une préversion privée nécessite ton accord.
+- [ ] Test sur appareils réels avec la préversion privée (https://claude.ai/artifact/9DTFa5XeY4THn1gpKfmHjv) : iPhone (Safari), Android milieu de gamme, ordinateur avec GPU.
 - [ ] Relancer la campagne de mesure complète (`scripts/perf/measure.mjs`), interrompue deux fois.
 - [ ] Relancer la suite navigateur complète (`npm run test:e2e`) : seuls 6 des 28 tests ont été rejoués après le dernier changement.
 - [ ] Validation de l'atelier pour ring-001 : griffes longues volontaires ? forme en « 8 » au bout de l'alliance ? métaux proposés ? teintes conformes aux photos ?

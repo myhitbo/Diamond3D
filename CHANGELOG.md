@@ -1,5 +1,10 @@
 # Historique
 
+## 0.1.1 — 2026-11-04
+
+- Fichiers CAO de ring-001 versionnés dans le dépôt privé (`cad/originals/`), modifiables. Une empreinte différente de la recette ne bloque plus la conversion : elle est signalée et enregistrée.
+- `npm run preview:build` : préversion autonome publiable sur claude.ai (page unique, modèle intégré).
+
 ## 0.1.0 — 2026-10-20 — Prototype technique (phase 2)
 
 - Pipeline CAO → web : extraction du `.3dm` sans Rhino (maillages de rendu enregistrés), séparation des deux bagues par recette, recoupement avec le STL, métadonnées des pierres, simplification mesurée du métal, compression meshopt.

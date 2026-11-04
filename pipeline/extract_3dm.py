@@ -1,7 +1,9 @@
 """Convertit un fichier Rhino .3dm en GLB web + métadonnées géométriques.
 
 Principes :
-- Le fichier original n'est jamais modifié (ouvert en lecture seule, empreinte vérifiée).
+- Le fichier CAO est seulement lu, jamais réécrit. Son empreinte est comparée à celle de la
+  recette : une différence (fichier retravaillé dans Rhino) est signalée, puis la nouvelle
+  version est convertie et son empreinte est enregistrée dans les métadonnées.
 - Aucune géométrie n'est créée : on réutilise les maillages de rendu enregistrés
   par Rhino dans le .3dm (avec leurs normales), regroupés selon une recette.
 - Tout objet des calques de production doit être affecté à exactement une pièce.
@@ -161,7 +163,12 @@ def run(recipe_path: Path, out_glb: Path, out_meta: Path) -> dict:
     cad = root / recipe["source"]["cad"]
     digest = sha256(cad)
     if digest != recipe["source"]["sha256"]:
-        raise SystemExit(f"Empreinte inattendue pour {cad} : {digest}")
+        print(
+            f"Avertissement : {cad.name} diffère de la version de la recette "
+            f"(empreinte {digest}). Conversion de la nouvelle version ; mettre à jour "
+            f"« sha256 » dans {recipe_path.name} une fois le résultat validé.",
+            file=sys.stderr,
+        )
 
     f = r.File3dm.Read(str(cad))
     if f.Settings.ModelUnitSystem != r.UnitSystem.Millimeters:
@@ -261,7 +268,7 @@ def run(recipe_path: Path, out_glb: Path, out_meta: Path) -> dict:
     if ref:
         stl_path = root / ref
         if sha256(stl_path) != recipe["source"]["referenceStlSha256"]:
-            raise SystemExit("Empreinte inattendue pour le STL de référence")
+            print(f"Avertissement : {stl_path.name} diffère de la version de la recette.", file=sys.stderr)
         bodies = trimesh.load(str(stl_path), force="mesh").split(only_watertight=True)
         stl_check = []
         for piece_id, pm in meta_pieces.items():

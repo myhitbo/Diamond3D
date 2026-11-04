@@ -1,7 +1,10 @@
 # Fichiers CAO
 
-- `originals/` : fichiers de fabrication **originaux**, en lecture seule (`chmod 444`). Jamais modifiés, jamais versionnés.
+- `originals/` : fichiers de fabrication de l'atelier (Rhino `.3dm`, STL). Versionnés dans ce dépôt **privé**. Ils restent modifiables : le pipeline les lit sans jamais les réécrire.
 - `intermediate/` : sorties brutes du pipeline (GLB non optimisés, témoins de mesure). Régénérables, non versionnées.
 
 Les modèles web optimisés sont dans `public/models/`, les métadonnées dans `src/models/<id>/`.
-Empreintes attendues : voir `pipeline/recipes/<id>.json`.
+L'empreinte SHA-256 de la version convertie est enregistrée dans `pipeline/recipes/<id>.json` et `src/models/<id>/geometry.json`.
+Si un fichier est retravaillé, le pipeline le signale, convertit la nouvelle version, et il reste à mettre à jour l'empreinte dans la recette.
+
+Attention : si le dépôt devient public, ces fichiers le deviennent aussi.

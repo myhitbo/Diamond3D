@@ -9,6 +9,6 @@ next-env.d.ts
 !.env.example
 test-results/
 playwright-report/
-# Fichiers CAO : jamais versionnés dans ce dépôt (voir docs/MODEL_PIPELINE.md)
-cad/originals/
+# Sorties régénérables du pipeline CAO et de la préversion
 cad/intermediate/
+preview/dist/

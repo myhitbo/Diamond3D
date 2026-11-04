@@ -1,4 +1,4 @@
-import { ModelDefinition, type ConfigState, type MetalId } from './schema';
+import { ModelDefinition, type ConfigState, type MetalFamily, type MetalId, type MetalTitre } from './schema';
 import { METALS } from '@/config/metals';
 
 export function defaultState(m: ModelDefinition): ConfigState {
@@ -121,4 +121,24 @@ export function validateModel(m: ModelDefinition, glbNodes?: string[]): string[]
   }
   if (m.status === 'published' && !m.workshopValidated) errors.push('publication refusée : modèle non validé par l’atelier');
   return errors;
+}
+
+/** Couleurs de métal proposées, dans l'ordre des options du modèle. */
+export function metalFamilies(m: ModelDefinition): MetalFamily[] {
+  return [...new Set(m.metals.options.map((id) => METALS[id].family))];
+}
+
+/** Titres proposés pour une couleur donnée (14 k, 18 k ; « platinum » seul pour le platine). */
+export function metalTitres(m: ModelDefinition, family: MetalFamily): MetalTitre[] {
+  return m.metals.options.filter((id) => METALS[id].family === family).map((id) => METALS[id].titre);
+}
+
+/**
+ * Métal correspondant à une couleur et un titre. Si le titre n'existe pas pour cette couleur
+ * (en quittant le platine, par exemple), prend le titre du métal par défaut, sinon le premier proposé.
+ */
+export function pickMetal(m: ModelDefinition, family: MetalFamily, titre: MetalTitre): MetalId {
+  const ids = m.metals.options.filter((id) => METALS[id].family === family);
+  const byTitre = (t: MetalTitre) => ids.find((id) => METALS[id].titre === t);
+  return byTitre(titre) ?? byTitre(METALS[m.metals.default].titre) ?? ids[0];
 }

@@ -1,3 +1,5 @@
+import type { MetalTitre } from '@/lib/configurator/schema';
+
 /**
  * Moteur de prix indicatif (Israël, ₪ TTC).
  *
@@ -10,7 +12,7 @@
  */
 
 export type Range = readonly [min: number, max: number];
-export type Titre = '14k' | '18k' | 'platinum';
+export type Titre = MetalTitre;
 
 export type PriceParams = {
   /** Prix du métal facturé au particulier, ₪/g, par titre ; null = non communiqué. */

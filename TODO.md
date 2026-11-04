@@ -16,9 +16,10 @@
 - [ ] Têtes de pierre supplémentaires pour ring-001 (même ancrage), et prise en charge par le pipeline de variantes issues de fichiers séparés.
 - [ ] Poids réels des pierres, à la place des carats estimés. Marquise affichée « ≈ 0,25 ct, à confirmer » (tableau Stuller) ; passer `confirmedByWorkshop` à true avec le poids réel.
 - [ ] Choix du carat pour les solitaires (pierre + tête agrandies depuis l'ancrage, plage validée par l'atelier) : en attente d'un fichier de solitaire (CGTrader « solitaire ring » ou atelier).
-- [ ] Densités des alliages et taux de perte : indisponibles chez l'atelier (3/11). En attendant, afficher les poids « ≈ » avec ±5 %.
+- [ ] Densités des alliages et taux de perte : indisponibles chez l'atelier (3/11). Poids affichés « ≈ … (± 5 %) » depuis le 4/11.
 - [ ] Recevoir les 3 modèles `.3dm` + STL + photos studio promis par l'atelier (3/11).
-- [ ] Ajouter au configurateur : or 14 k, platine, diamants de couleur, émeraude / saphir / rubis, origine naturelle / synthétique / imitation (libellés légaux par pays). Retirer l'argent s'il apparaît : non proposé par l'atelier. Certificat GIA / IGI dès 0,50 ct.
+- [x] Or 14 k (jaune, blanc, rose) au configurateur, choix couleur + titre ; « Synthétique » en français (4/11).
+- [ ] Ajouter au configurateur : diamants de couleur, émeraude / saphir / rubis, origine naturelle / synthétique / imitation (libellés légaux par pays). Retirer l'argent s'il apparaît : non proposé par l'atelier. Certificat GIA / IGI dès 0,50 ct.
 
 ## Lancement en Israël (décisions du 4/11, voir `docs/STRATEGIE.md` §6)
 - [ ] Envoyer `docs/PROCEDURE_PHOTO_ATELIER.md` à l'atelier.
@@ -34,7 +35,8 @@
 - [ ] Lever les 9 points « Manque » de `docs/PRICING_RULES.md` (marge sur les postes en USD, double comptage, change, platine…).
 
 ## Site
-- [ ] Délai affiché : 14 jours ouvrés, sans option express. Paiement intégral sur le site.
+- [x] Délai affiché : 14 jours ouvrés (4/11).
+- [ ] Paiement intégral sur le site.
 - [ ] Phase 4 : formulaire de devis (configuration, coordonnées, photos) et choix du stockage.
 - [ ] Adresses traduites (`/en/configurator/…`).
 - [ ] Tests Safari et Firefox.

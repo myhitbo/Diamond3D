@@ -7,7 +7,7 @@ import { getModel } from '@/models';
 import { METALS } from '@/config/metals';
 import { DICTIONARIES, formatNumber } from '@/i18n/dictionaries';
 import type { ConfigState, Locale, ModelDefinition } from '@/lib/configurator/schema';
-import { applyChange, defaultState, metalWeightEstimateG, stoneSummary, visibleNodes } from '@/lib/configurator/logic';
+import { applyChange, defaultState, metalFamilies, metalTitres, metalWeightEstimateG, pickMetal, stoneSummary, visibleNodes } from '@/lib/configurator/logic';
 import type { Quality, ViewName } from './Viewer';
 import { initProbe } from './debugProbe';
 import styles from './Configurator.module.css';
@@ -146,20 +146,34 @@ export default function Configurator({ modelId, locale }: { modelId: string; loc
 
         <Field title={t.metal} aside={metal.name[locale]}>
           <div className={styles.swatches} role="radiogroup" aria-label={t.metal}>
-            {model.metals.options.map((id) => (
-              <button
-                key={id}
-                type="button"
-                role="radio"
-                aria-checked={state.metal === id}
-                aria-label={METALS[id].name[locale]}
-                title={METALS[id].name[locale]}
-                className={styles.swatch}
-                style={{ '--swatch': METALS[id].render.color } as React.CSSProperties}
-                onClick={() => dispatch({ type: 'change', change: { metal: id } })}
-              />
-            ))}
+            {metalFamilies(model).map((family) => {
+              const id = pickMetal(model, family, metal.titre);
+              return (
+                <button
+                  key={family}
+                  type="button"
+                  role="radio"
+                  aria-checked={metal.family === family}
+                  aria-label={t.metalFamilies[family]}
+                  title={t.metalFamilies[family]}
+                  className={styles.swatch}
+                  style={{ '--swatch': METALS[id].render.color } as React.CSSProperties}
+                  onClick={() => dispatch({ type: 'change', change: { metal: id } })}
+                />
+              );
+            })}
           </div>
+          {metalTitres(model, metal.family).length > 1 && (
+            <>
+              <Choices
+                label={t.titre}
+                options={metalTitres(model, metal.family).map((ti) => ({ id: ti, label: t.titres[ti] }))}
+                value={metal.titre}
+                onChange={(ti) => dispatch({ type: 'change', change: { metal: pickMetal(model, metal.family, ti) } })}
+              />
+              <p className={styles.note}>{t.titreNote}</p>
+            </>
+          )}
           {!model.metals.availabilityConfirmed && <p className={styles.note}>{t.metalAvailabilityNote}</p>}
         </Field>
 
@@ -225,7 +239,7 @@ export default function Configurator({ modelId, locale }: { modelId: string; loc
               <dd>
                 {stones.map((g) => (
                   <span key={g.shape} className={styles.stoneLine}>
-                    {g.count} × {t.shapes[g.shape as keyof typeof t.shapes]} {g.sizesMm.join(' – ')} mm
+                    {g.count} × {t.shapes[g.shape as keyof typeof t.shapes]} {g.sizesMm.map((x) => (locale === 'fr' ? x.replace('.', ',') : x)).join(' – ')} mm
                     {centerVariant?.nominalCarat && g.shape === centerVariant.shape && g.count === 1
                       ? ` · ≈ ${formatNumber(locale, centerVariant.nominalCarat.value, 2)} ct`
                       : ''}
@@ -239,7 +253,11 @@ export default function Configurator({ modelId, locale }: { modelId: string; loc
             </div>
             <div>
               <dt>{t.weight}</dt>
-              <dd>≈ {formatNumber(locale, weight, 1)} g</dd>
+              <dd>{t.weightValue(formatNumber(locale, weight, 1))}</dd>
+            </div>
+            <div>
+              <dt>{t.delay}</dt>
+              <dd>{t.delayValue}</dd>
             </div>
             <div className={styles.priceRow}>
               <dt>{t.price}</dt>

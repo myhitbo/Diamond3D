@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { ring001 } from '@/models/ring-001/definition';
 import { METALS } from '@/config/metals';
 import type { ModelDefinition } from '@/lib/configurator/schema';
-import { applyChange, defaultState, metalVolumeMm3, metalWeightEstimateG, stoneSummary, validateModel, visibleNodes } from '@/lib/configurator/logic';
+import { applyChange, defaultState, metalFamilies, metalTitres, metalVolumeMm3, metalWeightEstimateG, pickMetal, stoneSummary, validateModel, visibleNodes } from '@/lib/configurator/logic';
 
 const clone = (): ModelDefinition => structuredClone(ring001) as ModelDefinition;
 
@@ -101,5 +101,31 @@ describe('contrôles de publication', () => {
     const m = clone() as unknown as { pricing: unknown };
     m.pricing = { mode: 'calculated', base: 1990 };
     expect(validateModel(m as unknown as ModelDefinition)[0]).toMatch(/^schéma : pricing/);
+  });
+});
+
+describe('couleur et titre du métal', () => {
+  it('propose 4 couleurs, 14 et 18 carats pour l’or, un seul titre pour le platine', () => {
+    expect(metalFamilies(ring001)).toEqual(['yellow', 'white', 'rose', 'platinum']);
+    expect(metalTitres(ring001, 'rose')).toEqual(['14k', '18k']);
+    expect(metalTitres(ring001, 'platinum')).toEqual(['platinum']);
+  });
+
+  it('garde le titre en changeant de couleur, et retombe sur le seul titre possible', () => {
+    expect(pickMetal(ring001, 'white', '14k')).toBe('white-gold-14k');
+    expect(pickMetal(ring001, 'platinum', '14k')).toBe('platinum-950');
+    expect(pickMetal(ring001, 'yellow', 'platinum')).toBe('yellow-gold-18k'); // titre du métal par défaut
+  });
+
+  it('chaque métal du catalogue a une couleur et un titre cohérents avec son identifiant', () => {
+    for (const m of Object.values(METALS)) {
+      if (m.family === 'platinum') expect(m.titre).toBe('platinum');
+      else expect(m.id).toBe(`${m.family}-gold-${m.titre}`);
+    }
+  });
+
+  it('le 14 carats pèse moins que le 18 carats pour la même bague', () => {
+    const s0 = defaultState(ring001);
+    expect(metalWeightEstimateG(ring001, { ...s0, metal: 'yellow-gold-14k' })).toBeLessThan(metalWeightEstimateG(ring001, s0));
   });
 });

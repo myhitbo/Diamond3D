@@ -28,10 +28,25 @@ test('le changement de métal modifie le matériau, pas la géométrie', async (
   await ready(page);
   const nodesBefore = await page.evaluate(() => window.__jr!.visibleNodes());
   expect(await page.evaluate(() => window.__jr!.metalColor())).toBe('#f0cc86');
-  await page.getByRole('radio', { name: 'Or rose 18 carats' }).click();
+  await page.getByRole('radio', { name: 'Or rose', exact: true }).click();
   await expect.poll(() => page.evaluate(() => window.__jr!.metalColor())).toBe('#eebba0');
-  await expect(page.getByRole('radio', { name: 'Or rose 18 carats' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByRole('radio', { name: 'Or rose', exact: true })).toHaveAttribute('aria-checked', 'true');
+  // Passage en 14 carats : même couleur choisie, autre titre.
+  await page.getByRole('radiogroup', { name: 'Titre de l’or' }).getByRole('radio', { name: '14 carats' }).click();
+  await expect.poll(() => page.evaluate(() => window.__jr!.metalColor())).toBe('#eab39a');
+  await expect(page.getByText('Or rose 14 carats').first()).toBeVisible();
   expect(await page.evaluate(() => window.__jr!.visibleNodes())).toEqual(nodesBefore);
+  // Le platine n'a pas de titre d'or.
+  await page.getByRole('radio', { name: 'Platine', exact: true }).click();
+  await expect(page.getByRole('radiogroup', { name: 'Titre de l’or' })).toHaveCount(0);
+});
+
+test('poids à ± 5 %, délai de fabrication et libellé « synthétique »', async ({ page }) => {
+  await page.goto(URL);
+  await expect(page.getByText(/≈ \d+,\d g \(± 5 %\)/)).toBeVisible();
+  await expect(page.getByText('14 jours ouvrés', { exact: true })).toBeVisible();
+  await expect(page.getByRole('radio', { name: 'Synthétique' })).toBeVisible();
+  await expect(page.getByRole('radio', { name: 'Laboratoire' })).toHaveCount(0);
 });
 
 test('la composition change réellement les pièces 3D affichées', async ({ page }) => {
@@ -71,7 +86,7 @@ test('le poids de la pierre centrale est affiché, autres tailles sur demande', 
 test('réinitialiser revient à la configuration initiale', async ({ page }) => {
   await page.goto(URL);
   await ready(page);
-  await page.getByRole('radio', { name: 'Platine 950' }).click();
+  await page.getByRole('radio', { name: 'Platine', exact: true }).click();
   await page.getByRole('radio', { name: 'Solitaire' }).click();
   await page.getByRole('button', { name: 'Réinitialiser' }).click();
   await expect.poll(() => page.evaluate(() => window.__jr!.metalColor())).toBe('#f0cc86');

@@ -61,12 +61,27 @@ export type AssetReport = z.infer<typeof AssetReport>;
 
 /* ---------- Catalogue des métaux (règles d'atelier, communes à tous les modèles) ---------- */
 
-export const MetalId = z.enum(['yellow-gold-18k', 'white-gold-18k', 'rose-gold-18k', 'platinum-950']);
+export const MetalId = z.enum([
+  'yellow-gold-14k',
+  'white-gold-14k',
+  'rose-gold-14k',
+  'yellow-gold-18k',
+  'white-gold-18k',
+  'rose-gold-18k',
+  'platinum-950',
+]);
 export type MetalId = z.infer<typeof MetalId>;
+
+export const MetalFamily = z.enum(['yellow', 'white', 'rose', 'platinum']);
+export type MetalFamily = z.infer<typeof MetalFamily>;
+export const MetalTitre = z.enum(['14k', '18k', 'platinum']);
+export type MetalTitre = z.infer<typeof MetalTitre>;
 
 export const Metal = z.object({
   id: MetalId,
   name: Localized,
+  family: MetalFamily,
+  titre: MetalTitre,
   /** Rendu uniquement : approximation visuelle à calibrer sur photographies réelles. */
   render: z.object({ color: z.string().regex(/^#[0-9a-f]{6}$/i), roughness: z.number().min(0).max(1) }),
   /**

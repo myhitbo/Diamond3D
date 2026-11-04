@@ -1,5 +1,14 @@
 # Historique
 
+## 0.1.2 — 2026-11-04 — Or 14 carats, libellés, moteur de prix
+
+- Or 14 carats jaune, blanc et rose. Le métal se choisit en deux temps : couleur, puis titre (14 ou 18 carats ; aucun pour le platine).
+- Disponibilité des métaux confirmée par l'atelier : la mention « à confirmer » disparaît.
+- Diamant « Synthétique » (et non « Laboratoire ») en français, avec la précision qu'il ne s'agit pas d'une imitation.
+- Poids du métal affiché « ≈ … g (± 5 %) » ; délai de fabrication « 14 jours ouvrés ».
+- Tailles des pierres avec une virgule décimale en français.
+- Moteur de prix indicatif en ₪ TTC (non branché).
+
 ## 0.1.1 — 2026-11-03 — Retouche web de ring-001
 
 - Demande de l'atelier : griffes rabattues et « 8 » supprimés, pour le web uniquement.

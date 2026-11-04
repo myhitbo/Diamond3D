@@ -1,6 +1,7 @@
 # À faire
 
 ## Bloquant avant la suite
+- [x] Aperçu en ligne privé (4/11) : https://jr-diamond-apercu-hil123s-projects.vercel.app (projet Vercel `jr-diamond-apercu`, non indexé, sans protection Vercel pour que l'atelier l'ouvre). Mis à jour à la main : il faut redéployer après chaque modification.
 - [ ] Test sur appareils réels : iPhone (Safari), Android milieu de gamme, ordinateur avec GPU. Une préversion privée nécessite ton accord.
 - [ ] Relancer la campagne de mesure complète (`scripts/perf/measure.mjs`), interrompue deux fois.
 - [x] Suite navigateur complète relancée le 3/11 : 28/28 (Chromium, rendu logiciel).

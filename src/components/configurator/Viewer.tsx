@@ -72,8 +72,11 @@ function Model({ url, nodes, visible, metal, quality, debug, onReady, env }: Vie
     () => new THREE.MeshPhysicalMaterial({ metalness: 1, roughness: 0.13, envMapIntensity: 1.15 }),
     [],
   );
+  // Rendu simplifié des pierres (appareils lents) : un miroir à facettes qui reflète le studio.
+  // Un matériau blanc diffus donnait des taches blanches, confondues avec le fond crème
+  // (« les diamants disparaissent »). Ici, les bandes sombres du studio dessinent les facettes.
   const gemFallback = useMemo(
-    () => new THREE.MeshPhysicalMaterial({ color: '#ffffff', metalness: 0, roughness: 0, ior: 2.42, specularIntensity: 1, envMap: env, envMapIntensity: 1.6 }),
+    () => new THREE.MeshStandardMaterial({ color: '#ffffff', metalness: 1, roughness: 0.02, envMap: env, envMapIntensity: 1.25, flatShading: true }),
     [env],
   );
 
@@ -212,7 +215,8 @@ export default function Viewer(props: ViewerProps & { errorFallback: (retry: () 
         aria-label={props.label}
         role="img"
       >
-        <PerformanceMonitor onDecline={props.onQualityDrop} />
+        {/* Ne bascule en rendu simplifié que si l'appareil reste nettement sous 24 images/s. */}
+        <PerformanceMonitor bounds={() => [24, 50]} iterations={8} threshold={0.8} onDecline={props.onQualityDrop} />
         <Environment map={env.metal} environmentIntensity={1} />
         <Suspense fallback={null}>
           <Model {...props} env={env.gem} />

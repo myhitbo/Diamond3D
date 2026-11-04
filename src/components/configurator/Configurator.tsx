@@ -1,48 +1,24 @@
-"use client";
+'use client';
 
-import dynamic from "next/dynamic";
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useReducer,
-  useState,
-  type ReactNode,
-} from "react";
-import { useProgress } from "@react-three/drei";
-import { getModel } from "@/models";
-import { METALS } from "@/config/metals";
-import { DICTIONARIES, formatNumber } from "@/i18n/dictionaries";
-import type {
-  ConfigState,
-  Locale,
-  ModelDefinition,
-} from "@/lib/configurator/schema";
-import {
-  applyChange,
-  defaultState,
-  metalFamilies,
-  metalTitres,
-  metalWeightEstimateG,
-  pickMetal,
-  stoneSummary,
-  visibleNodes,
-} from "@/lib/configurator/logic";
-import type { Quality, ViewName } from "./Viewer";
-import { initProbe } from "./debugProbe";
-import styles from "./Configurator.module.css";
+import dynamic from 'next/dynamic';
+import { useCallback, useEffect, useMemo, useReducer, useState, type ReactNode } from 'react';
+import { useProgress } from '@react-three/drei';
+import { getModel } from '@/models';
+import { METALS } from '@/config/metals';
+import { DICTIONARIES, formatNumber } from '@/i18n/dictionaries';
+import type { ConfigState, Locale, ModelDefinition } from '@/lib/configurator/schema';
+import { applyChange, defaultState, metalFamilies, metalTitres, metalWeightEstimateG, pickMetal, stoneSummary, visibleNodes } from '@/lib/configurator/logic';
+import type { Quality, ViewName } from './Viewer';
+import { initProbe } from './debugProbe';
+import styles from './Configurator.module.css';
 
 // Le moteur 3D n'est chargé qu'à l'affichage du configurateur : il ne pèse pas sur le reste du site.
-const Viewer = dynamic(() => import("./Viewer"), { ssr: false });
+const Viewer = dynamic(() => import('./Viewer'), { ssr: false });
 
-type Action =
-  | { type: "change"; change: Partial<ConfigState> }
-  | { type: "reset" };
+type Action = { type: 'change'; change: Partial<ConfigState> } | { type: 'reset' };
 
 function sceneFraming(m: ModelDefinition) {
-  const all = Object.values(m.geometry.pieces).flatMap((p) =>
-    p.parts.map((x) => x.boundsMm),
-  );
+  const all = Object.values(m.geometry.pieces).flatMap((p) => p.parts.map((x) => x.boundsMm));
   const lo = [0, 1, 2].map((i) => Math.min(...all.map((b) => b[0][i])));
   const hi = [0, 1, 2].map((i) => Math.max(...all.map((b) => b[1][i])));
   const size = hi.map((h, i) => h - lo[i]);
@@ -53,74 +29,55 @@ function sceneFraming(m: ModelDefinition) {
 
 function hasWebGL() {
   try {
-    const c = document.createElement("canvas");
-    return !!c.getContext("webgl2") || !!c.getContext("webgl");
+    const c = document.createElement('canvas');
+    return !!c.getContext('webgl2') || !!c.getContext('webgl');
   } catch {
     return false;
   }
 }
 
-export default function Configurator({
-  modelId,
-  locale,
-}: {
-  modelId: string;
-  locale: Locale;
-}) {
+export default function Configurator({ modelId, locale }: { modelId: string; locale: Locale }) {
   const model = getModel(modelId)!;
   const t = DICTIONARIES[locale];
   const [state, dispatch] = useReducer(
-    (s: ConfigState, a: Action) =>
-      a.type === "reset"
-        ? defaultState(model)
-        : applyChange(model, s, a.change),
+    (s: ConfigState, a: Action) => (a.type === 'reset' ? defaultState(model) : applyChange(model, s, a.change)),
     model,
     defaultState,
   );
   const [view, setView] = useState<{ name: ViewName; nonce: number }>({
-    name: "hero",
+    name: 'hero',
     nonce: 0,
   });
   const [ready, setReady] = useState(false);
   const [webgl, setWebgl] = useState<boolean | null>(null);
-  const [quality, setQuality] = useState<Quality>("high");
+  const [quality, setQuality] = useState<Quality>('high');
   const [debug, setDebug] = useState(false);
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     /* eslint-disable react-hooks/set-state-in-effect -- lecture unique de l'environnement navigateur */
-    if (q.has("debug")) initProbe();
-    setDebug(q.has("debug"));
-    if (q.get("quality") === "low") setQuality("low");
+    if (q.has('debug')) initProbe();
+    setDebug(q.has('debug'));
+    if (q.get('quality') === 'low') setQuality('low');
     setWebgl(hasWebGL());
     /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
-  const nodes = useMemo(
-    () =>
-      Object.values(model.geometry.pieces).flatMap((p) =>
-        p.parts.map((x) => ({ name: x.node, kind: x.kind })),
-      ),
-    [model],
-  );
+  const nodes = useMemo(() => Object.values(model.geometry.pieces).flatMap((p) => p.parts.map((x) => ({ name: x.node, kind: x.kind }))), [model]);
   const visible = useMemo(() => visibleNodes(model, state), [model, state]);
   const framing = useMemo(() => sceneFraming(model), [model]);
   const metal = METALS[state.metal];
-  const pieces = model.compositions.find(
-    (c) => c.id === state.composition,
-  )!.pieces;
+  const pieces = model.compositions.find((c) => c.id === state.composition)!.pieces;
   const centerSlot = model.stoneSlots.find((s) => pieces.includes(s.piece));
-  const centerVariant = centerSlot?.variants.find(
-    (v) => v.id === state.stones[centerSlot.id],
-  );
+  const centerVariant = centerSlot?.variants.find((v) => v.id === state.stones[centerSlot.id]);
   const stones = stoneSummary(model, state);
   const weight = metalWeightEstimateG(model, state);
   const onReady = useCallback(() => setReady(true), []);
-  const onQualityDrop = useCallback(() => setQuality("low"), []);
+  const onQualityDrop = useCallback(() => setQuality('low'), []);
 
   const reset = () => {
-    dispatch({ type: "reset" });
-    setView((v) => ({ name: "hero", nonce: v.nonce + 1 }));
+    dispatch({ type: 'reset' });
+    setView((v) => ({ name: 'hero', nonce: v.nonce + 1 }));
   };
 
   return (
@@ -145,11 +102,7 @@ export default function Configurator({
             errorFallback={(retry) => (
               <div className={styles.notice} role="alert">
                 <p>{t.loadError}</p>
-                <button
-                  type="button"
-                  className={styles.textButton}
-                  onClick={retry}
-                >
+                <button type="button" className={styles.textButton} onClick={retry}>
                   {t.retry}
                 </button>
               </div>
@@ -165,9 +118,7 @@ export default function Configurator({
                 type="button"
                 className={styles.viewButton}
                 aria-pressed={view.name === v}
-                onClick={() =>
-                  setView((x) => ({ name: v, nonce: x.nonce + 1 }))
-                }
+                onClick={() => setView((x) => ({ name: v, nonce: x.nonce + 1 }))}
               >
                 {t.views[v]}
               </button>
@@ -181,9 +132,7 @@ export default function Configurator({
         <p className={styles.eyebrow}>{t.eyebrow}</p>
         <h1 className={styles.title}>{model.name[locale]}</h1>
         <p className={styles.lede}>{model.description[locale]}</p>
-        {!model.workshopValidated && (
-          <p className={styles.badge}>{t.draftBadge}</p>
-        )}
+        {!model.workshopValidated && <p className={styles.badge}>{t.draftBadge}</p>}
 
         <Field title={t.composition}>
           <Choices
@@ -193,24 +142,13 @@ export default function Configurator({
               label: c.name[locale],
             }))}
             value={state.composition}
-            onChange={(composition) =>
-              dispatch({ type: "change", change: { composition } })
-            }
+            onChange={(composition) => dispatch({ type: 'change', change: { composition } })}
           />
-          <p className={styles.note}>
-            {
-              model.compositions.find((c) => c.id === state.composition)!
-                .description[locale]
-            }
-          </p>
+          <p className={styles.note}>{model.compositions.find((c) => c.id === state.composition)!.description[locale]}</p>
         </Field>
 
         <Field title={t.metal} aside={metal.name[locale]}>
-          <div
-            className={styles.swatches}
-            role="radiogroup"
-            aria-label={t.metal}
-          >
+          <div className={styles.swatches} role="radiogroup" aria-label={t.metal}>
             {metalFamilies(model).map((family) => {
               const id = pickMetal(model, family, metal.titre);
               return (
@@ -224,12 +162,10 @@ export default function Configurator({
                   className={styles.swatch}
                   style={
                     {
-                      "--swatch": METALS[id].render.color,
+                      '--swatch': METALS[id].render.color,
                     } as React.CSSProperties
                   }
-                  onClick={() =>
-                    dispatch({ type: "change", change: { metal: id } })
-                  }
+                  onClick={() => dispatch({ type: 'change', change: { metal: id } })}
                 />
               );
             })}
@@ -245,7 +181,7 @@ export default function Configurator({
                 value={metal.titre}
                 onChange={(ti) =>
                   dispatch({
-                    type: "change",
+                    type: 'change',
                     change: { metal: pickMetal(model, metal.family, ti) },
                   })
                 }
@@ -253,9 +189,7 @@ export default function Configurator({
               <p className={styles.note}>{t.titreNote}</p>
             </>
           )}
-          {!model.metals.availabilityConfirmed && (
-            <p className={styles.note}>{t.metalAvailabilityNote}</p>
-          )}
+          {!model.metals.availabilityConfirmed && <p className={styles.note}>{t.metalAvailabilityNote}</p>}
         </Field>
 
         {centerSlot && (
@@ -269,30 +203,23 @@ export default function Configurator({
               value={state.stones[centerSlot.id]}
               onChange={(id) =>
                 dispatch({
-                  type: "change",
+                  type: 'change',
                   change: { stones: { [centerSlot.id]: id } },
                 })
               }
             />
             {centerVariant?.nominalCarat && (
               <p className={styles.value} data-testid="center-carat">
-                {t.nominalCarat(
-                  formatNumber(locale, centerVariant.nominalCarat.value, 2),
-                  centerVariant.nominalCarat.confirmedByWorkshop,
-                )}
+                {t.nominalCarat(formatNumber(locale, centerVariant.nominalCarat.value, 2), centerVariant.nominalCarat.confirmedByWorkshop)}
               </p>
             )}
-            {centerSlot.otherSizesOnRequest && (
-              <p className={styles.note}>{t.otherSizesNote}</p>
-            )}
+            {centerSlot.otherSizesOnRequest && <p className={styles.note}>{t.otherSizesNote}</p>}
             {centerSlot.unavailableShapes.length > 0 && (
               <details className={styles.details}>
                 <summary>
                   {t.otherShapes}
                   {t.colon}
-                  {centerSlot.unavailableShapes
-                    .map((u) => t.shapes[u.shape])
-                    .join(", ")}
+                  {centerSlot.unavailableShapes.map((u) => t.shapes[u.shape]).join(', ')}
                 </summary>
                 <p className={styles.note}>{t.otherShapesNote}</p>
               </details>
@@ -308,9 +235,7 @@ export default function Configurator({
               label: t.origins[o],
             }))}
             value={state.diamondOrigin}
-            onChange={(diamondOrigin) =>
-              dispatch({ type: "change", change: { diamondOrigin } })
-            }
+            onChange={(diamondOrigin) => dispatch({ type: 'change', change: { diamondOrigin } })}
           />
           <p className={styles.note}>{t.originNote}</p>
         </Field>
@@ -318,10 +243,7 @@ export default function Configurator({
         {model.geometry.fingerSize && (
           <Field title={t.size}>
             <p className={styles.value}>
-              {t.sizeModeled(
-                model.geometry.fingerSize.label.replace("1/2", "½"),
-                formatNumber(locale, model.geometry.fingerSize.innerDiameterMm),
-              )}
+              {t.sizeModeled(model.geometry.fingerSize.label.replace('1/2', '½'), formatNumber(locale, model.geometry.fingerSize.innerDiameterMm))}
             </p>
             <p className={styles.note}>{t.sizeNote}</p>
           </Field>
@@ -334,12 +256,7 @@ export default function Configurator({
           <dl className={styles.summaryList}>
             <div>
               <dt>{t.composition}</dt>
-              <dd>
-                {
-                  model.compositions.find((c) => c.id === state.composition)!
-                    .name[locale]
-                }
-              </dd>
+              <dd>{model.compositions.find((c) => c.id === state.composition)!.name[locale]}</dd>
             </div>
             <div>
               <dt>{t.metal}</dt>
@@ -350,16 +267,11 @@ export default function Configurator({
               <dd>
                 {stones.map((g) => (
                   <span key={g.shape} className={styles.stoneLine}>
-                    {g.count} × {t.shapes[g.shape as keyof typeof t.shapes]}{" "}
-                    {g.sizesMm
-                      .map((x) => (locale === "fr" ? x.replace(".", ",") : x))
-                      .join(" – ")}{" "}
+                    {g.count} × {t.shapes[g.shape as keyof typeof t.shapes]} {g.sizesMm.map((x) => (locale === 'fr' ? x.replace('.', ',') : x)).join(' – ')}{' '}
                     {t.mm}
-                    {centerVariant?.nominalCarat &&
-                    g.shape === centerVariant.shape &&
-                    g.count === 1
+                    {centerVariant?.nominalCarat && g.shape === centerVariant.shape && g.count === 1
                       ? ` · ≈ ${formatNumber(locale, centerVariant.nominalCarat.value, 2)} ct`
-                      : ""}
+                      : ''}
                   </span>
                 ))}
               </dd>
@@ -383,12 +295,7 @@ export default function Configurator({
           </dl>
           <p className={styles.note}>{t.weightNote}</p>
           <p className={styles.note}>{t.priceNote}</p>
-          <button
-            type="button"
-            className={styles.primary}
-            disabled
-            aria-describedby="quote-soon"
-          >
+          <button type="button" className={styles.primary} disabled aria-describedby="quote-soon">
             {t.requestQuote}
           </button>
           <p id="quote-soon" className={styles.note}>
@@ -405,19 +312,15 @@ export default function Configurator({
             {stones.map((g) => (
               <div key={g.shape}>
                 <dt>
-                  {t.shapes[g.shape as keyof typeof t.shapes]} ·{" "}
-                  {t.stonesCount(g.count)}
+                  {t.shapes[g.shape as keyof typeof t.shapes]} · {t.stonesCount(g.count)}
                 </dt>
-                <dd>
-                  {t.caratEstimate(formatNumber(locale, g.caratEstimate, 3))}
-                </dd>
+                <dd>{t.caratEstimate(formatNumber(locale, g.caratEstimate, 3))}</dd>
               </div>
             ))}
             <div>
               <dt>{t.sourceFile}</dt>
               <dd>
-                {model.geometry.source.file} ·{" "}
-                {model.geometry.source.application}
+                {model.geometry.source.file} · {model.geometry.source.application}
               </dd>
             </div>
             <div>
@@ -438,15 +341,7 @@ export default function Configurator({
   );
 }
 
-function Field({
-  title,
-  aside,
-  children,
-}: {
-  title: string;
-  aside?: string;
-  children: ReactNode;
-}) {
+function Field({ title, aside, children }: { title: string; aside?: string; children: ReactNode }) {
   return (
     <section className={styles.field}>
       <h2 className={styles.fieldTitle}>
@@ -472,14 +367,7 @@ function Choices<T extends string>({
   return (
     <div className={styles.choices} role="radiogroup" aria-label={label}>
       {options.map((o) => (
-        <button
-          key={o.id}
-          type="button"
-          role="radio"
-          aria-checked={value === o.id}
-          className={styles.choice}
-          onClick={() => onChange(o.id)}
-        >
+        <button key={o.id} type="button" role="radio" aria-checked={value === o.id} className={styles.choice} onClick={() => onChange(o.id)}>
           {o.label}
         </button>
       ))}
@@ -493,10 +381,7 @@ function Loader({ label }: { label: string }) {
     <div className={styles.loader} role="status" aria-live="polite">
       <span className={styles.loaderLabel}>{label}</span>
       <span className={styles.loaderTrack}>
-        <span
-          className={styles.loaderBar}
-          style={{ transform: `scaleX(${Math.max(progress, 4) / 100})` }}
-        />
+        <span className={styles.loaderBar} style={{ transform: `scaleX(${Math.max(progress, 4) / 100})` }} />
       </span>
     </div>
   );

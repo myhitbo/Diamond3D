@@ -124,3 +124,19 @@ button {
   color: var(--ink);
   border-bottom: 1px solid var(--gold);
 }
+
+/* Hébreu : polices dédiées ; pas d'espacement de lettres ni de capitales (sans effet en hébreu). */
+html[lang='he'] {
+  --font-display: var(--font-frank), 'Frank Ruhl Libre', 'David', serif;
+  --font-text: var(--font-assistant), 'Assistant', Arial, sans-serif;
+}
+
+html[lang='he'] .wordmark {
+  /* Le nom de marque reste en lettres latines. */
+  font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+}
+
+/* L'espacement des lettres, élégant en latin, rend l'hébreu illisible. */
+html[lang='he'] body *:not(.wordmark) {
+  letter-spacing: 0 !important;
+}

@@ -20,7 +20,7 @@ Prérequis : Node.js 22, Python 3.13.
 ```bash
 npm ci
 npm run build
-npm start            # http://localhost:3000 → configurateur du modèle pilote
+npm start            # http://localhost:3000 → configurateur du modèle pilote (fr, en, he) et FAQ (/fr/faq)
 ```
 
 Le modèle web (`public/models/ring-001/ring-001.glb`) et ses métadonnées (`src/models/ring-001/`) sont versionnés :

@@ -79,7 +79,8 @@ export default async function FaqPage({ params }: { params: Params }) {
                   ))}
                   {item.sources && (
                     <p className={styles.sources}>
-                      {t.faqSources} :{' '}
+                      {t.faqSources}
+                      {t.colon}
                       {item.sources.map((s, k) => (
                         <span key={s.url}>
                           {k > 0 && ' · '}

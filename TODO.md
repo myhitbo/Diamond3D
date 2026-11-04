@@ -27,7 +27,9 @@
 - [ ] Alliance de kiddouchin : obtenir un modèle simple (atelier ou CGTrader), page et guide.
 - [ ] Parcours « transformation de bijoux de famille » : photos de l'ancien bijou + demande de devis.
 - [ ] Avocat israélien : la bague configurée relève-t-elle de l'exception « fabriqué sur mesure » au droit d'annulation ? Délai étendu pour nouveaux immigrants ? Poinçon ?
-- [ ] Version hébreu (RTL) après le français.
+- [x] Version hébreu (RTL) du configurateur et de la FAQ (4/11) : `/he/…`, polices Frank Ruhl Libre et Assistant.
+- [ ] Faire relire tous les textes hébreux par un locuteur natif (Yonathan ou un proche) : traduction faite par l'IA, termes de joaillerie à vérifier (« יהלום מעבדה », « זהב אדום » pour l'or rose, « הילה » pour le halo).
+- [ ] Vérifier s'il existe en Israël une obligation de vocabulaire pour les diamants de synthèse (équivalent du décret français 2002-65).
 
 ## FAQ (`/fr/faq`, contenu : `src/content/faq.ts`)
 - [ ] Faire valider par l'atelier les 5 réponses « À confirmer » : modèle hors catalogue, paiement (moyens acceptés), annulation et retour (avec l'avocat), livraison à l'étranger, entretien.

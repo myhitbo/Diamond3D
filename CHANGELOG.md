@@ -9,6 +9,8 @@
 - Tailles des pierres avec une virgule décimale en français.
 - Moteur de prix indicatif en ₪ TTC (non branché).
 - Page FAQ (`/fr/faq`, `/en/faq`) : 24 questions en 6 thèmes, réponses sourcées, 5 marquées « À confirmer ». Données structurées FAQPage (réponses validées seulement). Lien dans l'en-tête, en-tête commun aux pages.
+- Version hébreu (`/he/…`) : sens de droite à gauche, polices hébraïques, configurateur et FAQ traduits (relecture native à faire).
+- Prix : réponses de l'atelier du 4/11 ; la majoration sur les postes en USD est remplacée par une règle de bénéfice (fixe + part des matières, bornée), proposée et non validée.
 
 ## 0.1.1 — 2026-11-03 — Retouche web de ring-001
 

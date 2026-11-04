@@ -93,7 +93,7 @@
   font-family: var(--font-text);
   font-size: 20px;
   color: var(--gold);
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 
 .item[open] > .question::after {
@@ -102,7 +102,7 @@
 
 .pending {
   display: inline-block;
-  margin-left: 10px;
+  margin-inline-start: 10px;
   vertical-align: middle;
   white-space: nowrap;
   font-family: var(--font-text);

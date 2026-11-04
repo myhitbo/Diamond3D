@@ -49,6 +49,8 @@ const fr = {
   canvasLabel: 'Aperçu 3D interactif du bijou. Glissez pour tourner, pincez ou faites défiler pour zoomer.',
   hint: 'Glisser pour tourner · pincer pour zoomer',
   draftBadge: 'Brouillon · non validé par l’atelier',
+  colon: ' : ',
+  mm: 'mm',
   navLabel: 'Navigation',
   navFaq: 'Questions fréquentes',
   faqTitle: 'Questions fréquentes',
@@ -111,6 +113,8 @@ const en: Dict = {
   canvasLabel: 'Interactive 3D preview of the jewel. Drag to rotate, pinch or scroll to zoom.',
   hint: 'Drag to rotate · pinch to zoom',
   draftBadge: 'Draft · not yet validated by the workshop',
+  colon: ': ',
+  mm: 'mm',
   navLabel: 'Navigation',
   navFaq: 'FAQ',
   faqTitle: 'Frequently asked questions',
@@ -122,8 +126,73 @@ const en: Dict = {
   faqBack: 'Configure a piece',
 };
 
-export const DICTIONARIES: Record<Locale, Dict> = { fr, en };
+const he: Dict = {
+  brandTagline: 'תכשיטי יוקרה · סדנה בבורסת היהלומים, רמת גן',
+  eyebrow: 'מעצב תכשיטים · אב טיפוס',
+  composition: 'הרכב',
+  metal: 'מתכת',
+  metalAvailabilityNote: 'זמינות המתכות טעונה אישור הסדנה.',
+  metalFamilies: { yellow: 'זהב צהוב', white: 'זהב לבן', rose: 'זהב אדום', platinum: 'פלטינה' },
+  titre: 'קראט הזהב',
+  titres: { '14k': '14 קראט', '18k': '18 קראט', platinum: '950' },
+  titreNote: 'ב־18 קראט יש יותר זהב (75%) מאשר ב־14 קראט (58.5%): הוא צהוב יותר, כבד יותר ויקר יותר. 14 קראט בדרך כלל קשיח יותר.',
+  otherShapes: 'צורות נוספות',
+  otherShapesNote: 'צורה אחרת דורשת ראש שיבוץ ייעודי, שעדיין לא עוצב לתכשיט זה. הסדנה יכולה לבחון זאת לפי בקשה.',
+  shapes: { round: 'עגול', oval: 'אובלי', pear: 'טיפה', emerald: 'אמרלד', princess: 'פרינסס', marquise: 'מרקיזה', unknown: 'לא ידוע' },
+  origin: 'מקור היהלום',
+  origins: { natural: 'טבעי', 'lab-grown': 'מעבדה' },
+  originNote: 'זהים על המסך: המקור משנה את התעודה ואת המחיר, לא את המראה. יהלום מעבדה הוא יהלום אמיתי, לא חיקוי.',
+  size: 'מידת טבעת',
+  sizeModeled: (label: string, d: string) => `עוצב במידה ${label}, קוטר פנימי ${d} מ״מ.`,
+  sizeNote: 'מידות אחרות מותאמות בסדנה; התצוגה התלת־ממדית נשארת במידה שעוצבה.',
+  summary: 'התצורה שלכם',
+  price: 'מחיר',
+  priceOnQuote: 'לפי הצעת מחיר',
+  priceNote: 'לא יוצג מחיר עד שהסדנה תקבע את כללי התמחור.',
+  weight: 'משקל מתכת משוער',
+  weightValue: (g: string) => `≈ ${g} גרם (± 5%)`,
+  weightNote: 'הערכה לפי נפח המודל התלת־ממדי וצפיפות נומינלית מפורסמת, לפני פחת יציקה וגימור.',
+  delay: 'ייצור',
+  delayValue: '14 ימי עבודה',
+  requestQuote: 'בקשת הצעת מחיר',
+  requestQuoteSoon: 'טופס הבקשה יתווסף בשלב הבא של הפרויקט.',
+  technical: 'נתונים טכניים',
+  stones: 'אבנים',
+  stonesCount: (n: number) => (n === 1 ? 'אבן אחת' : `${n} אבנים`),
+  nominalCarat: (ct: string, confirmed: boolean) => `≈ ${ct} קראט${confirmed ? '' : ' (משקל מקובל למידות אלה, טעון אישור הסדנה)'}`,
+  otherSizesNote: 'גודל אבן אחר: לפי בקשה. הוא משנה את עיצוב התכשיט ודורש בדיקה של הסדנה.',
+  caratEstimate: (ct: string) => `≈ ${ct} קראט (הערכה גאומטרית)`,
+  caratNote: 'הקראטים מוערכים לפי נפח האבנים במודל. המשקל בפועל תלוי באבנים שייבחרו.',
+  sourceFile: 'קובץ מקור',
+  webModel: 'מודל לאתר',
+  webModelDetail: (kb: string, tris: string, dev: string) => `${kb} KB · ${tris} משולשים · סטייה מרבית ${dev} מ״מ`,
+  views: { hero: '3/4', top: 'מלמעלה', side: 'פרופיל', front: 'חזית' },
+  reset: 'איפוס',
+  loading: 'טוען את המודל התלת־ממדי',
+  loadError: 'לא ניתן היה לטעון את המודל התלת־ממדי.',
+  retry: 'נסו שוב',
+  noWebgl: 'הדפדפן שלכם אינו תומך בתצוגה תלת־ממדית (WebGL אינו זמין).',
+  canvasLabel: 'תצוגה תלת־ממדית אינטראקטיבית של התכשיט. גררו כדי לסובב, צבטו או גללו כדי להתקרב.',
+  hint: 'גררו לסיבוב · צבטו להתקרבות',
+  draftBadge: 'טיוטה · טרם אושר על ידי הסדנה',
+  colon: ': ',
+  mm: 'מ״מ',
+  navLabel: 'ניווט',
+  navFaq: 'שאלות נפוצות',
+  faqTitle: 'שאלות נפוצות',
+  faqLede: 'כל מה ששואלים אותנו על התכשיטים, היהלומים והסדנה שלנו, עם תשובות כנות.',
+  faqDraft: 'טיוטה · חלק מהתשובות ממתינות לאישור הסדנה',
+  faqToConfirm: 'טעון אישור',
+  faqSources: 'מקורות',
+  faqContact: 'שאלה אחרת? כתבו לנו: הסדנה עונה לכם ישירות.',
+  faqBack: 'עיצוב תכשיט',
+};
+
+export const DICTIONARIES: Record<Locale, Dict> = { fr, en, he };
 export type { Dict };
 
+/** Sens d'écriture par langue. */
+export const DIRECTION: Record<Locale, 'ltr' | 'rtl'> = { fr: 'ltr', en: 'ltr', he: 'rtl' };
+
 export const formatNumber = (locale: Locale, n: number, digits = 2) =>
-  new Intl.NumberFormat(locale === 'fr' ? 'fr-FR' : 'en-GB', { maximumFractionDigits: digits, minimumFractionDigits: digits }).format(n);
+  new Intl.NumberFormat({ fr: 'fr-FR', en: 'en-GB', he: 'he-IL' }[locale], { maximumFractionDigits: digits, minimumFractionDigits: digits }).format(n);

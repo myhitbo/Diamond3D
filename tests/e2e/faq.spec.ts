@@ -25,7 +25,7 @@ test('lien FAQ depuis le configurateur, et version anglaise', async ({ page }) =
   await page.goto('/fr/configurateur/ring-001');
   await page.getByRole('link', { name: 'Questions fréquentes' }).click();
   await expect(page).toHaveURL(/\/fr\/faq$/);
-  await page.getByRole('link', { name: 'en', exact: true }).click();
+  await page.getByRole('link', { name: 'EN', exact: true }).click();
   await expect(page).toHaveURL(/\/en\/faq$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Frequently asked questions');
 });

@@ -1,11 +1,15 @@
 import type { Metadata, Viewport } from 'next';
 import { notFound } from 'next/navigation';
-import { Cormorant_Garamond, Jost } from 'next/font/google';
+import { Assistant, Cormorant_Garamond, Frank_Ruhl_Libre, Jost } from 'next/font/google';
+import { DIRECTION } from '@/i18n/dictionaries';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
 import '../globals.css';
 
 const display = Cormorant_Garamond({ subsets: ['latin'], weight: ['400', '500'], style: ['normal', 'italic'], variable: '--font-cormorant', display: 'swap' });
 const text = Jost({ subsets: ['latin'], weight: ['300', '400'], variable: '--font-jost', display: 'swap' });
+// Hébreu : les polices latines n'ont pas de glyphes hébreux.
+const displayHe = Frank_Ruhl_Libre({ subsets: ['hebrew'], weight: ['400', '500'], variable: '--font-frank', display: 'swap' });
+const textHe = Assistant({ subsets: ['hebrew'], weight: ['300', '400'], variable: '--font-assistant', display: 'swap' });
 
 export const metadata: Metadata = {
   title: { default: 'JR Diamond', template: '%s · JR Diamond' },
@@ -23,7 +27,11 @@ export default async function LocaleLayout({ children, params }: { children: Rea
   const { locale } = await params;
   if (!LOCALES.includes(locale as Locale)) notFound();
   return (
-    <html lang={locale} dir="ltr" className={`${display.variable} ${text.variable}`}>
+    <html
+      lang={locale}
+      dir={DIRECTION[locale as Locale]}
+      className={locale === 'he' ? `${display.variable} ${text.variable} ${displayHe.variable} ${textHe.variable}` : `${display.variable} ${text.variable}`}
+    >
       <body>{children}</body>
     </html>
   );

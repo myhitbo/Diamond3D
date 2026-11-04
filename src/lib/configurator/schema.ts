@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
-export const LOCALES = ['fr', 'en'] as const;
+export const LOCALES = ['fr', 'en', 'he'] as const;
 export type Locale = (typeof LOCALES)[number];
 
-export const Localized = z.object({ fr: z.string().min(1), en: z.string().min(1) });
+export const Localized = z.object({ fr: z.string().min(1), en: z.string().min(1), he: z.string().min(1) });
 export type Localized = z.infer<typeof Localized>;
 
 /* ---------- Données générées par le pipeline (faits mesurés dans le fichier CAO) ---------- */

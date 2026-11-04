@@ -2,6 +2,8 @@ import Link from 'next/link';
 import { DICTIONARIES } from '@/i18n/dictionaries';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
 
+const LOCALE_LABELS: Record<Locale, string> = { fr: 'FR', en: 'EN', he: 'עב' };
+
 /** En-tête commun. `path` : chemin de la page sans la langue (ex. « /faq »), pour changer de langue sur place. */
 export default function SiteHeader({ locale, path }: { locale: Locale; path: string }) {
   const t = DICTIONARIES[locale];
@@ -19,8 +21,8 @@ export default function SiteHeader({ locale, path }: { locale: Locale; path: str
         </nav>
         <nav className="lang" aria-label="Langue / Language">
           {LOCALES.map((l) => (
-            <Link key={l} href={`/${l}${path}`} hrefLang={l} aria-current={l === locale ? 'page' : undefined}>
-              {l}
+            <Link key={l} href={`/${l}${path}`} hrefLang={l} lang={l} aria-current={l === locale ? 'page' : undefined}>
+              {LOCALE_LABELS[l]}
             </Link>
           ))}
         </nav>

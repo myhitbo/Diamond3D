@@ -13,30 +13,31 @@ export const ring001 = {
   status: 'draft',
   workshopValidated: false,
   category: 'ring-set',
-  name: { fr: 'Ensemble marquise', en: 'Marquise set' },
+  name: { fr: 'Ensemble marquise', en: 'Marquise set', he: 'סט מרקיזה' },
   description: {
     fr: 'Solitaire marquise entouré de six diamants ronds, accompagné d’une alliance dégradée qui épouse sa forme.',
     en: 'Marquise solitaire framed by six round diamonds, paired with a graduated band shaped to fit around it.',
+    he: 'סוליטר מרקיזה מוקף בשישה יהלומים עגולים, יחד עם טבעת נישואין מדורגת שמתאימה לצורתו.',
   },
   geometry: geometry as ModelDefinition['geometry'],
   asset: asset as ModelDefinition['asset'],
   compositions: [
     {
       id: 'set',
-      name: { fr: 'Ensemble', en: 'Set' },
-      description: { fr: 'Solitaire et alliance portés ensemble.', en: 'Solitaire and band worn together.' },
+      name: { fr: 'Ensemble', en: 'Set', he: 'סט' },
+      description: { fr: 'Solitaire et alliance portés ensemble.', en: 'Solitaire and band worn together.', he: 'טבעת סוליטר וטבעת נישואין הנענדות יחד.' },
       pieces: ['A', 'B'],
     },
     {
       id: 'solitaire',
-      name: { fr: 'Solitaire', en: 'Solitaire' },
-      description: { fr: 'La bague marquise seule.', en: 'The marquise ring alone.' },
+      name: { fr: 'Solitaire', en: 'Solitaire', he: 'סוליטר' },
+      description: { fr: 'La bague marquise seule.', en: 'The marquise ring alone.', he: 'טבעת המרקיזה לבדה.' },
       pieces: ['A'],
     },
     {
       id: 'band',
-      name: { fr: 'Alliance', en: 'Band' },
-      description: { fr: 'L’alliance dégradée seule.', en: 'The graduated band alone.' },
+      name: { fr: 'Alliance', en: 'Band', he: 'טבעת נישואין' },
+      description: { fr: 'L’alliance dégradée seule.', en: 'The graduated band alone.', he: 'טבעת הנישואין המדורגת לבדה.' },
       pieces: ['B'],
     },
   ],
@@ -51,12 +52,12 @@ export const ring001 = {
     {
       id: 'center',
       piece: 'A',
-      name: { fr: 'Pierre centrale', en: 'Centre stone' },
+      name: { fr: 'Pierre centrale', en: 'Centre stone', he: 'אבן מרכזית' },
       variants: [
         {
           id: 'marquise-6x3',
           shape: 'marquise',
-          name: { fr: 'Marquise 6,0 × 3,0 mm', en: 'Marquise 6.0 × 3.0 mm' },
+          name: { fr: 'Marquise 6,0 × 3,0 mm', en: 'Marquise 6.0 × 3.0 mm', he: 'מרקיזה 6.0 × 3.0 מ״מ' },
           // La pierre et sa tête (panier + griffes de pointe) forment un tout indissociable.
           nodes: ['A__gem_center', 'A__metal_head_center'],
           // Tableau Stuller : marquise 6 × 3 mm ≈ 0,25 ct. Source unique ; poids réel à fournir par l'atelier.

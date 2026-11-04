@@ -71,6 +71,17 @@ Le total en une seule devise n'est **pas** calculé ici : il dépend du taux USD
 
 Avec une marge variable, le site affiche un **prix indicatif** (« à partir de … », fourchette), puis l'atelier le **confirme** dans le devis. Le prix devient « calculé » seulement pour les modèles simples dont la marge est fixée. Paiement : intégral à la commande sur le site, acompte de 50 % (30 % si le client hésite) pour les commandes passées directement à l'atelier.
 
+## Moteur de prix (4/11, non branché sur le site)
+
+- Code : `src/lib/pricing/engine.ts` ; paramètres de l'atelier : `src/config/pricing.ts` ; tests : `tests/unit/pricing.test.ts`.
+- Sortie : prix indicatif en ₪, hors taxe et TTC (TVA 18 %), sous forme de fourchette, avec le détail par poste, et un prix « à partir de » (bas de fourchette TTC, arrondi à la dizaine inférieure).
+- Tant qu'un paramètre manque, le moteur **refuse de calculer** et liste les manques. Avec les paramètres actuels, il répond : double comptage de la fonte non tranché, marge sur les postes en USD inconnue, taux de change non choisi. S'y ajoutent, selon la configuration, le prix du platine et le prix des pierres.
+- Hypothèses de structure à faire valider [S] :
+  1. le prix du métal en ₪/g est déjà un prix client, sans marge supplémentaire ;
+  2. une seule majoration s'applique à tous les postes en USD (pierres comprises) ;
+  3. le poids est pris à ±5 %.
+- L'exemple de référence ci-dessus est retrouvé exactement par les tests (métal 925–950 ₪, postes en USD 202–207 $).
+
 ## Données déjà disponibles dans le projet
 
 - Volume de métal par bague, mesuré sur le fichier CAO : `src/models/<id>/geometry.json`.

@@ -29,6 +29,8 @@
 - [ ] Version hébreu (RTL) après le français.
 
 ## Prix
+- [x] Moteur de prix indicatif en ₪ TTC (4/11), non branché : `src/lib/pricing/engine.ts`. Il refuse de calculer tant qu'il manque un paramètre.
+- [ ] Brancher le prix « à partir de » dans le configurateur dès que `src/config/pricing.ts` ne contient plus de `null` pour ring-001.
 - [ ] Lever les 9 points « Manque » de `docs/PRICING_RULES.md` (marge sur les postes en USD, double comptage, change, platine…).
 
 ## Site

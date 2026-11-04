@@ -160,7 +160,7 @@ DD Diamond, Alyra et iJewel ne promettent aucune de ces trois choses ensemble [V
 | # | Question | Réponse | Conséquence |
 |---|---|---|---|
 | 1 | Marché prioritaire | **Israël** | Prix en ₪ TTC (TVA 18 %), sans douane ni import. Langues : français (clientèle francophone d'Israël), puis hébreu (RTL), puis anglais. Lancement en France reporté après les premières ventes. |
-| 2 | Filmer chaque pierre, photographier chaque étape | **Oui** | Les trois promesses du positionnement deviennent tenables. Procédure à remettre à l'atelier : [`PROCEDURE_PHOTO_ATELIER.md`](PROCEDURE_PHOTO_ATELIER.md). |
+| 2 | Filmer chaque pierre, photographier chaque étape | **Oui** | Les trois promesses du positionnement deviennent tenables. Photos et vidéos de fabrication (vidéos : idée du propriétaire, 4/11). Procédure à remettre à l'atelier : [`PROCEDURE_PHOTO_ATELIER.md`](PROCEDURE_PHOTO_ATELIER.md). |
 | 3 | Transformation de bijoux de famille, alliance de kiddouchin | **Oui, déjà pratiquées** | Deux produits à lancer dès la phase 1 : besoin d'un modèle d'alliance simple (fichier atelier ou CGTrader) et d'un parcours « transformation » (photos de l'ancien bijou + devis). |
 | 4 | Capacité en plus | **Illimitée** | Pas de liste d'attente ni de quota. Le délai de 14 jours ouvrés reste la seule promesse. À revoir si le délai réel dérape [I]. |
 | 5 | Budget d'acquisition | **Selon les revenus** | Démarrage sans budget fixe : acquisition gratuite d'abord (communauté, WhatsApp, prescripteurs, vidéos tirées de la 3D, SEO). Publicité payante ensuite, financée par une part de la marge des ventes (pourcentage à fixer) [I]. |

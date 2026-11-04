@@ -6,7 +6,7 @@ Le site complet, les devis et le paiement ne sont pas encore développés.
 - Rapport du prototype (mesures, tests, limites, estimations) : [`docs/PROTOTYPE_REPORT.md`](docs/PROTOTYPE_REPORT.md)
 - Architecture : [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 - Préparation des modèles 3D : [`docs/MODEL_PIPELINE.md`](docs/MODEL_PIPELINE.md)
-- Règles de prix : [`docs/PRICING_RULES.md`](docs/PRICING_RULES.md) (aucune règle définie à ce jour)
+- Règles de prix : [`docs/PRICING_RULES.md`](docs/PRICING_RULES.md) (structure connue depuis le 3/11, règles incomplètes)
 - Cahier des charges (phases 3 à 8) : [`docs/CAHIER_DES_CHARGES.md`](docs/CAHIER_DES_CHARGES.md)
 - Réponses de l'atelier : [`docs/REPONSES_ATELIER.md`](docs/REPONSES_ATELIER.md)
 - Stratégie et pistes pour se démarquer : [`docs/STRATEGIE.md`](docs/STRATEGIE.md)

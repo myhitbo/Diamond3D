@@ -6,6 +6,30 @@ Légende : **[V]** vérifié · **[I]** inféré · **[?]** à confirmer.
 
 ---
 
+## 4 novembre 2026 — Yonathan Cohen (WhatsApp, réponse à la relance prix)
+
+### Messages reçus (verbatim)
+> Les 370 sh pour le prix de lor cest ce que je facture au client ainsi que toit les frais de fab (comme si je fabriquais pour une boutique normale) a *part* le bénéfice de la vente aui varie sur chaque bijoux...
+> Pour des bague en laboratoire de fillancaille les benef sorn de 1500 a 3000 sh de benef en israel
+> Alors quz en france les marges sont enormement plus grandes genre minimume 1000 € de benef 🤯
+> Pareille pour le serti et matiere premiere je facture comme pour fab a une boutique cest les prix qui sont pratiques a la bourse ru vois
+> Pour le platine je contacte les fonderie je te dit ca
+> Ok pour les video
+> Pour les benef sur les bijoux il faut trouver une idee genre sur chaque piece un benef fixe et apres ca modifie en fonction des matiere etc tu vois
+
+### Ce qui est acquis
+- **Tous les postes communiqués le 3/11 sont des prix « boutique »** (tarifs pratiqués à la Bourse) : métal 370–380 ₪/g, frais de fabrication, sertissage, pierres. Le bénéfice de la vente s'ajoute à part [V].
+- **Métal et fabrication sont facturés séparément** : pas de double comptage entre les ₪/g et la fonte au gramme [I, d'après « ainsi que tous les frais de fab »].
+- **Bénéfice, bague de fiançailles en diamant synthétique, Israël : 1 500 à 3 000 ₪** par pièce [V].
+- **France : bénéfice d'au moins 1 000 € par pièce** chez les bijoutiers, selon Yonathan [V comme témoignage, non vérifié].
+- **Règle voulue** : un bénéfice fixe par pièce, modulé selon les matières [V]. Proposition de formule dans `PRICING_RULES.md`.
+- **Vidéos de fabrication : d'accord** [V].
+
+### Encore en attente
+- Prix du platine (Yonathan interroge les fonderies).
+- Taux de change dollar → ₪ (non répondu ; proposition : taux représentatif de la Banque d'Israël).
+- Validation de la formule de bénéfice et de ses valeurs, et le bénéfice pour un diamant naturel, une alliance, une alliance de kiddouchin.
+
 ## 3 novembre 2026 — Synthèse écrite de l'échange avec l'atelier
 
 Source : `docs/atelier/2026-11-03_synthese_reponses.docx` (document de travail transmis par le propriétaire). Les montants sont ceux communiqués, **indicatifs**.

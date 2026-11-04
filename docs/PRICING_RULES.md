@@ -1,6 +1,6 @@
 # Règles de tarification
 
-**État au 3 novembre 2026 : structure connue, règles incomplètes.** Le configurateur affiche toujours « Sur devis ». Le schéma (`pricing.mode`) n'accepte aucune autre valeur tant que les points de la section « Manque » ne sont pas réglés.
+**État au 4 novembre 2026 : structure connue, bénéfice à valider, taux de change et platine manquants.** Le configurateur affiche toujours « Sur devis ». Le schéma (`pricing.mode`) n'accepte aucune autre valeur tant que les points de la section « Manque » ne sont pas réglés.
 
 Source des montants : synthèse de l'atelier du 3/11/2026 (`docs/REPONSES_ATELIER.md`). Tous les montants sont **indicatifs** et hors TVA.
 
@@ -55,15 +55,41 @@ prix TTC = prix HT × (1 + TVA)
 
 Le total en une seule devise n'est **pas** calculé ici : il dépend du taux USD/ILS et de la marge appliquée aux postes en USD, qui ne sont pas fixés.
 
+## Bénéfice de la vente (4/11)
+
+Les postes ci-dessus sont des **prix boutique** (tarifs de la Bourse). Le bénéfice s'ajoute :
+
+```
+bénéfice = fixe (par catégorie) + taux × matières (métal + pierres)    borné entre un minimum et un maximum
+prix HT  = postes boutique + bénéfice
+prix TTC = prix HT × 1,18
+```
+
+Donnée de l'atelier : 1 500 à 3 000 ₪ de bénéfice sur une bague de fiançailles en diamant synthétique. Le reste du tableau est une **proposition** à faire valider :
+
+| Catégorie | Fixe | Part des matières | Minimum | Maximum |
+|---|---|---|---|---|
+| Bague de fiançailles | 1 500 ₪ | 25 % | 1 500 ₪ | 3 000 ₪ |
+| Alliance | 600 ₪ | 25 % | 400 ₪ | 1 500 ₪ |
+| Alliance de kiddouchin | 400 ₪ | 20 % | 300 ₪ | 800 ₪ |
+| Autre bijou | 800 ₪ | 25 % | 500 ₪ | 3 000 ₪ |
+
+Exemple de référence (2,5 g d'or 14 k, diamant synthétique 1 ct, taux de 3,7 ₪/$ pris pour l'illustration) [E] :
+- matières ≈ 935 ₪ + 488 ₪ ≈ 1 425 ₪ ; bénéfice ≈ 1 500 + 25 % × 1 425 ≈ **1 860 ₪** ;
+- postes boutique ≈ 935 ₪ + 205 $ × 3,7 ≈ 1 690 ₪ ;
+- prix HT ≈ 3 550 ₪ ; **prix TTC ≈ 4 190 ₪**.
+
+Question ouverte : avec un diamant **naturel** de 1 ct (plusieurs milliers de dollars), le plafond de 3 000 ₪ convient-il, ou faut-il une catégorie à part ?
+
 ## Manque, avant tout prix calculé
 
-1. **Postes en USD : coût ou prix client ?** Le diamant à 132 USD ressemble à un prix d'achat. Quelle marge s'applique aux pierres et à la façon ?
-2. **Double comptage possible** : les 370–380 ILS/g du métal incluent-ils déjà la fonte et le polissage (10 USD/g) ? L'atelier signale lui-même un risque de double comptage entre polissage final et rhodiage.
-3. **Taux de change** USD → ILS (et EUR) : source et fréquence de mise à jour.
-4. **Platine** : prix au gramme.
-5. **Marge variable** : règle par catégorie (par exemple solitaire classique / bijou personnalisé / pièce complexe) ou décision au cas par cas ?
+1. ~~Postes en USD : coût ou prix client ?~~ Prix boutique ; bénéfice à part (4/11).
+2. ~~Double comptage~~ : métal et fabrication facturés séparément (4/11) [I]. Reste le doute signalé entre polissage final et rhodiage.
+3. **Taux de change** USD → ILS : proposition, taux représentatif de la Banque d'Israël, mis à jour chaque jour ouvré.
+4. **Platine** : prix au gramme, en cours auprès des fonderies.
+5. **Bénéfice** : valider la formule et le tableau ci-dessus.
 6. **Prix des pierres** : grille par forme, poids, couleur, pureté et origine, avec et sans certificat.
-7. **Poids** : densités des alliages et taux de perte. À défaut, utiliser le poids mesuré sur la maquette, affiché « ≈ » avec ±5 % (unique exemple réel : 4,5 g estimés, 4,35 g fabriqués, −3,3 %).
+7. **Poids** : densités des alliages et taux de perte. À défaut, poids mesuré sur la maquette, affiché « ≈ » avec ±5 %.
 8. **Arrondi** et **durée de validité** d'un prix.
 9. **Vingt configurations de référence** chiffrées à la main pour tester le moteur.
 
@@ -75,11 +101,10 @@ Avec une marge variable, le site affiche un **prix indicatif** (« à partir de 
 
 - Code : `src/lib/pricing/engine.ts` ; paramètres de l'atelier : `src/config/pricing.ts` ; tests : `tests/unit/pricing.test.ts`.
 - Sortie : prix indicatif en ₪, hors taxe et TTC (TVA 18 %), sous forme de fourchette, avec le détail par poste, et un prix « à partir de » (bas de fourchette TTC, arrondi à la dizaine inférieure).
-- Tant qu'un paramètre manque, le moteur **refuse de calculer** et liste les manques. Avec les paramètres actuels, il répond : double comptage de la fonte non tranché, marge sur les postes en USD inconnue, taux de change non choisi. S'y ajoutent, selon la configuration, le prix du platine et le prix des pierres.
+- Tant qu'un paramètre manque, le moteur **refuse de calculer** et liste les manques. Avec les paramètres actuels, il répond : règle de bénéfice non validée, taux de change non choisi. S'y ajoutent, selon la configuration, le prix du platine et le prix des pierres.
 - Hypothèses de structure à faire valider [S] :
-  1. le prix du métal en ₪/g est déjà un prix client, sans marge supplémentaire ;
-  2. une seule majoration s'applique à tous les postes en USD (pierres comprises) ;
-  3. le poids est pris à ±5 %.
+  1. le bénéfice se calcule sur les matières (métal + pierres), pas sur la façon ;
+  2. le poids est pris à ±5 %.
 - L'exemple de référence ci-dessus est retrouvé exactement par les tests (métal 925–950 ₪, postes en USD 202–207 $).
 
 ## Données déjà disponibles dans le projet

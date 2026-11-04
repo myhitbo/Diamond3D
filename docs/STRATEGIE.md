@@ -165,6 +165,9 @@ DD Diamond, Alyra et iJewel ne promettent aucune de ces trois choses ensemble [V
 | 4 | Capacité en plus | **Illimitée** | Pas de liste d'attente ni de quota. Le délai de 14 jours ouvrés reste la seule promesse. À revoir si le délai réel dérape [I]. |
 | 5 | Budget d'acquisition | **Selon les revenus** | Démarrage sans budget fixe : acquisition gratuite d'abord (communauté, WhatsApp, prescripteurs, vidéos tirées de la 3D, SEO). Publicité payante ensuite, financée par une part de la marge des ventes (pourcentage à fixer) [I]. |
 
+### Marges : un argument pour la France, plus tard (4/11)
+Yonathan : en Israël, 1 500 à 3 000 ₪ de bénéfice sur une bague de fiançailles en diamant synthétique ; en France, les bijoutiers prennent au moins 1 000 € [témoignage, non vérifié]. Conséquence [I] : en France, JR Diamond pourra afficher une marge confortable **et** un prix nettement inférieur à celui des bijoutiers, même après TVA d'importation et transport assuré. Cela confirme la France comme deuxième marché, pas comme priorité.
+
 ### Droit israélien applicable dès le lancement
 - **Annulation d'une vente à distance** : 14 jours à compter de la réception du bien ou du document récapitulatif, le plus tardif des deux. Frais d'annulation : au plus 5 % du prix ou 100 ₪, le moins élevé des deux [V, sources secondaires concordantes].
 - **Exception sur mesure** : les biens fabriqués spécialement à la demande du client sont exclus du droit d'annulation (art. 14c de la loi de protection du consommateur de 1981, et règlement d'annulation de 2010 : « fabriqués spécialement selon des mesures ou exigences particulières ») [V, deux sources concordantes, texte officiel non lu].

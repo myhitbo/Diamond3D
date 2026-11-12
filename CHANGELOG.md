@@ -1,5 +1,12 @@
 # Historique
 
+## 0.1.3 — 2026-11-13 — Branche `main` et déploiement continu
+
+- Fusion des deux branches de travail du 4/11 dans `main`, désormais branche par défaut du dépôt.
+- Fichiers CAO de ring-001 versionnés dans le dépôt privé (`cad/originals/`), modifiables. Une empreinte différente de la recette ne bloque plus la conversion : elle est signalée et enregistrée.
+- `npm run preview:build` : préversion autonome publiable sur claude.ai (page unique, modèle intégré).
+- Projet Vercel `jr-diamond` relié au dépôt GitHub : déploiement automatique à chaque push, accès protégé par la connexion Vercel.
+
 ## 0.1.2 — 2026-11-04 — Or 14 carats, libellés, moteur de prix
 
 - Or 14 carats jaune, blanc et rose. Le métal se choisit en deux temps : couleur, puis titre (14 ou 18 carats ; aucun pour le platine).

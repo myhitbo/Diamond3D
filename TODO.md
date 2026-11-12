@@ -1,14 +1,14 @@
 # À faire
 
 ## Bloquant avant la suite
-- [x] Aperçu en ligne privé (4/11) : https://jr-diamond-apercu-hil123s-projects.vercel.app (projet Vercel `jr-diamond-apercu`, non indexé, sans protection Vercel pour que l'atelier l'ouvre). Mis à jour à la main : il faut redéployer après chaque modification.
-- [ ] Test sur appareils réels : iPhone (Safari), Android milieu de gamme, ordinateur avec GPU. Une préversion privée nécessite ton accord.
+- [x] Aperçu en ligne relié à GitHub (13/11) : projet Vercel `jr-diamond` (équipe `diamond3-d`), https://jr-diamond.vercel.app, redéployé automatiquement à chaque push sur `main` ; chaque branche a son lien de prévisualisation. Protégé par la connexion Vercel : pour l'atelier, créer un lien de partage. L'ancien aperçu `jr-diamond-apercu` (compte hil123) n'est plus mis à jour.
+- [ ] Test sur appareils réels avec l'aperçu `jr-diamond` : iPhone (Safari), Android milieu de gamme, ordinateur avec GPU.
 - [ ] Relancer la campagne de mesure complète (`scripts/perf/measure.mjs`), interrompue deux fois.
 - [x] Suite navigateur complète relancée le 3/11 : 28/28 (Chromium, rendu logiciel).
 - [x] Réponse de l'atelier pour ring-001 (3/11) : griffes à replier et « 8 » à supprimer sur la version web ; le maquettiste ne peut pas le faire.
 - [x] Retouche web de ring-001 (3/11) : griffes rabattues, plaques en « 8 » supprimées, modèle publié. Planche : `docs/images/retouche-ring-001-avant-apres.jpg`.
 - [ ] Faire valider la planche avant/après par l'atelier (attention aux deux griffes de pointe de la marquise, qui forment un biseau de profil).
-- [ ] À réception de `Ring.3dm`, régénérer avec `npm run models:extract -- ring-001` : la retouche est refaite sur le GLB brut.
+- [ ] `Ring.3dm` est dans `cad/originals/` (versionné le 4/11) : régénérer avec `npm run models:extract -- ring-001` et vérifier que la retouche est refaite à l'identique sur le GLB brut.
 - [ ] Teintes des métaux conformes aux photos : en attente des photos studio de l'atelier.
 
 ## Modèles

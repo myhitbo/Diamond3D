@@ -1,6 +1,6 @@
 # Mémoire du projet JR Diamond
 
-Mise à jour : 4 novembre 2026. Ce fichier résume l'état du projet pour reprendre le travail sans relire tout l'historique.
+Mise à jour : 13 novembre 2026. Ce fichier résume l'état du projet pour reprendre le travail sans relire tout l'historique.
 Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers de fond).
 
 ## Le projet en bref
@@ -10,10 +10,10 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 
 ## Conventions
 - Réponses à l'utilisateur en **français**, denses, avec la distinction vérifié / inféré / supposé. Faits vérifiés par recherche, sources citées.
-- Branche de travail : `ccr-297332c6-4qfws6`. Commit et push à chaque étape, **pas de PR** sauf demande.
+- Branche principale : **`main`** (branche par défaut, déployée en production sur Vercel). Les anciennes branches `ccr-297332c6-4qfws6` et `ccr-a0d79d3c-glq4h2` y sont fusionnées. Commit et push à chaque étape, **pas de PR** sauf demande.
 - Code : guillemets simples, largeur ~160. Il n'y a **pas** de configuration Prettier : ne pas lancer `npx prettier` sans `--single-quote --print-width 160`.
 - Libellés légaux : en français, « synthétique » (décret 2002-65 ; « de laboratoire » est interdit). Synthétique ≠ imitation.
-- Les originaux CAO ne sont jamais versionnés (`cad/originals/` et `cad/intermediate/` sont ignorés par git).
+- Les fichiers CAO de l'atelier **sont versionnés** dans ce dépôt privé (`cad/originals/`, décision du 4/11 au soir) ; le pipeline les lit sans les réécrire. `cad/intermediate/` reste ignoré. Si le dépôt devient public, ces fichiers le deviennent aussi.
 
 ## Environnement (session cloud)
 - Chromium : `/opt/pw-browsers/chromium-1243/chrome-linux64/chrome`. Tests navigateur : `CHROMIUM_PATH=… npx playwright test`.
@@ -22,9 +22,10 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - Vérifications : `npm run typecheck && npm run lint && npm test && npm run build && npm run test:e2e`. État au 4/11 : 30 tests unitaires et 42 tests navigateur, tous verts.
 
 ## Aperçu en ligne
-- https://jr-diamond-apercu-hil123s-projects.vercel.app : projet Vercel `jr-diamond-apercu` (équipe `team_MA1v4n2V2iSLC5Y3vGOmQZ9S`, projet `prj_Or6iUhOdvGx8KE9g0OR7ZO0kJLHZ`).
-- Fermé à Google, protection Vercel retirée pour que l'atelier puisse l'ouvrir.
-- **Pas relié à GitHub** : après chaque modification, republier avec `create_deployment` (gitSource github `hil123/bijoux-3d`, ref de la branche, sha du commit, target production).
+- **https://jr-diamond.vercel.app** : projet Vercel `jr-diamond` (équipe `diamond3-d`, `team_AaIv8uYfh5BjwUqYEuH8WbiZ`, projet `prj_sEIRWdvN7CniQl0HdoZCqWyykDeb`), **relié au dépôt GitHub `myhitbo/Diamond3D`** : chaque push sur `main` redéploie la production, chaque autre branche reçoit un lien de prévisualisation.
+- Fermé à Google (`noindex`). Protégé par la connexion Vercel (toutes les adresses `.vercel.app`) : pour l'atelier ou un téléphone, créer un lien de partage (`get_access_to_vercel_url`, valable 23 h).
+- Ancien aperçu `jr-diamond-apercu` (compte hil123, non relié à GitHub) : n'est plus mis à jour.
+- Préversion claude.ai (page unique, sans Next.js) : `npm run preview:build`.
 
 ## Ce qui est fait
 - **Prototype 3D (phase 2)** : pipeline `.3dm` → GLB optimisé (0,19 Mo), configurateur Next.js 16 / React Three Fiber, modèle pilote `ring-001` (ensemble marquise).

@@ -2,7 +2,7 @@
 
 ## Règles
 
-- Les fichiers originaux de fabrication sont **en lecture seule** dans `cad/originals/` (`chmod 444`). Ils ne sont jamais modifiés et jamais versionnés. Leur empreinte SHA-256 est vérifiée à chaque extraction.
+- Les fichiers de fabrication sont dans `cad/originals/`, versionnés dans le dépôt privé. Le pipeline les **lit sans jamais les réécrire**. Leur empreinte SHA-256 est comparée à celle de la recette : un fichier retravaillé est signalé, converti, et son empreinte est enregistrée dans `geometry.json`.
 - Le pipeline **ne crée aucune géométrie** : il réutilise les maillages de rendu que Rhino enregistre dans le `.3dm`, avec leurs normales, et les regroupe selon une recette.
 - Chaque objet des calques de production doit être affecté à **exactement une** pièce, sinon l'extraction échoue.
 - Les pierres ne sont **jamais simplifiées** (facettes exactes).
@@ -36,7 +36,7 @@ Brut : 142 064 triangles de métal, 4,2 Mo. L'écart retenu (2 centièmes de mm)
 
 ## Ajouter un nouveau modèle
 
-1. Copier les fichiers dans `cad/originals/` (lecture seule).
+1. Copier les fichiers dans `cad/originals/`.
 2. Inventorier le fichier : calques, groupes, blocs de pierres. Le script d'audit de la phase 0 peut servir de base.
 3. Écrire `pipeline/recipes/<id>.json` : empreinte, calques de production, pièces et sélecteurs.
 4. `npm run models:extract -- <id>` : l'extraction échoue tant qu'un objet n'est pas affecté.

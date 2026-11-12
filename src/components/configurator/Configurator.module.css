@@ -404,3 +404,98 @@ aside > .details {
     height: 44px;
   }
 }
+
+/* ---------- Demande de devis ---------- */
+
+.quote {
+  margin-top: 24px;
+  padding: 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  scroll-margin-top: 16px;
+}
+
+.form {
+  display: grid;
+  gap: 16px;
+  margin-top: 18px;
+}
+
+.label {
+  display: grid;
+  gap: 6px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 16px; /* évite le zoom automatique d'iOS */
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+textarea.input {
+  resize: vertical;
+}
+
+.input:focus-visible,
+.file:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.file {
+  max-width: 100%;
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--ink);
+}
+
+.check {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 10px;
+  align-items: start;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.check input {
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--ink);
+}
+
+/* Masqué sans décalage hors écran : un décalage à gauche crée un défilement horizontal en hébreu (RTL). */
+.trap {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.error {
+  margin: 0;
+  padding: 10px 12px;
+  border-left: 2px solid #9b2c2c;
+  background: #fbefec;
+  color: #7a1f1f;
+  font-size: 13px;
+  line-height: 1.5;
+}

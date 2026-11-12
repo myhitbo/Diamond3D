@@ -10,6 +10,7 @@ import type { ConfigState, Locale, ModelDefinition } from '@/lib/configurator/sc
 import { applyChange, defaultState, metalFamilies, metalTitres, metalWeightEstimateG, pickMetal, stoneSummary, visibleNodes } from '@/lib/configurator/logic';
 import type { Quality, ViewName } from './Viewer';
 import { initProbe } from './debugProbe';
+import QuoteForm from './QuoteForm';
 import styles from './Configurator.module.css';
 
 // Le moteur 3D n'est chargé qu'à l'affichage du configurateur : il ne pèse pas sur le reste du site.
@@ -36,7 +37,16 @@ function hasWebGL() {
   }
 }
 
-export default function Configurator({ modelId, locale }: { modelId: string; locale: Locale }) {
+export default function Configurator({
+  modelId,
+  locale,
+  quoteEnabled = true,
+}: {
+  modelId: string;
+  locale: Locale;
+  /** Faux dans la préversion autonome, qui n'a pas de serveur pour envoyer la demande. */
+  quoteEnabled?: boolean;
+}) {
   const model = getModel(modelId)!;
   const t = DICTIONARIES[locale];
   const [state, dispatch] = useReducer(
@@ -52,6 +62,7 @@ export default function Configurator({ modelId, locale }: { modelId: string; loc
   const [webgl, setWebgl] = useState<boolean | null>(null);
   const [quality, setQuality] = useState<Quality>('high');
   const [debug, setDebug] = useState(false);
+  const [quoteOpen, setQuoteOpen] = useState(false);
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
@@ -295,16 +306,30 @@ export default function Configurator({ modelId, locale }: { modelId: string; loc
           </dl>
           <p className={styles.note}>{t.weightNote}</p>
           <p className={styles.note}>{t.priceNote}</p>
-          <button type="button" className={styles.primary} disabled aria-describedby="quote-soon">
-            {t.requestQuote}
-          </button>
-          <p id="quote-soon" className={styles.note}>
-            {t.requestQuoteSoon}
-          </p>
+          {quoteEnabled ? (
+            <button type="button" className={styles.primary} aria-expanded={quoteOpen} aria-controls="quote-form" onClick={() => setQuoteOpen(true)}>
+              {t.requestQuote}
+            </button>
+          ) : (
+            <>
+              <button type="button" className={styles.primary} disabled aria-describedby="quote-site-only">
+                {t.requestQuote}
+              </button>
+              <p id="quote-site-only" className={styles.note}>
+                {t.requestQuoteSiteOnly}
+              </p>
+            </>
+          )}
           <button type="button" className={styles.textButton} onClick={reset}>
             {t.reset}
           </button>
         </section>
+
+        {quoteEnabled && (
+          <div id="quote-form">
+            {quoteOpen && <QuoteForm modelId={modelId} locale={locale} state={state} t={t.quote} onClose={() => setQuoteOpen(false)} />}
+          </div>
+        )}
 
         <details className={styles.details}>
           <summary>{t.technical}</summary>

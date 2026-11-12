@@ -48,7 +48,7 @@ function App() {
         </nav>
       </header>
       <main>
-        <Configurator key={locale} modelId="ring-001" locale={locale} />
+        <Configurator key={locale} modelId="ring-001" locale={locale} quoteEnabled={false} />
       </main>
     </>
   );

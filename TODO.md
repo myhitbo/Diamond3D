@@ -46,7 +46,10 @@
 ## Site
 - [x] Délai affiché : 14 jours ouvrés (4/11).
 - [ ] Paiement intégral sur le site.
-- [ ] Phase 4 : formulaire de devis (configuration, coordonnées, photos) et choix du stockage.
+- [x] Phase 4, version légère : formulaire de devis envoyé par e-mail (sans base de données), FR/EN/HE, case d'accord pour les photos et vidéos de fabrication.
+- [ ] Devis : choisir le compte SMTP de l'atelier et renseigner les variables sur Vercel ; tester la réception réelle (Gmail, Outlook).
+- [ ] Devis : mentions de confidentialité (droit israélien, RGPD pour la France) à rédiger et à lier depuis le formulaire.
+- [ ] Devis : si le volume augmente, stockage des demandes (Supabase ou équivalent) et limitation anti-abus partagée entre instances.
 - [ ] Adresses traduites (`/en/configurator/…`).
 - [ ] Tests Safari et Firefox.
 - [ ] Calibrer les teintes des métaux sur des photos authentiques.

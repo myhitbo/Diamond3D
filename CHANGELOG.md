@@ -1,5 +1,13 @@
 # Historique
 
+## 0.2.0 — 2026-11-13 — Devis par e-mail (phase 4, version légère)
+
+- Formulaire « Demander un devis » sous le récapitulatif (FR/EN) : nom, e-mail, téléphone, taille, message, jusqu'à 3 photos, consentement.
+- Route `POST /api/devis` : configuration revalidée sur la définition du modèle, récapitulatif recalculé côté serveur, envoi SMTP (nodemailer) avec photos jointes et réponse directe au client. Aucune base de données.
+- Champ piège anti-robots, limitation par IP, limites de taille des photos partagées entre navigateur et serveur. Mode `QUOTE_DRY_RUN` pour le développement et les tests.
+- Tests : 12 tests unitaires et 12 tests navigateur supplémentaires ; suite navigateur complète rejouée (40/40).
+- Préversion claude.ai : bouton de devis désactivé (pas de serveur).
+
 ## 0.1.1 — 2026-11-04
 
 - Fichiers CAO de ring-001 versionnés dans le dépôt privé (`cad/originals/`), modifiables. Une empreinte différente de la recette ne bloque plus la conversion : elle est signalée et enregistrée.

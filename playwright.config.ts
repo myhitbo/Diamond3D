@@ -18,7 +18,8 @@ export default defineConfig({
     command: 'node node_modules/next/dist/bin/next start -p 3100',
     url: 'http://localhost:3100/fr/configurateur/ring-001',
     reuseExistingServer: true,
-    env: { NEXT_TELEMETRY_DISABLED: '1' },
+    // Devis : envoi simulé (aucun e-mail réel pendant les tests).
+    env: { NEXT_TELEMETRY_DISABLED: '1', QUOTE_DRY_RUN: '1' },
   },
   projects: [
     { name: 'desktop', use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } } },

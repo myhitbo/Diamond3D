@@ -49,7 +49,7 @@ test('affiche « sur devis » et aucun montant', async ({ page }) => {
   await page.goto(URL);
   await expect(page.getByText('Sur devis', { exact: true })).toBeVisible();
   await expect(page.locator('body')).not.toContainText(/[€$₪]|\bEUR\b|\bILS\b|\bUSD\b/);
-  await expect(page.getByRole('button', { name: 'Demander un devis' })).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Demander un devis' })).toBeEnabled();
 });
 
 test('les formes non modélisées sont signalées comme indisponibles', async ({ page }) => {

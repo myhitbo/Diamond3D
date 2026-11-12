@@ -20,7 +20,7 @@ Légende : **[V]** vérifié par un test ou une mesure exécutés · **[E]** est
   - **Origine du diamant** : présentée comme sans effet visuel ;
   - **Taille** : affichée telle que modélisée (51½ France, Ø 16,39 mm).
 - Récapitulatif : prix « Sur devis », sans aucun montant. Poids de métal **estimé** (volume CAO × densité nominale publiée) et carats **estimés**, tous deux étiquetés comme estimations.
-- Le bouton « Demander un devis » est désactivé : le formulaire relève de la phase 4.
+- Le bouton « Demander un devis » ouvre désormais le formulaire de la phase 4 (version légère, envoi par e-mail ; voir le README).
 
 ## B. Modèle web
 

@@ -1,7 +1,7 @@
 # JR Diamond — plateforme de joaillerie et configurateur 3D
 
 Prototype technique (phase 2) : un configurateur 3D construit à partir d'un vrai fichier CAO Rhino de l'atelier.
-Le site complet, les devis et le paiement ne sont pas encore développés.
+Le formulaire de devis (phase 4, version légère) envoie les demandes par e-mail. Le site complet et le paiement ne sont pas encore développés.
 
 - Rapport du prototype (mesures, tests, limites, estimations) : [`docs/PROTOTYPE_REPORT.md`](docs/PROTOTYPE_REPORT.md)
 - Architecture : [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
@@ -22,6 +22,21 @@ npm start            # http://localhost:3000 → configurateur du modèle pilote
 Le modèle web (`public/models/ring-001/ring-001.glb`) et ses métadonnées (`src/models/ring-001/`) sont versionnés :
 il n'est pas nécessaire de disposer du fichier CAO pour lancer le site.
 
+## Demandes de devis (e-mail, sans base de données)
+
+Le bouton « Demander un devis » ouvre un formulaire (coordonnées, taille, message, 3 photos au plus).
+La route `POST /api/devis` revalide la configuration sur la définition du modèle, recalcule le récapitulatif
+et l'envoie par SMTP à l'atelier, photos en pièces jointes ; « Répondre » écrit directement au client.
+Rien n'est stocké sur le serveur.
+
+Configuration : copier `.env.example` en `.env.local` et renseigner `QUOTE_TO`, `QUOTE_FROM`, `SMTP_*`.
+Sans ces variables, la route répond 503 et le formulaire affiche un message d'indisponibilité.
+`QUOTE_DRY_RUN=1` n'envoie rien et écrit l'e-mail dans le journal du serveur (utilisé par les tests navigateur).
+
+Protections : champ piège anti-robots, 5 demandes par IP et par 10 minutes (en mémoire, instance unique),
+photos JPEG/PNG/WebP/HEIC de 3 Mo chacune et 4 Mo en tout. La préversion claude.ai n'a pas de serveur :
+le bouton y reste désactivé.
+
 ## Régénérer un modèle depuis le fichier CAO
 
 Les fichiers CAO sont dans `cad/originals/` (dépôt privé, voir [`cad/README.md`](cad/README.md)).
@@ -38,7 +53,7 @@ npm run models:validate              # contrôle définition + GLB avant publica
 npm run typecheck && npm run lint
 npm test                                   # logique du configurateur (Vitest)
 .venv/bin/python -m pytest pipeline/tests  # pipeline CAO (nécessite cad/originals/)
-npm run build && npm run test:e2e          # navigateur, ordinateur + mobile émulé (Playwright)
+npm run build && npm run test:e2e          # navigateur, ordinateur + mobile émulé (Playwright), devis en envoi simulé
 ```
 
 Dans un environnement sans navigateur Playwright téléchargé, indiquer Chromium avec `CHROMIUM_PATH=/chemin/vers/chrome`.

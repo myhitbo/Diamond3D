@@ -67,6 +67,8 @@ export default function Configurator({
   const [quality, setQuality] = useState<Quality>('high');
   const [debug, setDebug] = useState(false);
   const [quoteOpen, setQuoteOpen] = useState(false);
+  /** Forme non modélisée demandée par un bouton « sur demande » : pré-remplit le message du devis. */
+  const [requestedShape, setRequestedShape] = useState<string | null>(null);
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
@@ -237,14 +239,30 @@ export default function Configurator({
             )}
             {centerSlot.otherSizesOnRequest && <p className={styles.note}>{t.otherSizesNote}</p>}
             {centerSlot.unavailableShapes.length > 0 && (
-              <details className={styles.details}>
-                <summary>
+              <div className={styles.onRequest}>
+                <p className={styles.onRequestTitle} id="other-shapes-title">
                   {t.otherShapes}
-                  {t.colon}
-                  {centerSlot.unavailableShapes.map((u) => t.shapes[u.shape]).join(', ')}
-                </summary>
+                </p>
+                <div className={styles.choices} role="group" aria-labelledby="other-shapes-title">
+                  {centerSlot.unavailableShapes.map((u) => (
+                    <button
+                      key={u.shape}
+                      type="button"
+                      className={styles.choiceOnRequest}
+                      disabled={!quoteEnabled}
+                      aria-controls={quoteEnabled ? 'quote-form' : undefined}
+                      onClick={() => {
+                        setRequestedShape(t.shapes[u.shape]);
+                        setQuoteOpen(true);
+                      }}
+                    >
+                      {t.shapes[u.shape]}
+                      <span className={styles.onRequestTag}>{t.onRequest}</span>
+                    </button>
+                  ))}
+                </div>
                 <p className={styles.note}>{t.otherShapesNote}</p>
-              </details>
+              </div>
             )}
           </Field>
         )}
@@ -344,7 +362,19 @@ export default function Configurator({
 
         {quoteEnabled && (
           <div id="quote-form">
-            {quoteOpen && <QuoteForm modelId={modelId} locale={locale} state={state} t={t.quote} onClose={() => setQuoteOpen(false)} />}
+            {quoteOpen && (
+              <QuoteForm
+                modelId={modelId}
+                locale={locale}
+                state={state}
+                t={t.quote}
+                suggestedMessage={requestedShape ? t.shapeRequestMessage(requestedShape) : undefined}
+                onClose={() => {
+                  setQuoteOpen(false);
+                  setRequestedShape(null);
+                }}
+              />
+            )}
           </div>
         )}
 

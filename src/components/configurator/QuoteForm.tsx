@@ -25,17 +25,31 @@ export default function QuoteForm({
   locale,
   state,
   t,
+  suggestedMessage,
   onClose,
 }: {
   modelId: string;
   locale: Locale;
   state: ConfigState;
   t: Dict['quote'];
+  /** Texte proposé pour le message (ex. forme de pierre demandée). N'écrase jamais ce que la personne a écrit. */
+  suggestedMessage?: string;
   onClose: () => void;
 }) {
   const [status, setStatus] = useState<Status>({ kind: 'idle' });
   const first = useRef<HTMLInputElement>(null);
   const done = useRef<HTMLParagraphElement>(null);
+  const message = useRef<HTMLTextAreaElement>(null);
+  const lastSuggestion = useRef('');
+
+  // Pose le texte proposé si le champ est vide ou contient encore la proposition précédente.
+  useEffect(() => {
+    const field = message.current;
+    if (!field || !suggestedMessage) return;
+    if (field.value === '' || field.value === lastSuggestion.current) field.value = suggestedMessage;
+    lastSuggestion.current = suggestedMessage;
+    field.closest('section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [suggestedMessage]);
 
   useEffect(() => {
     first.current?.focus({ preventScroll: true });
@@ -111,7 +125,7 @@ export default function QuoteForm({
         </label>
         <label className={styles.label}>
           {t.fieldNames.message}
-          <textarea className={styles.input} name="message" rows={4} maxLength={3000} placeholder={t.messagePlaceholder} />
+          <textarea ref={message} className={styles.input} name="message" rows={4} maxLength={3000} placeholder={t.messagePlaceholder} />
         </label>
         <label className={styles.label}>
           {t.fieldNames.photos}

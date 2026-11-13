@@ -216,6 +216,46 @@
   background: var(--paper);
 }
 
+/* Formes non modélisées : cliquables (ouvrent le devis), mais visiblement à part des choix réels. */
+.onRequest {
+  margin-top: 14px;
+}
+
+.onRequestTitle {
+  margin: 0 0 8px;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.choiceOnRequest {
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px dashed var(--line);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.choiceOnRequest:hover:not(:disabled) {
+  border-color: var(--gold-soft);
+  color: var(--ink);
+}
+
+.choiceOnRequest:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.onRequestTag {
+  margin-inline-start: 8px;
+  font-size: 11px;
+  font-style: italic;
+}
+
 .swatches {
   display: flex;
   gap: 14px;
@@ -395,7 +435,8 @@ aside > .details {
     padding: 28px 16px 48px;
   }
 
-  .choice {
+  .choice,
+  .choiceOnRequest {
     min-height: 44px;
   }
 

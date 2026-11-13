@@ -67,11 +67,36 @@ test('affiche « sur devis » et aucun montant', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Demander un devis' })).toBeEnabled();
 });
 
-test('les formes non modélisées sont signalées comme indisponibles', async ({ page }) => {
+test('les formes non modélisées sont proposées « sur demande » et pré-remplissent le devis', async ({ page }) => {
   await page.goto(URL);
   const stoneGroup = page.getByRole('radiogroup', { name: 'Pierre centrale' });
   await expect(stoneGroup.getByRole('radio')).toHaveCount(1);
-  await expect(page.getByText(/Autres formes : Ronde, Ovale, Poire/)).toBeVisible();
+  const others = page.getByRole('group', { name: 'Autres formes' });
+  await expect(others.getByRole('button')).toHaveCount(5);
+  await others.getByRole('button', { name: /Ovale/ }).click();
+  await expect(page.getByRole('heading', { name: 'Demande de devis' })).toBeVisible();
+  await expect(page.getByLabel('Message')).toHaveValue('Je souhaite ce bijou avec une pierre centrale de forme : Ovale.');
+  // Une autre forme remplace la proposition tant que la personne n'a rien écrit elle-même…
+  await others.getByRole('button', { name: /Poire/ }).click();
+  await expect(page.getByLabel('Message')).toHaveValue('Je souhaite ce bijou avec une pierre centrale de forme : Poire.');
+  // … mais n'écrase jamais son propre texte.
+  await page.getByLabel('Message').fill('Mon texte');
+  await others.getByRole('button', { name: /Ronde/ }).click();
+  await expect(page.getByLabel('Message')).toHaveValue('Mon texte');
+  // La 3D ne change pas : la pierre affichée reste la marquise.
+  await expect(stoneGroup.getByRole('radio', { name: /Marquise/ })).toHaveAttribute('aria-checked', 'true');
+});
+
+test('en-tête mobile : aucun lien sur deux lignes', async ({ page }) => {
+  for (const locale of ['fr', 'en', 'he']) {
+    await page.goto(`/${locale}/configurateur/ring-001`);
+    const link = page.locator('.site-nav a').first();
+    const box = (await link.boundingBox())!;
+    expect(box.height, locale).toBeLessThan(30);
+    const header = (await page.locator('.site-header').boundingBox())!;
+    expect(header.height, locale).toBeLessThan(80);
+    await expect(link).toHaveAccessibleName(/Questions fréquentes|FAQ|שאלות נפוצות/);
+  }
 });
 
 test('le poids de la pierre centrale est affiché, autres tailles sur demande', async ({ page }) => {

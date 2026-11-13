@@ -140,3 +140,27 @@ html[lang='he'] .wordmark {
 html[lang='he'] body *:not(.wordmark) {
   letter-spacing: 0 !important;
 }
+
+/* En-tête : rien ne passe à la ligne ; libellé court de la FAQ sur mobile. */
+.site-nav a {
+  white-space: nowrap;
+}
+
+.nav-short {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .nav-long {
+    display: none;
+  }
+  .nav-short {
+    display: inline;
+  }
+  .site-nav {
+    gap: 14px;
+  }
+  .wordmark {
+    letter-spacing: 0.22em;
+  }
+}

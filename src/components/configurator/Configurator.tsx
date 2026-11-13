@@ -9,7 +9,8 @@ import { DICTIONARIES, formatNumber } from '@/i18n/dictionaries';
 import type { ConfigState, Locale, ModelDefinition } from '@/lib/configurator/schema';
 import { applyChange, defaultState, metalFamilies, metalTitres, metalWeightEstimateG, pickMetal, stoneSummary, visibleNodes } from '@/lib/configurator/logic';
 import type { Quality, ViewName } from './Viewer';
-import { initProbe } from './debugProbe';
+import { initProbe, setProbe } from './debugProbe';
+import DiagnosticPanel from './DiagnosticPanel';
 import QuoteForm from './QuoteForm';
 import styles from './Configurator.module.css';
 
@@ -41,11 +42,14 @@ export default function Configurator({
   modelId,
   locale,
   quoteEnabled = true,
+  diagnostic = false,
 }: {
   modelId: string;
   locale: Locale;
   /** Faux dans la préversion autonome, qui n'a pas de serveur pour envoyer la demande. */
   quoteEnabled?: boolean;
+  /** Page cachée /diagnostic : sonde activée d'office et panneau de mesure sous le configurateur. */
+  diagnostic?: boolean;
 }) {
   const model = getModel(modelId)!;
   const t = DICTIONARIES[locale];
@@ -67,12 +71,17 @@ export default function Configurator({
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
     /* eslint-disable react-hooks/set-state-in-effect -- lecture unique de l'environnement navigateur */
-    if (q.has('debug')) initProbe();
-    setDebug(q.has('debug'));
+    const probe = diagnostic || q.has('debug');
+    if (probe) initProbe();
+    setDebug(probe);
     if (q.get('quality') === 'low') setQuality('low');
     setWebgl(hasWebGL());
     /* eslint-enable react-hooks/set-state-in-effect */
-  }, []);
+  }, [diagnostic]);
+
+  useEffect(() => {
+    if (debug) setProbe({ quality });
+  }, [debug, quality]);
 
   const nodes = useMemo(() => Object.values(model.geometry.pieces).flatMap((p) => p.parts.map((x) => ({ name: x.node, kind: x.kind }))), [model]);
   const visible = useMemo(() => visibleNodes(model, state), [model, state]);
@@ -140,6 +149,8 @@ export default function Configurator({
       </section>
 
       <aside className={styles.panel}>
+
+        {diagnostic && <DiagnosticPanel locale={locale} />}
         <p className={styles.eyebrow}>{t.eyebrow}</p>
         <h1 className={styles.title}>{model.name[locale]}</h1>
         <p className={styles.lede}>{model.description[locale]}</p>

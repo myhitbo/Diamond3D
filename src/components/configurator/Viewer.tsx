@@ -153,13 +153,18 @@ function Rig({ view, debug, radius }: { view: ViewerProps['view']; debug?: boole
     void c.setLookAt(d.x, d.y, d.z, 0, 0, 0, view.nonce > 0 && !reduced);
   }, [view, distance, reduced]);
 
+  const invalidate = useThree((s) => s.invalidate);
   useEffect(() => {
     if (!debug) return;
     setProbe({
-      orbit: (deg: number) => void ref.current?.rotate((deg * Math.PI) / 180, 0, false),
+      // Rendu à la demande : sans invalidate(), la caméra tourne sans que la scène soit redessinée.
+      orbit: (deg: number) => {
+        void ref.current?.rotate((deg * Math.PI) / 180, 0, false);
+        invalidate();
+      },
       cameraDistance: () => ref.current?.distance ?? NaN,
     });
-  }, [debug]);
+  }, [debug, invalidate]);
 
   return (
     <CameraControls

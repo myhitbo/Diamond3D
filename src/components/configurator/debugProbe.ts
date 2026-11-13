@@ -7,6 +7,8 @@ import type * as THREE from 'three';
  */
 export type DebugProbe = {
   ready: boolean;
+  /** Niveau de rendu en cours (« high » ou « low ») ; le PerformanceMonitor peut le faire baisser. */
+  quality?: string;
   startAt: number;
   firstFrameMs?: number;
   renders: number;

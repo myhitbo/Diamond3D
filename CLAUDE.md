@@ -83,7 +83,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 ### Développement possible sans attendre
 - **Proposé, en attente du feu vert de l'utilisateur** : afficher les autres formes de pierre comme des boutons grisés « sur demande ». L'utilisateur a signalé que les diamants ne se choisissent pas.
 - Corriger, dans l'en-tête mobile, le lien « Questions fréquentes » qui passe sur deux lignes.
-- Configurer l'envoi réel des devis (variables SMTP dans Vercel) et tester la réception.
+- Configurer l'envoi réel des devis et tester la réception. **Décision en attente du propriétaire (13/11)** : il veut recevoir les devis sur WhatsApp. Options étudiées : (a) bouton « Envoyer sur WhatsApp » côté client (lien wa.me avec message pré-rempli ; gratuit ; le client appuie lui-même sur Envoyer ; photos à joindre à la main), formulaire e-mail gardé en secours ; (b) notification automatique via la WhatsApp Business Platform de Meta (numéro dédié, modèles validés, coût par message) ; (c) les deux. Il faut aussi le numéro WhatsApp de l'atelier.
 - Parcours « transformation de bijou de famille » (photos de l'ancien bijou + devis).
 - Page et guide de l'alliance de kiddouchin (dès réception du modèle).
 - Guides SEO en français : synthétique ou naturel, tailles, kiddouchin.

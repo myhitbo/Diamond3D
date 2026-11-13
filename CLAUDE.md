@@ -19,7 +19,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - Chromium : `/opt/pw-browsers/chromium-1243/chrome-linux64/chrome`. Tests navigateur : `CHROMIUM_PATH=… npx playwright test`.
 - `scripts/perf/serve-and-run.sh <script.cjs> <args>` sert le build sur le port 3100 (adresses en `/fr/configurateur/…`).
 - `?debug=1` active la sonde `window.__jr` (`ready`, `orbit(az)`, `visibleNodes`, `metalColor`). `?quality=low` force le rendu simplifié.
-- Vérifications : `npm run typecheck && npm run lint && npm test && npm run build && npm run test:e2e`. État au 4/11 : 30 tests unitaires et 42 tests navigateur, tous verts.
+- Vérifications : `npm run typecheck && npm run lint && npm test && npm run build && npm run test:e2e`. État au 13/11 : 43 tests unitaires, 58 tests navigateur et 9 tests du pipeline CAO, tous verts.
 
 ## Aperçu en ligne
 - **https://jr-diamond.vercel.app** : projet Vercel `jr-diamond` (équipe `diamond3-d`, `team_AaIv8uYfh5BjwUqYEuH8WbiZ`, projet `prj_sEIRWdvN7CniQl0HdoZCqWyykDeb`), **relié au dépôt GitHub `myhitbo/Diamond3D`** : chaque push sur `main` redéploie la production, chaque autre branche reçoit un lien de prévisualisation.
@@ -38,6 +38,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
   - poids du métal ± 5 %, délai « 14 jours ouvrés », prix « Sur devis ».
 - **Rendu des pierres** : en rendu simplifié (appareils lents), miroir à facettes. Avant, des taches blanches donnaient l'impression que « les diamants disparaissent ». Le rendu ne bascule que sous 24 images/s.
 - **Version hébreu** (`/he/…`) : sens droite-à-gauche, polices Frank Ruhl Libre et Assistant. Traduction faite par l'IA, **relecture native à faire**.
+- **Formulaire de devis** (phase 4, version légère, 13/11) : FR/EN/HE, route `POST /api/devis`, envoi SMTP à l'atelier avec photos jointes, sans base de données ; accord facultatif de publication des photos et vidéos de fabrication. Variables : `.env.example`. Sans SMTP configuré : réponse 503, message « indisponible ». Tests en envoi simulé (`QUOTE_DRY_RUN=1`).
 - **FAQ** (`/fr|en|he/faq`, contenu `src/content/faq.ts`) : 24 questions en 6 thèmes, réponses sourcées, 5 marquées « À confirmer ». Données structurées FAQPage (réponses validées seulement).
 - **Moteur de prix** (`src/lib/pricing/engine.ts`, paramètres `src/config/pricing.ts`), **non branché** :
   - postes au tarif boutique : or 14 k 370–380 ₪/g, 18 k 470–480 ₪/g, façon et sertissage en USD ;
@@ -81,7 +82,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 ### Développement possible sans attendre
 - **Proposé, en attente du feu vert de l'utilisateur** : afficher les autres formes de pierre comme des boutons grisés « sur demande ». L'utilisateur a signalé que les diamants ne se choisissent pas.
 - Corriger, dans l'en-tête mobile, le lien « Questions fréquentes » qui passe sur deux lignes.
-- Formulaire de devis (phase 4), avec la case d'accord pour publier les photos et vidéos de fabrication.
+- Configurer l'envoi réel des devis (variables SMTP dans Vercel) et tester la réception.
 - Parcours « transformation de bijou de famille » (photos de l'ancien bijou + devis).
 - Page et guide de l'alliance de kiddouchin (dès réception du modèle).
 - Guides SEO en français : synthétique ou naturel, tailles, kiddouchin.

@@ -1,5 +1,14 @@
 # Historique
 
+## 0.2.0 — 2026-11-13 — Devis par e-mail (phase 4, version légère)
+
+- Formulaire « Demander un devis » sous le récapitulatif (FR/EN/HE) : nom, e-mail, téléphone, taille, message, jusqu'à 3 photos, consentement, accord facultatif de publication des photos et vidéos de fabrication.
+- Route `POST /api/devis` : configuration revalidée sur la définition du modèle, récapitulatif recalculé côté serveur, envoi SMTP (nodemailer) avec photos jointes et réponse directe au client. Aucune base de données.
+- Champ piège anti-robots, limitation par IP, limites de taille des photos partagées entre navigateur et serveur. Mode `QUOTE_DRY_RUN` pour le développement et les tests.
+- Champ piège masqué sans décalage hors écran : en hébreu (droite-à-gauche), le décalage élargissait la page et rendait la case d'accord inatteignable sur mobile.
+- Tests : 13 tests unitaires et 16 tests navigateur supplémentaires (dont l'hébreu) ; suites complètes 43/43 et 58/58.
+- Préversion claude.ai : bouton de devis désactivé (pas de serveur).
+
 ## 0.1.3 — 2026-11-13 — Branche `main` et déploiement continu
 
 - Fusion des deux branches de travail du 4/11 dans `main`, désormais branche par défaut du dépôt.

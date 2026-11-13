@@ -1,0 +1,127 @@
+import { describe, expect, it } from 'vitest';
+import { getModel, MODELS } from '@/models';
+import { defaultState } from '@/lib/configurator/logic';
+import { buildQuoteEmail, checkPhotos, fieldsFromForm, parseQuote, PHOTO_LIMITS } from '@/lib/quote/request';
+import { mailerStatus } from '@/lib/quote/mailer';
+
+const model = MODELS['ring-001'];
+const valid = () => ({
+  modelId: 'ring-001',
+  locale: 'fr',
+  config: defaultState(model),
+  name: 'Jeanne Martin',
+  email: 'jeanne@example.com',
+  phone: '+33 6 12 34 56 78',
+  ringSize: '52',
+  message: 'Gravure « J & M »',
+  consent: true,
+  website: '',
+});
+
+describe('demande de devis : validation', () => {
+  it('accepte une demande complète', () => {
+    const r = parseQuote(valid(), getModel);
+    expect(r.ok).toBe(true);
+  });
+
+  it('champs facultatifs absents', () => {
+    const { phone: _p, ringSize: _r, message: _m, website: _w, ...min } = valid();
+    const r = parseQuote(min, getModel);
+    expect(r.ok && r.fields.phone).toBe('');
+  });
+
+  it('refuse e-mail invalide, nom vide et absence de consentement en les nommant', () => {
+    const r = parseQuote({ ...valid(), email: 'pas-un-mail', name: ' ', consent: false }, getModel);
+    expect(r.ok).toBe(false);
+    if (!r.ok && r.error.code === 'invalid') expect(r.error.fields.sort()).toEqual(['consent', 'email', 'name']);
+  });
+
+  it('signale le champ piège rempli', () => {
+    const r = parseQuote({ ...valid(), website: 'http://spam' }, getModel);
+    expect(!r.ok && r.error.code === 'invalid' && r.error.fields).toContain('website');
+  });
+
+  it('refuse un modèle inconnu', () => {
+    const r = parseQuote({ ...valid(), modelId: 'ring-999' }, getModel);
+    expect(!r.ok && r.error.code).toBe('unknown_model');
+  });
+
+  it('refuse une configuration non prévue par le modèle', () => {
+    const base = defaultState(model);
+    for (const config of [
+      { ...base, composition: 'inventee' },
+      { ...base, stones: { ...base.stones, center: 'diamant-geant' } },
+      { ...base, stones: { ...base.stones, intrus: 'x' } },
+    ]) {
+      const r = parseQuote({ ...valid(), config }, getModel);
+      expect(!r.ok && r.error.code).toBe('invalid_config');
+    }
+    expect(parseQuote({ ...valid(), config: { ...base, metal: 'argent' } }, getModel).ok).toBe(false);
+  });
+
+  it('lit un FormData (config JSON, case cochée)', () => {
+    const f = new FormData();
+    const v = valid();
+    for (const k of ['modelId', 'locale', 'name', 'email'] as const) f.set(k, v[k]);
+    f.set('config', JSON.stringify(v.config));
+    f.set('consent', 'on');
+    expect(parseQuote(fieldsFromForm(f), getModel).ok).toBe(true);
+    f.set('config', '{cassé');
+    expect(parseQuote(fieldsFromForm(f), getModel).ok).toBe(false);
+  });
+});
+
+describe('demande de devis : photos', () => {
+  const jpg = (size: number) => ({ name: 'a.jpg', type: 'image/jpeg', size });
+  it('accepte jusqu’à la limite', () => {
+    expect(checkPhotos([])).toBeNull();
+    expect(checkPhotos([jpg(1e6), jpg(1e6), jpg(1e6)])).toBeNull();
+  });
+  it('refuse nombre, type, taille unitaire et totale', () => {
+    expect(checkPhotos(Array(PHOTO_LIMITS.maxCount + 1).fill(jpg(10)))).toMatchObject({ reason: 'count' });
+    expect(checkPhotos([{ name: 'a.pdf', type: 'application/pdf', size: 10 }])).toMatchObject({ reason: 'type' });
+    expect(checkPhotos([jpg(PHOTO_LIMITS.maxBytesEach + 1)])).toMatchObject({ reason: 'size' });
+    expect(checkPhotos([jpg(2e6), jpg(2e6), jpg(1e6)])).toMatchObject({ reason: 'total' });
+  });
+});
+
+describe('demande de devis : e-mail', () => {
+  it('reprend la configuration recalculée et les coordonnées', () => {
+    const r = parseQuote(valid(), getModel);
+    if (!r.ok) throw new Error('demande invalide');
+    const { subject, text } = buildQuoteEmail(r.model, r.state, r.fields, [{ name: 'main.jpg', type: 'image/jpeg', size: 2048 }], 'https://jr.example/');
+    expect(subject).toContain('Jeanne Martin');
+    expect(text).toContain('jeanne@example.com');
+    expect(text).toContain('Gravure « J & M »');
+    expect(text).toContain('Métal : ');
+    expect(text).toContain('https://jr.example/fr/configurateur/ring-001');
+    expect(text).toContain('main.jpg (2 Ko)');
+    expect(text).toContain(JSON.stringify(r.state));
+  });
+
+  it('indique la langue hébraïque et l’accord de publication', () => {
+    const r = parseQuote({ ...valid(), locale: 'he', publishConsent: true }, getModel);
+    if (!r.ok) throw new Error('demande invalide');
+    const { text } = buildQuoteEmail(r.model, r.state, r.fields, []);
+    expect(text).toContain('Langue du client : hébreu');
+    expect(text).toContain('Publication des photos et vidéos de fabrication : accord donné');
+    const sans = parseQuote(valid(), getModel);
+    if (!sans.ok) throw new Error('demande invalide');
+    expect(buildQuoteEmail(sans.model, sans.state, sans.fields, []).text).toContain('Publication des photos et vidéos de fabrication : pas d’accord');
+  });
+
+  it('pas de saut de ligne injectable dans l’objet', () => {
+    const r = parseQuote({ ...valid(), name: 'A\r\nBcc: x@y.z' }, getModel);
+    if (!r.ok) throw new Error('demande invalide');
+    expect(buildQuoteEmail(r.model, r.state, r.fields, []).subject).not.toMatch(/[\r\n]/);
+  });
+});
+
+describe('demande de devis : configuration de l’envoi', () => {
+  it('simulation, SMTP ou non configuré', () => {
+    expect(mailerStatus({ QUOTE_DRY_RUN: '1' })).toBe('dry-run');
+    expect(mailerStatus({ SMTP_HOST: 'h', QUOTE_TO: 't@x.y', QUOTE_FROM: 'f@x.y' })).toBe('smtp');
+    expect(mailerStatus({ SMTP_HOST: 'h' })).toBe('unconfigured');
+    expect(mailerStatus({})).toBe('unconfigured');
+  });
+});

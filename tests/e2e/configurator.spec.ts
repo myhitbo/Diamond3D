@@ -87,14 +87,15 @@ test('les formes non modélisées sont proposées « sur demande » et pré-remp
   await expect(stoneGroup.getByRole('radio', { name: /Marquise/ })).toHaveAttribute('aria-checked', 'true');
 });
 
-test('en-tête mobile : aucun lien sur deux lignes', async ({ page }) => {
+test('en-tête : aucun lien sur deux lignes', async ({ page }) => {
   for (const locale of ['fr', 'en', 'he']) {
     await page.goto(`/${locale}/configurateur/ring-001`);
     const link = page.locator('.site-nav a').first();
     const box = (await link.boundingBox())!;
     expect(box.height, locale).toBeLessThan(30);
     const header = (await page.locator('.site-header').boundingBox())!;
-    expect(header.height, locale).toBeLessThan(80);
+    // Une seule rangée : environ 60 px sur téléphone, 80 px sur tablette et ordinateur (marges plus larges).
+    expect(header.height, locale).toBeLessThan(100);
     await expect(link).toHaveAccessibleName(/Questions fréquentes|FAQ|שאלות נפוצות/);
   }
 });

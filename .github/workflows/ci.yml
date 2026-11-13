@@ -28,7 +28,18 @@ jobs:
       - run: npm run lint
       - run: npm test
       - run: npm run models:validate
-      - run: npm run build
+      # Le build télécharge les polices Google : un échec réseau passager ne doit pas faire échouer la CI.
+      - name: Build (deux nouvelles tentatives si le téléchargement des polices échoue)
+        run: npm run build || (sleep 15 && npm run build) || (sleep 30 && npm run build)
+      # Construit une seule fois : les tâches navigateur réutilisent ce build.
+      - uses: actions/upload-artifact@v7
+        with:
+          name: next-build
+          path: |
+            .next
+            !.next/cache
+          include-hidden-files: true
+          retention-days: 1
 
   pipeline:
     name: Pipeline CAO (pytest)
@@ -68,7 +79,10 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npx playwright install --with-deps ${{ matrix.projet == 'iphone' && 'webkit' || 'chromium' }}
-      - run: npm run build
+      - uses: actions/download-artifact@v8
+        with:
+          name: next-build
+          path: .next
       - run: npx playwright test --project=${{ matrix.projet }}
       - name: Captures et traces en cas d'échec
         if: failure()

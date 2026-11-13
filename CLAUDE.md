@@ -24,7 +24,8 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 
 ## Aperçu en ligne
 - **https://jr-diamond.vercel.app** : projet Vercel `jr-diamond` (équipe `diamond3-d`, `team_AaIv8uYfh5BjwUqYEuH8WbiZ`, projet `prj_sEIRWdvN7CniQl0HdoZCqWyykDeb`), **relié au dépôt GitHub `myhitbo/Diamond3D`** : chaque push sur `main` redéploie la production, chaque autre branche reçoit un lien de prévisualisation.
-- **Branche de production Vercel pas encore sur `main`** (test du 13/11 : un push sur `main` part en prévisualisation ; le connecteur Vercel ne permet pas de changer ce réglage, à faire par le propriétaire). En attendant, après chaque push, déployer `main` en production via le connecteur (`create_deployment` avec `target: production` et le SHA poussé).
+- Branche de production Vercel réglée sur `main` le 14/11 via la CLI (`vercel api /v9/projects/<id>/branch -X PATCH` avec `{"branch":"main"}` ; point d'accès non documenté, celui du tableau de bord). Le connecteur Vercel MCP ne permet pas ce réglage. Vérification : `vercel api /v9/projects/<id>` → `link.productionBranch`.
+- CLI Vercel installée et connectée dans l'espace de travail cloud (`npm i -g vercel`, `vercel login` : le propriétaire approuve un code). L'espace de travail peut être réinitialisé : réinstaller si `vercel` est introuvable.
 - Fermé à Google (`noindex`). Protégé par la connexion Vercel (toutes les adresses `.vercel.app`) : pour l'atelier ou un téléphone, créer un lien de partage (`get_access_to_vercel_url`, valable 23 h).
 - Ancien aperçu `jr-diamond-apercu` (compte hil123, non relié à GitHub) : n'est plus mis à jour.
 - Préversion claude.ai (page unique, sans Next.js) : `npm run preview:build`.

@@ -2,6 +2,10 @@ import { expect, test, type Page } from '@playwright/test';
 
 const shot = async (page: Page) => (await page.locator('canvas').screenshot()).toString('base64');
 
+// Les gestes tactiles sont simulés par CDP (Chrome DevTools Protocol), propre à Chromium.
+// Sur WebKit et Firefox, ces gestes se vérifient sur appareil réel (docs/DEVICE_TESTS.md).
+test.skip(({ browserName }) => browserName !== 'chromium', 'Simulation tactile par CDP : Chromium seulement');
+
 async function open(page: Page) {
   await page.goto('/fr/configurateur/ring-001?debug=1');
   await page.waitForFunction(() => window.__jr?.ready === true, null, { timeout: 60_000 });

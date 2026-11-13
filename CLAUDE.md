@@ -19,7 +19,8 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - Chromium : `/opt/pw-browsers/chromium-1243/chrome-linux64/chrome`. Tests navigateur : `CHROMIUM_PATH=… npx playwright test`.
 - `scripts/perf/serve-and-run.sh <script.cjs> <args>` sert le build sur le port 3100 (adresses en `/fr/configurateur/…`).
 - `?debug=1` active la sonde `window.__jr` (`ready`, `orbit(az)`, `visibleNodes`, `metalColor`). `?quality=low` force le rendu simplifié.
-- Vérifications : `npm run typecheck && npm run lint && npm test && npm run build && npm run test:e2e`. État au 13/11 : 43 tests unitaires, 58 tests navigateur et 9 tests du pipeline CAO, tous verts.
+- Vérifications : `npm run typecheck && npm run lint && npm test && npm run build && npm run test:e2e` (Chromium), plus `npm run test:e2e:browsers` (WebKit iPhone/iPad, Firefox sans 3D ; `npx playwright install webkit firefox`). État au 13/11 : 43 tests unitaires, 62 navigateur Chromium, 58 WebKit, 12 Firefox, 9 pipeline CAO, tous verts. Intégration continue : `.github/workflows/ci.yml`.
+- Mesure sur appareil réel : page cachée `/fr/diagnostic` (rapport JSON), protocole `docs/DEVICE_TESTS.md`. Si le port 3100 reste occupé par un ancien `next-server` bloqué, les tests se figent : `fuser -n tcp 3100` puis `kill`.
 
 ## Aperçu en ligne
 - **https://jr-diamond.vercel.app** : projet Vercel `jr-diamond` (équipe `diamond3-d`, `team_AaIv8uYfh5BjwUqYEuH8WbiZ`, projet `prj_sEIRWdvN7CniQl0HdoZCqWyykDeb`), **relié au dépôt GitHub `myhitbo/Diamond3D`** : chaque push sur `main` redéploie la production, chaque autre branche reçoit un lien de prévisualisation.
@@ -101,6 +102,6 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
   - la bague configurée relève-t-elle de l'exception « fabriqué sur mesure » au droit d'annulation ?
   - délai étendu pour les nouveaux immigrants ?
   - poinçon obligatoire ?
-- Tests sur appareils réels (iPhone Safari, Android), campagne de mesure de performance.
+- Tests sur appareils réels (iPhone Safari, Android) avec `docs/DEVICE_TESTS.md` et `/fr/diagnostic` : outillage prêt le 13/11, tests à faire par le propriétaire. Speed Insights à activer dans le projet Vercel.
 - Retirer les badges « Brouillon » quand le modèle et la FAQ sont validés par l'atelier.
 - France (plus tard) : transitaire, transport assuré, TVA d'importation de 20 % et droits (accord UE-Israël à vérifier).

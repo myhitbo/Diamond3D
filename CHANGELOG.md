@@ -1,5 +1,15 @@
 # Historique
 
+## 0.2.1 — 2026-11-13 — Outillage des tests sur appareils réels
+
+- Page cachée `/fr|en|he/diagnostic` : mesure la 3D sur l'appareil (processeur graphique, téléchargement du modèle, première image, images par seconde en rotation, niveau de rendu) et produit un rapport JSON à copier ou partager. Jamais indexée.
+- Speed Insights de Vercel (Web Vitals réels), chargé seulement sur Vercel.
+- Tests WebKit (iPhone 15, iPad Pro 11) et Firefox : `npm run test:e2e:browsers`. Test « sans WebGL » rendu indépendant du navigateur ; gestes tactiles (simulés par CDP) limités à Chromium ; Firefox limité aux parcours sans 3D (pas de WebGL dans l'environnement de test).
+- Intégration continue GitHub Actions : typecheck, lint, unitaires, modèles, build, pipeline CAO, navigateur Chromium et WebKit.
+- Protocole `docs/DEVICE_TESTS.md` (FR, résumé en hébreu pour l'atelier).
+- Correction : la rotation commandée par la sonde de test ne redessinait pas la scène (rendu à la demande).
+- Tests : 43 unitaires ; navigateur 62 (Chromium), 58 (WebKit), 12 (Firefox).
+
 ## 0.2.0 — 2026-11-13 — Devis par e-mail (phase 4, version légère)
 
 - Formulaire « Demander un devis » sous le récapitulatif (FR/EN/HE) : nom, e-mail, téléphone, taille, message, jusqu'à 3 photos, consentement, accord facultatif de publication des photos et vidéos de fabrication.

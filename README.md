@@ -57,10 +57,14 @@ npm run models:validate              # contrôle définition + GLB avant publica
 npm run typecheck && npm run lint
 npm test                                   # logique du configurateur (Vitest)
 .venv/bin/python -m pytest pipeline/tests  # pipeline CAO (nécessite cad/originals/)
-npm run build && npm run test:e2e          # navigateur, ordinateur + mobile émulé (Playwright), devis en envoi simulé
+npm run build && npm run test:e2e          # navigateur, Chromium ordinateur + mobile émulé (Playwright), devis en envoi simulé
+npm run test:e2e:browsers                  # WebKit (iPhone, iPad) et Firefox : plus lent
 ```
 
-Dans un environnement sans navigateur Playwright téléchargé, indiquer Chromium avec `CHROMIUM_PATH=/chemin/vers/chrome`.
+Dans un environnement sans navigateur Playwright téléchargé, indiquer Chromium avec `CHROMIUM_PATH=/chemin/vers/chrome` ; pour WebKit et Firefox : `npx playwright install webkit firefox`.
+L'intégration continue (`.github/workflows/ci.yml`) rejoue tout cela à chaque push sur `main`, avec WebKit en iPhone.
+
+Les tests automatiques tournent en WebGL logiciel. Pour la fluidité et le rendu réels : page cachée **`/fr/diagnostic`** (mesure sur l'appareil, rapport JSON à copier) et protocole `docs/DEVICE_TESTS.md`.
 
 ## Préversion claude.ai
 

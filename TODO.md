@@ -4,7 +4,8 @@
 - [x] Aperçu en ligne relié à GitHub (13/11) : projet Vercel `jr-diamond` (équipe `diamond3-d`), https://jr-diamond.vercel.app, redéployé automatiquement à chaque push sur `main` ; chaque branche a son lien de prévisualisation. Protégé par la connexion Vercel : pour l'atelier, créer un lien de partage. L'ancien aperçu `jr-diamond-apercu` (compte hil123) n'est plus mis à jour.
 - [x] Outillage des tests réels (13/11) : page cachée `/fr|en|he/diagnostic`, Speed Insights, protocole `docs/DEVICE_TESTS.md`, tests WebKit et Firefox, intégration continue GitHub Actions.
 - [ ] Test sur appareils réels en suivant `docs/DEVICE_TESTS.md` : iPhone (Safari), Android milieu de gamme, ordinateur. Renvoyer les rapports de `/diagnostic`.
-- [ ] Activer Speed Insights dans le projet Vercel (onglet Speed Insights), sinon les mesures ne sont pas enregistrées.
+- [x] Speed Insights : script servi en production le 13/11 (`/_vercel/speed-insights/script.js` répond 200) et présent dans le code client ; premières mesures visibles dans l'onglet Speed Insights de Vercel après de vraies visites.
+- [x] Intégration continue : premier passage vert le 13/11 (5 tâches, dont WebKit iPhone). À prévoir : passer aux versions des actions GitHub qui tournent sur Node 24 (avertissement de dépréciation de Node 20).
 - [ ] Relancer la campagne de mesure complète (`scripts/perf/measure.mjs`), interrompue deux fois.
 - [x] Suite navigateur complète relancée le 3/11 : 28/28 (Chromium, rendu logiciel).
 - [x] Réponse de l'atelier pour ring-001 (3/11) : griffes à replier et « 8 » à supprimer sur la version web ; le maquettiste ne peut pas le faire.

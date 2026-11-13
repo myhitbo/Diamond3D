@@ -102,6 +102,6 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
   - la bague configurée relève-t-elle de l'exception « fabriqué sur mesure » au droit d'annulation ?
   - délai étendu pour les nouveaux immigrants ?
   - poinçon obligatoire ?
-- Tests sur appareils réels (iPhone Safari, Android) avec `docs/DEVICE_TESTS.md` et `/fr/diagnostic` : outillage prêt le 13/11, tests à faire par le propriétaire. Speed Insights à activer dans le projet Vercel.
+- Tests sur appareils réels (iPhone Safari, Android) avec `docs/DEVICE_TESTS.md` et `/fr/diagnostic` : outillage prêt le 13/11, tests à faire par le propriétaire. Speed Insights servi en production (vérifié le 13/11). Intégration continue verte (13/11).
 - Retirer les badges « Brouillon » quand le modèle et la FAQ sont validés par l'atelier.
 - France (plus tard) : transitaire, transport assuré, TVA d'importation de 20 % et droits (accord UE-Israël à vérifier).

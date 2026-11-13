@@ -1,5 +1,16 @@
 # Historique
 
+## 0.2.2 — 2026-11-14 — Formes sur demande, WhatsApp, modèle régénéré, études
+
+- Formes de pierre non modélisées : boutons « sur demande » qui ouvrent le devis avec le message pré-rempli.
+- En-tête mobile : libellé court de la FAQ, plus aucun lien sur deux lignes.
+- Devis par WhatsApp : bouton « Envoyer sur WhatsApp » (lien wa.me, message pré-rempli), affiché seulement si `NEXT_PUBLIC_WHATSAPP_NUMBER` est renseigné.
+- ring-001 régénéré depuis `Ring.3dm` ; la retouche web s'applique après la simplification (équivalent au modèle publié, écart maximal 0,001 mm).
+- Intégration continue : actions GitHub en v7 (Node 24).
+- Études : `docs/PAIEMENT.md` (encaisser en Israël) et `docs/juridique/DOSSIER_AVOCAT_IL.md` (24 questions pour l'avocat).
+- Production Vercel : branche `main` (réglée par la CLI).
+- Tests : 46 unitaires, 9 pipeline, navigateur 64 (Chromium), 60 (WebKit iPhone et iPad), 12 (Firefox).
+
 ## 0.2.1 — 2026-11-13 — Outillage des tests sur appareils réels
 
 - Page cachée `/fr|en|he/diagnostic` : mesure la 3D sur l'appareil (processeur graphique, téléchargement du modèle, première image, images par seconde en rotation, niveau de rendu) et produit un rapport JSON à copier ou partager. Jamais indexée.

@@ -50,7 +50,11 @@
 - [x] Délai affiché : 14 jours ouvrés (4/11).
 - [ ] Paiement intégral sur le site.
 - [x] Phase 4, version légère (13/11) : formulaire de devis FR/EN/HE envoyé par e-mail (sans base de données), avec accord facultatif de publication des photos et vidéos de fabrication.
-- [ ] Devis en production : choisir le compte d'envoi (SMTP de l'atelier, Gmail avec mot de passe d'application, ou Resend avec un domaine vérifié) et renseigner `QUOTE_TO`, `QUOTE_FROM`, `SMTP_*` dans Vercel. Sans ces variables, le formulaire affiche « indisponible ». Tester la réception réelle (Gmail, Outlook).
+- [ ] Devis en production : saisir dans Vercel `NEXT_PUBLIC_WHATSAPP_NUMBER` (bouton WhatsApp, prêt depuis le 14/11) et/ou `QUOTE_TO`, `QUOTE_FROM`, `SMTP_*` (e-mail), puis redéployer et tester une vraie demande.
+- [x] Formes « sur demande » cliquables, en-tête mobile sur une ligne, actions GitHub en v7 (14/11).
+- [x] Étude du paiement en Israël (`docs/PAIEMENT.md`) et dossier pour l'avocat (`docs/juridique/DOSSIER_AVOCAT_IL.md`) (14/11).
+- [ ] Paiement : ouvrir un compte Grow au nom de l'entreprise de l'atelier, demander des devis à PayPlus et Cardcom, puis développer le parcours devis → lien de paiement.
+- [ ] Juridique : compléter la partie 4 du dossier avec l'atelier et consulter un avocat israélien.
 - [ ] Devis : faire relire les textes hébreux du formulaire (traduction IA).
 - [ ] Adresses traduites (`/en/configurator/…`).
 - [ ] Tests Safari et Firefox.

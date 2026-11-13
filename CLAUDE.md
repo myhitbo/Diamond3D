@@ -1,6 +1,6 @@
 # Mémoire du projet JR Diamond
 
-Mise à jour : 13 novembre 2026. Ce fichier résume l'état du projet pour reprendre le travail sans relire tout l'historique.
+Mise à jour : 14 novembre 2026. Ce fichier résume l'état du projet pour reprendre le travail sans relire tout l'historique.
 Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers de fond).
 
 ## Le projet en bref
@@ -19,7 +19,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - Chromium : `/opt/pw-browsers/chromium-1243/chrome-linux64/chrome`. Tests navigateur : `CHROMIUM_PATH=… npx playwright test`.
 - `scripts/perf/serve-and-run.sh <script.cjs> <args>` sert le build sur le port 3100 (adresses en `/fr/configurateur/…`).
 - `?debug=1` active la sonde `window.__jr` (`ready`, `orbit(az)`, `visibleNodes`, `metalColor`). `?quality=low` force le rendu simplifié.
-- Vérifications : `npm run typecheck && npm run lint && npm test && npm run build && npm run test:e2e` (Chromium), plus `npm run test:e2e:browsers` (WebKit iPhone/iPad, Firefox sans 3D ; `npx playwright install webkit firefox`). État au 13/11 : 43 tests unitaires, 62 navigateur Chromium, 58 WebKit, 12 Firefox, 9 pipeline CAO, tous verts. Intégration continue : `.github/workflows/ci.yml`.
+- Vérifications : `npm run typecheck && npm run lint && npm test && npm run build && npm run test:e2e` (Chromium), plus `npm run test:e2e:browsers` (WebKit iPhone/iPad, Firefox sans 3D ; `npx playwright install webkit firefox`). État au 14/11 : 46 tests unitaires, 64 navigateur Chromium, 60 WebKit, 12 Firefox, 9 pipeline CAO, tous verts. Intégration continue : `.github/workflows/ci.yml`.
 - Mesure sur appareil réel : page cachée `/fr/diagnostic` (rapport JSON), protocole `docs/DEVICE_TESTS.md`. Si le port 3100 reste occupé par un ancien `next-server` bloqué, les tests se figent : `fuser -n tcp 3100` puis `kill`.
 
 ## Aperçu en ligne
@@ -42,6 +42,9 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - **Rendu des pierres** : en rendu simplifié (appareils lents), miroir à facettes. Avant, des taches blanches donnaient l'impression que « les diamants disparaissent ». Le rendu ne bascule que sous 24 images/s.
 - **Version hébreu** (`/he/…`) : sens droite-à-gauche, polices Frank Ruhl Libre et Assistant. Traduction faite par l'IA, **relecture native à faire**.
 - **Formulaire de devis** (phase 4, version légère, 13/11) : FR/EN/HE, route `POST /api/devis`, envoi SMTP à l'atelier avec photos jointes, sans base de données ; accord facultatif de publication des photos et vidéos de fabrication. Variables : `.env.example`. Sans SMTP configuré : réponse 503, message « indisponible ». Tests en envoi simulé (`QUOTE_DRY_RUN=1`).
+- **Formes de pierre « sur demande »** (14/11) : boutons en pointillés qui ouvrent le devis avec le message pré-rempli ; la 3D reste la marquise.
+- **ring-001 régénéré depuis `Ring.3dm`** (14/11) : `models:extract` simplifie d'abord, retouche ensuite ; équivalent au modèle du 3/11 (0,001 mm).
+- **Études du 14/11** : `docs/PAIEMENT.md` (Stripe indisponible en Israël ; recommandation : Grow, parcours devis → prix confirmé → lien de paiement ; Bit plafonné à 5 000 ₪ par transaction chez la plupart des prestataires) et `docs/juridique/DOSSIER_AVOCAT_IL.md` (24 questions, résumé en hébreu).
 - **FAQ** (`/fr|en|he/faq`, contenu `src/content/faq.ts`) : 24 questions en 6 thèmes, réponses sourcées, 5 marquées « À confirmer ». Données structurées FAQPage (réponses validées seulement).
 - **Moteur de prix** (`src/lib/pricing/engine.ts`, paramètres `src/config/pricing.ts`), **non branché** :
   - postes au tarif boutique : or 14 k 370–380 ₪/g, 18 k 470–480 ₪/g, façon et sertissage en USD ;
@@ -52,6 +55,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
   - `docs/ANALYSE_CONCURRENCE.md` ;
   - `docs/STRATEGIE.md` (réanalyse, décisions du 4/11, plan de 90 jours ajusté, marges France vs Israël, droit israélien) ;
   - `docs/PRICING_RULES.md` ;
+  - `docs/PAIEMENT.md`, `docs/juridique/DOSSIER_AVOCAT_IL.md`, `docs/DEVICE_TESTS.md` ;
   - `docs/REPONSES_ATELIER.md` (22/10, 3/11, 4/11) ;
   - `docs/QUESTIONS_ATELIER.md` ;
   - `docs/PROCEDURE_PHOTO_ATELIER.md` et sa version PDF `docs/atelier/Procedure_photo_video_atelier.pdf`, envoyée à Yonathan ;
@@ -83,9 +87,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - Validation de la planche avant/après des griffes (biseau des deux griffes de pointe de la marquise).
 
 ### Développement possible sans attendre
-- **Proposé, en attente du feu vert de l'utilisateur** : afficher les autres formes de pierre comme des boutons grisés « sur demande ». L'utilisateur a signalé que les diamants ne se choisissent pas.
-- Corriger, dans l'en-tête mobile, le lien « Questions fréquentes » qui passe sur deux lignes.
-- Configurer l'envoi réel des devis et tester la réception. **Décision en attente du propriétaire (13/11)** : il veut recevoir les devis sur WhatsApp. Options étudiées : (a) bouton « Envoyer sur WhatsApp » côté client (lien wa.me avec message pré-rempli ; gratuit ; le client appuie lui-même sur Envoyer ; photos à joindre à la main), formulaire e-mail gardé en secours ; (b) notification automatique via la WhatsApp Business Platform de Meta (numéro dédié, modèles validés, coût par message) ; (c) les deux. Il faut aussi le numéro WhatsApp de l'atelier.
+- **Envoi réel des devis : il manque seulement des valeurs à saisir dans Vercel.** WhatsApp : renseigner `NEXT_PUBLIC_WHATSAPP_NUMBER` (numéro de l'atelier, format international) puis redéployer ; le bouton « Envoyer sur WhatsApp » apparaît (lien wa.me, message pré-rempli, photos à joindre à la main). E-mail : variables `QUOTE_TO`, `QUOTE_FROM`, `SMTP_*` ; sans elles, le bouton « Envoyer la demande » répond « indisponible ». La notification automatique par la WhatsApp Business Platform de Meta n'est pas faite (compte Meta, numéro dédié, coût par message).
 - Parcours « transformation de bijou de famille » (photos de l'ancien bijou + devis).
 - Page et guide de l'alliance de kiddouchin (dès réception du modèle).
 - Guides SEO en français : synthétique ou naturel, tailles, kiddouchin.
@@ -96,7 +98,6 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - Sélecteur de carat sur un solitaire.
 - Photo réelle à côté du rendu 3D.
 - Calibrer les teintes des métaux sur les photos studio.
-- Régénérer ring-001 depuis `Ring.3dm` (`npm run models:extract -- ring-001`).
 
 ### Avant la vente
 - Avocat israélien :

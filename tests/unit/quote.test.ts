@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { getModel, MODELS } from '@/models';
 import { defaultState } from '@/lib/configurator/logic';
 import { buildQuoteEmail, checkPhotos, fieldsFromForm, parseQuote, PHOTO_LIMITS } from '@/lib/quote/request';
+import { buildWhatsAppLink, buildWhatsAppMessage, normalizeWhatsAppNumber } from '@/lib/quote/whatsapp';
 import { mailerStatus } from '@/lib/quote/mailer';
 
 const model = MODELS['ring-001'];
@@ -114,6 +115,35 @@ describe('demande de devis : e-mail', () => {
     const r = parseQuote({ ...valid(), name: 'A\r\nBcc: x@y.z' }, getModel);
     if (!r.ok) throw new Error('demande invalide');
     expect(buildQuoteEmail(r.model, r.state, r.fields, []).subject).not.toMatch(/[\r\n]/);
+  });
+});
+
+describe('demande de devis : WhatsApp', () => {
+  it('normalise le numéro et refuse les valeurs invalides', () => {
+    expect(normalizeWhatsAppNumber('+972 50-123-4567')).toBe('972501234567');
+    expect(normalizeWhatsAppNumber('00972501234567')).toBe('972501234567');
+    expect(normalizeWhatsAppNumber('050-1234567')).toBeNull(); // numéro national : indicatif manquant
+    expect(normalizeWhatsAppNumber('')).toBeNull();
+    expect(normalizeWhatsAppNumber(undefined)).toBeNull();
+  });
+
+  it('message : configuration, champs saisis, pas de ligne vide inutile', () => {
+    const r = parseQuote(valid(), getModel);
+    if (!r.ok) throw new Error('demande invalide');
+    const text = buildWhatsAppMessage(r.model, r.state, { name: ' Jeanne\nMartin ', ringSize: '52', message: 'Gravure « J & M »' }, 'https://jr.example/fr/configurateur/ring-001');
+    expect(text).toContain('Métal : ');
+    expect(text).toContain('Taille de doigt : 52');
+    expect(text).toContain('Nom : Jeanne Martin');
+    expect(text).toContain('Gravure « J & M »');
+    expect(text).not.toMatch(/[€$₪]/);
+    const sans = buildWhatsAppMessage(r.model, r.state, {});
+    expect(sans).not.toContain('Nom :');
+    expect(sans).not.toContain('Taille de doigt :');
+  });
+
+  it('lien wa.me encodé', () => {
+    const link = buildWhatsAppLink('972501234567', 'Bonjour & merci\nà bientôt');
+    expect(link).toBe('https://wa.me/972501234567?text=Bonjour%20%26%20merci%0A%C3%A0%20bient%C3%B4t');
   });
 });
 

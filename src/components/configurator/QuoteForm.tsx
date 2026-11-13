@@ -3,12 +3,17 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import type { Dict } from '@/i18n/dictionaries';
 import type { ConfigState, Locale } from '@/lib/configurator/schema';
+import { getModel } from '@/models';
 import { checkPhotos, PHOTO_LIMITS, type QuoteError } from '@/lib/quote/request';
+import { buildWhatsAppLink, buildWhatsAppMessage, normalizeWhatsAppNumber } from '@/lib/quote/whatsapp';
 import styles from './Configurator.module.css';
 
 type Status = { kind: 'idle' } | { kind: 'sending' } | { kind: 'sent' } | { kind: 'error'; message: string };
 
 export const QUOTE_ENDPOINT = '/api/devis';
+
+// Numéro WhatsApp de l'atelier (variable publique, fixée au build). Absent : le bouton WhatsApp n'apparaît pas.
+const WHATSAPP = normalizeWhatsAppNumber(process.env.NEXT_PUBLIC_WHATSAPP_NUMBER);
 
 function errorMessage(t: Dict['quote'], e: (QuoteError | { code: string }) | undefined): string {
   if (!e) return t.errors.send_failed;
@@ -82,6 +87,16 @@ export default function QuoteForm({
     }
   }
 
+  /** Ouvre WhatsApp avec la configuration et les champs déjà saisis ; l'envoi reste à la main de la personne. */
+  function openWhatsApp(form: HTMLFormElement) {
+    const model = getModel(modelId);
+    if (!WHATSAPP || !model) return;
+    const data = new FormData(form);
+    const get = (k: string) => String(data.get(k) ?? '');
+    const text = buildWhatsAppMessage(model, state, { name: get('name'), ringSize: get('ringSize'), message: get('message') }, window.location.href.split('?')[0]);
+    window.open(buildWhatsAppLink(WHATSAPP, text), '_blank', 'noopener');
+  }
+
   if (status.kind === 'sent') {
     return (
       <section className={styles.quote} aria-labelledby="quote-title">
@@ -153,6 +168,14 @@ export default function QuoteForm({
         <button type="submit" className={styles.primary} disabled={sending} aria-busy={sending}>
           {sending ? t.sending : t.send}
         </button>
+        {WHATSAPP && (
+          <>
+            <button type="button" className={styles.secondary} onClick={(ev) => openWhatsApp(ev.currentTarget.form!)} disabled={sending}>
+              {t.sendWhatsApp}
+            </button>
+            <p className={styles.note}>{t.whatsAppNote}</p>
+          </>
+        )}
         <button type="button" className={styles.textButton} onClick={onClose} disabled={sending}>
           {t.cancel}
         </button>

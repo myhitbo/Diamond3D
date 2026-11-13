@@ -28,7 +28,7 @@ il n'est pas nécessaire de disposer du fichier CAO pour lancer le site.
 
 ## Demandes de devis (e-mail, sans base de données)
 
-Le bouton « Demander un devis » ouvre un formulaire en français, anglais ou hébreu (coordonnées, taille, message, 3 photos au plus, accord facultatif de publication des photos et vidéos de fabrication).
+Le bouton « Demander un devis » ouvre un formulaire en français, anglais ou hébreu (coordonnées, taille, message, 3 photos au plus, accord facultatif de publication des photos et vidéos de fabrication). Si `NEXT_PUBLIC_WHATSAPP_NUMBER` est renseigné, le formulaire propose aussi « Envoyer sur WhatsApp » (lien wa.me avec la configuration pré-remplie).
 La route `POST /api/devis` revalide la configuration sur la définition du modèle, recalcule le récapitulatif
 et l'envoie par SMTP à l'atelier, photos en pièces jointes ; « Répondre » écrit directement au client.
 Rien n'est stocké sur le serveur.

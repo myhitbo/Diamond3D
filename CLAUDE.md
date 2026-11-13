@@ -23,6 +23,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 
 ## Aperçu en ligne
 - **https://jr-diamond.vercel.app** : projet Vercel `jr-diamond` (équipe `diamond3-d`, `team_AaIv8uYfh5BjwUqYEuH8WbiZ`, projet `prj_sEIRWdvN7CniQl0HdoZCqWyykDeb`), **relié au dépôt GitHub `myhitbo/Diamond3D`** : chaque push sur `main` redéploie la production, chaque autre branche reçoit un lien de prévisualisation.
+- Branche de production Vercel réglée sur `main` par le propriétaire le 13/11 (le connecteur Vercel ne permet pas de la modifier). Si un push sur `main` n'arrive qu'en prévisualisation, déployer `main` en production via le connecteur (`create_deployment`, `target: production`).
 - Fermé à Google (`noindex`). Protégé par la connexion Vercel (toutes les adresses `.vercel.app`) : pour l'atelier ou un téléphone, créer un lien de partage (`get_access_to_vercel_url`, valable 23 h).
 - Ancien aperçu `jr-diamond-apercu` (compte hil123, non relié à GitHub) : n'est plus mis à jour.
 - Préversion claude.ai (page unique, sans Next.js) : `npm run preview:build`.

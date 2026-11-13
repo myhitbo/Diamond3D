@@ -2,7 +2,7 @@
   "$comment": "Fichier généré par scripts/models/build-model.mjs. Ne pas modifier à la main.",
   "modelId": "ring-001",
   "glb": "/models/ring-001/ring-001.glb",
-  "glbBytes": 194272,
+  "glbBytes": 194096,
   "rawGlbBytes": 4208804,
   "simplification": {
     "relativeError": 0.0005,
@@ -18,7 +18,7 @@
     },
     "B__metal_settings_side": {
       "trianglesRaw": 87816,
-      "trianglesWeb": 7888,
+      "trianglesWeb": 7889,
       "maxDeviationMm": 0.0206,
       "p99DeviationMm": 0.0112
     },
@@ -59,11 +59,10 @@
       "p99DeviationMm": 0.013
     }
   },
-  "trianglesWeb": 27356,
+  "trianglesWeb": 27357,
   "maxDeviationMm": 0.0206,
   "webRetouch": {
-    "appliedTo": "modèle publié (fichier CAO absent)",
-    "date": "2026-11-03",
+    "appliedTo": "modèle simplifié issu du .3dm",
     "request": "Atelier, 3/11/2026 : griffes rabattues et « 8 » supprimés, pour le web uniquement",
     "prongsAdjusted": {
       "A__metal_head_center": 2,
@@ -74,7 +73,7 @@
       "B__metal_settings_side": 452
     },
     "addedCapTriangles": {
-      "B__metal_settings_side": 88
+      "B__metal_settings_side": 89
     },
     "note": "Écart volontaire par rapport au fichier de fabrication ; maxDeviationMm décrit la simplification, pas la retouche."
   }

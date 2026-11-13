@@ -1,6 +1,6 @@
 // Applique les retouches web (recette « webRetouch ») au modèle déjà publié, sans le fichier CAO.
 // Sert tant que le .3dm n'est pas disponible ; avec le .3dm, `npm run models:extract` fait la même
-// retouche sur le GLB brut, avant optimisation.
+// retouche sur le modèle simplifié, avant compression.
 // Usage : npm run models:retouch -- ring-001
 import { execFileSync } from 'node:child_process';
 import { readFileSync, writeFileSync, mkdirSync, statSync, copyFileSync } from 'node:fs';

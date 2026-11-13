@@ -19,26 +19,31 @@ mkdirSync(join('public/models', id), { recursive: true });
 const run = (cmd, args) => execFileSync(cmd, args, { encoding: 'utf8', stdio: ['ignore', 'pipe', 'inherit'] });
 
 process.stdout.write(run(py, ['-I', 'pipeline/extract_3dm.py', `pipeline/recipes/${id}.json`, '--out-glb', raw, '--out-meta', `src/models/${id}/geometry.json`]));
-// Retouches web (griffes rabattues, plaques en « 8 » supprimées…) si la recette en déclare.
-// Le GLB brut d'origine est conservé ; l'écart mesuré porte sur la simplification seule.
+// 1. Simplification du GLB brut : `witness` est le modèle simplifié non compressé, `out` sa version compressée.
+//    L'écart mesuré (brut contre témoin) porte donc sur la simplification seule, face au fichier de fabrication.
+run('node', ['scripts/models/optimize-glb.mjs', raw, out, witness, String(ERROR)]);
+const deviation = JSON.parse(run(py, ['-I', 'pipeline/measure_deviation.py', raw, witness]));
+
+// 2. Retouches web (griffes rabattues, plaques en « 8 » supprimées…) si la recette en déclare, appliquées
+//    au modèle simplifié puis recompressées. Les appliquer au GLB brut, avant simplification, double le
+//    nombre de triangles : les bords ouverts et les sommets déplacés (normales recalculées, donc non soudables)
+//    sont verrouillés par la simplification (mesuré le 14/11/2026 : 46 084 triangles contre 27 356).
 const recipe = JSON.parse(readFileSync(`pipeline/recipes/${id}.json`, 'utf8'));
-let source = raw;
 let retouch;
 if (recipe.webRetouch) {
   const edits = join(inter, `${id}.web-edits.json`);
-  source = join(inter, `${id}.retouched.glb`);
-  const summary = JSON.parse(run(py, ['-I', 'pipeline/web_retouch.py', raw, `pipeline/recipes/${id}.json`, edits]));
-  run('node', ['scripts/models/apply-web-edits.mjs', raw, edits, source, '--no-compress']);
+  const summary = JSON.parse(run(py, ['-I', 'pipeline/web_retouch.py', witness, `pipeline/recipes/${id}.json`, edits]));
+  const applied = JSON.parse(run('node', ['scripts/models/apply-web-edits.mjs', witness, edits, out]));
+  for (const [node, r] of Object.entries(applied)) if (deviation[node]) deviation[node].trianglesWeb = r.trianglesAfter;
   retouch = {
-    appliedTo: 'GLB brut issu du .3dm',
+    appliedTo: 'modèle simplifié issu du .3dm',
     request: "Atelier, 3/11/2026 : griffes rabattues et « 8 » supprimés, pour le web uniquement",
     prongsAdjusted: Object.fromEntries(Object.entries(summary.prongs).map(([k, v]) => [k, v.length])),
     removedFaces: summary.removedFaces,
     addedCapTriangles: summary.addedCaps ?? {},
+    note: "Écart volontaire par rapport au fichier de fabrication ; maxDeviationMm décrit la simplification, pas la retouche.",
   };
 }
-run('node', ['scripts/models/optimize-glb.mjs', source, out, witness, String(ERROR)]);
-const deviation = JSON.parse(run(py, ['-I', 'pipeline/measure_deviation.py', source, witness]));
 
 const report = {
   $comment: 'Fichier généré par scripts/models/build-model.mjs. Ne pas modifier à la main.',

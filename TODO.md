@@ -11,7 +11,7 @@
 - [x] Réponse de l'atelier pour ring-001 (3/11) : griffes à replier et « 8 » à supprimer sur la version web ; le maquettiste ne peut pas le faire.
 - [x] Retouche web de ring-001 (3/11) : griffes rabattues, plaques en « 8 » supprimées, modèle publié. Planche : `docs/images/retouche-ring-001-avant-apres.jpg`.
 - [ ] Faire valider la planche avant/après par l'atelier (attention aux deux griffes de pointe de la marquise, qui forment un biseau de profil).
-- [ ] `Ring.3dm` est dans `cad/originals/` (versionné le 4/11) : régénérer avec `npm run models:extract -- ring-001` et vérifier que la retouche est refaite à l'identique sur le GLB brut.
+- [x] ring-001 régénéré depuis `cad/originals/Ring.3dm` (14/11) : équivalent au modèle publié (écart maximal 0,001 mm, 27 357 triangles, 190 Ko). La retouche web s'applique désormais après la simplification.
 - [ ] Teintes des métaux conformes aux photos : en attente des photos studio de l'atelier.
 
 ## Modèles

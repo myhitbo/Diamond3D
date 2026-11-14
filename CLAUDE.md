@@ -19,7 +19,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - Chromium : `/opt/pw-browsers/chromium-1243/chrome-linux64/chrome`. Tests navigateur : `CHROMIUM_PATH=… npx playwright test`.
 - `scripts/perf/serve-and-run.sh <script.cjs> <args>` sert le build sur le port 3100 (adresses en `/fr/configurateur/…`).
 - `?debug=1` active la sonde `window.__jr` (`ready`, `orbit(az)`, `visibleNodes`, `metalColor`). `?quality=low` force le rendu simplifié.
-- Vérifications : `npm run typecheck && npm run lint && npm test && npm run build && npm run test:e2e` (Chromium), plus `npm run test:e2e:browsers` (WebKit iPhone/iPad, Firefox sans 3D ; `npx playwright install webkit firefox`). État au 14/11 : 61 tests unitaires, 80 navigateur Chromium, 76 WebKit (iPhone, iPad ; 4 ignorés), 18 Firefox, 9 pipeline CAO, tous verts. Intégration continue : `.github/workflows/ci.yml`.
+- Vérifications : `npm run typecheck && npm run lint && npm test && npm run build && npm run test:e2e` (Chromium), plus `npm run test:e2e:browsers` (WebKit iPhone/iPad, Firefox sans 3D ; `npx playwright install webkit firefox`). État au 14/11 : 61 tests unitaires, 80 navigateur Chromium, 40 WebKit iPhone en CI (2 ignorés), 9 pipeline CAO, tous verts ; iPad et Firefox non relancés depuis l'ajout de deux tests (76 WebKit et 18 Firefox avant). En CI, un échec du build sur `next/font/google` (téléchargement des polices) est intermittent : relancer avec `gh run rerun <id> --failed`. Intégration continue : `.github/workflows/ci.yml`.
 - Mesure sur appareil réel : page cachée `/fr/diagnostic` (rapport JSON), protocole `docs/DEVICE_TESTS.md`. Si le build échoue sur `next/font/google` alors que le réseau répond, le cache est corrompu : `rm -rf .next` puis rebâtir. Sans `CHROMIUM_PATH`, Playwright cherche un Chromium absent. Si le port 3100 reste occupé par un ancien `next-server` bloqué, les tests se figent : `fuser -n tcp 3100` puis `kill`.
 
 ## Aperçu en ligne
@@ -90,9 +90,10 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - Validation de la planche avant/après des griffes (biseau des deux griffes de pointe de la marquise).
 
 ### Développement possible sans attendre
-- **Envoi réel des devis : il manque seulement des valeurs à saisir dans Vercel.** WhatsApp : renseigner `NEXT_PUBLIC_WHATSAPP_NUMBER` (numéro de l'atelier, format international) puis redéployer ; le bouton « Envoyer sur WhatsApp » apparaît (lien wa.me, message pré-rempli, photos à joindre à la main). E-mail : variables `QUOTE_TO`, `QUOTE_FROM`, `SMTP_*` ; sans elles, le bouton « Envoyer la demande » répond « indisponible ». La notification automatique par la WhatsApp Business Platform de Meta n'est pas faite (compte Meta, numéro dédié, coût par message).
-- Page de l'alliance de kiddouchin (dès réception du modèle ; le guide existe).
-- Passer les redirections des adresses traduites en permanent au lancement.
+Au 14/11 au soir, plus rien ici ne se fait sans une action extérieure : les trois points restants sont prêts côté code et attendent le propriétaire, l'atelier ou la date de lancement.
+- **Envoi réel des devis : il manque seulement des valeurs à saisir dans Vercel** (vérifié le 14/11 au soir : aucune variable d'environnement dans le projet `jr-diamond`). WhatsApp : renseigner `NEXT_PUBLIC_WHATSAPP_NUMBER` (numéro de l'atelier, format international) puis redéployer ; le bouton « Envoyer sur WhatsApp » apparaît (lien wa.me, message pré-rempli, photos à joindre à la main). E-mail : variables `QUOTE_TO`, `QUOTE_FROM`, `SMTP_*` ; sans elles, le bouton « Envoyer la demande » répond « indisponible ». La notification automatique par la WhatsApp Business Platform de Meta n'est pas faite (compte Meta, numéro dédié, coût par message).
+- Page de l'alliance de kiddouchin : attend un modèle (atelier ou CGTrader). Un anneau généré par le code contredirait la promesse « ce que vous voyez existe ». Les guides de l'alliance, de l'or et de la taille sont prêts.
+- Passer les redirections des adresses traduites en permanent le jour du lancement : un seul réglage (`permanent: false` dans `src/lib/routes.ts`). Pas avant : le navigateur garde une redirection permanente en mémoire, difficile à défaire si les adresses changent.
 
 ### Dès réception des éléments
 - Brancher le prix « à partir de » quand `src/config/pricing.ts` n'a plus de paramètre manquant.

@@ -10,7 +10,8 @@
 - Configurateur français : liens vers les guides de l'or et de la taille (absents en anglais, en hébreu et dans la préversion).
 - Corrections : le 14 carats n'est plus dit « en général plus dur » (FAQ et configurateur, trois langues) ; la note sur l'origine ne dit plus « créé en laboratoire » mais « fabriqué par l'homme ».
 - Six questions pour l'atelier (61 à 66 de `docs/QUESTIONS_ATELIER.md`).
-- Tests : 61 unitaires, 80 navigateur (Chromium).
+- Points « sans attendre » restants passés en revue : envoi réel des devis (aucune variable saisie dans Vercel), page de l'alliance de kiddouchin (modèle attendu), redirections permanentes (au lancement). Rien d'autre n'est faisable sans action extérieure.
+- Tests : 61 unitaires, 80 navigateur (Chromium), 40 WebKit iPhone en CI (2 ignorés).
 
 ## 0.3.0 — 2026-11-14 — Bijou de famille, guides, adresses traduites
 

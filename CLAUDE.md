@@ -19,7 +19,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - Chromium : `/opt/pw-browsers/chromium-1243/chrome-linux64/chrome`. Tests navigateur : `CHROMIUM_PATH=… npx playwright test`.
 - `scripts/perf/serve-and-run.sh <script.cjs> <args>` sert le build sur le port 3100 (adresses en `/fr/configurateur/…`).
 - `?debug=1` active la sonde `window.__jr` (`ready`, `orbit(az)`, `visibleNodes`, `metalColor`). `?quality=low` force le rendu simplifié.
-- Vérifications : `npm run typecheck && npm run lint && npm test && npm run build && npm run test:e2e` (Chromium), plus `npm run test:e2e:browsers` (WebKit iPhone/iPad, Firefox sans 3D ; `npx playwright install webkit firefox`). État au 14/11 : 57 tests unitaires, 76 navigateur Chromium, 76 WebKit (iPhone, iPad ; 4 ignorés), 18 Firefox, 9 pipeline CAO, tous verts. Intégration continue : `.github/workflows/ci.yml`.
+- Vérifications : `npm run typecheck && npm run lint && npm test && npm run build && npm run test:e2e` (Chromium), plus `npm run test:e2e:browsers` (WebKit iPhone/iPad, Firefox sans 3D ; `npx playwright install webkit firefox`). État au 14/11 : 61 tests unitaires, 80 navigateur Chromium, 76 WebKit (iPhone, iPad ; 4 ignorés), 18 Firefox, 9 pipeline CAO, tous verts. Intégration continue : `.github/workflows/ci.yml`.
 - Mesure sur appareil réel : page cachée `/fr/diagnostic` (rapport JSON), protocole `docs/DEVICE_TESTS.md`. Si le build échoue sur `next/font/google` alors que le réseau répond, le cache est corrompu : `rm -rf .next` puis rebâtir. Sans `CHROMIUM_PATH`, Playwright cherche un Chromium absent. Si le port 3100 reste occupé par un ancien `next-server` bloqué, les tests se figent : `fuser -n tcp 3100` puis `kill`.
 
 ## Aperçu en ligne
@@ -46,7 +46,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - **ring-001 régénéré depuis `Ring.3dm`** (14/11) : `models:extract` simplifie d'abord, retouche ensuite ; équivalent au modèle du 3/11 (0,001 mm).
 - **Études du 14/11** : `docs/PAIEMENT.md` (Stripe indisponible en Israël ; recommandation : Grow, parcours devis → prix confirmé → lien de paiement ; Bit plafonné à 5 000 ₪ par transaction chez la plupart des prestataires) et `docs/juridique/DOSSIER_AVOCAT_IL.md` (24 questions, résumé en hébreu).
 - **Bijou de famille** (14/11) : `/fr|en|he/transformation`, formulaire avec photos (`POST /api/transformation`, même envoi SMTP que le devis), contenu `src/content/transformation.ts`. Badge « Brouillon » : trois formulations sont des déductions à faire valider (questions 57 à 60 de `docs/QUESTIONS_ATELIER.md`).
-- **Guides en français** (14/11) : `/fr/guides` (synthétique ou naturel, formes de diamant, alliance de kiddouchin), contenu `src/content/guides.ts`, sources en bas de page. Français seulement : `/en/guides` répond 404.
+- **Guides en français** (14/11) : `/fr/guides`, six guides (synthétique ou naturel, formes de diamant, alliance de kiddouchin, les 4 C, or 14 ou 18 carats, taille de doigt), contenu `src/content/guides.ts`, sources en bas de page, badge « Brouillon ». Une section peut porter un tableau (`table`) ; le tableau des tailles est calculé (`ringSizeRow` : ISO 8653, taille israélienne = française − 40, taille américaine au quart). Le configurateur français renvoie aux guides de l'or et de la taille (`guideLinks`, absents de la préversion). Français seulement : `/en/guides` répond 404. Questions 61 à 66 de `docs/QUESTIONS_ATELIER.md` pour l'atelier.
 - **Adresses traduites** (14/11) : `/en/configurator/…`, `/he/configurator/…` (réécriture vers le dossier `configurateur`, redirection 307 des anciennes adresses). Toujours passer par `src/lib/routes.ts` (`configuratorPath`, `localizedPath`) pour écrire un lien. Pied de page commun `SiteFooter`.
 - **FAQ** (`/fr|en|he/faq`, contenu `src/content/faq.ts`) : 24 questions en 6 thèmes, réponses sourcées, 5 marquées « À confirmer ». Données structurées FAQPage (réponses validées seulement).
 - **Moteur de prix** (`src/lib/pricing/engine.ts`, paramètres `src/config/pricing.ts`), **non branché** :
@@ -84,7 +84,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - Polissage final et rhodiage : un seul frais ou deux ?
 - Métal par défaut (14 k ou 18 k).
 - Moyens de paiement, annulation et retour, livraison (Israël et France), numéro WhatsApp.
-- Relecture des 5 réponses « À confirmer » et des 3 déductions de la FAQ.
+- Relecture des 5 réponses « À confirmer » et des 3 déductions de la FAQ ; relecture des six guides (questions 61 à 66 : alliage de l'or blanc, poinçon, pierres sous 0,50 ct, tailles israéliennes).
 - Relecture des textes hébreux. Existe-t-il en Israël un terme imposé pour les diamants de synthèse, ou un poinçon obligatoire ?
 - Fichiers : alliance de kiddouchin, solitaire (pour le choix du carat), `Ring.3dm`, 3 autres modèles avec leurs photos studio.
 - Validation de la planche avant/après des griffes (biseau des deux griffes de pointe de la marquise).
@@ -92,7 +92,6 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 ### Développement possible sans attendre
 - **Envoi réel des devis : il manque seulement des valeurs à saisir dans Vercel.** WhatsApp : renseigner `NEXT_PUBLIC_WHATSAPP_NUMBER` (numéro de l'atelier, format international) puis redéployer ; le bouton « Envoyer sur WhatsApp » apparaît (lien wa.me, message pré-rempli, photos à joindre à la main). E-mail : variables `QUOTE_TO`, `QUOTE_FROM`, `SMTP_*` ; sans elles, le bouton « Envoyer la demande » répond « indisponible ». La notification automatique par la WhatsApp Business Platform de Meta n'est pas faite (compte Meta, numéro dédié, coût par message).
 - Page de l'alliance de kiddouchin (dès réception du modèle ; le guide existe).
-- Guides suivants : les 4 C, or 14 ou 18 carats, taille de doigt.
 - Passer les redirections des adresses traduites en permanent au lancement.
 
 ### Dès réception des éléments

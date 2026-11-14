@@ -53,6 +53,8 @@ export default function Configurator({
 }) {
   const model = getModel(modelId)!;
   const t = DICTIONARIES[locale];
+  // La préversion autonome n'a que cette page : pas de liens vers les guides du site.
+  const guideLinks = quoteEnabled ? t.guideLinks : null;
   const [state, dispatch] = useReducer(
     (s: ConfigState, a: Action) => (a.type === 'reset' ? defaultState(model) : applyChange(model, s, a.change)),
     model,
@@ -210,7 +212,15 @@ export default function Configurator({
                   })
                 }
               />
-              <p className={styles.note}>{t.titreNote}</p>
+              <p className={styles.note}>
+                {t.titreNote}
+                {guideLinks && (
+                  <>
+                    {' '}
+                    <a href={guideLinks.titre.href}>{guideLinks.titre.label}</a>
+                  </>
+                )}
+              </p>
             </>
           )}
           {!model.metals.availabilityConfirmed && <p className={styles.note}>{t.metalAvailabilityNote}</p>}
@@ -286,6 +296,11 @@ export default function Configurator({
               {t.sizeModeled(model.geometry.fingerSize.label.replace('1/2', '½'), formatNumber(locale, model.geometry.fingerSize.innerDiameterMm))}
             </p>
             <p className={styles.note}>{t.sizeNote}</p>
+            {guideLinks && (
+              <p className={styles.note}>
+                <a href={guideLinks.size.href}>{guideLinks.size.label}</a>
+              </p>
+            )}
           </Field>
         )}
 

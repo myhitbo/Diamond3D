@@ -72,10 +72,34 @@ test('guides : liste, article sourcé, données structurées, français seulemen
   // Une seule langue proposée dans l'en-tête.
   await expect(page.getByRole('navigation', { name: 'Langue / Language' }).getByRole('link')).toHaveCount(1);
 
-  for (const slug of ['formes-de-diamant', 'alliance-de-kiddouchin']) expect((await request.get(`/fr/guides/${slug}`)).status()).toBe(200);
+  for (const slug of ['formes-de-diamant', 'alliance-de-kiddouchin', 'les-4-c-du-diamant', 'or-14-ou-18-carats'])
+    expect((await request.get(`/fr/guides/${slug}`)).status()).toBe(200);
   expect((await request.get('/en/guides')).status()).toBe(404);
   expect((await request.get('/en/guides/formes-de-diamant')).status()).toBe(404);
   expect((await request.get('/fr/guides/inconnu')).status()).toBe(404);
+});
+
+test('guide de la taille de doigt : tableau de correspondance lisible sur mobile', async ({ page }) => {
+  await page.goto('/fr/guides');
+  await expect(page.getByRole('link', { name: /Les 4 C du diamant/ })).toBeVisible();
+  await expect(page.getByRole('link', { name: /Or 14 ou 18 carats/ })).toBeVisible();
+  await page.getByRole('link', { name: /Taille de doigt/ }).click();
+  await expect(page).toHaveURL(/\/fr\/guides\/taille-de-doigt$/);
+  const table = page.getByRole('table', { name: /Tailles françaises/ });
+  await expect(table.getByRole('columnheader')).toHaveText(['France (tour, mm)', 'Diamètre (mm)', 'Israël', 'États-Unis (env.)']);
+  await expect(table.locator('tbody tr')).toHaveCount(21);
+  await expect(table.getByRole('row', { name: /^52 / }).getByRole('cell')).toHaveText(['16,6', '12', '6']);
+  await expect(page.getByRole('link', { name: /ISO 8653/ })).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
+});
+
+test('configurateur : liens vers les guides en français, absents en anglais', async ({ page }) => {
+  await page.goto('/fr/configurateur/ring-001');
+  await expect(page.getByRole('link', { name: 'Guide : trouver sa taille de doigt' })).toHaveAttribute('href', '/fr/guides/taille-de-doigt');
+  await expect(page.getByRole('link', { name: 'Guide : or 14 ou 18 carats' })).toHaveAttribute('href', '/fr/guides/or-14-ou-18-carats');
+  await page.goto('/en/configurator/ring-001');
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+  await expect(page.getByRole('link', { name: /^Guide/ })).toHaveCount(0);
 });
 
 test('pied de page : liens du site, guides en français seulement', async ({ page }) => {

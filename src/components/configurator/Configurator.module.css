@@ -285,6 +285,12 @@
   color: var(--muted);
 }
 
+.note a {
+  color: var(--ink);
+  text-decoration-color: var(--gold-soft);
+  text-underline-offset: 3px;
+}
+
 .value {
   margin: 0;
   font-size: 14px;

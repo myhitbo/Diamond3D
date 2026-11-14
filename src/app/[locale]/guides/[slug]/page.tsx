@@ -67,6 +67,37 @@ export default async function GuidePage({ params }: { params: Params }) {
                 ))}
               </ul>
             )}
+            {s.table && (
+              <div className={styles.tableWrap}>
+                <table className={styles.table}>
+                  <caption>{s.table.caption}</caption>
+                  <thead>
+                    <tr>
+                      {s.table.head.map((h) => (
+                        <th key={h} scope="col">
+                          {h}
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {s.table.rows.map((r) => (
+                      <tr key={r[0]}>
+                        {r.map((c, i) =>
+                          i === 0 ? (
+                            <th key={i} scope="row">
+                              {c}
+                            </th>
+                          ) : (
+                            <td key={i}>{c}</td>
+                          ),
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
             {s.after?.map((p) => (
               <p key={p}>{p}</p>
             ))}

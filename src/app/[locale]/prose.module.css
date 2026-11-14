@@ -69,6 +69,45 @@
   text-underline-offset: 3px;
 }
 
+.tableWrap {
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 0 0 14px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 15px;
+  font-variant-numeric: tabular-nums;
+}
+
+.table caption {
+  caption-side: top;
+  text-align: start;
+  color: var(--muted);
+  font-size: 13px;
+  padding-bottom: 8px;
+}
+
+.table th,
+.table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--line);
+  text-align: start;
+  font-weight: 400;
+}
+
+.table thead th {
+  color: var(--muted);
+  font-size: 13px;
+  vertical-align: bottom;
+}
+
+.table tbody th {
+  color: var(--ink);
+}
+
 .steps {
   list-style: none;
   counter-reset: step;

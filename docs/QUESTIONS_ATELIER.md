@@ -1,6 +1,6 @@
 # Questions à l'atelier — préparation des phases 3 à 6
 
-Deux versions : une **courte** (10 questions, pour un premier échange ou un message rapide) et une **complète** (56 questions, à remplir au fil des phases).
+Deux versions : une **courte** (10 questions, pour un premier échange ou un message rapide) et une **complète** (66 questions, à remplir au fil des phases).
 
 ---
 
@@ -50,7 +50,7 @@ Merci.
 
 ---
 
-## Version complète (56 questions)
+## Version complète (66 questions)
 
 Bonjour,
 
@@ -153,6 +153,15 @@ Le catalogue sera élargi à partir de modèles CGTrader (gratuits d'abord, puis
 58. Elle dit aussi que l'or récupéré pèse un peu moins que le bijou (soudures, pertes de fonte) et qu'une pierre fragile peut casser au dessertissage. Formulation à valider.
 59. Envoyez-vous aussi des photos des étapes pour une transformation, comme pour les autres bijoux ?
 60. Comment le client remet-il son bijou : à l'atelier, par envoi assuré ? Depuis la France ?
+
+## 13. Guides 4 C, or 14 ou 18 carats, taille de doigt (ajouté le 14/11)
+
+61. Votre or blanc contient-il du nickel ou du palladium ? Le guide de l'or renvoie les clients allergiques au nickel vers vous.
+62. Frappez-vous le titre (585 ou 750) à l'intérieur des bagues ? Le guide dit seulement qu'en France le titre est attesté par un poinçon.
+63. Sous 0,50 carat, la pierre n'a pas de certificat : est-ce exact pour toutes les pierres, naturelles et synthétiques ? Le guide des 4 C le dit.
+64. Le guide des 4 C dit que la couleur et la pureté se choisissent avec vous, dans le devis. Est-ce votre façon de faire ?
+65. Le guide de la taille de doigt donne la taille israélienne comme « taille française − 40 » (12 = 52), d'après deux bijoutiers israéliens. Est-ce le système que vous employez ?
+66. Le guide de l'or ne tranche pas sur la dureté : selon les fiches des fondeurs, elle dépend de l'alliage plus que du titre. Votre expérience à l'atelier ?
 
 ## Ce que j'attends concrètement, par ordre d'urgence
 

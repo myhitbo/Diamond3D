@@ -37,9 +37,16 @@
 
 ## FAQ (`/fr/faq`, contenu : `src/content/faq.ts`)
 - [ ] Faire valider par l'atelier les 5 réponses « À confirmer » : modèle hors catalogue, paiement (moyens acceptés), annulation et retour (avec l'avocat), livraison à l'étranger, entretien.
-- [ ] Faire relire par l'atelier les réponses issues de déductions : gravure de l'alliance de kiddouchin après la cérémonie, contrôle du titre et des pierres pour une transformation, page transformation (rien n'est démonté avant accord, perte de poids à la fonte, pierres fragiles, photos des étapes), les trois guides, alliances serties tout autour difficiles à mettre à taille.
+- [ ] Faire relire par l'atelier les réponses issues de déductions : gravure de l'alliance de kiddouchin après la cérémonie, contrôle du titre et des pierres pour une transformation, page transformation (rien n'est démonté avant accord, perte de poids à la fonte, pierres fragiles, photos des étapes), les six guides (questions 61 à 66 de `docs/QUESTIONS_ATELIER.md`). Alliances serties tout autour difficiles à mettre à taille : confirmé par le GIA le 14/11.
 - [ ] Ajouter un contact réel (WhatsApp de l'atelier) sous « Une autre question ? ».
 - [ ] Retirer le badge « Brouillon » quand plus aucune réponse n'est « À confirmer ».
+- [x] Réponse « Or 14 ou 18 carats » corrigée (14/11) : la dureté dépend de l'alliage (fiches de fondeur), le 14 carats n'est pas « en général plus dur ». Même correction dans la note du configurateur.
+
+## Guides (`/fr/guides`, contenu : `src/content/guides.ts`)
+- [x] Six guides en français (14/11) : synthétique ou naturel, formes de diamant, alliance de kiddouchin, les 4 C, or 14 ou 18 carats, taille de doigt (tableau des tailles françaises, israéliennes et américaines).
+- [x] Liens depuis le configurateur français vers les guides de l'or et de la taille (14/11).
+- [ ] Relecture par l'atelier, puis retrait du badge « Brouillon » (questions 61 à 66).
+- [ ] Traduire les guides en hébreu et en anglais si l'atelier le souhaite (aujourd'hui 404 hors français).
 
 ## Prix
 - [x] Moteur de prix indicatif en ₪ TTC (4/11), non branché : `src/lib/pricing/engine.ts`. Il refuse de calculer tant qu'il manque un paramètre.

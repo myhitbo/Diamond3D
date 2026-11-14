@@ -320,29 +320,33 @@ export const FAQ: FaqCategory[] = [
         },
         a: {
           fr: [
-            'Le 18 carats contient 75 % d’or (poinçon 750), le 14 carats 58,5 % (poinçon 585). Le 18 carats a une couleur plus riche, il est plus lourd et plus cher. Le 14 carats, qui contient plus d’alliage, est en général plus dur : il résiste mieux aux chocs du quotidien.',
-            'Les deux sont de l’or véritable. Pour une bague portée tous les jours, le 14 carats est un excellent choix.',
+            'Le 18 carats contient 75 % d’or (poinçon 750), le 14 carats 58,5 % (poinçon 585). Le 18 carats a une couleur plus riche, il est plus lourd et plus cher. On dit souvent le 14 carats plus dur : en réalité, la dureté dépend surtout de la recette de l’alliage.',
+            'Les deux sont de l’or véritable, et tous deux conviennent à une bague portée tous les jours.',
           ],
           en: [
-            '18 karat is 75% gold (hallmark 750), 14 karat is 58.5% (hallmark 585). 18 karat has a richer colour, is heavier and costs more. 14 karat, with more alloy, is generally harder: it stands up better to everyday knocks.',
-            'Both are real gold. For a ring worn every day, 14 karat is an excellent choice.',
+            '18 karat is 75% gold (hallmark 750), 14 karat is 58.5% (hallmark 585). 18 karat has a richer colour, is heavier and costs more. 14 karat is often said to be harder: in fact, hardness depends mostly on the alloy recipe.',
+            'Both are real gold, and both suit a ring worn every day.',
           ],
           he: [
-            'ב־18 קראט יש 75% זהב (חותמת 750), ב־14 קראט 58.5% (חותמת 585). ל־18 קראט צבע עשיר יותר, והוא כבד ויקר יותר. 14 קראט, שיש בו יותר סגסוגת, בדרך כלל קשיח יותר ועמיד יותר למכות היומיום.',
-            'שניהם זהב אמיתי. לטבעת שעונדים כל יום, 14 קראט הוא בחירה מצוינת.',
+            'ב־18 קראט יש 75% זהב (חותמת 750), ב־14 קראט 58.5% (חותמת 585). ל־18 קראט צבע עשיר יותר, והוא כבד ויקר יותר. נהוג לומר ש־14 קראט קשיח יותר; בפועל, הקשיות תלויה בעיקר בהרכב הסגסוגת.',
+            'שניהם זהב אמיתי, ושניהם מתאימים לטבעת שעונדים כל יום.',
           ],
         },
         status: 'source',
         basis:
-          'titres : Engineering ToolBox ; dureté : tableau Vickers d’un détaillant (14 k ≈ 155–200 HV, 18 k ≈ 135–170 HV), une source contraire hors 14 k ; métaux : atelier 3/11',
+          'titres : Engineering ToolBox ; dureté (revue le 14/11) : fiches de fondeur Cooksongold, alliages recuits, 14 k jaune ≈ 100 HV, 18 k jaune ≈ 135 HV, 18 k blanc au nickel ≈ 220 HV ; d’autres tableaux donnent l’inverse : pas de règle générale ; métaux : atelier 3/11',
         sources: [
           {
             label: 'Engineering ToolBox, karat fineness',
             url: 'https://www.engineeringtoolbox.com/carat-fineness-precious-metals-d_1749.html',
           },
           {
-            label: 'Diamonds & Gem, 18K vs 14K',
-            url: 'https://diamondsandgem.com/metals/18k-vs-14k-gold.html',
+            label: 'Cooksongold, or jaune 14 carats (fiche technique)',
+            url: 'https://www.cooksongold.com/downloads/files/bullion/14ctAY_properties_sheet.pdf',
+          },
+          {
+            label: 'Cooksongold, or jaune 18 carats (fiche technique)',
+            url: 'https://www.cooksongold.com/downloads/files/bullion/18ctKK_properties_sheet.pdf',
           },
         ],
       },
@@ -640,7 +644,7 @@ export const FAQ: FaqCategory[] = [
           ],
         },
         status: 'atelier',
-        basis: 'atelier, 3/11 ; alliances serties tout autour : pratique courante, à confirmer avec l’atelier',
+        basis: 'atelier, 3/11 ; alliances serties tout autour difficiles à mettre à taille : GIA (vérifié le 14/11), à confirmer avec l’atelier',
       },
       {
         id: 'entretien',

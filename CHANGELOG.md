@@ -1,5 +1,17 @@
 # Historique
 
+## 0.3.1 — 2026-11-14 — Guides : les 4 C, l'or, la taille de doigt
+
+- Trois guides en français, faits vérifiés le 14/11, sources en bas de page, badge « Brouillon » :
+  - « Les 4 C du diamant » (`/fr/guides/les-4-c-du-diamant`) : échelles du GIA, carat de poids, et nouveau certificat GIA des diamants synthétiques (« Premium » ou « Standard » depuis fin 2025) face à l'IGI, qui garde l'échelle D à Z ;
+  - « Or 14 ou 18 carats » (`/fr/guides/or-14-ou-18-carats`) : titres légaux français (le 14 carats peut s'appeler « or »), densité, dureté selon l'alliage, or blanc au nickel ou au palladium ;
+  - « Taille de doigt » (`/fr/guides/taille-de-doigt`) : norme ISO 8653, méthode, pièges, tableau calculé des tailles françaises, israéliennes (française − 40) et américaines.
+- Les guides acceptent un tableau (`table`), lisible sur mobile. Liens croisés entre guides.
+- Configurateur français : liens vers les guides de l'or et de la taille (absents en anglais, en hébreu et dans la préversion).
+- Corrections : le 14 carats n'est plus dit « en général plus dur » (FAQ et configurateur, trois langues) ; la note sur l'origine ne dit plus « créé en laboratoire » mais « fabriqué par l'homme ».
+- Six questions pour l'atelier (61 à 66 de `docs/QUESTIONS_ATELIER.md`).
+- Tests : 61 unitaires, 80 navigateur (Chromium).
+
 ## 0.3.0 — 2026-11-14 — Bijou de famille, guides, adresses traduites
 
 - Page « Transformer un bijou de famille » (`/fr|en|he/transformation`) : déroulé en quatre étapes, ce que l'atelier dit franchement, formulaire avec photos (route `POST /api/transformation`, même envoi que le devis) et bouton WhatsApp si le numéro est renseigné. Badge « Brouillon ».

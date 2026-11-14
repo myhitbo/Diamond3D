@@ -1,5 +1,8 @@
 import type { Locale } from '@/lib/configurator/schema';
 
+/** Liens vers les guides (français seulement). */
+type GuideLinks = { titre: { label: string; href: string }; size: { label: string; href: string } };
+
 const fr = {
   brandTagline: 'Haute joaillerie · Atelier à la Bourse du Diamant, Ramat Gan',
   eyebrow: 'Configurateur · prototype',
@@ -9,7 +12,11 @@ const fr = {
   metalFamilies: { yellow: 'Or jaune', white: 'Or blanc', rose: 'Or rose', platinum: 'Platine' },
   titre: 'Titre de l’or',
   titres: { '14k': '14 carats', '18k': '18 carats', platinum: '950' },
-  titreNote: 'Le 18 carats contient plus d’or (75 %) que le 14 carats (58,5 %) : il est plus jaune, plus lourd et plus cher. Le 14 carats est en général plus dur.',
+  titreNote: 'Le 18 carats contient plus d’or (75 %) que le 14 carats (58,5 %) : il est plus jaune, plus lourd et plus cher. La solidité dépend surtout de l’alliage.',
+  guideLinks: {
+    titre: { label: 'Guide : or 14 ou 18 carats', href: '/fr/guides/or-14-ou-18-carats' },
+    size: { label: 'Guide : trouver sa taille de doigt', href: '/fr/guides/taille-de-doigt' },
+  } as GuideLinks | null,
   otherShapes: 'Autres formes',
   onRequest: 'sur demande',
   shapeRequestMessage: (shape: string) => `Je souhaite ce bijou avec une pierre centrale de forme : ${shape}.`,
@@ -18,7 +25,7 @@ const fr = {
   shapes: { round: 'Ronde', oval: 'Ovale', pear: 'Poire', emerald: 'Émeraude', princess: 'Princesse', marquise: 'Marquise', unknown: 'Inconnue' },
   origin: 'Origine du diamant',
   origins: { natural: 'Naturel', 'lab-grown': 'Synthétique' },
-  originNote: 'Aspect identique à l’écran : l’origine change le certificat et le prix, pas l’apparence. Un diamant synthétique est un vrai diamant, créé en laboratoire ; ce n’est pas une imitation.',
+  originNote: 'Aspect identique à l’écran : l’origine change le certificat et le prix, pas l’apparence. Un diamant synthétique est un vrai diamant, fabriqué par l’homme ; ce n’est pas une imitation.',
   size: 'Taille de doigt',
   sizeModeled: (label: string, d: string) => `Modélisé en ${label}, diamètre intérieur ${d} mm.`,
   sizeNote: 'Les autres tailles sont ajustées par l’atelier ; l’aperçu 3D reste celui de la taille modélisée.',
@@ -123,7 +130,8 @@ const en: Dict = {
   metalFamilies: { yellow: 'Yellow gold', white: 'White gold', rose: 'Rose gold', platinum: 'Platinum' },
   titre: 'Gold karat',
   titres: { '14k': '14 karat', '18k': '18 karat', platinum: '950' },
-  titreNote: '18 karat holds more gold (75%) than 14 karat (58.5%): it is yellower, heavier and more expensive. 14 karat is generally harder.',
+  titreNote: '18 karat holds more gold (75%) than 14 karat (58.5%): it is yellower, heavier and more expensive. Strength depends mostly on the alloy.',
+  guideLinks: null,
   otherShapes: 'Other shapes',
   onRequest: 'on request',
   shapeRequestMessage: (shape: string) => `I would like this piece with a centre stone in this shape: ${shape}.`,
@@ -235,7 +243,8 @@ const he: Dict = {
   metalFamilies: { yellow: 'זהב צהוב', white: 'זהב לבן', rose: 'זהב אדום', platinum: 'פלטינה' },
   titre: 'קראט הזהב',
   titres: { '14k': '14 קראט', '18k': '18 קראט', platinum: '950' },
-  titreNote: 'ב־18 קראט יש יותר זהב (75%) מאשר ב־14 קראט (58.5%): הוא צהוב יותר, כבד יותר ויקר יותר. 14 קראט בדרך כלל קשיח יותר.',
+  titreNote: 'ב־18 קראט יש יותר זהב (75%) מאשר ב־14 קראט (58.5%): הוא צהוב יותר, כבד יותר ויקר יותר. החוזק תלוי בעיקר בסגסוגת.',
+  guideLinks: null,
   otherShapes: 'צורות נוספות',
   onRequest: 'לפי בקשה',
   shapeRequestMessage: (shape: string) => `אני מעוניין/ת בתכשיט זה עם אבן מרכזית בצורה: ${shape}.`,

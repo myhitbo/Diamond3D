@@ -76,7 +76,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 
 ## Ce qui reste à faire
 
-### En attente de Yonathan (message de 22 questions envoyé le 4/11 ; relance prête le 13/11, 21 points : `docs/atelier/2026-11-13_relance.md`)
+### En attente de Yonathan (message de 22 questions envoyé le 4/11 ; relance prête le 13/11 ; message complet du 14/11, 22 points, qui la remplace : `docs/atelier/2026-11-14_message.md`, à envoyer par le propriétaire)
 - Validation de la règle de bénéfice et du tableau par catégorie ; plafond pour un diamant naturel.
 - Taux de change dollar → ₪ (proposé : taux officiel de la Banque d'Israël).
 - Prix du platine (il interroge les fonderies).

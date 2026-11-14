@@ -147,6 +147,13 @@ Le catalogue sera élargi à partir de modèles CGTrader (gratuits d'abord, puis
 55. Conditions générales de vente, mentions légales, politique de confidentialité : existantes ou à rédiger ?
 56. Durée de conservation souhaitée des demandes de devis et des photos envoyées par les clients ?
 
+## 12. Transformation d'un bijou de famille (ajouté le 14/11)
+
+57. La page `/fr/transformation` dit : « Rien n'est démonté ni fondu avant votre accord. » Est-ce exact ?
+58. Elle dit aussi que l'or récupéré pèse un peu moins que le bijou (soudures, pertes de fonte) et qu'une pierre fragile peut casser au dessertissage. Formulation à valider.
+59. Envoyez-vous aussi des photos des étapes pour une transformation, comme pour les autres bijoux ?
+60. Comment le client remet-il son bijou : à l'atelier, par envoi assuré ? Depuis la France ?
+
 ## Ce que j'attends concrètement, par ordre d'urgence
 
 1. Réponses aux questions 2 à 6 (validation du modèle actuel).

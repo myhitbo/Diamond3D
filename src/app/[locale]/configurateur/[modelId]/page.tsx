@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import Configurator from '@/components/configurator/Configurator';
 import SiteHeader from '@/components/site/SiteHeader';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
+import { configuratorPath, languageAlternates } from '@/lib/routes';
 import { MODELS, getModel } from '@/models';
 
 type Params = Promise<{ locale: string; modelId: string }>;
@@ -18,7 +19,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return {
     title: model.name[locale as Locale],
     description: model.description[locale as Locale],
-    alternates: { languages: Object.fromEntries(LOCALES.map((l) => [l, `/${l}/configurateur/${modelId}`])) },
+    alternates: { canonical: configuratorPath(locale as Locale, modelId), languages: languageAlternates(`/configurateur/${modelId}`) },
   };
 }
 

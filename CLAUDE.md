@@ -19,8 +19,8 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - Chromium : `/opt/pw-browsers/chromium-1243/chrome-linux64/chrome`. Tests navigateur : `CHROMIUM_PATH=… npx playwright test`.
 - `scripts/perf/serve-and-run.sh <script.cjs> <args>` sert le build sur le port 3100 (adresses en `/fr/configurateur/…`).
 - `?debug=1` active la sonde `window.__jr` (`ready`, `orbit(az)`, `visibleNodes`, `metalColor`). `?quality=low` force le rendu simplifié.
-- Vérifications : `npm run typecheck && npm run lint && npm test && npm run build && npm run test:e2e` (Chromium), plus `npm run test:e2e:browsers` (WebKit iPhone/iPad, Firefox sans 3D ; `npx playwright install webkit firefox`). État au 14/11 : 46 tests unitaires, 64 navigateur Chromium, 60 WebKit (iPhone, iPad), 12 Firefox, 9 pipeline CAO, tous verts. Intégration continue : `.github/workflows/ci.yml`.
-- Mesure sur appareil réel : page cachée `/fr/diagnostic` (rapport JSON), protocole `docs/DEVICE_TESTS.md`. Si le port 3100 reste occupé par un ancien `next-server` bloqué, les tests se figent : `fuser -n tcp 3100` puis `kill`.
+- Vérifications : `npm run typecheck && npm run lint && npm test && npm run build && npm run test:e2e` (Chromium), plus `npm run test:e2e:browsers` (WebKit iPhone/iPad, Firefox sans 3D ; `npx playwright install webkit firefox`). État au 14/11 : 57 tests unitaires, 76 navigateur Chromium, 76 WebKit (iPhone, iPad ; 4 ignorés), 18 Firefox, 9 pipeline CAO, tous verts. Intégration continue : `.github/workflows/ci.yml`.
+- Mesure sur appareil réel : page cachée `/fr/diagnostic` (rapport JSON), protocole `docs/DEVICE_TESTS.md`. Si le build échoue sur `next/font/google` alors que le réseau répond, le cache est corrompu : `rm -rf .next` puis rebâtir. Sans `CHROMIUM_PATH`, Playwright cherche un Chromium absent. Si le port 3100 reste occupé par un ancien `next-server` bloqué, les tests se figent : `fuser -n tcp 3100` puis `kill`.
 
 ## Aperçu en ligne
 - **https://jr-diamond.vercel.app** : projet Vercel `jr-diamond` (équipe `diamond3-d`, `team_AaIv8uYfh5BjwUqYEuH8WbiZ`, projet `prj_sEIRWdvN7CniQl0HdoZCqWyykDeb`), **relié au dépôt GitHub `myhitbo/Diamond3D`** : chaque push sur `main` redéploie la production, chaque autre branche reçoit un lien de prévisualisation.
@@ -45,6 +45,9 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - **Formes de pierre « sur demande »** (14/11) : boutons en pointillés qui ouvrent le devis avec le message pré-rempli ; la 3D reste la marquise.
 - **ring-001 régénéré depuis `Ring.3dm`** (14/11) : `models:extract` simplifie d'abord, retouche ensuite ; équivalent au modèle du 3/11 (0,001 mm).
 - **Études du 14/11** : `docs/PAIEMENT.md` (Stripe indisponible en Israël ; recommandation : Grow, parcours devis → prix confirmé → lien de paiement ; Bit plafonné à 5 000 ₪ par transaction chez la plupart des prestataires) et `docs/juridique/DOSSIER_AVOCAT_IL.md` (24 questions, résumé en hébreu).
+- **Bijou de famille** (14/11) : `/fr|en|he/transformation`, formulaire avec photos (`POST /api/transformation`, même envoi SMTP que le devis), contenu `src/content/transformation.ts`. Badge « Brouillon » : trois formulations sont des déductions à faire valider (questions 57 à 60 de `docs/QUESTIONS_ATELIER.md`).
+- **Guides en français** (14/11) : `/fr/guides` (synthétique ou naturel, formes de diamant, alliance de kiddouchin), contenu `src/content/guides.ts`, sources en bas de page. Français seulement : `/en/guides` répond 404.
+- **Adresses traduites** (14/11) : `/en/configurator/…`, `/he/configurator/…` (réécriture vers le dossier `configurateur`, redirection 307 des anciennes adresses). Toujours passer par `src/lib/routes.ts` (`configuratorPath`, `localizedPath`) pour écrire un lien. Pied de page commun `SiteFooter`.
 - **FAQ** (`/fr|en|he/faq`, contenu `src/content/faq.ts`) : 24 questions en 6 thèmes, réponses sourcées, 5 marquées « À confirmer ». Données structurées FAQPage (réponses validées seulement).
 - **Moteur de prix** (`src/lib/pricing/engine.ts`, paramètres `src/config/pricing.ts`), **non branché** :
   - postes au tarif boutique : or 14 k 370–380 ₪/g, 18 k 470–480 ₪/g, façon et sertissage en USD ;
@@ -73,7 +76,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 
 ## Ce qui reste à faire
 
-### En attente de Yonathan (message de 22 questions envoyé le 4/11 ; relance prête le 13/11 : `docs/atelier/2026-11-13_relance.md`)
+### En attente de Yonathan (message de 22 questions envoyé le 4/11 ; relance prête le 13/11, 21 points : `docs/atelier/2026-11-13_relance.md`)
 - Validation de la règle de bénéfice et du tableau par catégorie ; plafond pour un diamant naturel.
 - Taux de change dollar → ₪ (proposé : taux officiel de la Banque d'Israël).
 - Prix du platine (il interroge les fonderies).
@@ -88,10 +91,9 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 
 ### Développement possible sans attendre
 - **Envoi réel des devis : il manque seulement des valeurs à saisir dans Vercel.** WhatsApp : renseigner `NEXT_PUBLIC_WHATSAPP_NUMBER` (numéro de l'atelier, format international) puis redéployer ; le bouton « Envoyer sur WhatsApp » apparaît (lien wa.me, message pré-rempli, photos à joindre à la main). E-mail : variables `QUOTE_TO`, `QUOTE_FROM`, `SMTP_*` ; sans elles, le bouton « Envoyer la demande » répond « indisponible ». La notification automatique par la WhatsApp Business Platform de Meta n'est pas faite (compte Meta, numéro dédié, coût par message).
-- Parcours « transformation de bijou de famille » (photos de l'ancien bijou + devis).
-- Page et guide de l'alliance de kiddouchin (dès réception du modèle).
-- Guides SEO en français : synthétique ou naturel, tailles, kiddouchin.
-- Adresses traduites (`/en/configurator/…`, `/he/…`).
+- Page de l'alliance de kiddouchin (dès réception du modèle ; le guide existe).
+- Guides suivants : les 4 C, or 14 ou 18 carats, taille de doigt.
+- Passer les redirections des adresses traduites en permanent au lancement.
 
 ### Dès réception des éléments
 - Brancher le prix « à partir de » quand `src/config/pricing.ts` n'a plus de paramètre manquant.

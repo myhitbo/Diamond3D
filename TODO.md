@@ -28,8 +28,8 @@
 ## Lancement en Israël (décisions du 4/11, voir `docs/STRATEGIE.md` §6)
 - [ ] Envoyer `docs/PROCEDURE_PHOTO_ATELIER.md` à l'atelier.
 - [ ] Prix affichés en ₪ TTC (TVA 18 %).
-- [ ] Alliance de kiddouchin : obtenir un modèle simple (atelier ou CGTrader), page et guide.
-- [ ] Parcours « transformation de bijoux de famille » : photos de l'ancien bijou + demande de devis.
+- [ ] Alliance de kiddouchin : obtenir un modèle simple (atelier ou CGTrader) et faire la page. Guide fait le 14/11 (`/fr/guides/alliance-de-kiddouchin`).
+- [x] Parcours « transformation de bijoux de famille » : photos de l'ancien bijou + demande de devis (`/fr|en|he/transformation`, 14/11). Reste : relecture par l'atelier.
 - [ ] Avocat israélien : la bague configurée relève-t-elle de l'exception « fabriqué sur mesure » au droit d'annulation ? Délai étendu pour nouveaux immigrants ? Poinçon ?
 - [x] Version hébreu (RTL) du configurateur et de la FAQ (4/11) : `/he/…`, polices Frank Ruhl Libre et Assistant.
 - [ ] Faire relire tous les textes hébreux par un locuteur natif (Yonathan ou un proche) : traduction faite par l'IA, termes de joaillerie à vérifier (« יהלום מעבדה », « זהב אדום » pour l'or rose, « הילה » pour le halo).
@@ -37,7 +37,7 @@
 
 ## FAQ (`/fr/faq`, contenu : `src/content/faq.ts`)
 - [ ] Faire valider par l'atelier les 5 réponses « À confirmer » : modèle hors catalogue, paiement (moyens acceptés), annulation et retour (avec l'avocat), livraison à l'étranger, entretien.
-- [ ] Faire relire par l'atelier les réponses issues de déductions : gravure de l'alliance de kiddouchin après la cérémonie, contrôle du titre et des pierres pour une transformation, alliances serties tout autour difficiles à mettre à taille.
+- [ ] Faire relire par l'atelier les réponses issues de déductions : gravure de l'alliance de kiddouchin après la cérémonie, contrôle du titre et des pierres pour une transformation, page transformation (rien n'est démonté avant accord, perte de poids à la fonte, pierres fragiles, photos des étapes), les trois guides, alliances serties tout autour difficiles à mettre à taille.
 - [ ] Ajouter un contact réel (WhatsApp de l'atelier) sous « Une autre question ? ».
 - [ ] Retirer le badge « Brouillon » quand plus aucune réponse n'est « À confirmer ».
 
@@ -56,6 +56,6 @@
 - [ ] Paiement : ouvrir un compte Grow au nom de l'entreprise de l'atelier, demander des devis à PayPlus et Cardcom, puis développer le parcours devis → lien de paiement.
 - [ ] Juridique : compléter la partie 4 du dossier avec l'atelier et consulter un avocat israélien.
 - [ ] Devis : faire relire les textes hébreux du formulaire (traduction IA).
-- [ ] Adresses traduites (`/en/configurator/…`).
+- [x] Adresses traduites (`/en/configurator/…`, `/he/configurator/…`, 14/11). Redirections à passer en permanent au lancement.
 - [ ] Tests Safari et Firefox.
 - [ ] Calibrer les teintes des métaux sur des photos authentiques.

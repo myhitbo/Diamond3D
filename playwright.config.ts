@@ -34,7 +34,7 @@ export default defineConfig({
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'], viewport: { width: 1440, height: 900 } },
-      testMatch: ['faq.spec.ts', 'quote.spec.ts', 'no-webgl.spec.ts'],
+      testMatch: ['faq.spec.ts', 'quote.spec.ts', 'no-webgl.spec.ts', 'pages.spec.ts'],
     },
   ],
 });

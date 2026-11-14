@@ -1,5 +1,14 @@
 # Historique
 
+## 0.3.0 — 2026-11-14 — Bijou de famille, guides, adresses traduites
+
+- Page « Transformer un bijou de famille » (`/fr|en|he/transformation`) : déroulé en quatre étapes, ce que l'atelier dit franchement, formulaire avec photos (route `POST /api/transformation`, même envoi que le devis) et bouton WhatsApp si le numéro est renseigné. Badge « Brouillon ».
+- Guides en français (`/fr/guides`) : synthétique ou naturel, formes de diamant, alliance de kiddouchin. Faits vérifiés le 14/11, sources en bas de page, données structurées Article. Badge « Brouillon ».
+- Adresses traduites : `/en/configurator/…` et `/he/configurator/…` ; les anciennes adresses y redirigent (307, à passer en permanent au lancement). Balises de langue et lien canonique à jour. Module `src/lib/routes.ts`.
+- Pied de page commun avec les liens du site.
+- Limitation des envois partagée entre les deux routes (`src/lib/quote/rateLimit.ts`).
+- Tests : 57 unitaires, 9 pipeline, navigateur 76 (Chromium), 76 (WebKit iPhone et iPad, dont 4 ignorés), 18 (Firefox).
+
 ## 0.2.2 — 2026-11-14 — Formes sur demande, WhatsApp, modèle régénéré, études
 
 - Formes de pierre non modélisées : boutons « sur demande » qui ouvrent le devis avec le message pré-rempli.

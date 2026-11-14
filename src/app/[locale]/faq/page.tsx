@@ -5,6 +5,7 @@ import SiteHeader from '@/components/site/SiteHeader';
 import { FAQ, allFaqItems } from '@/content/faq';
 import { DICTIONARIES } from '@/i18n/dictionaries';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
+import { configuratorPath, languageAlternates } from '@/lib/routes';
 import styles from './faq.module.css';
 
 type Params = Promise<{ locale: string }>;
@@ -16,7 +17,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   return {
     title: t.faqTitle,
     description: t.faqLede,
-    alternates: { languages: Object.fromEntries(LOCALES.map((l) => [l, `/${l}/faq`])) },
+    alternates: { languages: languageAlternates('/faq') },
   };
 }
 
@@ -99,7 +100,7 @@ export default async function FaqPage({ params }: { params: Params }) {
 
         <footer className={styles.outro}>
           <p>{t.faqContact}</p>
-          <Link href={`/${locale}/configurateur/ring-001`} className={styles.cta}>
+          <Link href={configuratorPath(locale)} className={styles.cta}>
             {t.faqBack}
           </Link>
         </footer>

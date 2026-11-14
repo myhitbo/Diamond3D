@@ -1,0 +1,57 @@
+import { NextResponse } from 'next/server';
+import { checkPhotos, PHOTO_LIMITS, type QuoteError } from '@/lib/quote/request';
+import { mailerStatus, sendQuoteMail } from '@/lib/quote/mailer';
+import { clientIp, rateLimited } from '@/lib/quote/rateLimit';
+import { buildTransformationEmail, parseTransformation, transformationFieldsFromForm } from '@/lib/quote/transformation';
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
+const fail = (status: number, error: QuoteError | { code: string }) => NextResponse.json({ ok: false, error }, { status });
+
+/** Demande de transformation d'un bijou de famille : mêmes règles que `/api/devis` (limites, piège, envoi). */
+export async function POST(req: Request) {
+  if (mailerStatus() === 'unconfigured') return fail(503, { code: 'unavailable' });
+
+  const length = Number(req.headers.get('content-length') ?? 0);
+  if (length > PHOTO_LIMITS.maxBytesTotal + 256 * 1024) return fail(413, { code: 'photos', reason: 'total' });
+
+  if (mailerStatus() !== 'dry-run' && rateLimited(clientIp(req))) return fail(429, { code: 'rate_limited' });
+
+  let form: FormData;
+  try {
+    form = await req.formData();
+  } catch {
+    return fail(400, { code: 'invalid', fields: [] });
+  }
+
+  const parsed = parseTransformation(transformationFieldsFromForm(form));
+  if (!parsed.ok) {
+    // Robot (champ piège rempli) : réponse identique à un succès, rien n'est envoyé.
+    if (parsed.error.code === 'invalid' && parsed.error.fields.includes('website')) return NextResponse.json({ ok: true });
+    return fail(400, parsed.error);
+  }
+
+  const files = form.getAll('photos').filter((f): f is File => f instanceof File && f.size > 0);
+  const photos = files.map((f) => ({ name: f.name.slice(0, 120), type: f.type, size: f.size }));
+  const photoError = checkPhotos(photos);
+  if (photoError) return fail(400, photoError);
+
+  const { fields } = parsed;
+  const site = process.env.SITE_URL || new URL(req.url).origin;
+  const { subject, text } = buildTransformationEmail(fields, photos, site);
+  try {
+    await sendQuoteMail({
+      subject,
+      text,
+      replyTo: { name: fields.name, address: fields.email },
+      attachments: await Promise.all(
+        files.map(async (f, i) => ({ filename: photos[i].name || `photo-${i + 1}`, content: Buffer.from(await f.arrayBuffer()), contentType: f.type })),
+      ),
+    });
+  } catch (e) {
+    console.error('[transformation] échec de l’envoi', e);
+    return fail(502, { code: 'send_failed' });
+  }
+  return NextResponse.json({ ok: true });
+}

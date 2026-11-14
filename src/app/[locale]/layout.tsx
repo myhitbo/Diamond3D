@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { notFound } from 'next/navigation';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Assistant, Cormorant_Garamond, Frank_Ruhl_Libre, Jost } from 'next/font/google';
+import SiteFooter from '@/components/site/SiteFooter';
 import { DIRECTION } from '@/i18n/dictionaries';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
 import '../globals.css';
@@ -35,6 +36,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
     >
       <body>
         {children}
+        <SiteFooter locale={locale as Locale} />
         {/* Web Vitals réels (LCP, INP, CLS) remontés à Vercel. Seulement sur Vercel (VERCEL=1 au build) :
             ailleurs, son script n'existe pas (404). */}
         {process.env.VERCEL && <SpeedInsights />}

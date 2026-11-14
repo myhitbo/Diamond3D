@@ -1,11 +1,22 @@
 import type { NextConfig } from 'next';
+import { translatedRouteRules } from './src/lib/routes';
+
+const routes = translatedRouteRules();
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   async redirects() {
-    // Prototype : la racine mène au configurateur du modèle pilote.
-    return [{ source: '/', destination: '/fr/configurateur/ring-001', permanent: false }];
+    return [
+      // Prototype : la racine mène au configurateur du modèle pilote.
+      { source: '/', destination: '/fr/configurateur/ring-001', permanent: false },
+      // Anciennes adresses françaises sous /en et /he : vers l'adresse traduite.
+      ...routes.redirects,
+    ];
+  },
+  async rewrites() {
+    // Adresses traduites (/en/configurator/…) servies par les pages du dossier français.
+    return routes.rewrites;
   },
   async headers() {
     return [

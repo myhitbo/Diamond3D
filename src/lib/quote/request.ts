@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { METALS } from '@/config/metals';
 import { DICTIONARIES, formatNumber } from '@/i18n/dictionaries';
 import { applyChange, defaultState, metalWeightEstimateG, stoneSummary } from '@/lib/configurator/logic';
+import { configuratorPath } from '@/lib/routes';
 import { LOCALES, MetalId, type ConfigState, type Locale, type ModelDefinition } from '@/lib/configurator/schema';
 
 /* ---------- Limites (une seule source pour le formulaire et le serveur) ---------- */
@@ -159,7 +160,7 @@ export function buildQuoteEmail(
     '',
     '— Configuration —',
     ...configurationLines(model, state),
-    ...(siteUrl ? [`Page : ${siteUrl.replace(/\/$/, '')}/${f.locale}/configurateur/${model.id}`] : []),
+    ...(siteUrl ? [`Page : ${siteUrl.replace(/\/$/, '')}${configuratorPath(f.locale, model.id)}`] : []),
     `Configuration brute : ${JSON.stringify(state)}`,
     '',
     '— Message —',

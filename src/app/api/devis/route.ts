@@ -2,24 +2,10 @@ import { NextResponse } from 'next/server';
 import { getModel } from '@/models';
 import { buildQuoteEmail, checkPhotos, fieldsFromForm, parseQuote, PHOTO_LIMITS, type QuoteError } from '@/lib/quote/request';
 import { mailerStatus, sendQuoteMail } from '@/lib/quote/mailer';
+import { clientIp, rateLimited } from '@/lib/quote/rateLimit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
-
-// Limitation simple, en mémoire, par adresse IP : suffisante contre les envois répétés
-// d'un même navigateur, pas contre une attaque distribuée (instance unique, remise à zéro au redémarrage).
-const WINDOW_MS = 10 * 60 * 1000;
-const MAX_PER_WINDOW = 5;
-const hits = new Map<string, number[]>();
-
-function rateLimited(ip: string): boolean {
-  const now = Date.now();
-  const recent = (hits.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
-  recent.push(now);
-  hits.set(ip, recent);
-  if (hits.size > 5000) for (const [k, v] of hits) if (v.every((t) => now - t >= WINDOW_MS)) hits.delete(k);
-  return recent.length > MAX_PER_WINDOW;
-}
 
 const fail = (status: number, error: QuoteError | { code: string }) => NextResponse.json({ ok: false, error }, { status });
 
@@ -29,8 +15,7 @@ export async function POST(req: Request) {
   const length = Number(req.headers.get('content-length') ?? 0);
   if (length > PHOTO_LIMITS.maxBytesTotal + 256 * 1024) return fail(413, { code: 'photos', reason: 'total' });
 
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim() || req.headers.get('x-real-ip') || 'local';
-  if (mailerStatus() !== 'dry-run' && rateLimited(ip)) return fail(429, { code: 'rate_limited' });
+  if (mailerStatus() !== 'dry-run' && rateLimited(clientIp(req))) return fail(429, { code: 'rate_limited' });
 
   let form: FormData;
   try {

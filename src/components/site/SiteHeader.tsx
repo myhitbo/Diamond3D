@@ -1,15 +1,19 @@
 import Link from 'next/link';
 import { DICTIONARIES } from '@/i18n/dictionaries';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
+import { configuratorPath, localizedPath } from '@/lib/routes';
 
 const LOCALE_LABELS: Record<Locale, string> = { fr: 'FR', en: 'EN', he: 'עב' };
 
-/** En-tête commun. `path` : chemin de la page sans la langue (ex. « /faq »), pour changer de langue sur place. */
-export default function SiteHeader({ locale, path }: { locale: Locale; path: string }) {
+/**
+ * En-tête commun. `path` : chemin interne de la page sans la langue (ex. « /faq »), pour changer de langue sur place.
+ * `locales` : langues dans lesquelles la page existe (par défaut toutes).
+ */
+export default function SiteHeader({ locale, path, locales = LOCALES }: { locale: Locale; path: string; locales?: readonly Locale[] }) {
   const t = DICTIONARIES[locale];
   return (
     <header className="site-header">
-      <Link href={`/${locale}/configurateur/ring-001`} className="wordmark">
+      <Link href={configuratorPath(locale)} className="wordmark">
         JR Diamond
       </Link>
       <p className="tagline">{t.brandTagline}</p>
@@ -24,8 +28,8 @@ export default function SiteHeader({ locale, path }: { locale: Locale; path: str
           </Link>
         </nav>
         <nav className="lang" aria-label="Langue / Language">
-          {LOCALES.map((l) => (
-            <Link key={l} href={`/${l}${path}`} hrefLang={l} lang={l} aria-current={l === locale ? 'page' : undefined}>
+          {locales.map((l) => (
+            <Link key={l} href={localizedPath(l, path)} hrefLang={l} lang={l} aria-current={l === locale ? 'page' : undefined}>
               {LOCALE_LABELS[l]}
             </Link>
           ))}

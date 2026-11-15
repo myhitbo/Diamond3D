@@ -1,4 +1,6 @@
 import { expect, test } from '@playwright/test';
+// Import relatif : `site.ts` n'importe rien du projet (il est aussi lu par `next.config.ts`).
+import { TRANSLATED_REDIRECTS_PERMANENT } from '../../src/config/site';
 
 // Déclaration d'accessibilité et politique de confidentialité : trois langues, adresses traduites, pied de page, lien d'évitement,
 // et ce que la politique affirme du site (aucun cookie, aucun stockage, aucune requête vers un autre domaine).
@@ -43,7 +45,7 @@ test('pages légales en français, anglais et hébreu : 200, titre, langue, badg
   }
 });
 
-test('adresses françaises sous /en et /he : redirection temporaire vers l’adresse traduite', async ({ request }) => {
+test('adresses françaises sous /en et /he : redirection vers l’adresse traduite, temporaire avant le lancement', async ({ request }) => {
   const cases = [
     ['/en/accessibilite', '/en/accessibility'],
     ['/he/accessibilite', '/he/accessibility'],
@@ -52,7 +54,7 @@ test('adresses françaises sous /en et /he : redirection temporaire vers l’adr
   ];
   for (const [from, to] of cases) {
     const res = await request.get(from, { maxRedirects: 0 });
-    expect(res.status(), from).toBe(307);
+    expect(res.status(), from).toBe(TRANSLATED_REDIRECTS_PERMANENT ? 308 : 307);
     expect(res.headers()['location'], from).toBe(to);
   }
   expect((await request.get('/en/confidentialite?ref=1', { maxRedirects: 0 })).headers()['location']).toBe('/en/privacy?ref=1');

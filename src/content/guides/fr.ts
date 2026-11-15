@@ -5,7 +5,9 @@
  * - chaque fait extérieur est vérifié et sa source figure en bas du guide ;
  * - ce qui concerne l'atelier reprend ses réponses (docs/REPONSES_ATELIER.md) et la FAQ ;
  * - aucun prix : les règles de prix ne sont pas fixées ;
- * - « synthétique », jamais « de laboratoire » ni « de culture » (décret 2002-65) ;
+ * - « synthétique », jamais « de laboratoire » ni « de culture » (décret 2002-65) ; une pierre synthétique n'est jamais dite
+ *   « vraie », « véritable », « naturelle », « fine », « précieuse », « cultivée » ni « élevée » (même décret, article 4, dernier
+ *   alinéa) : dire plutôt ce qu'elle a en commun avec la pierre naturelle (composition, structure) ;
  * - questions religieuses : on rapporte la coutume et on renvoie au rabbin, sans trancher.
  * Les guides portent le badge « Brouillon » tant que l'atelier ne les a pas relus.
  */

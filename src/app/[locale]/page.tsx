@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Fragment } from 'react';
 import SiteHeader, { MAIN_ID } from '@/components/site/SiteHeader';
+import { SITE_NAME } from '@/config/site';
 import { isGuideLocale } from '@/content/guides/types';
 import { HOME, type HomeCard } from '@/content/home';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
@@ -25,9 +26,11 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   if (!LOCALES.includes(locale as Locale)) return notFoundMetadata(locale);
   const c = HOME[locale as Locale];
   return pageMetadata(locale as Locale, {
-    // Titre complet : l'accueil porte déjà le nom de la marque, le gabarit « · JR Diamond » du layout le répéterait.
-    title: c.metaTitle,
+    // Onglet : la marque en tête, sans le gabarit « · JR Diamond » du layout. Aperçu partagé : le titre seul, la marque est
+    // déjà dans `og:site_name`.
+    title: `${SITE_NAME} · ${c.shareTitle}`,
     absoluteTitle: true,
+    shareTitle: c.shareTitle,
     description: c.description,
     path: homePath(locale as Locale),
     languages: languageAlternates('/'),

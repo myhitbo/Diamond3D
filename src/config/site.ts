@@ -3,12 +3,15 @@
  *
  * Importé aussi par `next.config.ts` (hors alias `@/`) : ce module n'importe rien du projet.
  *
- * Le jour du lancement, un seul changement : `SITE_INDEXABLE = true`. Il ouvre, en un seul build :
+ * Le jour du lancement, un seul réglage : `SITE_INDEXABLE = true`. Il ouvre, en un seul build :
  * - la balise robots des pages (`index, follow` au lieu de `noindex, nofollow`, dans `src/app/[locale]/layout.tsx`) ;
  * - le plan du site (`/sitemap.xml`, vide jusque-là) et son annonce dans `/robots.txt` (`src/lib/indexing.ts`) ;
  * - les redirections permanentes (308) des anciennes adresses du configurateur (`TRANSLATED_REDIRECTS_PERMANENT`).
+ * Les tests suivent l'interrupteur, sauf un garde-fou qui empêche de l'ouvrir par mégarde : le retirer dans le même commit
+ * (« garde-fou avant le lancement », `tests/unit/seo.test.ts`).
  * Puis lever la protection Vercel (connexion obligatoire) : tant qu'elle est active, robots et aperçus de liens
- * (WhatsApp, Facebook, iMessage) reçoivent une page de connexion et ne voient rien du site.
+ * (WhatsApp, Facebook, iMessage) reçoivent une page de connexion et ne voient rien du site, et Vercel dépose son propre cookie
+ * de connexion (`_vercel_jwt`), alors que la politique de confidentialité annonce un site sans cookie.
  */
 
 /** Prototype : le site ne doit pas être indexé tant que l'atelier ne l'a pas validé. */

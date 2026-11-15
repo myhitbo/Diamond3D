@@ -115,6 +115,52 @@ test('les pierres de couleur sont proposées « sur demande » et pré-remplisse
   await expect(message).toHaveValue('Je souhaite ce bijou avec un rubis naturel en pierre centrale. Les autres pierres restent des diamants synthétiques.');
 });
 
+test('le message proposé suit l’origine et la composition sans déplacer la page ; seul un bouton « sur demande » la fait défiler', async ({ page }) => {
+  // Défilement instantané : la position se lit sans attendre la fin d'une animation.
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(URL);
+  await page.getByRole('group', { name: 'Autres pierres' }).getByRole('button', { name: /Émeraude/ }).click();
+  const message = page.getByLabel('Message');
+  await expect(message).toHaveValue('Je souhaite ce bijou avec une émeraude naturelle en pierre centrale.');
+  const frames = () => page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+  const scrollY = () => page.evaluate(() => window.scrollY);
+
+  // Souris : l'origine change le message, la page ne bouge pas.
+  const labGrown = page.getByRole('radio', { name: 'Synthétique' });
+  await labGrown.scrollIntoViewIfNeeded();
+  let before = await scrollY();
+  await labGrown.click();
+  await expect(message).toHaveValue('Je souhaite ce bijou avec une émeraude naturelle en pierre centrale. Les autres pierres restent des diamants synthétiques.');
+  await frames();
+  expect(await scrollY()).toBe(before);
+  await expect(labGrown).toBeInViewport();
+  // Clavier : les flèches du groupe changent l'origine, le choix qui a le focus reste à l'écran.
+  before = await scrollY();
+  await page.keyboard.press('ArrowLeft');
+  const natural = page.getByRole('radio', { name: 'Naturel' });
+  await expect(natural).toBeFocused();
+  await expect(message).toHaveValue('Je souhaite ce bijou avec une émeraude naturelle en pierre centrale.');
+  await frames();
+  expect(await scrollY()).toBe(before);
+  await expect(natural).toBeInViewport();
+
+  // Alliance seule (pas de pierre centrale) : la proposition, non retouchée, disparaît ; elle revient avec la pierre centrale.
+  const band = page.getByRole('radio', { name: 'Alliance' });
+  await band.scrollIntoViewIfNeeded();
+  before = await scrollY();
+  await band.click();
+  await expect(message).toHaveValue('');
+  await frames();
+  expect(await scrollY()).toBe(before);
+  await page.getByRole('radio', { name: 'Ensemble', exact: true }).click();
+  await expect(message).toHaveValue('Je souhaite ce bijou avec une émeraude naturelle en pierre centrale.');
+
+  // Demande explicite : le formulaire, déjà ouvert, revient à l'écran.
+  await page.getByRole('group', { name: 'Autres formes' }).getByRole('button', { name: /Ovale/ }).click();
+  await expect(message).toHaveValue('Je souhaite ce bijou avec une émeraude naturelle en pierre centrale, de forme : Ovale.');
+  await expect(page.getByRole('heading', { name: 'Demande de devis' })).toBeInViewport();
+});
+
 test('pierres sur demande en hébreu', async ({ page }) => {
   await page.goto('/he/configurator/ring-001');
   const stones = page.getByRole('group', { name: 'אבנים אחרות' });

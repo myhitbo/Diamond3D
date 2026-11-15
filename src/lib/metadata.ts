@@ -36,6 +36,8 @@ export type PageShare = {
   title: string;
   /** Titre complet, sans gabarit (accueil, qui porte déjà le nom de la marque). */
   absoluteTitle?: boolean;
+  /** Titre de l'aperçu (`og:title`, `twitter:title`) quand il diffère de celui de l'onglet : toujours sans la marque. */
+  shareTitle?: string;
   description: string;
   /** Adresse publique de la page dans cette langue : lien canonique et `og:url`. */
   path: string;
@@ -48,9 +50,10 @@ export type PageShare = {
 /** Métadonnées complètes d'une page qui a son propre titre. */
 export function pageMetadata(locale: Locale, p: PageShare): Metadata {
   const image = shareImage(locale);
+  const shareTitle = p.shareTitle ?? p.title;
   const og = {
     siteName: SITE_NAME,
-    title: p.title,
+    title: shareTitle,
     description: p.description,
     url: p.path,
     locale: OG_LOCALE[locale],
@@ -62,7 +65,7 @@ export function pageMetadata(locale: Locale, p: PageShare): Metadata {
     description: p.description,
     alternates: { canonical: p.path, languages: p.languages },
     openGraph: p.modifiedTime ? { ...og, type: 'article', modifiedTime: p.modifiedTime } : { ...og, type: 'website' },
-    twitter: { card: 'summary_large_image', title: p.title, description: p.description, images: [image] },
+    twitter: { card: 'summary_large_image', title: shareTitle, description: p.description, images: [image] },
   };
 }
 

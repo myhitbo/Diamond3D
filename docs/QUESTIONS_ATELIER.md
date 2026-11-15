@@ -181,6 +181,13 @@ Les deux pages existent en brouillon (`/fr/accessibilite`, `/fr/confidentialite`
 78. Informations de vente à distance à publier (reprend les questions 42 à 46) : moyens et modalités de paiement, mode et délai de livraison, durée de validité d'un devis, garantie (durée, ce qu'elle couvre).
 79. Relecture du texte hébreu des deux pages par un locuteur natif (traduction faite par l'IA).
 
+## 15. Page d'accueil et FAQ : ce que le site affirme (ajouté le 15/11)
+
+80. Fabrication : quelles étapes l'atelier fait-il lui-même, et lesquelles confie-t-il à d'autres (impression 3D ou cire, fonte, en particulier du platine, sertissage, polissage, rhodiage) ? Le site dit aujourd'hui « c'est notre atelier qui fabrique votre bijou », sans « sur place » ni « chaque pièce », en attendant votre réponse (précise la question 38).
+81. Première mise à taille offerte : votre réponse du 3/11 dit « Après un an, payante ». Le site écrit donc « offerte pendant la première année ». L'année court-elle à partir de la livraison, de la commande ou du paiement ? Y a-t-il des exceptions (alliance sertie tout le tour, pavé, platine) ?
+82. Photos et vidéos de fabrication : quand pourrez-vous les envoyer à chaque client, pour quelles étapes, et par quel moyen (WhatsApp, e-mail) ? La FAQ (« Puis-je suivre la fabrication ? ») et l'accueil le présentent comme une intention, marquée « À confirmer », jusqu'à votre réponse.
+83. Hébreu : le site écrit maintenant les pierres אזמרגד (émeraude), ספיר (saphir) et אודם (rubis), et garde אמרלד pour la taille émeraude (forme de la pierre). Ces termes vous conviennent-ils, ou vos clients disent-ils plutôt אמרלד et רובי ?
+
 ## Ce que j'attends concrètement, par ordre d'urgence
 
 1. Réponses aux questions 2 à 6 (validation du modèle actuel).

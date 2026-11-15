@@ -4,7 +4,10 @@
  * Décrit ce que fait le code, relu le 15/11 : formulaires `src/lib/quote/request.ts` et `transformation.ts` (champs, limites
  * des photos), routes `src/app/api/devis` et `src/app/api/transformation` (e-mail SMTP à l'atelier, photos jointes, aucune
  * écriture sur disque), `rateLimit.ts` (adresse IP en mémoire, 5 envois en 10 minutes), `whatsapp.ts` (lien wa.me), layout
- * (Speed Insights seulement sur Vercel, polices auto-hébergées), aucun cookie ni stockage du navigateur dans `src`.
+ * (Speed Insights seulement sur Vercel, polices auto-hébergées), aucun cookie ni stockage du navigateur dans `src`, `mailer.ts`
+ * (connexion SMTP chiffrée imposée). Journal de l'hébergeur : documentation Vercel « Runtime Logs », lue le 15/11 (méthode,
+ * chemin et paramètres, heure, statut, navigateur de chaque requête ; filtre par adresse IP ; 1 heure en Hobby, 1 jour en Pro,
+ * 3 jours en Enterprise, 30 jours avec Observability Plus).
  * Toute modification de ces fichiers qui change ce que le site recueille ou transmet se reporte ici, dans les trois langues.
  *
  * Contenu exigé : notice de l'article 11 de la loi israélienne sur la protection de la vie privée (caractère facultatif et
@@ -42,7 +45,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
         id: 'en-bref',
         title: 'En bref',
         list: [
-          'Nous ne recueillons que ce que vous écrivez dans un formulaire de demande, et seulement pour vous répondre.',
+          'Nous ne recueillons que ce que vous écrivez dans un formulaire de demande, et seulement pour vous répondre, plus les données techniques nécessaires au fonctionnement du site (adresse IP, navigateur, page demandée), décrites plus bas.',
           'Votre demande nous arrive par e-mail. Le site n’a pas de base de données et ne garde aucune copie de vos messages ni de vos photos.',
           'Le site ne dépose aucun cookie et n’affiche aucune publicité. Il mesure de façon anonyme la vitesse d’affichage de ses pages.',
         ],
@@ -73,10 +76,10 @@ export const PRIVACY: Record<Locale, LegalPage> = {
         title: 'Comment votre demande nous parvient',
         paragraphs: [
           'Votre demande est envoyée par e-mail à l’atelier, vos photos en pièces jointes. L’e-mail reprend tout ce que vous avez saisi, ainsi que le nom et la taille de chaque photo et l’adresse de la page d’où vous écrivez. Quand l’atelier répond, il vous écrit directement à votre adresse.',
-          'Le site lui-même n’enregistre rien : ni vos messages ni vos photos ne sont stockés sur ses serveurs ou dans une base de données. Les photos ne restent en mémoire que le temps de l’envoi.',
+          'Le site lui-même n’enregistre ni vos messages ni vos photos : ils ne sont stockés ni sur ses serveurs ni dans une base de données. Les photos ne restent en mémoire que le temps de l’envoi.',
           'Vos demandes sont ensuite conservées dans la messagerie de l’atelier, chez son fournisseur : {emailProvider}.',
           'Pour limiter les envois répétés, le serveur garde en mémoire votre adresse IP et l’heure de vos envois : 5 demandes au plus en 10 minutes, tous formulaires confondus. Ces données ne sont ni écrites sur disque ni transmises ; elles s’effacent au redémarrage du serveur.',
-          'Si un envoi échoue, un message d’erreur technique est écrit dans le journal de l’hébergeur.',
+          'Comme tout hébergeur, Vercel tient un journal des requêtes que traitent ses serveurs : affichage d’une page, envoi d’un formulaire. Il y note la page demandée et ses paramètres, l’heure, le résultat, le navigateur utilisé et votre adresse IP, mais pas le contenu de vos formulaires. L’exploitant du site peut consulter ce journal. Si un envoi échoue, un message d’erreur technique s’y ajoute.',
         ],
       },
       {
@@ -90,7 +93,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
         id: 'hebergement',
         title: 'Hébergement et transfert hors d’Israël',
         paragraphs: [
-          'Le site est hébergé par Vercel Inc., société américaine. Les formulaires sont traités par ses serveurs situés aux États-Unis, dans la région de Washington. Les messages d’erreur du site restent dans le journal de Vercel de 1 heure à 30 jours, selon la formule d’hébergement. Vercel traite aussi, pour son propre compte, des données techniques liées à son service, selon sa politique de confidentialité.',
+          'Le site est hébergé par Vercel Inc., société américaine. Les formulaires sont traités par ses serveurs situés aux États-Unis, dans la région de Washington. Vercel traite aussi, pour son propre compte, des données techniques liées à son service, selon sa politique de confidentialité.',
           'Vos données quittent donc Israël : vers les États-Unis (Vercel) et vers le pays des serveurs du fournisseur de messagerie. Base de ce transfert : {transferBasis}.',
         ],
       },
@@ -102,8 +105,20 @@ export const PRIVACY: Record<Locale, LegalPage> = {
           'Sur le site en ligne, l’outil Speed Insights de Vercel mesure la vitesse d’affichage des pages. Selon Vercel, cette mesure est anonyme : elle n’est liée ni à un visiteur ni à une adresse IP. Elle relève la page, le navigateur, le type d’appareil et son système, le pays, le type de connexion et des indicateurs de vitesse.',
         ],
       },
-      { id: 'conservation', title: 'Combien de temps', paragraphs: ['Le site ne conserve rien. Dans la messagerie de l’atelier : {retention}.'] },
-      { id: 'securite', title: 'Sécurité', paragraphs: ['Les échanges entre votre navigateur et le site sont chiffrés (HTTPS).'] },
+      {
+        id: 'conservation',
+        title: 'Combien de temps',
+        paragraphs: [
+          'Journal des requêtes de l’hébergeur : {hostLogRetention}. Adresses IP gardées en mémoire contre les envois répétés : jusqu’au redémarrage du serveur. Messagerie de l’atelier : {retention}.',
+        ],
+      },
+      {
+        id: 'securite',
+        title: 'Sécurité',
+        paragraphs: [
+          'Les échanges entre votre navigateur et le site sont chiffrés (HTTPS). Votre demande part elle aussi vers la messagerie de l’atelier par une connexion chiffrée : le site refuse d’envoyer l’e-mail si le serveur de messagerie ne la propose pas.',
+        ],
+      },
       {
         id: 'droits',
         title: 'Vos droits',
@@ -122,11 +137,11 @@ export const PRIVACY: Record<Locale, LegalPage> = {
           'Vendeur : {legalName}, {registrationNumber}.',
           'Adresse : {address}. Téléphone : {phone}. E-mail : {email}.',
           'Produits : bijoux fabriqués à la commande par l’atelier. Leurs caractéristiques figurent sur la page de chaque modèle et dans le devis.',
-          'Prix : sur devis. Aucun prix n’est affiché sur le site ; il figure dans le devis.',
+          'Prix : sur devis. Le prix d’un bijou n’est pas affiché sur le site ; il figure dans le devis.',
           'Validité du devis : {quoteValidity}.',
           'Paiement : {payment}.',
           'Fabrication : 14 jours ouvrés. Livraison : {delivery}.',
-          'Garantie : {warranty}. La première mise à taille est offerte.',
+          'Garantie : {warranty}. La première mise à taille est offerte pendant la première année.',
           'Annulation : {cancellation}.',
         ],
       },
@@ -152,7 +167,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
         id: 'en-bref',
         title: 'In short',
         list: [
-          'We only collect what you write in a request form, and only to answer you.',
+          'We only collect what you write in a request form, and only to answer you, plus the technical data the site needs to work (IP address, browser, page requested), described below.',
           'Your request reaches us by email. The site has no database and keeps no copy of your messages or photos.',
           'The site sets no cookies and shows no advertising. It measures, anonymously, how fast its pages load.',
         ],
@@ -183,10 +198,10 @@ export const PRIVACY: Record<Locale, LegalPage> = {
         title: 'How your request reaches us',
         paragraphs: [
           'Your request is sent to the workshop by email, with your photos attached. The email contains everything you entered, plus the name and size of each photo and the address of the page you wrote from. When the workshop replies, it writes to your address directly.',
-          'The site itself records nothing: neither your messages nor your photos are stored on its servers or in a database. Photos are only held in memory while they are being sent.',
+          'The site itself does not record your messages or your photos: they are stored neither on its servers nor in a database. Photos are only held in memory while they are being sent.',
           'Your requests are then kept in the workshop’s mailbox, with its email provider: {emailProvider}.',
           'To prevent repeated sending, the server keeps your IP address and the times of your requests in memory: at most 5 requests in 10 minutes, across both forms. This data is neither written to disk nor passed on; it is erased when the server restarts.',
-          'If sending fails, a technical error message is written to the host’s log.',
+          'Like any host, Vercel keeps a log of the requests its servers handle: a page being displayed, a form being sent. It records the page requested and its parameters, the time, the result, the browser used and your IP address, but not the content of your forms. The site’s operator can consult this log. If sending fails, a technical error message is added to it.',
         ],
       },
       {
@@ -200,7 +215,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
         id: 'hebergement',
         title: 'Hosting and transfer outside Israel',
         paragraphs: [
-          'The site is hosted by Vercel Inc., an American company. The forms are processed on its servers in the United States, in the Washington area. The site’s error messages stay in Vercel’s log for 1 hour to 30 days, depending on the hosting plan. Vercel also processes, on its own behalf, technical data related to its service, under its privacy policy.',
+          'The site is hosted by Vercel Inc., an American company. The forms are processed on its servers in the United States, in the Washington area. Vercel also processes, on its own behalf, technical data related to its service, under its privacy policy.',
           'Your data therefore leaves Israel: to the United States (Vercel) and to the country of the email provider’s servers. Basis for this transfer: {transferBasis}.',
         ],
       },
@@ -212,8 +227,20 @@ export const PRIVACY: Record<Locale, LegalPage> = {
           'On the live site, Vercel’s Speed Insights tool measures how fast pages load. According to Vercel, this measurement is anonymous: it is tied neither to a visitor nor to an IP address. It records the page, the browser, the type of device and its operating system, the country, the connection type and speed indicators.',
         ],
       },
-      { id: 'conservation', title: 'How long', paragraphs: ['The site keeps nothing. In the workshop’s mailbox: {retention}.'] },
-      { id: 'securite', title: 'Security', paragraphs: ['Exchanges between your browser and the site are encrypted (HTTPS).'] },
+      {
+        id: 'conservation',
+        title: 'How long',
+        paragraphs: [
+          'The host’s request log: {hostLogRetention}. IP addresses held in memory to prevent repeated sending: until the server restarts. The workshop’s mailbox: {retention}.',
+        ],
+      },
+      {
+        id: 'securite',
+        title: 'Security',
+        paragraphs: [
+          'Exchanges between your browser and the site are encrypted (HTTPS). Your request also travels to the workshop’s mailbox over an encrypted connection: the site refuses to send the email if the mail server does not offer one.',
+        ],
+      },
       {
         id: 'droits',
         title: 'Your rights',
@@ -232,11 +259,11 @@ export const PRIVACY: Record<Locale, LegalPage> = {
           'Seller: {legalName}, {registrationNumber}.',
           'Address: {address}. Phone: {phone}. Email: {email}.',
           'Products: jewellery made to order by the workshop. Their characteristics are given on each model’s page and in the quote.',
-          'Price: on request. No price is shown on the site; it is given in the quote.',
+          'Price: on request. The price of a piece is not shown on the site; it is given in the quote.',
           'Quote validity: {quoteValidity}.',
           'Payment: {payment}.',
           'Production: 14 business days. Delivery: {delivery}.',
-          'Warranty: {warranty}. The first resizing is free.',
+          'Warranty: {warranty}. The first resizing is free during the first year.',
           'Cancellation: {cancellation}.',
         ],
       },
@@ -263,7 +290,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
         id: 'en-bref',
         title: 'בקצרה',
         list: [
-          'אנחנו אוספים רק את מה שאתם כותבים בטופס פנייה, ורק כדי להשיב לכם.',
+          'אנחנו אוספים רק את מה שאתם כותבים בטופס פנייה, ורק כדי להשיב לכם, וכן את הנתונים הטכניים שהאתר צריך כדי לפעול (כתובת IP, דפדפן, הדף המבוקש), כמפורט בהמשך.',
           'הפנייה שלכם מגיעה אלינו בדוא״ל. לאתר אין מאגר נתונים, והוא אינו שומר עותק של ההודעות או של התמונות שלכם.',
           'האתר אינו שומר עוגיות (cookies) ואינו מציג פרסומות. הוא מודד באופן אנונימי את מהירות הטעינה של דפיו.',
         ],
@@ -294,10 +321,10 @@ export const PRIVACY: Record<Locale, LegalPage> = {
         title: 'איך הפנייה מגיעה אלינו',
         paragraphs: [
           'הפנייה נשלחת לסדנה בדוא״ל, והתמונות מצורפות אליו. הדוא״ל כולל את כל מה שהזנתם, את שמה וגודלה של כל תמונה ואת כתובת הדף שממנו פניתם. כשהסדנה עונה, היא כותבת ישירות לכתובת שלכם.',
-          'האתר עצמו אינו שומר דבר: ההודעות והתמונות שלכם אינן נשמרות בשרתים שלו או במאגר נתונים. התמונות נשמרות בזיכרון רק בזמן השליחה.',
+          'האתר עצמו אינו שומר את ההודעות או את התמונות שלכם: הן אינן נשמרות בשרתים שלו או במאגר נתונים. התמונות נשמרות בזיכרון רק בזמן השליחה.',
           'לאחר מכן הפניות נשמרות בתיבת הדוא״ל של הסדנה, אצל ספק הדוא״ל שלה: {emailProvider}.',
           'כדי למנוע שליחה חוזרת ונשנית, השרת שומר בזיכרון את כתובת ה־IP שלכם ואת שעות השליחה: עד 5 פניות ב־10 דקות, בשני הטפסים יחד. נתונים אלה אינם נכתבים לדיסק ואינם מועברים לאיש; הם נמחקים כשהשרת מופעל מחדש.',
-          'אם שליחה נכשלת, הודעת שגיאה טכנית נרשמת ביומן של ספק האחסון.',
+          'כמו כל ספק אחסון, Vercel מנהלת יומן של הבקשות שהשרתים שלה מטפלים בהן: הצגת דף, שליחת טופס. ביומן נרשמים הדף המבוקש והפרמטרים שלו, השעה, התוצאה, הדפדפן שבו השתמשתם וכתובת ה־IP שלכם, אך לא תוכן הטפסים. מפעיל האתר יכול לעיין ביומן זה. אם שליחה נכשלת, נוספת אליו הודעת שגיאה טכנית.',
         ],
       },
       {
@@ -311,7 +338,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
         id: 'hebergement',
         title: 'אחסון והעברה אל מחוץ לישראל',
         paragraphs: [
-          'האתר מאוחסן אצל Vercel Inc., חברה אמריקאית. הטפסים מעובדים בשרתים שלה בארצות הברית, באזור וושינגטון. הודעות השגיאה של האתר נשמרות ביומן של Vercel בין שעה אחת ל־30 ימים, לפי חבילת האחסון. Vercel מעבדת גם, לצרכיה, נתונים טכניים הקשורים לשירות שלה, לפי מדיניות הפרטיות שלה.',
+          'האתר מאוחסן אצל Vercel Inc., חברה אמריקאית. הטפסים מעובדים בשרתים שלה בארצות הברית, באזור וושינגטון. Vercel מעבדת גם, לצרכיה, נתונים טכניים הקשורים לשירות שלה, לפי מדיניות הפרטיות שלה.',
           'המידע שלכם יוצא אפוא מישראל: לארצות הברית (Vercel) ולמדינה שבה נמצאים שרתי ספק הדוא״ל. הבסיס להעברה: {transferBasis}.',
         ],
       },
@@ -323,8 +350,20 @@ export const PRIVACY: Record<Locale, LegalPage> = {
           'באתר החי, הכלי Speed Insights של Vercel מודד את מהירות הטעינה של הדפים. לפי Vercel, המדידה אנונימית: היא אינה קשורה למבקר מסוים או לכתובת IP. היא רושמת את הדף, הדפדפן, סוג המכשיר ומערכת ההפעלה שלו, המדינה, סוג החיבור ומדדי מהירות.',
         ],
       },
-      { id: 'conservation', title: 'לכמה זמן', paragraphs: ['האתר אינו שומר דבר. בתיבת הדוא״ל של הסדנה: {retention}.'] },
-      { id: 'securite', title: 'אבטחה', paragraphs: ['התקשורת בין הדפדפן שלכם לבין האתר מוצפנת (HTTPS).'] },
+      {
+        id: 'conservation',
+        title: 'לכמה זמן',
+        paragraphs: [
+          'יומן הבקשות של ספק האחסון: {hostLogRetention}. כתובות IP שנשמרות בזיכרון כדי למנוע שליחה חוזרת: עד להפעלה מחדש של השרת. תיבת הדוא״ל של הסדנה: {retention}.',
+        ],
+      },
+      {
+        id: 'securite',
+        title: 'אבטחה',
+        paragraphs: [
+          'התקשורת בין הדפדפן שלכם לבין האתר מוצפנת (HTTPS). גם הפנייה שלכם נשלחת לתיבת הדוא״ל של הסדנה בחיבור מוצפן: האתר אינו שולח את הדוא״ל אם שרת הדוא״ל אינו מציע חיבור כזה.',
+        ],
+      },
       {
         id: 'droits',
         title: 'הזכויות שלכם',
@@ -343,11 +382,11 @@ export const PRIVACY: Record<Locale, LegalPage> = {
           'המוכר: {legalName}, {registrationNumber}.',
           'כתובת: {address}. טלפון: {phone}. דוא״ל: {email}.',
           'המוצרים: תכשיטים המיוצרים בהזמנה בסדנה. מאפייניהם מפורטים בדף של כל דגם ובהצעת המחיר.',
-          'מחיר: לפי הצעת מחיר. באתר לא מוצג מחיר; המחיר מופיע בהצעת המחיר.',
+          'מחיר: לפי הצעת מחיר. מחיר התכשיט אינו מוצג באתר; הוא מופיע בהצעת המחיר.',
           'תוקף הצעת המחיר: {quoteValidity}.',
           'תשלום: {payment}.',
           'ייצור: 14 ימי עבודה. משלוח: {delivery}.',
-          'אחריות: {warranty}. התאמת המידה הראשונה ללא תשלום.',
+          'אחריות: {warranty}. התאמת המידה הראשונה ללא תשלום במהלך השנה הראשונה.',
           'ביטול: {cancellation}.',
         ],
       },

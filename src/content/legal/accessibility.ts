@@ -5,6 +5,9 @@
  * contact, moyen de signaler un défaut) et liste du guide de la Commission pour l'égalité des droits des personnes handicapées
  * (date, normes et niveau, méthode, navigateurs, lecteurs d'écran, limites connues, contenus de tiers, exemptions, accès aux
  * locaux). L'état de conformité vit à part, pour être mis à jour après chaque vérification : `accessibility-status.ts`.
+ * Engagements de la rubrique « signaler » (solution de remplacement dès que possible, correction dans les 60 jours suivant la
+ * réception du signalement, règle 35א(ד)) : à faire confirmer par l'atelier (question 70 de `docs/QUESTIONS_ATELIER.md`), d'où
+ * le badge « à valider par un avocat et par l'atelier ».
  */
 import type { Locale } from '@/lib/configurator/schema';
 import type { Conformance } from './accessibility-status';
@@ -24,7 +27,7 @@ export const ACCESSIBILITY: Record<Locale, LegalPage> = {
   fr: {
     title: 'Déclaration d’accessibilité',
     lede: 'Ce que nous faisons pour que chacun puisse utiliser ce site, y compris les personnes handicapées, ce qui ne va pas encore, et comment nous signaler un problème.',
-    badge: 'Brouillon · à valider par un avocat',
+    badge: 'Brouillon · à valider par un avocat et par l’atelier',
     updated: (date) => `Déclaration mise à jour le ${date}.`,
     sections: [
       {
@@ -97,7 +100,7 @@ export const ACCESSIBILITY: Record<Locale, LegalPage> = {
         paragraphs: [
           'Si une page vous pose problème, ou si vous avez besoin d’une adaptation, contactez notre responsable de l’accessibilité : {accessibilityContactName}, téléphone {accessibilityContactPhone}, e-mail {accessibilityContactEmail}.',
           'Dites-nous quelle page est concernée, ce qui ne fonctionne pas et, si possible, quel navigateur et quelle aide technique vous utilisez (lecteur d’écran, agrandisseur, commande vocale).',
-          'Nous vous proposons sans attendre une autre façon d’obtenir le service, par exemple une demande de devis par téléphone ou par e-mail, et nous corrigeons le défaut dans un délai raisonnable, au plus tard 60 jours après votre signalement, comme le prévoit le règlement.',
+          'Nous vous proposons dès que possible une autre façon d’obtenir le service, par exemple une demande de devis par téléphone ou par e-mail, et nous corrigeons le défaut dans un délai raisonnable, au plus tard 60 jours après la réception de votre signalement, comme le prévoit le règlement.',
         ],
       },
     ],
@@ -107,7 +110,7 @@ export const ACCESSIBILITY: Record<Locale, LegalPage> = {
   en: {
     title: 'Accessibility statement',
     lede: 'What we do so that everyone, including people with disabilities, can use this site, what does not work yet, and how to report a problem.',
-    badge: 'Draft · to be reviewed by a lawyer',
+    badge: 'Draft · to be reviewed by a lawyer and by the workshop',
     updated: (date) => `Statement updated on ${date}.`,
     sections: [
       {
@@ -180,7 +183,7 @@ export const ACCESSIBILITY: Record<Locale, LegalPage> = {
         paragraphs: [
           'If a page gives you trouble, or if you need an adjustment, contact our accessibility contact: {accessibilityContactName}, phone {accessibilityContactPhone}, email {accessibilityContactEmail}.',
           'Tell us which page is affected, what does not work and, if you can, which browser and assistive technology you use (screen reader, magnifier, voice control).',
-          'We will offer you another way to get the service straight away, for example a quote request by phone or email, and we will fix the problem within a reasonable time, at the latest 60 days after your report, as the regulations require.',
+          'We will offer you another way to get the service as soon as possible, for example a quote request by phone or email, and we will fix the problem within a reasonable time, at the latest 60 days after we receive your report, as the regulations require.',
         ],
       },
     ],
@@ -191,7 +194,7 @@ export const ACCESSIBILITY: Record<Locale, LegalPage> = {
   he: {
     title: 'הצהרת נגישות',
     lede: 'מה אנחנו עושים כדי שכל אחד, כולל אנשים עם מוגבלות, יוכל להשתמש באתר, מה עדיין אינו תקין, ואיך לדווח לנו על בעיה.',
-    badge: 'טיוטה · טעון אישור עורך דין · תרגום ממתין להגהה',
+    badge: 'טיוטה · טעון אישור עורך דין ואישור הסדנה · תרגום ממתין להגהה',
     updated: (date) => `ההצהרה עודכנה ב־${date}.`,
     sections: [
       {
@@ -262,7 +265,7 @@ export const ACCESSIBILITY: Record<Locale, LegalPage> = {
         paragraphs: [
           'אם דף מסוים מקשה עליכם, או אם אתם זקוקים להתאמה, פנו לאחראי הנגישות שלנו: {accessibilityContactName}, טלפון {accessibilityContactPhone}, דוא״ל {accessibilityContactEmail}.',
           'ציינו באיזה דף מדובר, מה אינו פועל, ואם אפשר, באיזה דפדפן ובאיזו טכנולוגיה מסייעת אתם משתמשים (קורא מסך, תוכנת הגדלה, שליטה קולית).',
-          'נציע לכם מיד דרך אחרת לקבל את השירות, למשל בקשת הצעת מחיר בטלפון או בדוא״ל, ונתקן את הליקוי בתוך זמן סביר, ולכל המאוחר 60 ימים מיום הפנייה, כפי שקובעות התקנות.',
+          'נציע לכם בהקדם האפשרי דרך אחרת לקבל את השירות, למשל בקשת הצעת מחיר בטלפון או בדוא״ל, ונתקן את הליקוי בתוך זמן סביר, ולכל המאוחר 60 ימים מיום קבלת הפנייה, כפי שקובעות התקנות.',
         ],
       },
     ],

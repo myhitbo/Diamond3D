@@ -135,7 +135,7 @@ button {
   padding: 5px 0;
 }
 
-.lang a[aria-current='page'] {
+.lang a[aria-current] {
   color: var(--ink);
   border-bottom: 1px solid var(--gold);
 }

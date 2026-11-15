@@ -1,5 +1,6 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
+import { GUIDE_LOCALES, GUIDES, guidePath } from '@/content/guides';
 
 /**
  * Accessibilité : axe-core sur toutes les pages publiques dans les trois langues, puis les contrôles qu'axe ne fait pas
@@ -53,13 +54,22 @@ const openAllDetails = (page: Page) => page.evaluate(() => document.querySelecto
 
 type Locale = 'fr' | 'en' | 'he';
 
+/**
+ * Chaque guide, dans chaque langue où il existe (français et anglais), lu dans `src/content/guides` : un guide ajouté entre
+ * de lui-même dans tous les contrôles. Un même guide garde son `id` d'une langue à l'autre, son adresse est traduite.
+ */
+const GUIDE_PAGES = GUIDES.fr.map((g) => ({
+  name: `guide ${g.id}`,
+  urls: Object.fromEntries(GUIDE_LOCALES.map((l) => [l, guidePath(l, GUIDES[l].find((x) => x.id === g.id)!.slug)])) as Partial<Record<Locale, string>>,
+}));
+
 /** Pages sans 3D, par langue (les guides n'existent qu'en français et en anglais). */
 const PAGES: { name: string; urls: Partial<Record<Locale, string>>; status?: number }[] = [
   { name: 'accueil', urls: { fr: '/fr', en: '/en', he: '/he' } },
   { name: 'transformation', urls: { fr: '/fr/transformation', en: '/en/transformation', he: '/he/transformation' } },
   { name: 'FAQ', urls: { fr: '/fr/faq', en: '/en/faq', he: '/he/faq' } },
   { name: 'guides', urls: { fr: '/fr/guides', en: '/en/guides' } },
-  { name: 'guide avec tableau', urls: { fr: '/fr/guides/taille-de-doigt', en: '/en/guides/ring-size' } },
+  ...GUIDE_PAGES,
   { name: 'déclaration d’accessibilité', urls: { fr: '/fr/accessibilite', en: '/en/accessibility', he: '/he/accessibility' } },
   { name: 'confidentialité', urls: { fr: '/fr/confidentialite', en: '/en/privacy', he: '/he/privacy' } },
   { name: '404', urls: { fr: '/fr/page-inexistante', en: '/en/page-inexistante', he: '/he/page-inexistante' }, status: 404 },
@@ -445,7 +455,7 @@ test('cibles tactiles d’au moins 24 × 24 px (hors liens dans le texte), toute
   const small = async () =>
     page.evaluate(() =>
       Array.from(document.querySelectorAll<HTMLElement>('a[href], button, input, textarea, select, summary, [role=radio], [tabindex="0"]'))
-        .filter((el) => el.checkVisibility({ visibilityProperty: true }) && !el.closest('[aria-hidden="true"]') && el.tabIndex >= -1)
+        .filter((el) => el.checkVisibility({ visibilityProperty: true }) && !el.closest('[aria-hidden="true"]'))
         // Lien dans une phrase ou une ligne de texte (« Sources : … · … ») : exception de WCAG 2.5.8 (« inline »).
         .filter((el) => {
           if (el.tagName !== 'A') return true;

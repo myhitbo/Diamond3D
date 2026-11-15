@@ -103,6 +103,8 @@ export default function Configurator({
   const [quoteOpen, setQuoteOpen] = useState(false);
   /** Forme ou pierre non modélisées demandées par un bouton « sur demande » : pré-remplissent le message du devis. */
   const [request, setRequest] = useState<StoneRequest>({});
+  /** Nombre de clics sur un bouton « sur demande » : seul ce geste fait défiler la page jusqu'au formulaire déjà ouvert. */
+  const [requestCount, setRequestCount] = useState(0);
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
@@ -123,12 +125,12 @@ export default function Configurator({
   const visible = useMemo(() => visibleNodes(model, state), [model, state]);
   const framing = useMemo(() => sceneFraming(model), [model]);
   const metal = METALS[state.metal];
-  const pieces = model.compositions.find((c) => c.id === state.composition)!.pieces;
+  const composition = model.compositions.find((c) => c.id === state.composition)!;
+  const pieces = composition.pieces;
   const centerSlot = model.stoneSlots.find((s) => pieces.includes(s.piece));
   const centerVariant = centerSlot?.variants.find((v) => v.id === state.stones[centerSlot.id]);
   const stones = stoneSummary(model, state);
   const weight = metalWeightEstimateG(model, state);
-  const composition = model.compositions.find((c) => c.id === state.composition)!;
   const stoneLine = (g: (typeof stones)[number]) =>
     `${g.count} × ${t.shapes[g.shape as keyof typeof t.shapes]} ${g.sizesMm.map((x) => (locale === 'fr' ? x.replace('.', ',') : x)).join(' – ')} ${t.mm}` +
     (centerVariant?.nominalCarat && g.shape === centerVariant.shape && g.count === 1 ? ` · ≈ ${formatNumber(locale, centerVariant.nominalCarat.value, 2)} ct` : '');
@@ -150,6 +152,7 @@ export default function Configurator({
   // Une forme et une pierre se cumulent : chaque bouton remplace seulement son propre choix.
   const ask = (change: StoneRequest) => {
     setRequest((r) => ({ ...r, ...change }));
+    setRequestCount((n) => n + 1);
     setQuoteOpen(true);
   };
 
@@ -440,6 +443,7 @@ export default function Configurator({
                 state={state}
                 t={t.quote}
                 suggestedMessage={buildRequestMessage(t, model, state, request)}
+                scrollRequest={requestCount}
                 onClose={() => {
                   setQuoteOpen(false);
                   setRequest({});

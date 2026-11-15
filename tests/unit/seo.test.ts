@@ -109,11 +109,16 @@ describe('robots.txt', () => {
 });
 
 describe('interrupteur de lancement', () => {
-  it('prototype : non indexable, redirections traduites temporaires', () => {
-    expect(SITE_INDEXABLE).toBe(false);
-    expect(TRANSLATED_REDIRECTS_PERMANENT).toBe(SITE_INDEXABLE);
-    expect(translatedRouteRules(TRANSLATED_REDIRECTS_PERMANENT).redirects.every((r) => r.permanent === false)).toBe(true);
+  it('redirections traduites : temporaires ou permanentes selon le réglage, déclarées telles quelles', () => {
+    expect(translatedRouteRules(TRANSLATED_REDIRECTS_PERMANENT).redirects.every((r) => r.permanent === TRANSLATED_REDIRECTS_PERMANENT)).toBe(true);
+    expect(translatedRouteRules(false).redirects.every((r) => r.permanent === false)).toBe(true);
     expect(translatedRouteRules(true).redirects.every((r) => r.permanent === true)).toBe(true);
+  });
+
+  // Seul test qui fige l'état d'avant le lancement, volontairement : il empêche d'ouvrir l'indexation par mégarde. Le jour du
+  // lancement, le retirer en même temps que `SITE_INDEXABLE = true` (src/config/site.ts, TODO.md) ; les autres tests suivent.
+  it('garde-fou avant le lancement : le site n’est pas indexable', () => {
+    expect(SITE_INDEXABLE, 'Lancement : retirer ce garde-fou en même temps que SITE_INDEXABLE = true').toBe(false);
   });
 
   it('adresse du site : défaut, surcharge sans barre finale, valeur invalide refusée', () => {
@@ -139,6 +144,13 @@ describe('aperçus de liens partagés', () => {
       images: [{ url: SHARE_IMAGE.url, width: 1200, height: 630, alt: DICTIONARIES.he.shareImageAlt }],
     });
     expect(m.twitter).toMatchObject({ card: 'summary_large_image', title: 'שאלות נפוצות' });
+  });
+
+  it('accueil : la marque dans l’onglet, pas dans le titre de l’aperçu', () => {
+    const m = pageMetadata('fr', { title: 'JR Diamond · Joaillerie', absoluteTitle: true, shareTitle: 'Joaillerie', description: 'd', path: '/fr', languages: { fr: '/fr' } });
+    expect(m.title).toEqual({ absolute: 'JR Diamond · Joaillerie' });
+    expect(m.openGraph).toMatchObject({ siteName: 'JR Diamond', title: 'Joaillerie' });
+    expect(m.twitter).toMatchObject({ title: 'Joaillerie' });
   });
 
   it('guide : article daté, autres langues limitées à celles où il existe', () => {

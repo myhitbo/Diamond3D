@@ -197,6 +197,16 @@ describe('formes et pierres « sur demande »', () => {
     }
   });
 
+  it('composition sans pierre centrale (alliance seule) : aucun message, la demande revient avec la pierre centrale', () => {
+    const band = { ...s0, composition: 'band' };
+    expect(ring001.stoneSlots.some((slot) => ring001.compositions.find((c) => c.id === 'band')!.pieces.includes(slot.piece))).toBe(false);
+    expect(buildRequestMessage(fr, ring001, band, { stone: 'emerald', shape: 'oval' })).toBeUndefined();
+    expect(buildRequestMessage(fr, ring001, band, { shape: 'oval' })).toBeUndefined();
+    expect(buildRequestMessage(fr, ring001, { ...band, composition: 'solitaire' }, { stone: 'emerald' })).toBe(
+      'Je souhaite ce bijou avec une émeraude naturelle en pierre centrale.',
+    );
+  });
+
   it('diamant de couleur : il suit l’origine choisie, sans phrase sur les autres pierres', () => {
     expect(buildRequestMessage(fr, ring001, labGrown, { stone: 'colored-diamond' })).toBe('Je souhaite ce bijou avec un diamant de couleur en pierre centrale.');
     expect(buildRequestMessage(DICTIONARIES.en, ring001, s0, { stone: 'colored-diamond' })).toBe(

@@ -26,6 +26,7 @@ export type BusinessField =
   | 'emailProvider'
   | 'transferBasis'
   | 'retention'
+  | 'hostLogRetention'
   | 'payment'
   | 'delivery'
   | 'quoteValidity'
@@ -55,6 +56,13 @@ export const BUSINESS: Record<BusinessField, BusinessValue> = {
   transferBasis: null,
   /** Durée de conservation dans la messagerie de l'atelier : devis sans suite, commande, photos d'un bijou de famille. */
   retention: null,
+  /**
+   * Durée de conservation du journal des requêtes de Vercel, selon la formule souscrite (documentation « Runtime Logs », lue le
+   * 15/11) : « 1 heure » en Hobby, « 1 jour » en Pro, « 3 jours » en Enterprise, « 30 jours » avec Observability Plus.
+   * Formule du projet `jr-diamond` non vérifiée (le connecteur Vercel ne la donne pas) ; la formule Hobby est réservée à un
+   * usage non commercial.
+   */
+  hostLogRetention: null,
   /** Moyens et modalités de paiement. */
   payment: null,
   /** Mode, délai et zone de livraison (Israël, France plus tard), retrait à l'atelier. */
@@ -85,6 +93,11 @@ export const BUSINESS_LABELS: Record<BusinessField, Record<Locale, string>> = {
   emailProvider: { fr: 'fournisseur de la messagerie de l’atelier et pays de ses serveurs', en: 'the workshop’s email provider and the country of its servers', he: 'ספק הדוא״ל של הסדנה והמדינה שבה נמצאים שרתיו' },
   transferBasis: { fr: 'base juridique du transfert hors d’Israël, à fixer avec l’avocat', en: 'legal basis for the transfer outside Israel, to be set with the lawyer', he: 'הבסיס המשפטי להעברה אל מחוץ לישראל, ייקבע עם עורך הדין' },
   retention: { fr: 'durée de conservation des demandes (devis sans suite, commandes, photos)', en: 'how long requests are kept (quotes not followed up, orders, photos)', he: 'משך שמירת הפניות (הצעות מחיר שלא מומשו, הזמנות, תמונות)' },
+  hostLogRetention: {
+    fr: 'durée de conservation du journal, selon la formule Vercel souscrite (1 heure à 30 jours)',
+    en: 'how long the log is kept, depending on the Vercel plan (1 hour to 30 days)',
+    he: 'משך שמירת היומן, לפי חבילת Vercel (שעה אחת עד 30 ימים)',
+  },
   payment: { fr: 'moyens et modalités de paiement', en: 'payment methods and terms', he: 'אמצעי התשלום ותנאיו' },
   delivery: { fr: 'mode et délai de livraison', en: 'delivery method and time', he: 'אופן המשלוח ומועדו' },
   quoteValidity: { fr: 'durée de validité d’un devis', en: 'how long a quote remains valid', he: 'תוקף הצעת המחיר' },

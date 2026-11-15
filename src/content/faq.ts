@@ -79,17 +79,17 @@ export const FAQ: FaqCategory[] = [
         },
         a: {
           fr: [
-            'Notre propre atelier, installé à la Bourse du diamant de Ramat Gan. Elle abrite la plus grande salle de négoce de diamants au monde. Le bijou que vous configurez est dessiné, fondu, poli et serti sur place, sans intermédiaire.',
+            'Notre propre atelier, installé à la Bourse du diamant de Ramat Gan. Elle abrite la plus grande salle de négoce de diamants au monde. C’est notre atelier qui fabrique le bijou que vous configurez, et c’est lui qui vous répond : vous traitez avec lui directement, sans intermédiaire.',
           ],
           en: [
-            'Our own workshop, at the Diamond Exchange in Ramat Gan. The exchange houses the world’s largest diamond trading floor. The piece you configure is designed, cast, polished and set on site, with no middleman.',
+            'Our own workshop, at the Diamond Exchange in Ramat Gan. The exchange houses the world’s largest diamond trading floor. Our workshop makes the piece you configure and answers you itself: you deal with it directly, with no middleman.',
           ],
           he: [
-            'הסדנה שלנו, בבורסת היהלומים ברמת גן, שבה נמצא אולם המסחר ביהלומים הגדול בעולם. התכשיט שאתם מעצבים משורטט, נוצק, מלוטש ומשובץ במקום, בלי מתווכים.',
+            'הסדנה שלנו, בבורסת היהלומים ברמת גן, שבה נמצא אולם המסחר ביהלומים הגדול בעולם. הסדנה שלנו מייצרת את התכשיט שאתם מעצבים והיא שעונה לכם: אתם עובדים איתה ישירות, בלי מתווכים.',
           ],
         },
         status: 'source',
-        basis: 'atelier (adresse) ; salle de négoce : Wikipedia',
+        basis: 'atelier (adresse) ; salle de négoce : Wikipedia ; pas de « sur place » : étapes confiées à d’autres non précisées (question 80)',
         sources: [IDE],
       },
       {
@@ -144,20 +144,20 @@ export const FAQ: FaqCategory[] = [
         },
         a: {
           fr: [
-            'Oui, c’est notre engagement. Vous recevez une photo à chaque étape (modèle imprimé, fonte, polissage, sertissage, gravure, pièce finie) et de courtes vidéos des moments clés : la coulée du métal, le sertissage, la gravure.',
+            'C’est prévu : nous voulons vous envoyer des photos des étapes (modèle imprimé, fonte, polissage, sertissage, gravure, pièce finie) et de courtes vidéos des moments clés, comme la coulée du métal et le sertissage. Les modalités ne sont pas encore fixées : si vous y tenez, dites-le dans votre demande de devis.',
             'Rien n’est publié sans votre accord.',
           ],
           en: [
-            'Yes, it is our promise. You receive a photo at each stage (printed model, casting, polishing, setting, engraving, finished piece) and short videos of the key moments: pouring the metal, setting, engraving.',
+            'It is planned: we want to send you photos of the stages (printed model, casting, polishing, setting, engraving, finished piece) and short videos of the key moments, such as pouring the metal and setting the stones. The details are not settled yet: if it matters to you, say so in your quote request.',
             'Nothing is published without your consent.',
           ],
           he: [
-            'כן, זו ההתחייבות שלנו. תקבלו תמונה בכל שלב (דגם מודפס, יציקה, ליטוש, שיבוץ, חריטה, תכשיט מוגמר) וסרטונים קצרים של הרגעים החשובים: יציקת המתכת, השיבוץ, החריטה.',
+            'זה מתוכנן: אנחנו רוצים לשלוח לכם תמונות של שלבי הייצור (דגם מודפס, יציקה, ליטוש, שיבוץ, חריטה, תכשיט מוגמר) וסרטונים קצרים של הרגעים החשובים, כמו יציקת המתכת והשיבוץ. הפרטים עדיין לא נקבעו: אם זה חשוב לכם, ציינו זאת בבקשת הצעת המחיר.',
             'שום דבר לא יפורסם בלי הסכמתכם.',
           ],
         },
-        status: 'atelier',
-        basis: 'accord du propriétaire, 4/11 (photos et vidéos)',
+        status: 'toConfirm',
+        basis: 'accord du propriétaire, 4/11 (photos et vidéos) ; modalités non fixées, comme le dit l’accueil (question 82)',
       },
       {
         id: 'delai',
@@ -187,31 +187,31 @@ export const FAQ: FaqCategory[] = [
     },
     items: [
       {
-        id: 'synthetique-vrai',
+        id: 'synthetique-imitation',
         q: {
-          fr: 'Un diamant synthétique est-il un vrai diamant ?',
-          en: 'Is a lab-grown diamond a real diamond?',
-          he: 'האם יהלום מעבדה הוא יהלום אמיתי?',
+          fr: 'Un diamant synthétique est-il une imitation ?',
+          en: 'Is a lab-grown diamond an imitation?',
+          he: 'האם יהלום מעבדה הוא חיקוי?',
         },
         a: {
           fr: [
-            'Oui. Il est fait de carbone cristallisé, exactement comme un diamant naturel : même composition, même dureté, même éclat. La seule différence est son origine : il a été créé en laboratoire en quelques semaines, au lieu de se former sous terre en des millions d’années.',
+            'Non. Il est fait de carbone cristallisé, exactement comme un diamant naturel : même composition, même dureté, même éclat. La seule différence est son origine : il a été créé en laboratoire en quelques semaines, au lieu de se former sous terre en des millions d’années.',
             'À l’œil nu, et même à la loupe, personne ne peut les distinguer. Seul un laboratoire équipé le peut.',
-            'Nous employons le mot « synthétique », celui qu’impose la loi française. Ce n’est pas une imitation : une imitation, comme le verre ou l’oxyde de zirconium, n’est pas du diamant.',
+            'Nous employons le mot « synthétique », celui qu’impose la loi française ; elle interdit aussi de le dire « vrai » ou « véritable ». Une imitation, comme le verre ou l’oxyde de zirconium, n’est pas du diamant.',
           ],
           en: [
-            'Yes. It is crystallised carbon, exactly like a natural diamond: same composition, same hardness, same sparkle. The only difference is its origin: it was grown in a laboratory in a few weeks rather than formed underground over millions of years.',
+            'No. It is crystallised carbon, exactly like a natural diamond: same composition, same hardness, same sparkle. The only difference is its origin: it was grown in a laboratory in a few weeks rather than formed underground over millions of years.',
             'With the naked eye, or even a loupe, no one can tell them apart. Only an equipped laboratory can.',
-            'It is not an imitation: an imitation, such as glass or cubic zirconia, is not diamond at all.',
+            'An imitation, such as glass or cubic zirconia, is not diamond at all.',
           ],
           he: [
-            'כן. הוא עשוי מפחמן מגובש, בדיוק כמו יהלום טבעי: אותו הרכב, אותה קשיות, אותו ברק. ההבדל היחיד הוא המקור: הוא נוצר במעבדה בתוך כמה שבועות, במקום להיווצר באדמה במשך מיליוני שנים.',
+            'לא. הוא עשוי מפחמן מגובש, בדיוק כמו יהלום טבעי: אותו הרכב, אותה קשיות, אותו ברק. ההבדל היחיד הוא המקור: הוא נוצר במעבדה בתוך כמה שבועות, במקום להיווצר באדמה במשך מיליוני שנים.',
             'בעין, ואפילו בזכוכית מגדלת, אי אפשר להבחין ביניהם. רק מעבדה מאובזרת יכולה.',
-            'זה לא חיקוי: חיקוי, כמו זכוכית או זירקון מעובד (קוביק זירקוניה), אינו יהלום כלל.',
+            'חיקוי, כמו זכוכית או זירקון מעובד (קוביק זירקוניה), אינו יהלום כלל.',
           ],
         },
         status: 'source',
-        basis: 'GIA ; décret français 2002-65 (terme « synthétique »)',
+        basis: 'GIA ; décret français 2002-65, article 4 (terme « synthétique » ; « vrai », « véritable » interdits)',
         sources: [GIA_LGD, GIA_DIFF],
       },
       {
@@ -282,7 +282,7 @@ export const FAQ: FaqCategory[] = [
             'Yes: coloured diamonds (black, pink, blue and other shades), and natural emeralds, sapphires and rubies. For every stone we state clearly whether it is natural, treated or lab-grown.',
           ],
           he: [
-            'כן: יהלומים צבעוניים (שחורים, ורודים, כחולים ובגוונים נוספים), וכן אמרלד, ספיר ורובי טבעיים. לכל אבן אנחנו מציינים בבירור אם היא טבעית, מטופלת או מעבדה.',
+            'כן: יהלומים צבעוניים (שחורים, ורודים, כחולים ובגוונים נוספים), וכן אזמרגד, ספיר ואודם טבעיים. לכל אבן אנחנו מציינים בבירור אם היא טבעית, מטופלת או מעבדה.',
           ],
         },
         status: 'atelier',
@@ -612,19 +612,19 @@ export const FAQ: FaqCategory[] = [
         a: {
           fr: [
             'Le plus fiable : prenez une bague que vous portez au même doigt et mesurez son diamètre intérieur en millimètres. Faites la mesure en fin de journée, quand les doigts sont un peu plus gros.',
-            'Pour une demande en mariage surprise, empruntez discrètement une de ses bagues. Pas de panique en cas d’erreur : la première mise à taille est offerte.',
+            'Pour une demande en mariage surprise, empruntez discrètement une de ses bagues. Pas de panique en cas d’erreur : la première mise à taille est offerte pendant la première année.',
           ],
           en: [
             'The most reliable way: take a ring worn on the same finger and measure its inner diameter in millimetres. Measure at the end of the day, when fingers are slightly larger.',
-            'For a surprise proposal, discreetly borrow one of their rings. Don’t worry if it is off: the first resizing is free.',
+            'For a surprise proposal, discreetly borrow one of their rings. Don’t worry if it is off: the first resizing is free during the first year.',
           ],
           he: [
             'הדרך האמינה ביותר: קחו טבעת שאתם עונדים על אותה אצבע ומדדו את הקוטר הפנימי שלה במילימטרים. מדדו בסוף היום, כשהאצבעות מעט גדולות יותר.',
-            'להצעת נישואין בהפתעה, שאלו בשקט אחת מהטבעות שלה. אל דאגה אם המידה לא מדויקת: התאמת המידה הראשונה חינם.',
+            'להצעת נישואין בהפתעה, שאלו בשקט אחת מהטבעות שלה. אל דאגה אם המידה לא מדויקת: התאמת המידה הראשונה חינם במהלך השנה הראשונה.',
           ],
         },
         status: 'atelier',
-        basis: 'première mise à taille offerte : atelier 3/11 ; méthode : pratique courante',
+        basis: 'première mise à taille offerte, payante après un an : atelier 3/11 (point de départ de l’année : question 81) ; méthode : pratique courante',
       },
       {
         id: 'mise-a-taille',
@@ -635,20 +635,20 @@ export const FAQ: FaqCategory[] = [
         },
         a: {
           fr: [
-            'La première mise à taille est offerte. Après un an, un rétrécissement coûte environ 100 ₪. Un agrandissement demande d’ajouter du métal : il est chiffré sur devis.',
+            'La première mise à taille est offerte pendant la première année. Après un an, un rétrécissement coûte environ 100 ₪. Un agrandissement demande d’ajouter du métal : il est chiffré sur devis.',
             'Certaines bagues, comme les alliances serties tout autour, se modifient difficilement. Nous vous le signalons au moment de la commande.',
           ],
           en: [
-            'The first resizing is free. After one year, making a ring smaller costs about ₪100. Making it larger needs added metal and is quoted separately.',
+            'The first resizing is free during the first year. After one year, making a ring smaller costs about ₪100. Making it larger needs added metal and is quoted separately.',
             'Some rings, such as full eternity bands, are hard to resize. We tell you when you order.',
           ],
           he: [
-            'התאמת המידה הראשונה חינם. אחרי שנה, הקטנה עולה כ־100 ₪. הגדלה דורשת תוספת מתכת ומתומחרת בנפרד.',
+            'התאמת המידה הראשונה חינם במהלך השנה הראשונה. אחרי שנה, הקטנה עולה כ־100 ₪. הגדלה דורשת תוספת מתכת ומתומחרת בנפרד.',
             'יש טבעות, כמו טבעות משובצות מסביב, שקשה לשנות את מידתן. נציין זאת בעת ההזמנה.',
           ],
         },
         status: 'atelier',
-        basis: 'atelier, 3/11 ; alliances serties tout autour difficiles à mettre à taille : GIA (vérifié le 14/11), à confirmer avec l’atelier',
+        basis: 'atelier, 3/11 (« Après un an, payante » ; point de départ de l’année : question 81) ; alliances serties tout autour difficiles à mettre à taille : GIA (vérifié le 14/11), à confirmer avec l’atelier',
       },
       {
         id: 'entretien',

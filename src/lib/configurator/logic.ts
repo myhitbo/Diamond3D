@@ -85,6 +85,8 @@ export type RequestTexts = {
 
 /**
  * Message pré-rempli du devis pour une demande « sur demande » (rien si aucune demande).
+ * Rien non plus quand la composition choisie n'a pas de pierre centrale (alliance seule) : la demande porte sur la pierre
+ * centrale, et le message contredirait la configuration jointe. Elle revient si la personne repasse à une composition qui en a une.
  * L'émeraude, le saphir et le rubis proposés sont naturels : l'origine choisie ne vaut que pour les diamants.
  * En « synthétique », le message le dit des autres pierres, sans jamais qualifier la pierre de couleur de synthétique.
  * Le diamant de couleur suit l'origine choisie, déjà écrite dans la configuration jointe.
@@ -95,6 +97,8 @@ export function buildRequestMessage(
   s: ConfigState,
   r: StoneRequest,
 ): string | undefined {
+  const pieces = m.compositions.find((c) => c.id === s.composition)?.pieces ?? [];
+  if (!m.stoneSlots.some((slot) => pieces.includes(slot.piece))) return undefined;
   const shape = r.shape && t.shapes[r.shape];
   if (!r.stone) return shape && t.requestMessage.shape(shape);
   const text = t.requestMessage.stone(t.requestMessage.stones[r.stone], shape);

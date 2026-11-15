@@ -48,9 +48,17 @@ export default function SiteHeader({
             <span className="nav-short">{t.navFaqShort}</span>
           </Link>
         </nav>
+        {/* Langue courante : `aria-current="page"` quand son lien mène à la page affichée ; sur une page sans adresse propre (404,
+            `path` vide), il mène à l'accueil : `aria-current="true"` signale la langue active sans annoncer « page actuelle ». */}
         <nav className="lang" aria-label="Langue / Language">
           {locales.map((l) => (
-            <Link key={l} href={hrefs?.[l] ?? localizedPath(l, path)} hrefLang={l} lang={l} aria-current={l === locale ? 'page' : undefined}>
+            <Link
+              key={l}
+              href={hrefs?.[l] ?? localizedPath(l, path)}
+              hrefLang={l}
+              lang={l}
+              aria-current={l === locale ? (path === '' ? 'true' : 'page') : undefined}
+            >
               {LOCALE_LABELS[l]}
             </Link>
           ))}

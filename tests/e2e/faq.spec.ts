@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test';
 test('la FAQ s’affiche, se déplie et reste lisible', async ({ page }) => {
   await page.goto('/fr/faq');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Questions fréquentes');
-  const q = page.getByText('Un diamant synthétique est-il un vrai diamant ?');
+  const q = page.getByText('Un diamant synthétique est-il une imitation ?');
   await q.click();
   await expect(page.getByText(/Il est fait de carbone cristallisé/)).toBeVisible();
   await expect(page.getByRole('link', { name: 'GIA, simulants, moissanite and lab-grown diamonds' })).toBeVisible();
@@ -17,7 +17,7 @@ test('données structurées FAQPage sans les réponses à confirmer', async ({ p
   const data = JSON.parse(raw!);
   expect(data['@type']).toBe('FAQPage');
   const names: string[] = data.mainEntity.map((e: { name: string }) => e.name);
-  expect(names).toContain('Un diamant synthétique est-il un vrai diamant ?');
+  expect(names).toContain('Un diamant synthétique est-il une imitation ?');
   expect(names).not.toContain('Puis-je annuler ou retourner un bijou ?');
 });
 

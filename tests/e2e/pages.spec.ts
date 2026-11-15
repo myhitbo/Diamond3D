@@ -1,4 +1,6 @@
 import { expect, test } from '@playwright/test';
+// Import relatif : `site.ts` n'importe rien du projet (il est aussi lu par `next.config.ts`).
+import { SITE_INDEXABLE, TRANSLATED_REDIRECTS_PERMANENT } from '../../src/config/site';
 
 // Pages de texte : accueil, transformation, guides, adresses traduites, pied de page. Aucune 3D : valable sur tous les navigateurs.
 
@@ -45,7 +47,7 @@ test('accueil en anglais et en hébreu : traduit, sens droite-à-gauche, pas de 
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
   await expect(page.locator('html')).toHaveAttribute('lang', 'he');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('הטבעת שלכם, בתלת־ממד, מיוצרת ברמת גן');
-  await expect(page.getByText('טיוטה · העמוד ממתין לאישור הסדנה')).toBeVisible();
+  await expect(page.getByText('טיוטה · העמוד ממתין לאישור הסדנה · תרגום ממתין להגהה')).toBeVisible();
   await expect(page.getByRole('main').getByRole('link', { name: 'עיצוב טבעת' })).toHaveAttribute('href', '/he/configurator/ring-001');
   await expect(page.getByRole('main').getByRole('link', { name: /חיים חדשים לתכשיט משפחתי/ })).toHaveAttribute('href', '/he/transformation');
   await expect(page.locator('a[href*="/guides"]')).toHaveCount(0);
@@ -59,7 +61,8 @@ test('accueil en anglais et en hébreu : traduit, sens droite-à-gauche, pas de 
 
 test('adresses traduites : /en/configurator sert la page, l’ancienne adresse y redirige', async ({ page, request }) => {
   const res = await request.get('/en/configurateur/ring-001', { maxRedirects: 0 });
-  expect(res.status()).toBe(307);
+  // Temporaire avant le lancement, permanente ensuite : suit l'interrupteur (`src/config/site.ts`).
+  expect(res.status()).toBe(TRANSLATED_REDIRECTS_PERMANENT ? 308 : 307);
   expect(res.headers()['location']).toBe('/en/configurator/ring-001');
   expect((await request.get('/he/configurateur/ring-001?debug=1', { maxRedirects: 0 })).headers()['location']).toBe('/he/configurator/ring-001?debug=1');
   expect((await request.get('/fr/configurateur/ring-001', { maxRedirects: 0 })).status()).toBe(200);
@@ -220,6 +223,9 @@ test('404 traduite : français hors langue et sous /fr, anglais, hébreu de droi
     for (const [i, href] of c.links.entries()) await expect(page.getByRole('navigation', { name: c.nav }).getByRole('link').nth(i)).toHaveAttribute('href', href);
     // En-tête (sélecteur de langue vers les accueils) et pied de page du site.
     await expect(page.getByRole('navigation', { name: 'Langue / Language' }).getByRole('link', { name: 'EN', exact: true })).toHaveAttribute('href', '/en');
+    // Ces liens mènent aux accueils, pas à la page affichée : la langue courante est signalée sans « page actuelle ».
+    await expect(page.getByRole('navigation', { name: 'Langue / Language' }).locator('a[aria-current="page"]')).toHaveCount(0);
+    await expect(page.getByRole('navigation', { name: 'Langue / Language' }).locator('a[aria-current="true"]')).toHaveAttribute('hreflang', c.lang);
     await expect(page.getByRole('contentinfo')).toBeVisible();
     expect(await page.locator('meta[name="robots"]').evaluateAll((m) => m.map((x) => x.getAttribute('content')).join(' '))).toMatch(/noindex/);
   }
@@ -230,7 +236,7 @@ test('404 traduite : français hors langue et sous /fr, anglais, hébreu de droi
   await expect(page).toHaveURL(/\/he\/faq$/);
 });
 
-test('robots.txt et plan du site avant le lancement : exploration permise, rien d’annoncé', async ({ request }) => {
+test('robots.txt et plan du site selon l’interrupteur de lancement : exploration permise ; plan annoncé et rempli seulement une fois le site indexable', async ({ request }) => {
   const robots = await request.get('/robots.txt');
   expect(robots.status()).toBe(200);
   const text = await robots.text();
@@ -239,10 +245,16 @@ test('robots.txt et plan du site avant le lancement : exploration permise, rien 
   expect(text).toMatch(/^Disallow: \/api\/$/m);
   // Un « Disallow: / » empêcherait les robots de lire la balise noindex des pages.
   expect(text).not.toMatch(/^Disallow: \/$/m);
-  expect(text).not.toMatch(/Sitemap:/i);
   const sitemap = await request.get('/sitemap.xml');
   expect(sitemap.status()).toBe(200);
-  expect(await sitemap.text()).not.toMatch(/<url>/);
+  const xml = await sitemap.text();
+  if (SITE_INDEXABLE) {
+    expect(text).toMatch(/^Sitemap: https?:\/\/[^\s]+\/sitemap\.xml$/m);
+    expect(xml).toMatch(/<url>/);
+  } else {
+    expect(text).not.toMatch(/Sitemap:/i);
+    expect(xml).not.toMatch(/<url>/);
+  }
 });
 
 test('aperçu de lien partagé : balises Open Graph dans le HTML du serveur, image servie', async ({ page, request }) => {
@@ -251,6 +263,10 @@ test('aperçu de lien partagé : balises Open Graph dans le HTML du serveur, ima
   const head = html.slice(0, html.indexOf('</head>'));
   for (const p of ['og:title', 'og:description', 'og:url', 'og:image', 'og:site_name', 'og:locale']) expect(head, p).toContain(`property="${p}"`);
   expect(head).toMatch(/<meta property="og:image" content="https:\/\/[^"]+\/images\/apercu-partage\.jpg"/);
+  // Accueil : la marque est dans l'onglet et dans og:site_name, pas répétée dans le titre de l'aperçu.
+  expect(head).toContain('<title>JR Diamond · Joaillerie à la Bourse du diamant de Ramat Gan</title>');
+  expect(head).toContain('<meta property="og:title" content="Joaillerie à la Bourse du diamant de Ramat Gan"/>');
+  expect(head).toContain('<meta property="og:site_name" content="JR Diamond"/>');
 
   await page.goto('/he/faq');
   const og = (p: string) => page.locator(`meta[property="${p}"]`);

@@ -7,8 +7,13 @@ import type { Locale } from '@/lib/configurator/schema';
  * - modèle 3D tiré du fichier de fabrication : vrai pour ring-001, le seul modèle en ligne (pipeline `.3dm` → GLB, retouche web
  *   demandée par l'atelier) ; formulation reprise de la FAQ (`3d-fidele`) ;
  * - atelier à la Bourse du diamant de Ramat Gan ; 14 jours ouvrés pour une pièce du catalogue (atelier, 3/11) ;
- * - métaux, pierres et certificats (atelier, 22/10 et 3/11) ; première mise à taille offerte (atelier, 3/11) ;
+ * - métaux, pierres et certificats (atelier, 22/10 et 3/11) ;
+ * - première mise à taille offerte, payante après un an (atelier, 3/11 : « Première mise à taille offerte. Après un an,
+ *   payante ») ; point de départ de l'année à confirmer (question 81 de `docs/QUESTIONS_ATELIER.md`) ;
  * - prix « sur devis » : le moteur de prix n'est pas branché.
+ * Pas de « sur place » ni de « chaque pièce » : l'atelier n'a pas dit quelles étapes il confie à d'autres (fonderie pour le
+ * platine, impression 3D ; question 80). Un diamant synthétique n'est jamais dit « vrai » ni « véritable » (décret 2002-65,
+ * article 4) : on dit ce qu'il a en commun avec le diamant naturel.
  * Volontairement absents : la pierre filmée et tout prix. Photos et vidéos de fabrication : le propriétaire les a acceptées (4/11),
  * mais rien n'en fixe encore les modalités ; la page en parle comme d'une intention (`making`), pas comme d'un engagement.
  * Badge « Brouillon » tant que l'atelier n'a pas relu la page. Hébreu : traduction automatique, relecture native à faire.
@@ -16,8 +21,11 @@ import type { Locale } from '@/lib/configurator/schema';
 export type HomeCard = { title: string; text: string };
 
 export type HomeContent = {
-  /** Titre complet de l'onglet (sans le gabarit « · JR Diamond » du layout). */
-  metaTitle: string;
+  /**
+   * Titre de la page sans la marque : aperçu des liens partagés (`og:title`, la marque va dans `og:site_name`). L'onglet affiche
+   * « JR Diamond · » suivi de ce titre (`src/app/[locale]/page.tsx`).
+   */
+  shareTitle: string;
   description: string;
   eyebrow: string;
   title: string;
@@ -39,7 +47,7 @@ export type HomeContent = {
 
 export const HOME: Record<Locale, HomeContent> = {
   fr: {
-    metaTitle: 'JR Diamond · Joaillerie à la Bourse du diamant de Ramat Gan',
+    shareTitle: 'Joaillerie à la Bourse du diamant de Ramat Gan',
     description:
       'Bagues en or et en platine, diamants naturels ou synthétiques, fabriquées par notre atelier de la Bourse du diamant de Ramat Gan. Configurez votre bague en 3D, prix sur devis.',
     eyebrow: 'L’atelier en direct',
@@ -59,20 +67,20 @@ export const HOME: Record<Locale, HomeContent> = {
         text: 'La bague que vous faites tourner est tirée du fichier CAO avec lequel l’atelier la fabrique. Elle n’est pas redessinée pour le site : seuls quelques détails sont simplifiés pour l’écran. Les couleurs, elles, restent celles d’un écran.',
       },
       {
-        title: 'Fabriquée à la Bourse du diamant de Ramat Gan',
-        text: 'Notre atelier fabrique chaque pièce sur place. Comptez 14 jours ouvrés à partir de la commande pour un modèle du catalogue.',
+        title: 'Un atelier à la Bourse du diamant de Ramat Gan',
+        text: 'C’est notre atelier qui fabrique votre bijou. Comptez 14 jours ouvrés à partir de la commande pour un modèle du catalogue.',
       },
       {
         title: 'Un prix sur devis',
         text: 'Le prix dépend du métal, du titre de l’or et des pierres choisis. L’atelier vous répond avec un devis, sans engagement.',
       },
-      { title: 'Première mise à taille offerte', text: 'Si la bague n’est pas à la bonne taille, la première mise à taille est offerte.' },
+      { title: 'Première mise à taille offerte', text: 'Si la bague n’est pas à la bonne taille, la première mise à taille est offerte pendant la première année.' },
     ],
     making: 'Nous voulons aussi vous montrer la fabrication de votre bijou, en photos et en vidéos.',
     materialsTitle: 'Métaux et pierres',
     materials: [
       { term: 'Métaux', text: 'Or 14 ou 18 carats, jaune, blanc ou rose, et platine.' },
-      { term: 'Diamants', text: 'Naturels ou synthétiques, et diamants de couleur. Un diamant synthétique est un vrai diamant, fabriqué par l’homme : ce n’est pas une imitation.' },
+      { term: 'Diamants', text: 'Naturels ou synthétiques, et diamants de couleur. Un diamant synthétique a la même composition et la même structure cristalline qu’un diamant naturel : ce n’est pas une imitation.' },
       { term: 'Pierres de couleur', text: 'Émeraudes, saphirs et rubis naturels.' },
       { term: 'Certificat', text: 'GIA pour un diamant naturel, IGI pour un diamant synthétique, à partir de 0,50 carat.' },
     ],
@@ -84,7 +92,7 @@ export const HOME: Record<Locale, HomeContent> = {
     },
   },
   en: {
-    metaTitle: 'JR Diamond · Fine jewellery from the Diamond Exchange, Ramat Gan',
+    shareTitle: 'Fine jewellery from the Diamond Exchange, Ramat Gan',
     description:
       'Gold and platinum rings with natural or lab-grown diamonds, made by our workshop at the Diamond Exchange in Ramat Gan. Configure your ring in 3D, priced on quote.',
     eyebrow: 'Straight from the workshop',
@@ -104,20 +112,20 @@ export const HOME: Record<Locale, HomeContent> = {
         text: 'The ring you turn on screen is taken from the CAD file the workshop makes it from. It is not redrawn for the website: only a few details are simplified for the screen. Colours, however, remain those of a screen.',
       },
       {
-        title: 'Made at the Diamond Exchange in Ramat Gan',
-        text: 'Our workshop makes every piece on site. Allow 14 working days from your order for a piece from our catalogue.',
+        title: 'A workshop at the Diamond Exchange in Ramat Gan',
+        text: 'Your piece is made by our own workshop. Allow 14 working days from your order for a piece from our catalogue.',
       },
       {
         title: 'Priced on quote',
         text: 'The price depends on the metal, the gold karat and the stones you choose. The workshop replies with a quote, with no obligation.',
       },
-      { title: 'First resizing free', text: 'If the ring does not fit, the first resizing is free.' },
+      { title: 'First resizing free', text: 'If the ring does not fit, the first resizing is free during the first year.' },
     ],
     making: 'We also want to show you your piece being made, in photos and videos.',
     materialsTitle: 'Metals and stones',
     materials: [
       { term: 'Metals', text: '14 or 18 karat gold, yellow, white or rose, and platinum.' },
-      { term: 'Diamonds', text: 'Natural or lab-grown, and coloured diamonds. A lab-grown diamond is a real diamond, not an imitation.' },
+      { term: 'Diamonds', text: 'Natural or lab-grown, and coloured diamonds. A lab-grown diamond has the same composition and crystal structure as a natural diamond: it is not an imitation.' },
       { term: 'Coloured stones', text: 'Natural emeralds, sapphires and rubies.' },
       { term: 'Certificate', text: 'GIA for a natural diamond, IGI for a lab-grown one, from 0.50 carat.' },
     ],
@@ -129,12 +137,12 @@ export const HOME: Record<Locale, HomeContent> = {
     },
   },
   he: {
-    metaTitle: 'JR Diamond · תכשיטים מבורסת היהלומים ברמת גן',
+    shareTitle: 'תכשיטים מבורסת היהלומים ברמת גן',
     description: 'טבעות זהב ופלטינה עם יהלומים טבעיים או יהלומי מעבדה, בייצור הסדנה שלנו בבורסת היהלומים ברמת גן. עצבו את הטבעת בתלת־ממד, המחיר לפי הצעת מחיר.',
     eyebrow: 'ישר מהסדנה',
     title: 'הטבעת שלכם, בתלת־ממד, מיוצרת ברמת גן',
     lede: 'JR Diamond היא סדנת תכשיטים בבורסת היהלומים ברמת גן. בחרו בתלת־ממד את המתכת ואת היהלום של הטבעת: הסדנה משיבה בהצעת מחיר, ואחר כך מייצרת אותה.',
-    draft: 'טיוטה · העמוד ממתין לאישור הסדנה',
+    draft: 'טיוטה · העמוד ממתין לאישור הסדנה · תרגום ממתין להגהה',
     cta: 'עיצוב טבעת',
     ctaNote: 'הדגם הראשון באתר: סט המרקיזה, כטבעת סוליטר, כטבעת נישואין או שתיהן יחד. המחיר לפי הצעת מחיר, ללא התחייבות.',
     image: {
@@ -147,16 +155,16 @@ export const HOME: Record<Locale, HomeContent> = {
         title: 'המודל התלת־ממדי נלקח מקובץ הייצור',
         text: 'הטבעת שאתם מסובבים על המסך נלקחה מקובץ ה־CAD שממנו הסדנה מייצרת אותה. היא לא שורטטה מחדש לאתר: רק כמה פרטים פושטו לתצוגה. הצבעים, לעומת זאת, הם צבעי מסך.',
       },
-      { title: 'ייצור בבורסת היהלומים ברמת גן', text: 'הסדנה שלנו מייצרת כל תכשיט במקום. זמן הייצור: 14 ימי עבודה מיום ההזמנה, לתכשיט מהקטלוג שלנו.' },
+      { title: 'סדנה בבורסת היהלומים ברמת גן', text: 'הסדנה שלנו היא שמייצרת את התכשיט שלכם. זמן הייצור: 14 ימי עבודה מיום ההזמנה, לתכשיט מהקטלוג שלנו.' },
       { title: 'מחיר לפי הצעת מחיר', text: 'המחיר תלוי במתכת, בקראט הזהב ובאבנים שבחרתם. הסדנה משיבה בהצעת מחיר, ללא התחייבות.' },
-      { title: 'התאמת המידה הראשונה חינם', text: 'אם הטבעת לא במידה, התאמת המידה הראשונה חינם.' },
+      { title: 'התאמת המידה הראשונה חינם', text: 'אם הטבעת לא במידה, התאמת המידה הראשונה חינם במהלך השנה הראשונה.' },
     ],
     making: 'נרצה גם להראות לכם את התכשיט שלכם בזמן הייצור, בתמונות ובסרטונים.',
     materialsTitle: 'מתכות ואבנים',
     materials: [
       { term: 'מתכות', text: 'זהב 14 או 18 קראט, צהוב, לבן או אדום, ופלטינה.' },
-      { term: 'יהלומים', text: 'יהלומים טבעיים או יהלומי מעבדה, וגם יהלומים צבעוניים. יהלום מעבדה הוא יהלום אמיתי, לא חיקוי.' },
-      { term: 'אבני חן', text: 'אמרלד, ספיר ורובי טבעיים.' },
+      { term: 'יהלומים', text: 'יהלומים טבעיים או יהלומי מעבדה, וגם יהלומים צבעוניים. ליהלום מעבדה אותו הרכב ואותו מבנה גבישי כמו ליהלום טבעי: הוא אינו חיקוי.' },
+      { term: 'אבני חן', text: 'אזמרגד, ספיר ואודם טבעיים.' },
       { term: 'תעודה', text: 'GIA ליהלום טבעי, IGI ליהלום מעבדה, החל מ־0.50 קראט.' },
     ],
     moreTitle: 'עוד באתר',

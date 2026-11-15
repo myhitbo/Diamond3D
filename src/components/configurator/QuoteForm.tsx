@@ -35,6 +35,7 @@ export default function QuoteForm({
   state,
   t,
   suggestedMessage,
+  scrollRequest = 0,
   onClose,
 }: {
   modelId: string;
@@ -43,6 +44,12 @@ export default function QuoteForm({
   t: Dict['quote'];
   /** Texte proposé pour le message (ex. forme de pierre demandée). N'écrase jamais ce que la personne a écrit. */
   suggestedMessage?: string;
+  /**
+   * Compteur des demandes explicites d'affichage du formulaire (bouton « sur demande ») : chaque nouvelle valeur le fait défiler
+   * à l'écran. Le texte proposé, lui, peut changer sans action sur le formulaire (origine du diamant, réinitialisation) : il ne
+   * déplace jamais la page, sinon la personne perdrait de vue le contrôle qu'elle manipule (WCAG 3.2.2).
+   */
+  scrollRequest?: number;
   onClose: () => void;
 }) {
   const [status, setStatus] = useState<Status>({ kind: 'idle' });
@@ -55,14 +62,20 @@ export default function QuoteForm({
   const message = useRef<HTMLTextAreaElement>(null);
   const lastSuggestion = useRef('');
 
-  // Pose le texte proposé si le champ est vide ou contient encore la proposition précédente.
+  // Pose le texte proposé si le champ est vide ou contient encore la proposition précédente ; l'efface si la proposition
+  // disparaît (composition sans pierre centrale) et que la personne n'y a pas touché. Ne fait pas défiler la page.
   useEffect(() => {
     const field = message.current;
-    if (!field || !suggestedMessage) return;
-    if (field.value === '' || field.value === lastSuggestion.current) field.value = suggestedMessage;
-    lastSuggestion.current = suggestedMessage;
-    field.closest('section')?.scrollIntoView({ behavior: scrollBehavior(), block: 'start' });
+    if (!field) return;
+    const next = suggestedMessage ?? '';
+    if (field.value === '' || field.value === lastSuggestion.current) field.value = next;
+    lastSuggestion.current = next;
   }, [suggestedMessage]);
+
+  // Demande explicite (bouton « sur demande » alors que le formulaire est déjà ouvert) : le ramener à l'écran.
+  useEffect(() => {
+    if (scrollRequest > 0) message.current?.closest('section')?.scrollIntoView({ behavior: scrollBehavior(), block: 'start' });
+  }, [scrollRequest]);
 
   useEffect(() => {
     first.current?.focus({ preventScroll: true });

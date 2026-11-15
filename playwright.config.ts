@@ -30,11 +30,13 @@ export default defineConfig({
     { name: 'iphone', use: { ...devices['iPhone 15'] } },
     { name: 'ipad', use: { ...devices['iPad Pro 11'] } },
     // Firefox sans écran n'a pas de WebGL dans cet environnement (aucun pilote graphique) : le site y affiche
-    // « WebGL indisponible », comme prévu. On n'y joue donc que les parcours sans 3D (FAQ, devis, repli sans WebGL).
+    // « WebGL indisponible », comme prévu. On n'y joue donc que les parcours sans 3D (FAQ, devis, repli sans WebGL), et
+    // l'accessibilité : axe-core et clavier sur toutes les pages, configurateur dans son état sans WebGL ; les contrôles
+    // propres à la 3D y sont ignorés (`needsWebGL` dans accessibility.spec.ts).
     {
       name: 'firefox',
       use: { ...devices['Desktop Firefox'], viewport: { width: 1440, height: 900 } },
-      testMatch: ['faq.spec.ts', 'quote.spec.ts', 'no-webgl.spec.ts', 'pages.spec.ts'],
+      testMatch: ['faq.spec.ts', 'quote.spec.ts', 'no-webgl.spec.ts', 'pages.spec.ts', 'accessibility.spec.ts'],
     },
   ],
 });

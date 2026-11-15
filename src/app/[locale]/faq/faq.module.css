@@ -29,7 +29,7 @@
   padding: 4px 12px;
   border: 1px solid var(--gold-soft);
   border-radius: 999px;
-  color: var(--gold);
+  color: var(--gold-text);
   font-size: 12px;
 }
 
@@ -62,7 +62,7 @@
   font-weight: 400;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--gold-text);
   margin: 0 0 10px;
 }
 
@@ -92,7 +92,7 @@
   flex: none;
   font-family: var(--font-text);
   font-size: 20px;
-  color: var(--gold);
+  color: var(--gold-text);
   margin-inline-start: auto;
 }
 

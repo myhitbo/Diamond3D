@@ -107,8 +107,13 @@ test('déclaration : état de conformité daté ; formulaires : lien vers la pol
   await expect(status.getByRole('heading', { level: 2 })).toHaveText('État de conformité');
   await expect(status).toContainText('Dernière vérification');
   await expect(status).toContainText('15 novembre 2026');
-  await expect(status).toContainText('Non évaluée');
+  // Vérification du 15/11 : contrôles automatiques (axe-core et contrôles complémentaires), pas de lecteur d'écran.
+  await expect(status).toContainText('Partielle au niveau AA');
+  await expect(status).toContainText('axe-core 4.14.0');
+  await expect(status.getByRole('heading', { level: 3, name: 'Lecteurs d’écran testés' })).toBeVisible();
+  await expect(status).toContainText('Aucun pour l’instant.');
   await expect(status.getByRole('heading', { level: 3, name: 'Limites connues' })).toBeVisible();
+  await expect(status).toContainText('pas encore été essayé avec un lecteur d’écran');
   await expect(page.getByRole('link', { name: /IS 5568/ })).toHaveAttribute('href', /^https:\/\/www\.gov\.il\//);
 
   await page.goto('/fr/transformation');

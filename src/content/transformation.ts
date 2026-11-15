@@ -22,6 +22,8 @@ export type TransformationContent = {
   formIntro: string;
   fields: { jewel: string; wish: string; photos: string };
   jewelPlaceholder: string;
+  /** Erreur affichée sous le champ « bijou » s'il est vide ou trop court. */
+  jewelError: string;
   wishPlaceholder: string;
   successText: string;
   whatsAppNote: string;
@@ -49,6 +51,7 @@ export const TRANSFORMATION: Record<Locale, TransformationContent> = {
     formIntro: 'L’atelier vous répond par e-mail, sans engagement.',
     fields: { jewel: 'Le bijou que vous avez', wish: 'Ce que vous aimeriez en faire', photos: 'Photos du bijou' },
     jewelPlaceholder: 'Ex. bague en or jaune avec un diamant et deux saphirs, héritée de ma grand-mère',
+    jewelError: 'Décrivez le bijou que vous avez (5 caractères au moins).',
     wishPlaceholder: 'Ex. une bague de fiançailles avec le diamant, un pendentif avec les saphirs',
     successText: 'Merci. L’atelier a bien reçu vos photos et vous répondra par e-mail.',
     whatsAppNote: 'WhatsApp s’ouvre avec votre description déjà écrite : joignez-y vos photos, puis appuyez sur Envoyer.',
@@ -74,6 +77,7 @@ export const TRANSFORMATION: Record<Locale, TransformationContent> = {
     formIntro: 'The workshop replies by e-mail, with no obligation.',
     fields: { jewel: 'The piece you have', wish: 'What you would like to make of it', photos: 'Photos of the piece' },
     jewelPlaceholder: 'E.g. yellow gold ring with a diamond and two sapphires, inherited from my grandmother',
+    jewelError: 'Describe the piece you have (at least 5 characters).',
     wishPlaceholder: 'E.g. an engagement ring with the diamond, a pendant with the sapphires',
     successText: 'Thank you. The workshop has received your photos and will reply by e-mail.',
     whatsAppNote: 'WhatsApp opens with your description already written: attach your photos, then tap Send.',
@@ -99,6 +103,7 @@ export const TRANSFORMATION: Record<Locale, TransformationContent> = {
     formIntro: 'הסדנה משיבה בדוא״ל, ללא התחייבות.',
     fields: { jewel: 'התכשיט שיש לכם', wish: 'מה הייתם רוצים לעשות ממנו', photos: 'תמונות של התכשיט' },
     jewelPlaceholder: 'לדוגמה: טבעת זהב צהוב עם יהלום ושני ספירים, ירושה מסבתא',
+    jewelError: 'נא לתאר את התכשיט שיש לכם (5 תווים לפחות).',
     wishPlaceholder: 'לדוגמה: טבעת אירוסין עם היהלום, תליון עם הספירים',
     successText: 'תודה. הסדנה קיבלה את התמונות ותשיב בדוא״ל.',
     whatsAppNote: 'וואטסאפ נפתח עם התיאור שכתבתם: צרפו את התמונות ולחצו על שליחה.',

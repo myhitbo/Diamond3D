@@ -48,12 +48,27 @@ test('envoie une demande avec la configuration choisie et une photo', async ({ p
   await expect(page.getByRole('status').filter({ hasText: 'L’atelier a bien reçu' })).toBeFocused();
 });
 
-test('champs obligatoires : le navigateur bloque l’envoi', async ({ page }) => {
+test('champs obligatoires : erreurs écrites sous les champs, annoncées, focus sur le premier, aucun envoi', async ({ page }) => {
   await openForm(page);
   let posted = false;
   page.on('request', (r) => r.url().endsWith('/api/devis') && (posted = true));
   await page.getByRole('button', { name: 'Envoyer la demande' }).click();
   await expect(page.getByLabel('Nom *')).toBeFocused();
+  await expect(page.locator('form [role=alert]')).toContainText('Le formulaire contient 3 erreurs');
+  await expect(page.getByLabel('Nom *')).toHaveAttribute('aria-invalid', 'true');
+  await expect(page.getByLabel('Nom *')).toHaveAccessibleDescription('Indiquez votre nom (2 caractères au moins).');
+  await expect(page.getByRole('checkbox', { name: /uniquement pour répondre/ })).toHaveAccessibleDescription(/Cochez la case d’accord/);
+  // Adresse incomplète : message propre au format.
+  await page.getByLabel('E-mail *').fill('jeanne@');
+  await page.getByRole('button', { name: 'Envoyer la demande' }).click();
+  await expect(page.getByLabel('E-mail *')).toHaveAccessibleDescription(/Adresse e-mail incomplète/);
+  // Un champ corrigé perd son erreur aussitôt ; le résumé reste celui du dernier envoi (il n'est pas réannoncé à chaque touche).
+  await page.getByLabel('Nom *').fill('Jeanne Martin');
+  await expect(page.getByLabel('Nom *')).not.toHaveAttribute('aria-invalid', 'true');
+  await expect(page.getByLabel('Nom *')).toHaveAccessibleDescription('');
+  await page.getByRole('button', { name: 'Envoyer la demande' }).click();
+  await expect(page.locator('form [role=alert]')).toContainText('Le formulaire contient 2 erreurs');
+  await expect(page.getByLabel('E-mail *')).toBeFocused();
   expect(posted).toBe(false);
 });
 

@@ -17,6 +17,8 @@ export type DebugProbe = {
   metalColor: () => string;
   orbit: (azimuthDeg: number) => void;
   cameraDistance: () => number;
+  /** Angles de la caméra, en radians : azimut (autour du bijou) et angle polaire (0 : vue de dessus). */
+  cameraAngles: () => { azimuth: number; polar: number };
 };
 
 declare global {
@@ -35,6 +37,7 @@ export function initProbe() {
     metalColor: () => '',
     orbit: () => undefined,
     cameraDistance: () => NaN,
+    cameraAngles: () => ({ azimuth: NaN, polar: NaN }),
   };
 }
 

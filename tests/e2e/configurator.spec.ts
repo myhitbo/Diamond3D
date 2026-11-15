@@ -133,7 +133,8 @@ test('en-tête : aucun lien sur deux lignes', async ({ page }) => {
     const header = (await page.locator('.site-header').boundingBox())!;
     // Une seule rangée : environ 60 px sur téléphone, 80 px sur tablette et ordinateur (marges plus larges).
     expect(header.height, locale).toBeLessThan(100);
-    await expect(link).toHaveAccessibleName(/Questions fréquentes|FAQ|שאלות נפוצות/);
+    // Nom accessible = texte affiché (WCAG 2.5.3) : libellé long sur ordinateur, court sur mobile.
+    await expect(link).toHaveAccessibleName(/^(Questions fréquentes|FAQ|שאלות נפוצות|שאלות)$/);
   }
 });
 

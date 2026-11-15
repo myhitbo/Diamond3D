@@ -41,12 +41,11 @@ export default function SiteHeader({
       <p className="tagline">{t.brandTagline}</p>
       <div className="site-nav">
         <nav aria-label={t.navLabel}>
-          <Link href={`/${locale}/faq`} aria-current={path === '/faq' ? 'page' : undefined} aria-label={t.navFaq}>
-            {/* Libellé long sur ordinateur, court sur mobile (sinon il passe sur deux lignes). */}
+          {/* Libellé long sur ordinateur, court sur mobile (sinon il passe sur deux lignes). Le libellé masqué (display: none) sort
+              aussi de l'arbre d'accessibilité : le nom du lien est toujours le texte affiché (WCAG 2.5.3, « FAQ » sur mobile). */}
+          <Link href={localizedPath(locale, '/faq')} aria-current={path === '/faq' ? 'page' : undefined}>
             <span className="nav-long">{t.navFaq}</span>
-            <span className="nav-short" aria-hidden="true">
-              {t.navFaqShort}
-            </span>
+            <span className="nav-short">{t.navFaqShort}</span>
           </Link>
         </nav>
         <nav className="lang" aria-label="Langue / Language">

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { ErrorSummary, FieldMessages, collectErrors, commonFieldError, fieldAria, photoFiles, scrollBehavior, useFieldErrors } from '@/components/site/FormFeedback';
 import type { Dict } from '@/i18n/dictionaries';
 import type { ConfigState, Locale } from '@/lib/configurator/schema';
 import { getModel } from '@/models';
@@ -26,6 +27,8 @@ function errorMessage(t: Dict['quote'], e: (QuoteError | { code: string }) | und
   return t.errors[e.code as keyof Omit<Dict['quote']['errors'], 'photos' | 'invalidFields'>] ?? t.errors.send_failed;
 }
 
+const PREFIX = 'quote';
+
 export default function QuoteForm({
   modelId,
   locale,
@@ -43,6 +46,10 @@ export default function QuoteForm({
   onClose: () => void;
 }) {
   const [status, setStatus] = useState<Status>({ kind: 'idle' });
+  const { errors, summary, attempt, formRef, check, recheck } = useFieldErrors((form) => {
+    const photoError = checkPhotos(photoFiles(form).map((f) => ({ name: f.name, type: f.type, size: f.size })));
+    return collectErrors(form, (name, reason) => commonFieldError(t, name, reason) ?? t.errors.invalid, { photos: photoError ? errorMessage(t, photoError) : undefined });
+  });
   const first = useRef<HTMLInputElement>(null);
   const done = useRef<HTMLParagraphElement>(null);
   const message = useRef<HTMLTextAreaElement>(null);
@@ -54,12 +61,12 @@ export default function QuoteForm({
     if (!field || !suggestedMessage) return;
     if (field.value === '' || field.value === lastSuggestion.current) field.value = suggestedMessage;
     lastSuggestion.current = suggestedMessage;
-    field.closest('section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    field.closest('section')?.scrollIntoView({ behavior: scrollBehavior(), block: 'start' });
   }, [suggestedMessage]);
 
   useEffect(() => {
     first.current?.focus({ preventScroll: true });
-    first.current?.closest('section')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    first.current?.closest('section')?.scrollIntoView({ behavior: scrollBehavior(), block: 'start' });
   }, []);
   useEffect(() => {
     if (status.kind === 'sent') done.current?.focus();
@@ -68,10 +75,8 @@ export default function QuoteForm({
   async function submit(ev: FormEvent<HTMLFormElement>) {
     ev.preventDefault();
     const form = ev.currentTarget;
+    if (!check(form)) return setStatus({ kind: 'idle' });
     const data = new FormData(form);
-    const photos = data.getAll('photos').filter((f): f is File => f instanceof File && f.size > 0);
-    const photoError = checkPhotos(photos.map((f) => ({ name: f.name, type: f.type, size: f.size })));
-    if (photoError) return setStatus({ kind: 'error', message: errorMessage(t, photoError) });
     data.set('modelId', modelId);
     data.set('locale', locale);
     data.set('config', JSON.stringify(state));
@@ -122,15 +127,31 @@ export default function QuoteForm({
         {t.title}
       </h2>
       <p className={styles.note}>{t.intro}</p>
-      <form className={styles.form} onSubmit={submit} noValidate={false}>
-        <label className={styles.label}>
-          {t.fieldNames.name} *
-          <input ref={first} className={styles.input} name="name" autoComplete="name" required minLength={2} maxLength={100} />
-        </label>
-        <label className={styles.label}>
-          {t.fieldNames.email} *
-          <input className={styles.input} name="email" type="email" autoComplete="email" required maxLength={200} />
-        </label>
+      <p className={styles.note}>{t.requiredNote}</p>
+      <form ref={formRef} className={styles.form} onSubmit={submit} onChange={recheck} noValidate>
+        <div className={styles.fieldGroup}>
+          <label className={styles.label}>
+            {t.fieldNames.name} *
+            <input
+              ref={first}
+              className={styles.input}
+              name="name"
+              autoComplete="name"
+              required
+              minLength={2}
+              maxLength={100}
+              {...fieldAria(PREFIX, 'name', errors)}
+            />
+          </label>
+          <FieldMessages prefix={PREFIX} name="name" errors={errors} />
+        </div>
+        <div className={styles.fieldGroup}>
+          <label className={styles.label}>
+            {t.fieldNames.email} *
+            <input className={styles.input} name="email" type="email" autoComplete="email" required maxLength={200} {...fieldAria(PREFIX, 'email', errors)} />
+          </label>
+          <FieldMessages prefix={PREFIX} name="email" errors={errors} />
+        </div>
         <label className={styles.label}>
           {t.fieldNames.phone}
           <input className={styles.input} name="phone" type="tel" autoComplete="tel" maxLength={40} />
@@ -143,20 +164,37 @@ export default function QuoteForm({
           {t.fieldNames.message}
           <textarea ref={message} className={styles.input} name="message" rows={4} maxLength={3000} placeholder={t.messagePlaceholder} />
         </label>
-        <label className={styles.label}>
-          {t.fieldNames.photos}
-          <input className={styles.file} name="photos" type="file" multiple accept={PHOTO_LIMITS.types.join(',')} />
-          <span className={styles.note}>{t.photosHint(PHOTO_LIMITS.maxCount, mb(PHOTO_LIMITS.maxBytesEach), mb(PHOTO_LIMITS.maxBytesTotal))}</span>
-        </label>
+        <div className={styles.fieldGroup}>
+          <label className={styles.label}>
+            {t.fieldNames.photos}
+            <input
+              className={styles.file}
+              name="photos"
+              type="file"
+              multiple
+              accept={PHOTO_LIMITS.types.join(',')}
+              {...fieldAria(PREFIX, 'photos', errors, true)}
+            />
+          </label>
+          <FieldMessages
+            prefix={PREFIX}
+            name="photos"
+            errors={errors}
+            hint={t.photosHint(PHOTO_LIMITS.maxCount, mb(PHOTO_LIMITS.maxBytesEach), mb(PHOTO_LIMITS.maxBytesTotal))}
+          />
+        </div>
         {/* Champ piège : invisible pour les personnes, rempli par les robots. */}
         <label className={styles.trap} aria-hidden="true">
           Website
           <input name="website" tabIndex={-1} autoComplete="off" />
         </label>
-        <label className={styles.check}>
-          <input name="consent" type="checkbox" required />
-          <span>{t.fieldNames.consent}</span>
-        </label>
+        <div className={styles.fieldGroup}>
+          <label className={styles.check}>
+            <input name="consent" type="checkbox" required {...fieldAria(PREFIX, 'consent', errors)} />
+            <span>{t.fieldNames.consent} *</span>
+          </label>
+          <FieldMessages prefix={PREFIX} name="consent" errors={errors} />
+        </div>
         <label className={styles.check}>
           <input name="publishConsent" type="checkbox" />
           <span>{t.fieldNames.publishConsent}</span>
@@ -168,6 +206,8 @@ export default function QuoteForm({
             {t.privacyLink}
           </a>
         </p>
+        {/* Une seule alerte à la fois : erreurs de saisie (avant envoi) ou erreur d'envoi (réponse du serveur). */}
+        <ErrorSummary key={attempt} title={t.errorSummary} errors={summary} />
         {status.kind === 'error' && (
           <p className={styles.error} role="alert">
             {status.message}

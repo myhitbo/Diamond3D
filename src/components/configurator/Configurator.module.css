@@ -23,6 +23,12 @@
   outline: none;
 }
 
+/* Vue 3D au clavier (flèches, + et −) : l'indicateur de focus est tracé à l'intérieur, la scène rognant ce qui dépasse. */
+.canvas:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: -6px;
+}
+
 .stageBar {
   position: absolute;
   inset: auto 0 0 0;
@@ -134,7 +140,7 @@
   font-size: 11px;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--gold-text);
 }
 
 .title {
@@ -160,7 +166,7 @@
   border-radius: 999px;
   font-size: 11px;
   letter-spacing: 0.06em;
-  color: var(--gold);
+  color: var(--gold-text);
 }
 
 .field {
@@ -291,6 +297,12 @@
   text-underline-offset: 3px;
 }
 
+/* Lien seul sur sa ligne (guide de la taille) : cible d'au moins 24 px de haut (WCAG 2.5.8). */
+.note .standaloneLink {
+  display: inline-block;
+  padding-block: 3px;
+}
+
 .value {
   margin: 0;
   font-size: 14px;
@@ -303,12 +315,14 @@
 }
 
 .details summary {
+  /* Cible d'au moins 24 px de haut (WCAG 2.5.8). */
+  padding-block: 4px;
   cursor: pointer;
   color: var(--muted);
   list-style-position: inside;
 }
 
-aside > .details {
+.panel > .details {
   margin-top: 28px;
   padding-top: 22px;
   border-top: 1px solid var(--line);
@@ -422,6 +436,12 @@ aside > .details {
     border-bottom: 1px solid var(--line);
   }
 
+  /* La scène reste collée en haut de l'écran : le navigateur doit amener l'élément qui reçoit le focus (Tab) sous elle, pas
+     derrière elle (WCAG 2.2, critère 2.4.11). Même marge pour les ancres et le défilement vers le formulaire de devis. */
+  :global(html):has(.stage) {
+    scroll-padding-top: calc(max(54svh, 320px) + 12px);
+  }
+
   .stageBar {
     padding-bottom: 12px;
     gap: 6px;
@@ -503,6 +523,9 @@ textarea.input {
 
 .file {
   max-width: 100%;
+  /* Cible d'au moins 24 px de haut (WCAG 2.5.8) : le champ de fichier natif n'en fait que 21. */
+  min-height: 44px;
+  padding-block: 10px;
   font: inherit;
   font-size: 13px;
   letter-spacing: normal;
@@ -515,6 +538,8 @@ textarea.input {
   grid-template-columns: auto 1fr;
   gap: 10px;
   align-items: start;
+  /* Étiquette cliquable d'au moins 24 px de haut, même sur une seule ligne (WCAG 2.5.8). */
+  padding-block: 3px;
   font-size: 13px;
   line-height: 1.5;
 }
@@ -544,11 +569,41 @@ textarea.input {
 .error {
   margin: 0;
   padding: 10px 12px;
-  border-left: 2px solid #9b2c2c;
+  border-inline-start: 2px solid #9b2c2c;
   background: #fbefec;
   color: #7a1f1f;
   font-size: 13px;
   line-height: 1.5;
+}
+
+.error p,
+.error ul {
+  margin: 0;
+}
+
+.error ul {
+  padding-inline-start: 18px;
+}
+
+/* Champ avec aide ou message d'erreur : l'étiquette (qui englobe le contrôle), puis les messages. */
+.fieldGroup {
+  display: grid;
+  gap: 6px;
+}
+
+.fieldGroup > .note {
+  margin: 0;
+}
+
+/* Erreur d'un champ : texte (pas seulement la couleur), 7,9:1 sur le fond du formulaire. */
+.fieldError {
+  color: #8f2424;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.input[aria-invalid='true'] {
+  border-color: #9b2c2c;
 }
 
 /* Page cachée /diagnostic */

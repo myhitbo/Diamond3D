@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useCallback, useEffect, useMemo, useReducer, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { useProgress } from '@react-three/drei';
 import { getModel } from '@/models';
 import { METALS } from '@/config/metals';
@@ -39,6 +39,27 @@ function sceneFraming(m: ModelDefinition) {
   // Repère Rhino : Z vers le haut, donc la hauteur à l'écran est l'étendue en Z.
   return { radiusMm, shadowYMm: -(size[2] / 2 + 0.3) };
 }
+
+/**
+ * Groupe de boutons radio au clavier (motif « radio group » de l'ARIA APG) : un seul arrêt de tabulation par groupe, le choix
+ * en cours ; les flèches passent au choix voisin et le sélectionnent, comme des boutons radio natifs. En hébreu, gauche et
+ * droite suivent le sens de lecture (la flèche gauche va au choix suivant, affiché à gauche).
+ */
+function radioKeys(e: KeyboardEvent<HTMLElement>) {
+  const radios = Array.from(e.currentTarget.querySelectorAll<HTMLElement>('[role="radio"]'));
+  const i = radios.indexOf(e.target as HTMLElement);
+  if (i < 0) return;
+  const rtl = getComputedStyle(e.currentTarget).direction === 'rtl';
+  const step: Partial<Record<string, number>> = { ArrowDown: 1, ArrowUp: -1, ArrowRight: rtl ? -1 : 1, ArrowLeft: rtl ? 1 : -1 };
+  const j = e.key === 'Home' ? 0 : e.key === 'End' ? radios.length - 1 : step[e.key] !== undefined ? (i + step[e.key]! + radios.length) % radios.length : -1;
+  if (j < 0) return;
+  e.preventDefault();
+  radios[j].focus();
+  radios[j].click();
+}
+
+/** Arrêt de tabulation d'un bouton radio : le choix en cours (ou le premier si aucun n'est choisi). */
+const radioTabIndex = (checked: boolean, index: number, anyChecked: boolean) => (checked || (!anyChecked && index === 0) ? 0 : -1);
 
 function hasWebGL() {
   try {
@@ -107,6 +128,18 @@ export default function Configurator({
   const centerVariant = centerSlot?.variants.find((v) => v.id === state.stones[centerSlot.id]);
   const stones = stoneSummary(model, state);
   const weight = metalWeightEstimateG(model, state);
+  const composition = model.compositions.find((c) => c.id === state.composition)!;
+  const stoneLine = (g: (typeof stones)[number]) =>
+    `${g.count} × ${t.shapes[g.shape as keyof typeof t.shapes]} ${g.sizesMm.map((x) => (locale === 'fr' ? x.replace('.', ',') : x)).join(' – ')} ${t.mm}` +
+    (centerVariant?.nominalCarat && g.shape === centerVariant.shape && g.count === 1 ? ` · ≈ ${formatNumber(locale, centerVariant.nominalCarat.value, 2)} ct` : '');
+  // Équivalent textuel de la vue 3D (WCAG 1.1.1) : ce qu'elle montre, mis à jour à chaque choix et annoncé poliment.
+  const viewerDescription = [
+    `${model.name[locale]}.`,
+    `${t.composition}${t.colon}${composition.name[locale]}. ${composition.description[locale]}`,
+    `${t.metal}${t.colon}${metal.name[locale]}.`,
+    `${t.stones}${t.colon}${stones.map(stoneLine).join(t.semicolon)}.`,
+    `${t.origin}${t.colon}${t.origins[state.diamondOrigin]}.`,
+  ].join(' ');
   const onReady = useCallback(() => setReady(true), []);
   const onQualityDrop = useCallback(() => setQuality('low'), []);
 
@@ -135,6 +168,8 @@ export default function Configurator({
             quality={quality}
             debug={debug}
             label={t.canvasLabel}
+            describedBy="viewer-description viewer-keys"
+            className={styles.canvas}
             radiusMm={framing.radiusMm}
             shadowYMm={framing.shadowYMm}
             onReady={onReady}
@@ -149,9 +184,19 @@ export default function Configurator({
             )}
           />
         ) : null}
+        {webgl && (
+          <>
+            <p id="viewer-description" className="visually-hidden" aria-live="polite" aria-atomic="true">
+              {viewerDescription}
+            </p>
+            <p id="viewer-keys" className="visually-hidden">
+              {t.canvasKeys}
+            </p>
+          </>
+        )}
         {!ready && webgl !== false && <Loader label={t.loading} />}
         <div className={styles.stageBar}>
-          <div className={styles.views} role="group" aria-label="Vues">
+          <div className={styles.views} role="group" aria-label={t.viewsLabel}>
             {(Object.keys(t.views) as ViewName[]).map((v) => (
               <button
                 key={v}
@@ -168,8 +213,8 @@ export default function Configurator({
         </div>
       </section>
 
-      <aside className={styles.panel}>
-
+      {/* Panneau des choix : contenu principal de la page (titre, options, devis), pas un contenu annexe : pas d'`aside`. */}
+      <div className={styles.panel}>
         {diagnostic && <DiagnosticPanel locale={locale} />}
         <p className={styles.eyebrow}>{t.eyebrow}</p>
         <h1 className={styles.title}>{model.name[locale]}</h1>
@@ -186,12 +231,12 @@ export default function Configurator({
             value={state.composition}
             onChange={(composition) => dispatch({ type: 'change', change: { composition } })}
           />
-          <p className={styles.note}>{model.compositions.find((c) => c.id === state.composition)!.description[locale]}</p>
+          <p className={styles.note}>{composition.description[locale]}</p>
         </Field>
 
         <Field title={t.metal} aside={metal.name[locale]}>
-          <div className={styles.swatches} role="radiogroup" aria-label={t.metal}>
-            {metalFamilies(model).map((family) => {
+          <div className={styles.swatches} role="radiogroup" aria-label={t.metal} onKeyDown={radioKeys}>
+            {metalFamilies(model).map((family, i) => {
               const id = pickMetal(model, family, metal.titre);
               return (
                 <button
@@ -199,6 +244,7 @@ export default function Configurator({
                   type="button"
                   role="radio"
                   aria-checked={metal.family === family}
+                  tabIndex={radioTabIndex(metal.family === family, i, true)}
                   aria-label={t.metalFamilies[family]}
                   title={t.metalFamilies[family]}
                   className={styles.swatch}
@@ -310,7 +356,9 @@ export default function Configurator({
             <p className={styles.note}>{t.sizeNote}</p>
             {guideLinks && (
               <p className={styles.note}>
-                <a href={guideLinks.size.href}>{guideLinks.size.label}</a>
+                <a href={guideLinks.size.href} className={styles.standaloneLink}>
+                  {guideLinks.size.label}
+                </a>
               </p>
             )}
           </Field>
@@ -323,7 +371,7 @@ export default function Configurator({
           <dl className={styles.summaryList}>
             <div>
               <dt>{t.composition}</dt>
-              <dd>{model.compositions.find((c) => c.id === state.composition)!.name[locale]}</dd>
+              <dd>{composition.name[locale]}</dd>
             </div>
             <div>
               <dt>{t.metal}</dt>
@@ -334,11 +382,7 @@ export default function Configurator({
               <dd>
                 {stones.map((g) => (
                   <span key={g.shape} className={styles.stoneLine}>
-                    {g.count} × {t.shapes[g.shape as keyof typeof t.shapes]} {g.sizesMm.map((x) => (locale === 'fr' ? x.replace('.', ',') : x)).join(' – ')}{' '}
-                    {t.mm}
-                    {centerVariant?.nominalCarat && g.shape === centerVariant.shape && g.count === 1
-                      ? ` · ≈ ${formatNumber(locale, centerVariant.nominalCarat.value, 2)} ct`
-                      : ''}
+                    {stoneLine(g)}
                   </span>
                 ))}
               </dd>
@@ -435,7 +479,7 @@ export default function Configurator({
           </dl>
           <p className={styles.note}>{t.caratNote}</p>
         </details>
-      </aside>
+      </div>
     </div>
   );
 }
@@ -443,9 +487,9 @@ export default function Configurator({
 function Field({ title, aside, children }: { title: string; aside?: string; children: ReactNode }) {
   return (
     <section className={styles.field}>
+      {/* Espace entre les deux parties : sans lui, le nom du titre colle les mots (« MétalOr jaune »). */}
       <h2 className={styles.fieldTitle}>
-        <span>{title}</span>
-        {aside && <span className={styles.fieldAside}>{aside}</span>}
+        <span>{title}</span> {aside && <span className={styles.fieldAside}>{aside}</span>}
       </h2>
       {children}
     </section>
@@ -464,9 +508,17 @@ function Choices<T extends string>({
   onChange: (id: T) => void;
 }) {
   return (
-    <div className={styles.choices} role="radiogroup" aria-label={label}>
-      {options.map((o) => (
-        <button key={o.id} type="button" role="radio" aria-checked={value === o.id} className={styles.choice} onClick={() => onChange(o.id)}>
+    <div className={styles.choices} role="radiogroup" aria-label={label} onKeyDown={radioKeys}>
+      {options.map((o, i) => (
+        <button
+          key={o.id}
+          type="button"
+          role="radio"
+          aria-checked={value === o.id}
+          tabIndex={radioTabIndex(value === o.id, i, options.some((x) => x.id === value))}
+          className={styles.choice}
+          onClick={() => onChange(o.id)}
+        >
           {o.label}
         </button>
       ))}

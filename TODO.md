@@ -6,7 +6,7 @@
 - [ ] Test sur appareils réels en suivant `docs/DEVICE_TESTS.md` : iPhone (Safari), Android milieu de gamme, ordinateur. Renvoyer les rapports de `/diagnostic`.
 - [x] Speed Insights : script servi en production le 13/11 (`/_vercel/speed-insights/script.js` répond 200) et présent dans le code client ; premières mesures visibles dans l'onglet Speed Insights de Vercel après de vraies visites.
 - [x] Intégration continue : premier passage vert le 13/11 (5 tâches, dont WebKit iPhone). À prévoir : passer aux versions des actions GitHub qui tournent sur Node 24 (avertissement de dépréciation de Node 20).
-- [ ] Relancer la campagne de mesure complète (`scripts/perf/measure.mjs`), interrompue deux fois.
+- [x] Campagne de mesure complète (`scripts/perf/measure.mjs`) relancée le 15/11 : 3 scénarios × 3 passes, sans échec, 1 min 25 s. Résultats dans `docs/PROTOTYPE_REPORT.md` (C) et `docs/perf/`. Rendu logiciel : les images par seconde sont un plancher, pas une mesure d'appareil. `serve-and-run.sh` corrigé (port 3100 occupé, serveur figé, arrêt sur signal) ; la mesure enregistre désormais chaque passe.
 - [x] Suite navigateur complète relancée le 3/11 : 28/28 (Chromium, rendu logiciel).
 - [x] Réponse de l'atelier pour ring-001 (3/11) : griffes à replier et « 8 » à supprimer sur la version web ; le maquettiste ne peut pas le faire.
 - [x] Retouche web de ring-001 (3/11) : griffes rabattues, plaques en « 8 » supprimées, modèle publié. Planche : `docs/images/retouche-ring-001-avant-apres.jpg`.

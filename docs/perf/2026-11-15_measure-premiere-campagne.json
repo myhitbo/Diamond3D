@@ -1,0 +1,423 @@
+{
+  "date": "2026-11-15T11:42:34.522Z",
+  "renderer": "SwiftShader (logiciel, sans GPU)",
+  "durationS": 82,
+  "results": [
+    {
+      "scenario": "ordinateur",
+      "runs": 3,
+      "ttfbMs": 10,
+      "fcpMs": 288,
+      "domContentLoadedMs": 69,
+      "glbDurationMs": 10,
+      "model3dReadyMs": 1299,
+      "firstFrameAtMs": 1284,
+      "viewerMountToFirstFrameMs": 1025,
+      "drawCalls": 9,
+      "triangles": 27359,
+      "pixelRatio": 1,
+      "fpsSoftwareGL": 1.9,
+      "p95FrameMsSoftwareGL": 1042,
+      "qualityAtReady": [
+        "high",
+        "high",
+        "high"
+      ],
+      "qualityAfterRotation": [
+        "high",
+        "high",
+        "high"
+      ],
+      "transferredKB": {
+        "HTML": 7,
+        "polices": 128,
+        "CSS": 8,
+        "JavaScript": 520,
+        "autres": 28,
+        "modèle 3D": 136
+      },
+      "transferredTotalKB": 828,
+      "failures": []
+    },
+    {
+      "scenario": "mobile (CPU ×4, 4G lente)",
+      "runs": 3,
+      "ttfbMs": 7,
+      "fcpMs": 708,
+      "domContentLoadedMs": 470,
+      "glbDurationMs": 817,
+      "model3dReadyMs": 7898,
+      "firstFrameAtMs": 6617,
+      "viewerMountToFirstFrameMs": 3718,
+      "drawCalls": 9,
+      "triangles": 27359,
+      "pixelRatio": 2,
+      "fpsSoftwareGL": 2.3,
+      "p95FrameMsSoftwareGL": 583,
+      "qualityAtReady": [
+        "high",
+        "high",
+        "high"
+      ],
+      "qualityAfterRotation": [
+        "high",
+        "high",
+        "high"
+      ],
+      "transferredKB": {
+        "HTML": 7,
+        "CSS": 8,
+        "polices": 128,
+        "JavaScript": 520,
+        "autres": 28,
+        "modèle 3D": 136
+      },
+      "transferredTotalKB": 828,
+      "failures": []
+    },
+    {
+      "scenario": "mobile, qualité réduite",
+      "runs": 3,
+      "ttfbMs": 8,
+      "fcpMs": 696,
+      "domContentLoadedMs": 475,
+      "glbDurationMs": 815,
+      "model3dReadyMs": 7481,
+      "firstFrameAtMs": 6389,
+      "viewerMountToFirstFrameMs": 3592,
+      "drawCalls": 9,
+      "triangles": 27359,
+      "pixelRatio": 1.25,
+      "fpsSoftwareGL": 11.3,
+      "p95FrameMsSoftwareGL": 167,
+      "qualityAtReady": [
+        "low",
+        "low",
+        "low"
+      ],
+      "qualityAfterRotation": [
+        "low",
+        "low",
+        "low"
+      ],
+      "transferredKB": {
+        "HTML": 7,
+        "CSS": 8,
+        "polices": 128,
+        "JavaScript": 520,
+        "autres": 28,
+        "modèle 3D": 136
+      },
+      "transferredTotalKB": 828,
+      "failures": []
+    }
+  ],
+  "raw": [
+    {
+      "scenario": "ordinateur",
+      "runs": [
+        {
+          "timing": {
+            "ttfbMs": 12,
+            "fcpMs": 764,
+            "domContentLoadedMs": 211,
+            "glbStartMs": 1274,
+            "glbDurationMs": 15,
+            "model3dReadyMs": 1843,
+            "firstFrameAtMs": 1825,
+            "viewerMountToFirstFrameMs": 1522,
+            "qualityAtReady": "high",
+            "info": {
+              "calls": 9,
+              "triangles": 27359,
+              "dpr": 1,
+              "programs": 8
+            }
+          },
+          "interaction": {
+            "fps": 1.9,
+            "p95FrameMs": 1140,
+            "qualityAfter": "high"
+          },
+          "bytes": {
+            "HTML": 7050,
+            "polices": 131263,
+            "CSS": 8702,
+            "JavaScript": 532551,
+            "autres": 29115,
+            "modèle 3D": 138880
+          }
+        },
+        {
+          "timing": {
+            "ttfbMs": 8,
+            "fcpMs": 288,
+            "domContentLoadedMs": 69,
+            "glbStartMs": 760,
+            "glbDurationMs": 10,
+            "model3dReadyMs": 1299,
+            "firstFrameAtMs": 1284,
+            "viewerMountToFirstFrameMs": 1018,
+            "qualityAtReady": "high",
+            "info": {
+              "calls": 9,
+              "triangles": 27359,
+              "dpr": 1,
+              "programs": 8
+            }
+          },
+          "interaction": {
+            "fps": 1.7,
+            "p95FrameMs": 1028,
+            "qualityAfter": "high"
+          },
+          "bytes": {
+            "HTML": 7050,
+            "CSS": 8702,
+            "polices": 131263,
+            "JavaScript": 532551,
+            "autres": 29115,
+            "modèle 3D": 138880
+          }
+        },
+        {
+          "timing": {
+            "ttfbMs": 10,
+            "fcpMs": 204,
+            "domContentLoadedMs": 65,
+            "glbStartMs": 715,
+            "glbDurationMs": 10,
+            "model3dReadyMs": 1254,
+            "firstFrameAtMs": 1245,
+            "viewerMountToFirstFrameMs": 1025,
+            "qualityAtReady": "high",
+            "info": {
+              "calls": 5,
+              "triangles": 5268,
+              "dpr": 1,
+              "programs": 8
+            }
+          },
+          "interaction": {
+            "fps": 4.3,
+            "p95FrameMs": 1042,
+            "qualityAfter": "high"
+          },
+          "bytes": {
+            "HTML": 7050,
+            "polices": 131263,
+            "CSS": 8702,
+            "JavaScript": 532551,
+            "autres": 29115,
+            "modèle 3D": 138880
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "mobile (CPU ×4, 4G lente)",
+      "runs": [
+        {
+          "timing": {
+            "ttfbMs": 7,
+            "fcpMs": 708,
+            "domContentLoadedMs": 463,
+            "glbStartMs": 4944,
+            "glbDurationMs": 817,
+            "model3dReadyMs": 7278,
+            "firstFrameAtMs": 6320,
+            "viewerMountToFirstFrameMs": 3477,
+            "qualityAtReady": "high",
+            "info": {
+              "calls": 9,
+              "triangles": 27359,
+              "dpr": 2,
+              "programs": 8
+            }
+          },
+          "interaction": {
+            "fps": 2.4,
+            "p95FrameMs": 533,
+            "qualityAfter": "high"
+          },
+          "bytes": {
+            "HTML": 7050,
+            "CSS": 8702,
+            "polices": 131263,
+            "JavaScript": 532551,
+            "autres": 29115,
+            "modèle 3D": 138880
+          }
+        },
+        {
+          "timing": {
+            "ttfbMs": 5,
+            "fcpMs": 728,
+            "domContentLoadedMs": 492,
+            "glbStartMs": 5110,
+            "glbDurationMs": 815,
+            "model3dReadyMs": 7898,
+            "firstFrameAtMs": 6617,
+            "viewerMountToFirstFrameMs": 3718,
+            "qualityAtReady": "high",
+            "info": {
+              "calls": 9,
+              "triangles": 27359,
+              "dpr": 2,
+              "programs": 8
+            }
+          },
+          "interaction": {
+            "fps": 2.3,
+            "p95FrameMs": 583,
+            "qualityAfter": "high"
+          },
+          "bytes": {
+            "HTML": 7050,
+            "CSS": 8702,
+            "polices": 131263,
+            "JavaScript": 532551,
+            "autres": 29115,
+            "modèle 3D": 138880
+          }
+        },
+        {
+          "timing": {
+            "ttfbMs": 7,
+            "fcpMs": 700,
+            "domContentLoadedMs": 470,
+            "glbStartMs": 5253,
+            "glbDurationMs": 817,
+            "model3dReadyMs": 7915,
+            "firstFrameAtMs": 6673,
+            "viewerMountToFirstFrameMs": 3772,
+            "qualityAtReady": "high",
+            "info": {
+              "calls": 9,
+              "triangles": 27359,
+              "dpr": 2,
+              "programs": 8
+            }
+          },
+          "interaction": {
+            "fps": 2.2,
+            "p95FrameMs": 600,
+            "qualityAfter": "high"
+          },
+          "bytes": {
+            "HTML": 7050,
+            "CSS": 8702,
+            "polices": 131263,
+            "JavaScript": 532551,
+            "autres": 29115,
+            "modèle 3D": 138880
+          }
+        }
+      ],
+      "failures": []
+    },
+    {
+      "scenario": "mobile, qualité réduite",
+      "runs": [
+        {
+          "timing": {
+            "ttfbMs": 8,
+            "fcpMs": 708,
+            "domContentLoadedMs": 475,
+            "glbStartMs": 4966,
+            "glbDurationMs": 815,
+            "model3dReadyMs": 7481,
+            "firstFrameAtMs": 6389,
+            "viewerMountToFirstFrameMs": 3590,
+            "qualityAtReady": "low",
+            "info": {
+              "calls": 9,
+              "triangles": 27359,
+              "dpr": 1.25,
+              "programs": 8
+            }
+          },
+          "interaction": {
+            "fps": 11.3,
+            "p95FrameMs": 167,
+            "qualityAfter": "low"
+          },
+          "bytes": {
+            "HTML": 7050,
+            "CSS": 8702,
+            "polices": 131263,
+            "JavaScript": 532551,
+            "autres": 29115,
+            "modèle 3D": 138880
+          }
+        },
+        {
+          "timing": {
+            "ttfbMs": 5,
+            "fcpMs": 696,
+            "domContentLoadedMs": 475,
+            "glbStartMs": 4943,
+            "glbDurationMs": 813,
+            "model3dReadyMs": 7317,
+            "firstFrameAtMs": 6348,
+            "viewerMountToFirstFrameMs": 3592,
+            "qualityAtReady": "low",
+            "info": {
+              "calls": 9,
+              "triangles": 27359,
+              "dpr": 1.25,
+              "programs": 8
+            }
+          },
+          "interaction": {
+            "fps": 10.9,
+            "p95FrameMs": 183,
+            "qualityAfter": "low"
+          },
+          "bytes": {
+            "HTML": 7050,
+            "CSS": 8702,
+            "polices": 131263,
+            "JavaScript": 532551,
+            "autres": 29115,
+            "modèle 3D": 138880
+          }
+        },
+        {
+          "timing": {
+            "ttfbMs": 14,
+            "fcpMs": 684,
+            "domContentLoadedMs": 466,
+            "glbStartMs": 5023,
+            "glbDurationMs": 818,
+            "model3dReadyMs": 7789,
+            "firstFrameAtMs": 6432,
+            "viewerMountToFirstFrameMs": 3606,
+            "qualityAtReady": "low",
+            "info": {
+              "calls": 9,
+              "triangles": 27359,
+              "dpr": 1.25,
+              "programs": 8
+            }
+          },
+          "interaction": {
+            "fps": 12.2,
+            "p95FrameMs": 150,
+            "qualityAfter": "low"
+          },
+          "bytes": {
+            "HTML": 7050,
+            "CSS": 8702,
+            "polices": 131263,
+            "JavaScript": 532551,
+            "autres": 29115,
+            "modèle 3D": 138880
+          }
+        }
+      ],
+      "failures": []
+    }
+  ]
+}

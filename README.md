@@ -82,4 +82,6 @@ scripts/perf/serve-and-run.sh scripts/perf/screenshots.mjs <dossier>   # capture
 scripts/perf/serve-and-run.sh scripts/perf/measure.mjs <sortie.json>   # chargement, transferts, rendu
 ```
 
+`measure.mjs` dure environ 1 min 30 : la lancer en arrière-plan avec un journal, sans autre charge sur la machine. Résultats : `docs/perf/` et `docs/PROTOTYPE_REPORT.md` (C).
+
 `?debug=1` dans l'URL active une sonde de test (`window.__jr`) ; `?quality=low` force le rendu simplifié des pierres.

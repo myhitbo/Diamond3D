@@ -11,6 +11,8 @@
 - **Mesure de performance** menée à bout (3 scénarios × 3 passes) : première image 3D 2,2 s sur ordinateur, 6,5 s sur mobile ralenti en 4G lente, 828 Ko transférés. Lanceur `serve-and-run.sh` fiabilisé (port occupé, attente bornée, arrêt propre), JSON écrit après chaque passe.
 - Dossier de l'avocat corrigé : un défaut d'accessibilité n'expose à une action qu'après une notification restée 60 jours sans correction (règle 35א(ד)) ; seuil d'exemption de 100 000 ₪ dans le texte. Questions 25 à 43 ajoutées (sections H et I).
 - Questions 67 à 84 pour l'atelier.
+- Concurrence : inventaires des sites en Israël, aux États-Unis, en Europe et en Australie (`docs/concurrence/`).
+- Fusionné dans `main` le 15/11 (production redéployée).
 - Tests : 112 unitaires ; Chromium 242 (3 ignorés) ; WebKit iPhone et iPad 121 chacun (20 ignorés chacun) ; Firefox 92 (5 ignorés) ; aucun échec.
 
 ## 0.4.0 — 2026-11-15 — Guides en anglais

@@ -10,7 +10,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 
 ## Conventions
 - Réponses à l'utilisateur en **français**, denses, avec la distinction vérifié / inféré / supposé. Faits vérifiés par recherche, sources citées.
-- Branche principale : **`main`** (branche par défaut, déployée en production sur Vercel). Les anciennes branches `ccr-297332c6-4qfws6` et `ccr-a0d79d3c-glq4h2` y sont fusionnées. Commit et push à chaque étape, **pas de PR** sauf demande.
+- Branche principale : **`main`** (branche par défaut, déployée en production sur Vercel). Les anciennes branches `ccr-297332c6-4qfws6`, `ccr-a0d79d3c-glq4h2`, `ccr-682a27e9-x5ccif` et `ccr-526f3452-aue11m` y sont fusionnées (les deux dernières le 15/11). Commit et push à chaque étape, **pas de PR** sauf demande.
 - Code : guillemets simples, largeur ~160. Il n'y a **pas** de configuration Prettier : ne pas lancer `npx prettier` sans `--single-quote --print-width 160`.
 - Libellés légaux : en français, « synthétique » (décret 2002-65 ; « de laboratoire » est interdit, comme « vrai » et « véritable » pour une pierre synthétique, article 4). Synthétique ≠ imitation.
 - Accessibilité (règle israélienne IS 5568, cible WCAG 2.1 AA) :
@@ -38,7 +38,6 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - Fermé à Google (`noindex`). Protégé par la connexion Vercel (toutes les adresses `.vercel.app`) : pour l'atelier ou un téléphone, créer un lien de partage (`get_access_to_vercel_url`, valable 23 h).
 - Ancien aperçu `jr-diamond-apercu` (compte hil123, non relié à GitHub) : n'est plus mis à jour.
 - Préversion claude.ai (page unique, sans Next.js) : `npm run preview:build`. Les `process.env.*` du code client y sont remplacés dans le `define` d'esbuild (`scripts/preview/build-preview.mjs`) et la construction échoue s'il en reste : toute nouvelle variable `NEXT_PUBLIC_*` lue par le configurateur doit y être ajoutée. Elle était cassée du commit d307cd1 (WhatsApp) au 15/11 : reconstruire toute préversion publiée entre-temps.
-- La production (`main`) n'a pas encore les travaux du 15/11 : `/fr` y répond 404 tant que la branche `ccr-682a27e9-x5ccif` n'est pas fusionnée.
 
 ## Ce qui est fait
 - **Prototype 3D (phase 2)** : pipeline `.3dm` → GLB optimisé (0,19 Mo), configurateur Next.js 16 / React Three Fiber, modèle pilote `ring-001` (ensemble marquise).
@@ -74,7 +73,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
   - refuse de calculer tant que la règle de bénéfice n'est pas validée et que le taux de change n'est pas choisi.
 - **Documents** :
   - `docs/CAHIER_DES_CHARGES.md` ;
-  - `docs/ANALYSE_CONCURRENCE.md` ;
+  - `docs/ANALYSE_CONCURRENCE.md`, complété le 15/11 par `docs/concurrence/` (inventaires des sites : Israël, États-Unis, Europe, Australie) ;
   - `docs/STRATEGIE.md` (réanalyse, décisions du 4/11, plan de 90 jours ajusté, marges France vs Israël, droit israélien) ;
   - `docs/PRICING_RULES.md` ;
   - `docs/PAIEMENT.md`, `docs/juridique/DOSSIER_AVOCAT_IL.md`, `docs/DEVICE_TESTS.md` ;

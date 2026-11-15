@@ -2,30 +2,34 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import SiteHeader from '@/components/site/SiteHeader';
-import { GUIDES, getGuide, type Guide } from '@/content/guides';
+import { GUIDE_LOCALES, GUIDE_UI, GUIDES, getGuide, guideAlternates, guidePath, isGuideLocale, type Guide, type GuideLocale } from '@/content/guides';
 import styles from '../../prose.module.css';
 
 type Params = Promise<{ locale: string; slug: string }>;
 
-// Français seulement : toute autre adresse répond 404.
+// Français et anglais : toute autre adresse (hébreu, adresse d'une autre langue) répond 404.
 export const dynamicParams = false;
 
 export function generateStaticParams() {
-  return GUIDES.map((g) => ({ locale: 'fr', slug: g.slug }));
+  return GUIDE_LOCALES.flatMap((locale) => GUIDES[locale].map((g) => ({ locale, slug: g.slug })));
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale, slug } = await params;
-  const guide = locale === 'fr' ? getGuide(slug) : undefined;
-  if (!guide) return {};
-  return { title: guide.title, description: guide.description, alternates: { canonical: `/fr/guides/${guide.slug}` } };
+  const guide = getGuide(locale, slug);
+  if (!guide || !isGuideLocale(locale)) return {};
+  return {
+    title: guide.title,
+    description: guide.description,
+    alternates: { canonical: guidePath(locale, guide.slug), languages: guideAlternates(guide.id) },
+  };
 }
 
-function jsonLd(guide: Guide) {
+function jsonLd(guide: Guide, locale: GuideLocale) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Article',
-    inLanguage: 'fr',
+    inLanguage: locale,
     headline: guide.title,
     description: guide.description,
     dateModified: guide.verified,
@@ -34,23 +38,27 @@ function jsonLd(guide: Guide) {
   };
 }
 
-const formatDate = (iso: string) => new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${iso}T00:00:00Z`));
+const formatDate = (iso: string, dateLocale: string) =>
+  new Intl.DateTimeFormat(dateLocale, { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${iso}T00:00:00Z`));
 
 export default async function GuidePage({ params }: { params: Params }) {
   const { locale, slug } = await params;
-  const guide = locale === 'fr' ? getGuide(slug) : undefined;
-  if (!guide) notFound();
+  const guide = getGuide(locale, slug);
+  if (!guide || !isGuideLocale(locale)) notFound();
+  const ui = GUIDE_UI[locale];
+  // Le sélecteur de langue mène au même guide, dont l'adresse est traduite.
+  const hrefs = guideAlternates(guide.id);
   return (
     <>
-      <SiteHeader locale="fr" path={`/guides/${guide.slug}`} locales={['fr']} />
+      <SiteHeader locale={locale} path={`/guides/${guide.slug}`} locales={GUIDE_LOCALES.filter((l) => hrefs[l])} hrefs={hrefs} />
       <main className={styles.page}>
-        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(guide)).replace(/</g, '\\u003c') }} />
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(guide, locale)).replace(/</g, '\\u003c') }} />
         <p className={styles.eyebrow}>
-          <Link href="/fr/guides">Guides</Link>
+          <Link href={`/${locale}/guides`}>{ui.title}</Link>
         </p>
         <h1 className={styles.title}>{guide.title}</h1>
         <p className={styles.lede}>{guide.description}</p>
-        <p className={styles.badge}>Brouillon · guide en attente de relecture par l’atelier</p>
+        <p className={styles.badge}>{ui.badge}</p>
 
         {guide.sections.map((s) => (
           <section key={s.id} id={s.id} aria-labelledby={`h-${s.id}`} className={styles.body}>
@@ -105,7 +113,7 @@ export default async function GuidePage({ params }: { params: Params }) {
         ))}
 
         <footer className={styles.sources}>
-          <p>Faits vérifiés le {formatDate(guide.verified)}. Sources :</p>
+          <p>{ui.checked(formatDate(guide.verified, ui.dateLocale))}</p>
           <ul>
             {guide.sources.map((s) => (
               <li key={s.url}>
@@ -118,7 +126,7 @@ export default async function GuidePage({ params }: { params: Params }) {
         </footer>
 
         <div className={styles.body}>
-          <h2 className={styles.h2}>Pour aller plus loin</h2>
+          <h2 className={styles.h2}>{ui.furtherReading}</h2>
           <ul>
             {guide.next.map((l) => (
               <li key={l.href}>

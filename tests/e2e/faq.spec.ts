@@ -6,7 +6,7 @@ test('la FAQ s’affiche, se déplie et reste lisible', async ({ page }) => {
   const q = page.getByText('Un diamant synthétique est-il un vrai diamant ?');
   await q.click();
   await expect(page.getByText(/Il est fait de carbone cristallisé/)).toBeVisible();
-  await expect(page.getByRole('link', { name: 'GIA, Laboratory-grown diamonds' })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'GIA, simulants, moissanite and lab-grown diamonds' })).toBeVisible();
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   expect(overflow).toBeLessThanOrEqual(0);
 });

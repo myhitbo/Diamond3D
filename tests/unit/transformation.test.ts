@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { GUIDES } from '@/content/guides';
+import { GUIDE_LOCALES, GUIDES } from '@/content/guides';
 import { TRANSFORMATION } from '@/content/transformation';
 import { LOCALES } from '@/lib/configurator/schema';
 import { buildTransformationEmail, buildTransformationWhatsApp, parseTransformation, transformationFieldsFromForm } from '@/lib/quote/transformation';
@@ -64,15 +64,22 @@ describe('contenus', () => {
     }
   });
 
-  it('guides : adresses uniques, sources présentes, vocabulaire légal', () => {
-    expect(new Set(GUIDES.map((g) => g.slug)).size).toBe(GUIDES.length);
-    for (const g of GUIDES) {
-      expect(g.sources.length).toBeGreaterThan(0);
-      for (const s of g.sources) expect(s.url).toMatch(/^https:\/\//);
+  it('guides : adresses uniques, sources présentes, vocabulaire légal en français', () => {
+    for (const locale of GUIDE_LOCALES) {
+      const guides = GUIDES[locale];
+      expect(new Set(guides.map((g) => g.slug)).size).toBe(guides.length);
+      for (const g of guides) {
+        expect(g.sources.length).toBeGreaterThan(0);
+        for (const s of g.sources) expect(s.url).toMatch(/^https:\/\//);
+        for (const l of g.next) expect(l.href.startsWith(`/${locale}/`)).toBe(true);
+      }
+    }
+    for (const g of GUIDES.fr) {
       const text = JSON.stringify(g.sections);
       // Décret 2002-65 : « synthétique » seulement. Les expressions interdites ne sont citées qu'entre guillemets, pour les expliquer.
       expect(text.replace(/«[^»]*»/g, '')).not.toMatch(/de laboratoire|de culture|cultivé/i);
-      for (const l of g.next) expect(l.href).toMatch(/^\/fr\//);
     }
+    // En anglais, « lab-grown » comme le configurateur ; « synthetic » n'apparaît que comme traduction entre parenthèses.
+    for (const g of GUIDES.en) expect(JSON.stringify(g.sections).replace(/\(synthetic\)/g, '')).not.toMatch(/\bsynthetic\b/i);
   });
 });

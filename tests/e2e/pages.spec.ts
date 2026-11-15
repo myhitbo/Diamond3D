@@ -58,7 +58,7 @@ test('transformation en hébreu et en anglais : traduite, sans défilement horiz
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Give a family piece a new life');
 });
 
-test('guides : liste, article sourcé, données structurées, français seulement', async ({ page, request }) => {
+test('guides : liste, article sourcé, données structurées, français et anglais', async ({ page, request }) => {
   await page.goto('/fr/guides');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Guides');
   await page.getByRole('link', { name: /Diamant synthétique ou naturel/ }).click();
@@ -69,12 +69,20 @@ test('guides : liste, article sourcé, données structurées, français seulemen
   expect(data['@type']).toBe('Article');
   expect(data.citation.length).toBeGreaterThan(3);
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
-  // Une seule langue proposée dans l'en-tête.
-  await expect(page.getByRole('navigation', { name: 'Langue / Language' }).getByRole('link')).toHaveCount(1);
+  // Français et anglais seulement ; le lien EN mène au même guide, dont l'adresse est traduite.
+  const lang = page.getByRole('navigation', { name: 'Langue / Language' });
+  await expect(lang.getByRole('link')).toHaveText(['FR', 'EN']);
+  await lang.getByRole('link', { name: 'EN', exact: true }).click();
+  await expect(page).toHaveURL(/\/en\/guides\/lab-grown-or-natural-diamond$/);
+  await expect(page.getByRole('heading', { level: 2, name: 'What we call it' })).toBeVisible();
+  expect(JSON.parse((await page.locator('script[type="application/ld+json"]').textContent())!).inLanguage).toBe('en');
 
   for (const slug of ['formes-de-diamant', 'alliance-de-kiddouchin', 'les-4-c-du-diamant', 'or-14-ou-18-carats'])
     expect((await request.get(`/fr/guides/${slug}`)).status()).toBe(200);
-  expect((await request.get('/en/guides')).status()).toBe(404);
+  for (const slug of ['diamond-shapes', 'kiddushin-wedding-ring', 'the-4cs-of-diamonds', '14k-or-18k-gold'])
+    expect((await request.get(`/en/guides/${slug}`)).status()).toBe(200);
+  expect((await request.get('/he/guides')).status()).toBe(404);
+  expect((await request.get('/he/guides/taille-de-doigt')).status()).toBe(404);
   expect((await request.get('/en/guides/formes-de-diamant')).status()).toBe(404);
   expect((await request.get('/fr/guides/inconnu')).status()).toBe(404);
 });
@@ -93,22 +101,47 @@ test('guide de la taille de doigt : tableau de correspondance lisible sur mobile
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
 });
 
-test('configurateur : liens vers les guides en français, absents en anglais', async ({ page }) => {
+test('guide de la taille de doigt en anglais : tableau avec un point décimal', async ({ page }) => {
+  await page.goto('/en/guides');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Guides');
+  await expect(page.getByRole('link', { name: /The 4Cs of diamonds/ })).toBeVisible();
+  await page.getByRole('link', { name: /Ring size/ }).click();
+  await expect(page).toHaveURL(/\/en\/guides\/ring-size$/);
+  await expect(page.getByText('Draft · guide awaiting review by the workshop')).toBeVisible();
+  const table = page.getByRole('table', { name: /French sizes/ });
+  await expect(table.getByRole('columnheader')).toHaveText(['France (circumference, mm)', 'Diameter (mm)', 'Israel', 'US (approx.)']);
+  await expect(table.getByRole('row', { name: /^52 / }).getByRole('cell')).toHaveText(['16.6', '12', '6']);
+  await expect(page.getByText(/Facts checked on 14 November 2026/)).toBeVisible();
+  await expect(page.getByRole('navigation', { name: 'Langue / Language' }).getByRole('link', { name: 'FR', exact: true })).toHaveAttribute(
+    'href',
+    '/fr/guides/taille-de-doigt',
+  );
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
+});
+
+test('configurateur : liens vers les guides en français et en anglais, absents en hébreu', async ({ page }) => {
   await page.goto('/fr/configurateur/ring-001');
   await expect(page.getByRole('link', { name: 'Guide : trouver sa taille de doigt' })).toHaveAttribute('href', '/fr/guides/taille-de-doigt');
   await expect(page.getByRole('link', { name: 'Guide : or 14 ou 18 carats' })).toHaveAttribute('href', '/fr/guides/or-14-ou-18-carats');
   await page.goto('/en/configurator/ring-001');
+  await expect(page.getByRole('link', { name: 'Guide: finding your ring size' })).toHaveAttribute('href', '/en/guides/ring-size');
+  await expect(page.getByRole('link', { name: 'Guide: 14 or 18 karat gold' })).toHaveAttribute('href', '/en/guides/14k-or-18k-gold');
+  await page.goto('/he/configurator/ring-001');
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
-  await expect(page.getByRole('link', { name: /^Guide/ })).toHaveCount(0);
+  await expect(page.locator('main a[href*="/guides/"]')).toHaveCount(0);
 });
 
-test('pied de page : liens du site, guides en français seulement', async ({ page }) => {
+test('pied de page : liens du site, guides en français et en anglais', async ({ page }) => {
   await page.goto('/fr/faq');
   const footer = page.getByRole('contentinfo').getByRole('navigation', { name: 'Pied de page' });
   await expect(footer.getByRole('link')).toHaveText(['Configurateur', 'Bijou de famille', 'Guides', 'FAQ']);
   await footer.getByRole('link', { name: 'Bijou de famille' }).click();
   await expect(page).toHaveURL(/\/fr\/transformation$/);
   await page.goto('/en/faq');
-  await expect(page.getByRole('contentinfo').getByRole('link')).toHaveText(['Configurator', 'Family jewellery', 'FAQ']);
+  await expect(page.getByRole('contentinfo').getByRole('link')).toHaveText(['Configurator', 'Family jewellery', 'Guides', 'FAQ']);
   await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Configurator' })).toHaveAttribute('href', '/en/configurator/ring-001');
+  await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Guides' })).toHaveAttribute('href', '/en/guides');
+  await page.goto('/he/faq');
+  await expect(page.getByRole('contentinfo').getByRole('link')).toHaveCount(3);
+  await expect(page.locator('footer a[href*="/guides"]')).toHaveCount(0);
 });

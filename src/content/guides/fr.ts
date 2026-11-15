@@ -1,5 +1,5 @@
 /**
- * Guides (français seulement).
+ * Guides en français. La version anglaise (`en.ts`) reprend les mêmes guides, dans le même ordre, avec les mêmes sources.
  *
  * Règles de rédaction :
  * - chaque fait extérieur est vérifié et sa source figure en bas du guide ;
@@ -10,26 +10,10 @@
  * Les guides portent le badge « Brouillon » tant que l'atelier ne les a pas relus.
  */
 
-export type GuideSource = { label: string; url: string };
-/** Tableau simple : la première colonne sert d'en-tête de ligne. */
-export type GuideTable = { caption: string; head: string[]; rows: string[][] };
-/** Ordre d'affichage : `paragraphs`, puis `list`, puis `table`, puis `after`. */
-export type GuideSection = { id: string; title: string; paragraphs?: string[]; list?: string[]; table?: GuideTable; after?: string[] };
-export type GuideLink = { label: string; href: string };
-export type Guide = {
-  slug: string;
-  title: string;
-  /** Résumé d'une à deux phrases (liste des guides, balise description). */
-  description: string;
-  /** Date de dernière vérification des faits, AAAA-MM-JJ. */
-  verified: string;
-  sections: GuideSection[];
-  sources: GuideSource[];
-  /** Liens internes proposés en fin de guide. */
-  next: GuideLink[];
-};
+import { configuratorPath } from '@/lib/routes';
+import { SIZE_RANGE, ringSizeRow, type Guide, type GuideLink } from './types';
 
-const CONFIGURATOR: GuideLink = { label: 'Configurer une bague', href: '/fr/configurateur/ring-001' };
+const CONFIGURATOR: GuideLink = { label: 'Configurer une bague', href: configuratorPath('fr') };
 const FAQ_LINK: GuideLink = { label: 'Lire les questions fréquentes', href: '/fr/faq' };
 const G_SYNTH: GuideLink = { label: 'Guide : synthétique ou naturel', href: '/fr/guides/diamant-synthetique-ou-naturel' };
 const G_FORMES: GuideLink = { label: 'Guide : les formes de diamant', href: '/fr/guides/formes-de-diamant' };
@@ -37,27 +21,9 @@ const G_4C: GuideLink = { label: 'Guide : les 4 C du diamant', href: '/fr/guides
 const G_OR: GuideLink = { label: 'Guide : or 14 ou 18 carats', href: '/fr/guides/or-14-ou-18-carats' };
 const G_TAILLE: GuideLink = { label: 'Guide : trouver sa taille de doigt', href: '/fr/guides/taille-de-doigt' };
 
-/**
- * Correspondance des tailles de bague, calculée plutôt que recopiée :
- * - taille française = tour intérieur en mm (ISO 8653:2016) ; diamètre = tour / π ;
- * - taille israélienne = taille française − 40 (tableaux de bijoutiers israéliens) ;
- * - taille américaine ≈ (tour − 36,5) / 2,55, arrondie au quart (échelle nord-américaine : 0,032 po de diamètre par taille).
- */
-const QUARTERS = ['', '¼', '½', '¾'];
-export function ringSizeRow(circumferenceMm: number) {
-  const us = Math.round(((circumferenceMm - 36.5) / 2.55) * 4) / 4;
-  const whole = Math.floor(us);
-  return {
-    fr: String(circumferenceMm),
-    diameterMm: (circumferenceMm / Math.PI).toFixed(1).replace('.', ','),
-    il: String(circumferenceMm - 40),
-    us: `${whole}${QUARTERS[Math.round((us - whole) * 4)]}`,
-  };
-}
-const SIZE_RANGE = Array.from({ length: 21 }, (_, i) => 46 + i);
-
-export const GUIDES: Guide[] = [
+export const GUIDES_FR: Guide[] = [
   {
+    id: 'synthetique',
     slug: 'diamant-synthetique-ou-naturel',
     title: 'Diamant synthétique ou naturel : comment choisir',
     description: 'Le même matériau, deux origines. Ce qui change vraiment entre un diamant synthétique et un diamant naturel : la rareté, le prix, la revente et le certificat.',
@@ -119,6 +85,7 @@ export const GUIDES: Guide[] = [
     next: [CONFIGURATOR, G_4C, G_FORMES, FAQ_LINK],
   },
   {
+    id: 'formes',
     slug: 'formes-de-diamant',
     title: 'Formes de diamant : ronde, ovale, poire, marquise',
     description: 'Forme et taille ne veulent pas dire la même chose. Ce qu’il faut regarder sur une pierre ronde, et sur les formes allongées : le rapport longueur-largeur, le « nœud papillon », les pointes.',
@@ -169,6 +136,7 @@ export const GUIDES: Guide[] = [
     next: [CONFIGURATOR, G_4C, G_SYNTH, FAQ_LINK],
   },
   {
+    id: 'kiddouchin',
     slug: 'alliance-de-kiddouchin',
     title: 'L’alliance de kiddouchin : pourquoi un anneau uni',
     description: 'Sous la houppa, la coutume veut un anneau simple, sans pierre, qui appartient au marié. Ce que dit la tradition, ce qui se discute, et ce que fait l’atelier.',
@@ -210,6 +178,7 @@ export const GUIDES: Guide[] = [
     next: [CONFIGURATOR, G_OR, G_TAILLE, FAQ_LINK],
   },
   {
+    id: '4c',
     slug: 'les-4-c-du-diamant',
     title: 'Les 4 C du diamant : couleur, pureté, taille, carat',
     description: 'Les quatre critères qui décrivent un diamant, ce que dit chaque note, et pourquoi le certificat d’un diamant synthétique ne se lit plus de la même façon.',
@@ -294,6 +263,7 @@ export const GUIDES: Guide[] = [
     next: [CONFIGURATOR, G_SYNTH, G_FORMES, FAQ_LINK],
   },
   {
+    id: 'or',
     slug: 'or-14-ou-18-carats',
     title: 'Or 14 ou 18 carats : que choisir',
     description: 'Le carat de l’or dit la part d’or pur dans l’alliage. Ce qui change vraiment entre 14 et 18 carats : la couleur, le poids, la solidité, et ce que dit la loi française.',
@@ -357,6 +327,7 @@ export const GUIDES: Guide[] = [
     next: [CONFIGURATOR, G_4C, G_TAILLE, FAQ_LINK],
   },
   {
+    id: 'taille',
     slug: 'taille-de-doigt',
     title: 'Taille de doigt : la trouver sans se tromper',
     description: 'Une taille de bague, c’est un tour de doigt en millimètres. Comment la mesurer, les pièges à éviter, et la correspondance avec les tailles israéliennes et américaines.',
@@ -426,4 +397,3 @@ export const GUIDES: Guide[] = [
   },
 ];
 
-export const getGuide = (slug: string) => GUIDES.find((g) => g.slug === slug);

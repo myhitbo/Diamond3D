@@ -1,6 +1,6 @@
 import type { Locale } from '@/lib/configurator/schema';
 
-/** Liens vers les guides (français seulement). */
+/** Liens vers les guides (français et anglais ; pas de guides en hébreu). */
 type GuideLinks = { titre: { label: string; href: string }; size: { label: string; href: string } };
 
 const fr = {
@@ -131,7 +131,10 @@ const en: Dict = {
   titre: 'Gold karat',
   titres: { '14k': '14 karat', '18k': '18 karat', platinum: '950' },
   titreNote: '18 karat holds more gold (75%) than 14 karat (58.5%): it is yellower, heavier and more expensive. Strength depends mostly on the alloy.',
-  guideLinks: null,
+  guideLinks: {
+    titre: { label: 'Guide: 14 or 18 karat gold', href: '/en/guides/14k-or-18k-gold' },
+    size: { label: 'Guide: finding your ring size', href: '/en/guides/ring-size' },
+  },
   otherShapes: 'Other shapes',
   onRequest: 'on request',
   shapeRequestMessage: (shape: string) => `I would like this piece with a centre stone in this shape: ${shape}.`,

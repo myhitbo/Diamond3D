@@ -1,5 +1,14 @@
 # Historique
 
+## 0.4.0 — 2026-11-15 — Guides en anglais
+
+- Les six guides existent en anglais, sous `/en/guides` : mêmes faits, mêmes sources, même date de vérification, badge « Draft ». Adresses traduites (`/en/guides/ring-size`, `/en/guides/14k-or-18k-gold`…). En anglais, « lab-grown » comme le configurateur ; la loi française et le mot « synthétique » sont expliqués dans le guide concerné.
+- Contenu réorganisé dans `src/content/guides/` (un fichier par langue). Un test vérifie que l'anglais suit le français : mêmes rubriques, même nombre de paragraphes, mêmes sources.
+- Sélecteur de langue des guides : il mène au même guide dans l'autre langue. Pied de page : lien « Guides » en anglais. Configurateur anglais : liens vers les guides de l'or et de la taille.
+- Le tableau des tailles écrit le diamètre avec un point en anglais (16.6), une virgule en français (16,6).
+- Correction : un test de la FAQ cherchait l'ancien libellé de la source GIA renommée en 0.3.2 ; la CI de ce commit avait échoué pour cette seule raison.
+- Tests : 64 unitaires, 82 Chromium, 82 WebKit (iPhone et iPad, 2 ignorés chacun), 21 Firefox.
+
 ## 0.3.2 — 2026-11-15 — Sources contrôlées, tests iPad et Firefox
 
 - Les 40 liens de sources (guides et FAQ) répondent tous. Sept liens qui passaient par une redirection pointent maintenant vers l'adresse finale. Deux paires de sources GIA menaient à la même page : elles sont fusionnées. Le GIA, Sefaria et Total Materia ont changé d'adresse.

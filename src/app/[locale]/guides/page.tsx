@@ -2,33 +2,34 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import SiteHeader from '@/components/site/SiteHeader';
-import { GUIDES } from '@/content/guides';
+import { GUIDE_LOCALES, GUIDE_UI, GUIDES, guidePath, isGuideLocale } from '@/content/guides';
+import { languageAlternates } from '@/lib/routes';
 import styles from '../prose.module.css';
 
 type Params = Promise<{ locale: string }>;
 
-const TITLE = 'Guides';
-const LEDE = 'Des explications courtes et sourcées, pour choisir sans se faire raconter d’histoires.';
-
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale } = await params;
-  return locale === 'fr' ? { title: TITLE, description: LEDE, alternates: { canonical: '/fr/guides' } } : {};
+  if (!isGuideLocale(locale)) return {};
+  const ui = GUIDE_UI[locale];
+  return { title: ui.title, description: ui.lede, alternates: { canonical: `/${locale}/guides`, languages: languageAlternates('/guides', GUIDE_LOCALES) } };
 }
 
-/** Les guides n'existent qu'en français. */
+/** Les guides existent en français et en anglais ; en hébreu, la page répond 404. */
 export default async function GuidesPage({ params }: { params: Params }) {
   const { locale } = await params;
-  if (locale !== 'fr') notFound();
+  if (!isGuideLocale(locale)) notFound();
+  const ui = GUIDE_UI[locale];
   return (
     <>
-      <SiteHeader locale="fr" path="/guides" locales={['fr']} />
+      <SiteHeader locale={locale} path="/guides" locales={GUIDE_LOCALES} />
       <main className={styles.page}>
-        <h1 className={styles.title}>{TITLE}</h1>
-        <p className={styles.lede}>{LEDE}</p>
+        <h1 className={styles.title}>{ui.title}</h1>
+        <p className={styles.lede}>{ui.lede}</p>
         <ul className={styles.cards}>
-          {GUIDES.map((g) => (
-            <li key={g.slug}>
-              <Link href={`/fr/guides/${g.slug}`} className={styles.card}>
+          {GUIDES[locale].map((g) => (
+            <li key={g.id}>
+              <Link href={guidePath(locale, g.slug)} className={styles.card}>
                 <span className={styles.cardTitle}>{g.title}</span>
                 <span className={styles.cardText}>{g.description}</span>
               </Link>

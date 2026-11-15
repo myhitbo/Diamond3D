@@ -44,11 +44,13 @@
 - [x] Liens de sources contrôlés (15/11) : tous en ligne, redirections remplacées par l'adresse finale.
 - [x] Réponse « Or 14 ou 18 carats » corrigée (14/11) : la dureté dépend de l'alliage (fiches de fondeur), le 14 carats n'est pas « en général plus dur ». Même correction dans la note du configurateur.
 
-## Guides (`/fr/guides`, contenu : `src/content/guides.ts`)
+## Guides (`/fr/guides`, `/en/guides`, contenu : `src/content/guides/`)
 - [x] Six guides en français (14/11) : synthétique ou naturel, formes de diamant, alliance de kiddouchin, les 4 C, or 14 ou 18 carats, taille de doigt (tableau des tailles françaises, israéliennes et américaines).
 - [x] Liens depuis le configurateur français vers les guides de l'or et de la taille (14/11).
 - [ ] Relecture par l'atelier, puis retrait du badge « Brouillon » (questions 61 à 66).
-- [ ] Traduire les guides en hébreu et en anglais si l'atelier le souhaite (aujourd'hui 404 hors français).
+- [x] Six guides en anglais (15/11), adresses traduites, liens depuis le configurateur anglais. Un test vérifie que l'anglais suit le français.
+- [ ] Guides en hébreu : seulement avec une relecture native (aujourd'hui `/he/guides` répond 404). Ajouter la langue à `GUIDE_LOCALES` et un fichier `he.ts`.
+- [ ] Toute correction d'un guide se fait dans les deux langues (`fr.ts` et `en.ts`).
 
 ## Prix
 - [x] Moteur de prix indicatif en ₪ TTC (4/11), non branché : `src/lib/pricing/engine.ts`. Il refuse de calculer tant qu'il manque un paramètre.

@@ -1,5 +1,18 @@
 # Historique
 
+## 0.5.0 — 2026-11-15 — Accueil, pages légales, accessibilité, pierres de couleur, lancement préparé
+
+- **Page d'accueil** `/fr`, `/en`, `/he` (« l'atelier en direct ») limitée aux faits acquis, image du vrai rendu 3D légendée « rendu 3D, pas une photo ». « / » redirige vers `/fr`. Badge « Brouillon ».
+- **Pierres de couleur « sur demande »** : diamant de couleur ; émeraude, saphir et rubis naturels. Le bouton ouvre le devis avec un message pré-rempli ; forme et pierre se cumulent ; aucun prix, la 3D reste la marquise. Le formulaire ne défile plus quand le message change (WCAG 3.2.2). Préversion claude.ai réparée (elle plantait depuis l'ajout du bouton WhatsApp).
+- **404 traduite** (FR, EN, HE), **aperçus de liens partagés** (image 1200 × 630), `robots.txt` et plan du site. **Interrupteur de lancement** `SITE_INDEXABLE` (`src/config/site.ts`) : balise robots, plan du site et redirections permanentes en un seul réglage.
+- **Déclaration d'accessibilité** et **politique de confidentialité** (FR, EN, HE), brouillons à valider par un avocat. La politique décrit ce que fait le code (formulaires, e-mail, adresse IP, WhatsApp, Vercel aux États-Unis et son journal des requêtes, Speed Insights, aucun cookie). Informations manquantes réunies dans `src/config/business.ts` (18, affichées « [à compléter] »). Adresses traduites généralisées (`TRANSLATED_SEGMENTS`).
+- **Accessibilité** : audit axe-core (WCAG 2.0 à 2.2, A et AA, plus le critère israélien 2.4.10) de 44 vues en Chromium, WebKit et Firefox, plus clavier, 320 px, zoom 200 %, animations réduites, cibles de 24 px. Corrigés : contraste du doré (`--gold-text`), petites cibles, focus caché sous la 3D sur mobile, erreurs des formulaires annoncées, vue 3D au clavier avec description. Conformité déclarée « partielle » (aucun lecteur d'écran testé).
+- **Revues** : un diamant synthétique n'est plus dit « vrai diamant » (décret 2002-65, article 4) ; plus de « sur place » ni de « chaque pièce » ; mise à taille « offerte pendant la première année » ; suivi de la fabrication et pierre filmée passés « À confirmer » (7 réponses de la FAQ) ; hébreu אזמרגד, ספיר, אודם pour les pierres ; SMTP chiffré imposé (`requireTLS`).
+- **Mesure de performance** menée à bout (3 scénarios × 3 passes) : première image 3D 2,2 s sur ordinateur, 6,5 s sur mobile ralenti en 4G lente, 828 Ko transférés. Lanceur `serve-and-run.sh` fiabilisé (port occupé, attente bornée, arrêt propre), JSON écrit après chaque passe.
+- Dossier de l'avocat corrigé : un défaut d'accessibilité n'expose à une action qu'après une notification restée 60 jours sans correction (règle 35א(ד)) ; seuil d'exemption de 100 000 ₪ dans le texte. Questions 25 à 43 ajoutées (sections H et I).
+- Questions 67 à 84 pour l'atelier.
+- Tests : 112 unitaires ; Chromium 242 (3 ignorés) ; WebKit iPhone et iPad 121 chacun (20 ignorés chacun) ; Firefox 92 (5 ignorés) ; aucun échec.
+
 ## 0.4.0 — 2026-11-15 — Guides en anglais
 
 - Les six guides existent en anglais, sous `/en/guides` : mêmes faits, mêmes sources, même date de vérification, badge « Draft ». Adresses traduites (`/en/guides/ring-size`, `/en/guides/14k-or-18k-gold`…). En anglais, « lab-grown » comme le configurateur ; la loi française et le mot « synthétique » sont expliqués dans le guide concerné.

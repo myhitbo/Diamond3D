@@ -132,8 +132,8 @@ export const FAQ: FaqCategory[] = [
           ],
           he: ['כן. הסדנה מצלמת את האבן המוצעת על משטח מסתובב ושולחת לכם את הסרטון, תמונה של פני האבן ואת התעודה. אתם מאשרים את האבן עצמה, לא תמונה מקטלוג.'],
         },
-        status: 'atelier',
-        basis: 'accord du propriétaire, 4/11 ; procédure docs/PROCEDURE_PHOTO_ATELIER.md',
+        status: 'toConfirm',
+        basis: 'accord du propriétaire, 4/11 ; procédure docs/PROCEDURE_PHOTO_ATELIER.md envoyée à l’atelier, mise en pratique non confirmée (question 84)',
       },
       {
         id: 'suivi',

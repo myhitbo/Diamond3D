@@ -50,7 +50,7 @@ Merci.
 
 ---
 
-## Version complète (66 questions)
+## Version complète (84 questions)
 
 Bonjour,
 
@@ -187,6 +187,7 @@ Les deux pages existent en brouillon (`/fr/accessibilite`, `/fr/confidentialite`
 81. Première mise à taille offerte : votre réponse du 3/11 dit « Après un an, payante ». Le site écrit donc « offerte pendant la première année ». L'année court-elle à partir de la livraison, de la commande ou du paiement ? Y a-t-il des exceptions (alliance sertie tout le tour, pavé, platine) ?
 82. Photos et vidéos de fabrication : quand pourrez-vous les envoyer à chaque client, pour quelles étapes, et par quel moyen (WhatsApp, e-mail) ? La FAQ (« Puis-je suivre la fabrication ? ») et l'accueil le présentent comme une intention, marquée « À confirmer », jusqu'à votre réponse.
 83. Hébreu : le site écrit maintenant les pierres אזמרגד (émeraude), ספיר (saphir) et אודם (rubis), et garde אמרלד pour la taille émeraude (forme de la pierre). Ces termes vous conviennent-ils, ou vos clients disent-ils plutôt אמרלד et רובי ?
+84. Pierre filmée : la FAQ (« Puis-je voir ma vraie pierre avant d'acheter ? ») dit que l'atelier filme la pierre proposée sur un plateau tournant et envoie la vidéo, une photo de la table et le certificat, comme dans la procédure photo envoyée. Le faites-vous déjà pour chaque client ? La réponse est marquée « À confirmer » jusqu'à votre accord.
 
 ## Ce que j'attends concrètement, par ordre d'urgence
 

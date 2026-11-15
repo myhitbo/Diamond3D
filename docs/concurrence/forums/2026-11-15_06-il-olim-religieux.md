@@ -81,7 +81,7 @@ Les règles religieuses citées sont des avis de forum et des réponses publiée
 
 1. **Un prix expliqué, le même quelle que soit l'occasion, et identique en ligne et sur devis.** Il répond à la première crainte : la surfacturation, le prix du site différent de celui de la caisse, le mot « fiançailles » qui fait monter le prix. [I, constats 1, 3 et 4]
 2. **Le synthétique dit en clair**, sur la facture et sur le certificat. Ajouter une comparaison « naturel 1 ct ou synthétique 1,75 ct pour le même budget », que la famille peut montrer à la kallah. [I, constats 5 et 6 ; idée tirée de I4]
-3. **Une alliance de kiddouchin conforme par défaut** : lisse, sans pierre, d'une seule couleur, sans gravure extérieure, en or jaune (le choix traditionnel, C1 et T3).
+3. **Une alliance de kiddouchin conforme par défaut** : lisse, sans pierre, d'une seule couleur, sans gravure extérieure, en or (le choix traditionnel selon C1 et T3 ; l'or jaune est préféré par un avis de M1).
    - Le métal et le titre sont écrits sur la facture.
    - La facture est au nom du marié et payée avant la houppa ; le paiement intégral sur le site y aide.
    - Si les parents paient, fournir un modèle de donation.
@@ -125,20 +125,20 @@ Les règles religieuses citées sont des avis de forum et des réponses publiée
 ## 7. Sources
 
 Fils (date du fil ; « ≈ » : date déduite de l'identifiant ; « extrait » : lu seulement par extrait du moteur de recherche) :
-- R1 https://www.reddit.com/r/Israel/comments/1kk1hkw/good_wedding_ring_jewellers_in_israel/ (05/2025)
-- R2 https://www.reddit.com/r/Diamonds/comments/f9c5iv/any_advantage_to_buying_diamond_in_israel/ (02/2020)
-- R3 https://www.reddit.com/r/Diamonds/comments/sy3gbx/thoughts_on_buying_diamonds_israeldiamonds/ (02/2022, extrait)
+- R1 https://www.reddit.com/r/Israel/comments/1kk1hkw/good_wedding_ring_jewellers_in_israel/ (11/05/2025)
+- R2 https://www.reddit.com/r/Diamonds/comments/f9c5iv/any_advantage_to_buying_diamond_in_israel/ (≈02/2020)
+- R3 https://www.reddit.com/r/Diamonds/comments/sy3gbx/thoughts_on_buying_diamonds_israeldiamonds/ (21/02/2022, extrait)
 - R4 https://www.reddit.com/r/Israel/comments/pty0gv/buying_magen_david_in_israel/ (≈2021, extrait)
 - R5 https://www.reddit.com/r/weddingplanning/comments/mn3to1/ (≈2021)
 - R6 https://www.reddit.com/r/weddingplanning/comments/5dq438/ (≈2016)
 - R7 https://www.reddit.com/r/EngagementRings/comments/158dpvu/ (≈07/2023)
 - R8 https://www.reddit.com/r/EngagementRings/comments/12h406p/ (≈04/2023)
-- R9 https://www.reddit.com/r/EngagementRings/comments/1qws90n/ (≈2026)
+- R9 https://www.reddit.com/r/EngagementRings/comments/1qws90n/ (05/02/2026)
 - R10 https://www.reddit.com/r/WeddingRingAdvice/comments/1wnkqbw/ (≈2026)
 - R11 https://www.reddit.com/r/EngagementRings/comments/1bgzeia/ (03/2024)
 - R12 https://www.reddit.com/r/Judaism/comments/3d39iw/gold_or_silver_wedding_band/ (≈2015, extrait)
 - R13 https://www.reddit.com/r/Jewish/comments/ubltg4/rules_and_requirements_around_wedding_rings/ (≈2022, extrait)
-- R14 https://www.reddit.com/r/EngagementRings/comments/1asnj4q/ (≈02/2024)
+- R14 https://www.reddit.com/r/EngagementRings/comments/1asnj4q/ (16/02/2024)
 - I1 https://www.imamother.com/forum/viewtopic.php?t=443562 (20-23/09/2021)
 - I2 https://www.imamother.com/forum/viewtopic.php?t=444118&start=20 (29/09/2021)
 - I3 https://www.imamother.com/forum/viewtopic.php?t=620839 (18/07-04/08/2025)

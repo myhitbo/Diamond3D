@@ -146,3 +146,37 @@ Reddit : `https://www.reddit.com/r/<sous-forum>/comments/<id>/` (date estimée).
 - R22 EngagementRings/1krer3j, ≈ mai 2025 (message supprimé par son auteur ; commentaires lus) · R23 Diamonds/1ghiz9l, nov. 2024 (**non vérifié** : fil illisible lors de la vérification) · R24 labdiamond/1i26poe, 15/01/2025
 - R25 jewelers/1hb5nvm, ≈ déc. 2024 · R26 EngagementRings/1wn6wj4, ≈ oct. 2026 · R27 EngagementRingDesigns/1irrbbn, 17/02/2025 (CAO validée, avis positif)
 - R28 EngagementRings/1ofliuj, ≈ oct. 2025 · R29 jewelry/1lvrskt, 09/07/2025
+
+## 8. Vérification
+
+Date : 15/11/2026. Vérification faite sans nouvelle exploration : seuls les fils déjà cités ont été rouverts, en lecture seule, sans connexion.
+
+- **Méthode** : lecture par le service de Parallel (copies de quelques jours à quelques semaines). PriceScope répond 403 à une lecture directe et Reddit bloque la recherche web et old.reddit.com (compte exigé) : rien n'a été contourné. Firecrawl était hors crédits.
+- **Fils** : 88 cités, 86 rouverts (existence et sujet confirmés). R5 et R23 n'ont pu être relus ni par lecture ni par recherche : marqués « non vérifié » ; les lignes qui s'appuient sur eux le signalent.
+- **Extraits** : 31 contrôlés (les 17 du tableau de la section 2 et 14 citations courtes des sections 3 à 5). 0 retiré. 3 corrigés :
+  - R25 : la phrase citée (« la plupart des ateliers… ») n'est pas dans le fil ; elle est remplacée par une citation réelle de même sens ;
+  - Kay (P2) : « très mauvais » ne figure pas dans le fil ; il est remplacé par ce que disent les réponses ;
+  - P4 : l'extrait « encore aujourd'hui » portait sur une cire non montrée avant la fonte, pas sur une CAO ; le contexte est précisé.
+- **Constats marqués [V]** : 43 contrôlés (17 en section 2, 12 en section 3, 6 en section 4, 8 en section 5). Aucun retiré en entier. 9 corrigés ou précisés :
+  - Brilliant Earth : la mention « clients satisfaits depuis 2019-2021 » est remplacée par ce que dit R16 ; « un ex-employé évoque de nombreux sous-traitants » n'est pas retrouvé (R20 parle du traitement des clients et des employés) ;
+  - Frank Darling : R2 est retiré (atelier local qui copie un modèle Frank Darling) ; le constat reste soutenu par R11, R18 et R19 ;
+  - ateliers étrangers : P38 est retiré (rien sur un atelier étranger) ;
+  - CvB et Erika Winters : les reproches visent CvB ; « griffes en serre » n'est pas retrouvé ;
+  - Kay : voir les extraits ci-dessus ;
+  - Rare Carat (R22) : CAO faite « à partir d'une description », pas « d'un croquis » ;
+  - finition main des griffes et du pavage : les sources sont P12 et P23, pas P1 et P10 ;
+  - WhatsApp (P6) : un membre conseille d'appeler, plutôt qu'un jugement « suspect » ;
+  - P30 : l'achat est prévu dans quelques mois et non dans un an ; il s'agit d'un seul acheteur.
+- **Éléments secondaires marqués « non vérifié »** : 5 (contrôle des pierres virtuelles chez Whiteflash, griffes en serre, sous-traitants de Brilliant Earth, montures de catalogue chez James Allen et Blue Nile, l'avis « aucun outil utile » de R22).
+- **Nombres de fils** : 4 lignes de la section 2 portent désormais « dont 1 non vérifié » (R5 ou R23). L'avantage n° 3 de la section 5 passe de 5 fils à 4 fils, dont 1 non vérifié, pour s'accorder au tableau.
+- **Dates PriceScope** : 49 dates d'ouverture confirmées sur la page (mention « Start date », ou inscription de l'auteur le jour même pour P19). 3 sont corrigées :
+  - P14 : 22/10 devient 21/10/2024 ;
+  - P49 : 23/09 devient 22/09/2024 ;
+  - P58 : la date du 21/02/2013 devient « au plus tard le 20/02/2013 ».
+
+  10 dates ne sont confirmées que par la date de publication de l'index : P5, P7, P12, P13, P25, P26, P28, P31, P33 et P39. Un décalage d'un jour reste possible, car l'index décale parfois la date d'un jour.
+- **Dates Reddit** : estimations cohérentes avec l'ordre des identifiants et l'âge affiché. 1 est corrigée : R15 passe de février à janvier 2026. 4 sont précisées : R11, R24, R27 et R29.
+- **Autres corrections** :
+  - section 1 : PriceScope est aussi parrainé par Ritani, pas seulement par Whiteflash, et P41 est ouvert par un compte professionnel ;
+  - R2 et R22 sont précisés dans les sources.
+- **Vie privée** : aucun pseudonyme, nom de personne ni donnée personnelle dans le fichier, contrôlé après correction. Les noms cités sont ceux d'entreprises.

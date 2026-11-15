@@ -144,23 +144,23 @@ Fils (date du fil ; « ≈ » : date déduite de l'identifiant ; « extrait » :
 - I3 https://www.imamother.com/forum/viewtopic.php?t=620839 (18/07-04/08/2025)
 - I4 https://www.imamother.com/forum/viewtopic.php?t=483806 (13/09/2022)
 - I5 https://www.imamother.com/forum/viewtopic.php?t=553817 (24/03/2024)
-- I6 https://www.imamother.com/forum/viewtopic.php?t=568989 (16-28/07/2024)
+- I6 https://www.imamother.com/forum/viewtopic.php?t=568989 (16/07/2024, réponses jusqu'en 02/2025 ; l'essentiel du 20 au 28/07/2024)
 - I7 https://www.imamother.com/forum/viewtopic.php?t=272499 (11-12/06/2015)
 - I8 https://www.imamother.com/forum/viewtopic.php?t=491898 (28/11/2022)
 - I9 https://www.imamother.com/forum/viewtopic.php?t=663602 (22/06/2026)
 - I10 https://www.imamother.com/forum/viewtopic.php?t=461780 (24/02/2022)
 - I11 https://www.imamother.com/forum/viewtopic.php?t=488909 (02/11/2022, extrait)
-- I12 https://www.imamother.com/forum/viewtopic.php?t=582711 (30/10/2024, extrait)
-- Y1 à Y10 : https://www.theyeshivaworld.com/coffeeroom/topic/ suivi de : diamond-wedding-rings (04/2011) · engagement-rings (01/2011-04/2013) · how-much-is-standard-to-spend-on-an-engagement-ring (05/2016-08/2022) · how-to-reduce-the-cost-of-getting-married (01-02/2023) · hebrew-ring-inscriptions-engraving-for-wedding-engagement-ring (09/2014) · the-goyish-concept-of-diamond-engagement-rings-and-brides-wearing-white-gowns (07/2025) · engagement-ring-1 (06/2012) · engagement-ring (09/2011) · diamonds-are-overrated (08-09/2016) · things-chosson-should-do (08/2017)
+- I12 https://www.imamother.com/forum/viewtopic.php?t=582711 (30/10/2024, extrait ; non vérifié : fil introuvable au contrôle)
+- Y1 à Y10 : https://www.theyeshivaworld.com/coffeeroom/topic/ suivi de : diamond-wedding-rings (04-05/2011) · engagement-rings (01/2011-04/2013) · how-much-is-standard-to-spend-on-an-engagement-ring (05/2016-08/2022) · how-to-reduce-the-cost-of-getting-married (01-02/2023) · hebrew-ring-inscriptions-engraving-for-wedding-engagement-ring (09/2014) · the-goyish-concept-of-diamond-engagement-rings-and-brides-wearing-white-gowns (07/2025) · engagement-ring-1 (06/2012) · engagement-ring (09-10/2011) · diamonds-are-overrated (08-09/2016) · things-chosson-should-do (08/2017)
 - T1 à T8 : https://www.torah-box.com/question/ suivi de : diamant-de-synthese-pour-la-houppa_106815.html (24/02/2026) · je-n-ai-pas-paye-ma-bague-du-mariage-suis-je-marie_100621.html (26/02/2025) · alliance-en-tantale-permis_99953.html (27/01/2025) · qui-doit-payer-l-alliance-du-hatan_107831.html (28/04/2026) · divorcee-une-maman-veut-offrir-sa-bague-de-mariage-a-sa-fille_73054.html (27/02/2022) · comment-doit-etre-l-alliance_44140.html (12/11/2019) · porter-l-alliance-d-une-personne-defunte_82648.html (23/01/2023) · pourquoi-mettre-son-alliance-dans-l-annulaire-gauche_34445.html (18/11/2018)
-- P1 https://www.pricescope.com/community/threads/buying-diamond-ring-in-israel.243208/ (08-11/2018)
-- P2 https://www.pricescope.com/community/threads/cad-concerns-with-custom-ring-design-thoughts.281549/ (01/2024)
+- P1 https://www.pricescope.com/community/threads/buying-diamond-ring-in-israel.243208/ (ouvert le 28/08/2018 ; fin du fil non vérifiée)
+- P2 https://www.pricescope.com/community/threads/cad-concerns-with-custom-ring-design-thoughts.281549/ (18-21/01/2024)
 - H1 https://www.hasolidit.com/kehila/threads/%D7%A7%D7%A0%D7%99%D7%99%D7%AA-%D7%98%D7%91%D7%A2%D7%AA-%D7%90%D7%99%D7%A8%D7%95%D7%A1%D7%99%D7%9F.20464 (02/07/2021-25/01/2022)
 - M1 https://judaism.stackexchange.com/questions/18497/wedding-ring-composition-considerations (2012-2018)
-- C1 https://www.chabad.org/library/article_cdo/aid/476748/jewish/The-Wedding-Band.htm (commentaires de 2015 à 08/2025)
+- C1 https://www.chabad.org/library/article_cdo/aid/476748/jewish/The-Wedding-Band.htm (article de 2007 ; commentaires contrôlés de 01/2017 à 08/2025, ceux de 2015 non retrouvés)
 
 Autres pages, hors du décompte des fils :
-- TA1 https://www.tripadvisor.com/Attraction_Review-g297761-d10482561-Reviews-Israel_Diamond_Exchange-Ramat_Gan_Tel_Aviv_District.html : avis de 2019 à 2024.
+- TA1 https://www.tripadvisor.com/Attraction_Review-g297761-d10482561-Reviews-Israel_Diamond_Exchange-Ramat_Gan_Tel_Aviv_District.html : avis de 2018 à 01/2024.
 - J1 https://www.janglo.net/item/b6e131f2e24 : fiche lue le 15/11/2026.
 - Article YWN https://www.theyeshivaworld.com/news/headlines-breaking-stories/1964033/the-chosson-was-told-it-was-platinum-but-it-was-really-white-gold.html (11/04/2021).
-- Tsohar, cité par https://www.israfete.com/les-bagues (30/04/2010).
+- Tsohar, cité par https://www.israfete.com/les-bagues (page non datée : la date du 30/04/2010 n'y figure pas ; dernier commentaire du 05/05/2023).

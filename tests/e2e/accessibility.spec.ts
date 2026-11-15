@@ -225,6 +225,10 @@ test.describe('clavier', () => {
       // Formulaire de devis ouvert : il entre dans le parcours, champ par champ.
       await page.getByRole('button', { name: UI[locale].quote, exact: true }).click();
       await expect(page.locator('#quote-form form')).toBeVisible();
+      // Le formulaire s'ouvre en défilant en douceur (`scrollBehavior`) : attendre la fin du défilement, sinon l'animation en cours
+      // déplace la page pendant le parcours et un lien de l'en-tête sort de l'écran (échec intermittent en mobile, sous charge, 15/11).
+      const scrollSettled = () => page.evaluate(() => new Promise<boolean>((done) => { const y = scrollY; setTimeout(() => done(scrollY === y), 150); }));
+      await expect.poll(scrollSettled).toBe(true);
       const withForm = await tabThrough(page);
       expectGoodStops(withForm.stops, `${locale} configurateur, devis ouvert`);
       expect(withForm.unreached, 'éléments jamais atteints, devis ouvert').toEqual([]);

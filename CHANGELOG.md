@@ -14,6 +14,7 @@
 - Concurrence : inventaires des sites en Israël, aux États-Unis, en Europe et en Australie (`docs/concurrence/`).
 - Fusionné dans `main` le 15/11 (production redéployée).
 - Tests : 112 unitaires ; Chromium 242 (3 ignorés) ; WebKit iPhone et iPad 121 chacun (20 ignorés chacun) ; Firefox 92 (5 ignorés) ; aucun échec.
+- Après la fusion, campagne Chromium relancée sur `main` : 238 passés, 3 ignorés, 1 échec intermittent (parcours au clavier, devis ouvert, mobile). Cause : le test appuyait sur Tab pendant le défilement animé vers le formulaire. Le test attend désormais la fin du défilement (24 passages sur 24 sous charge) ; le site ne change pas.
 
 ## 0.4.0 — 2026-11-15 — Guides en anglais
 

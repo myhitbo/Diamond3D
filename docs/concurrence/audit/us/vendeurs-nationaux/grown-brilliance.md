@@ -3,7 +3,7 @@
 - **Site** : Grown Brilliance, https://www.grownbrilliance.com. Exploitant : AJS Creations, Inc. / Grown Brilliance, Inc., 579 5th Avenue, New York [Vc][G22][T7]. Page de départ : https://www.grownbrilliance.com/design-your-lab-grown-diamond-ring (« Design Your Engagement Ring », monture d'abord).
 - **Date** : 15/11/2026. **Appareils** : Chromium (Playwright) 1366×900, en-US, depuis un centre de données. Affichage iPhone 13 non lancé (voir Limites).
 - **Statut : bloqué**. Une seule visite (20 h 57 UTC) : HTTP 403, titre « Just a moment... », page Cloudflare « Performing security verification », témoin encore sur « Verifying... » après 5 s, Ray ID a5b12ab13e4b79d9 [V][G2]. Conformément aux règles : aucun nouvel essai, aucun contournement.
-- **Ce qui a été lu** : robots.txt (200 au curl) [V][G1] ; le texte des pages du site tel que le restituent les extraits du moteur de recherche Parallel, sans contacter le site ; des tiers (Trustpilot, BBB, JCK, deux bancs d'essai affiliés).
+- **Ce qui a été lu** : robots.txt (200 au curl) [V][G1] ; le texte des pages du site tel que le restituent les extraits du moteur de recherche Parallel (pages non chargées par l'audit) ; des tiers (Trustpilot, BBB, JCK, deux bancs d'essai affiliés).
   - robots.txt : `Crawl-delay: 20` ; interdit aux robots toute adresse à paramètres (`/*?*`), `/shoppingcart`, `/checkout`, `/login`, `/diamond_search_result_ajax` ; autorise nommément GPTBot, CCBot, ClaudeBot et anthropic-ai [V][G1]. Le panier n'aurait donc pas été automatisé, même sans blocage.
 - Complète la ligne Grown Brilliance de `docs/concurrence/2026-11-15_etats-unis.md` : défi Cloudflare confirmé dans le navigateur ; constructeur décrit (4 entrées, 3 étapes). Lien avec la fiche Clean Origin : même propriétaire depuis août 2024 [T5].
 - **Société** [T] : fondée en 2021 par Akshie Jhaveri, dirigée par Tejas Shah ; rachat des actifs de Clean Origin et d'Aether Diamonds (août 2024) [T5] ; « 17 stores across the U.S. » [Vc][G17] ; environ 130 M$ de ventes par an selon la fondatrice (déclaration non vérifiée) [T6].
@@ -18,7 +18,7 @@ Reconstitué d'après le texte des pages, sans navigation : ordre et effets non 
 | 0. Menu « Design Studio » [G2] | START WITH SETTING ; START WITH A DIAMOND ; Design your gemstone ring ; GB Custom Engagement Rings. Slogan : « as easy as 1+2=3 » [Vc] |
 | 1. Setting (page de départ) [G2] | Barre « 1 Setting, 2 Diamond, 3 Ring » ; « Choose and customize the setting » ; grille des montures absente de l'extrait (chargée par script [I]). D'après les récapitulatifs [G6], une monture combine un dessin de corps (French Pave, Graduated, Floating Marquise…), une tête (Classic Prong, Halo, Hidden Halo) et un métal (or 14 k blanc ou jaune, platine relevés) [Vc] |
 | 2. Diamond [G3] | Recherche de pierres synthétiques : 11 formes, carats, prix, couleur, taille, pureté, Quick Ship, laboratoire, 6 filtres avancés, quiz, comparateur, vue vignettes ou liste, 11 tris ; « Diamonds Available: 101,238 » avec 3 filtres actifs (site saoudien) [Vc][G6] |
-| 2b. Fiche pierre [G5] | Galerie (5 vues, dont deux schémas cotés), prix, « Add To Ring », « Add To Bag », date d'expédition, tableau des caractéristiques, échelles pédagogiques, pierres similaires [Vc] ; vidéo 360° sur la plupart des pierres [T3] |
+| 2b. Fiche pierre [G5] | Galerie (jusqu'à 5 vues, dont deux schémas cotés), prix, « Add To Ring », « Add To Bag », date d'expédition, tableau des caractéristiques, échelles pédagogiques, pierres similaires [Vc] ; vidéo 360° sur la plupart des pierres [T3] |
 | 3. Ring (récapitulatif) [G6] | Total = monture + pierre ; taille de doigt (obligatoire) ; gravure gratuite ; alliance assortie NO / YES ; quantité ; « Add To Bag » ; date d'expédition ; mensualité Affirm ; liens « Change » (monture, pierre) et « View » (pierre) [Vc] |
 | 4. Panier `/shoppingcart`, paiement | Non atteints : blocage, et chemin interdit aux robots [V][G1]. Le texte du site y place : date d'expédition estimée, saisie du code promo (« must be entered in My Bag »), gravure, plan Extend, UPS Next Day Air payant [Vc][G13][G15][G16][G12] |
 | Variante A : bague prête [G7] | Style (largeur 1,8 ou 2,2 mm, ou tête Standard / Low), métal, forme (11), poids (½ à 8 ct), qualité (2 niveaux), taille, gravure gratuite, « Ring Enhancer » en option, « Add To Bag » [Vc] |
@@ -73,7 +73,7 @@ Aucun contrôle actionné : seuls les deux liens de la page de défi ont été v
 | Size (33 valeurs, obligatoire) ; Find Ring Size ; message « Please select ring size » | liste, lien | Taille US 3 à 11 au quart ; guide | Sans effet relevé | Non testé |
 | Add Engraving | bouton | Texte gravé (longueur et polices non lues) | « Price: Free » | Non testé |
 | Matching Band NO / YES ; Matching Band Info ; Qty 1 ou 2 | bascule, lien, liste | Ajoute l'alliance assortie | + 860 à 1 430 $ | Non testé |
-| Add To Bag ; Wish | boutons | Panier ; favoris | Total 2 840 à 4 415 $ relevés | Non testé ; panier exclu |
+| Add To Bag ; Wish | boutons | Panier ; favoris | Total 2 840 à 4 825 $ relevés | Non testé ; panier exclu |
 | « Starting at US$110 /mo or 0% APR with Affirm. Prequalify now » | lien | Simulation Affirm | Mensualité sous le prix | Non ouvert (formulaire de crédit) |
 | « Sorry, this diamond is no longer available, click here to choose new diamond » | message, lien | Sur un récapitulatif dont la pierre est vendue : retour à l'étape 2 | — | Lu [Vc] |
 | Ring and Diamond Information (référence, pierre, « Ring Details », « Setting Details ») | tableau | Nombre, poids, couleur et pureté des pierres d'accompagnement ; largeur moyenne | — | Lu [Vc] |
@@ -100,7 +100,7 @@ Aucun contrôle actionné : seuls les deux liens de la page de défi ont été v
   - Qualités : accueil « D to H », « FL to VS2 », « Ideal & Excellent », « from 0.90 to over 20.00 carats » [Vc][G4] ; un test d'août 2026 n'a trouvé que D à F, VS2 à IF, 1,00 à 20,07 ct [T3].
 - **Pierres de couleur** : synthétiques seulement (aigue-marine au constructeur ; saphir, rubis, émeraude en sur mesure) [Vc][G9][G10].
 - **Métaux** : or 14 k, or 18 k, platine ; or blanc, jaune ou rose ; or blanc rhodié ; pas d'argent en sur mesure [Vc][G15][G10]. Filtres : Platinum, Yellow Gold, Rose Gold, White Gold [G8].
-- **Montures du constructeur** (relevées sur 7 récapitulatifs, liste incomplète) : corps French Pave, Graduated, Floating Marquise ; têtes Classic Prong, Halo, Hidden Halo ; largeur moyenne 1,8 mm [Vc][G6].
+- **Montures du constructeur** (relevées sur 8 récapitulatifs, liste incomplète) : corps French Pave, Graduated, Floating Marquise ; têtes Classic Prong, Halo, Hidden Halo ; largeur moyenne 1,8 mm [Vc][G6].
 - **Styles du catalogue** : Solitaire, Side Stone, Halo, Vintage, Botanical, Bridal Sets, Gemstone, Hidden Halo, Three-Stone [Vc][G8].
 - **Bague prête** : poids ½, 1, 1½, 2, 2½, 3, 3½, 4, 5, 6, 7, 8 ct (Vera) ; 2 qualités « Good – E, VS1 » et « Best – D, VVS » [Vc][G7][G8].
 - **Tailles de doigt** : 3,00 à 11,00 au quart (33 tailles US) ; tableau de conversion Royaume-Uni, Europe, Japon, Pays-Bas [Vc][G6][G18]. **Gravure** : gratuite sur les fiches lues ; la FAQ dit « may be a small fee » [Vc][G7][G15].
@@ -111,7 +111,7 @@ Aucun contrôle actionné : seuls les deux liens de la page de défi ont été v
 
 ## Prix, délais, retours, garanties
 
-- **Affichage du prix** : au récapitulatif, total puis deux lignes, monture et pierre. Exemples : 3 610 $ = 1 780 $ + 1 830 $ ; 4 415 $ = 1 415 $ + 3 000 $ ; 4 035 $ = 1 315 $ + 2 720 $ [Vc][G6]. Les six totaux relevés égalent la somme des deux lignes [I]. Pas de détail métal, façon ou marge.
+- **Affichage du prix** : au récapitulatif, total puis deux lignes, monture et pierre. Exemples : 3 610 $ = 1 780 $ + 1 830 $ ; 4 415 $ = 1 415 $ + 3 000 $ ; 4 035 $ = 1 315 $ + 2 720 $ [Vc][G6]. Les huit totaux relevés égalent la somme des deux lignes [I]. Pas de détail métal, façon ou marge.
   - Monture French Pave à Hidden Halo en or 14 k jaune : 1 415 $ avec un rond de 3 ct comme avec un radiant de 4 ct ; le prix de la monture ne suit donc pas la pierre [I][G6]. Même corps en platine avec halo : 2 130 $ [Vc].
   - Sur mesure : « we will show you the setting price, the center diamond price, and the total price » ; aucun frais de dessin [Vc][G10].
 - **Niveaux de prix** : Vera en platine, E-VS1 : 1 195 $ (½ ct), 1 595 $ (1 ct) ; D-VVS : 3 595 $ (2 ct) ; en or 14 k blanc, E-VS1, 2 ct : 2 295 $ [Vc][G7]. Un autre extrait donne 1 895 $ pour la Vera 2 ct : prix variables selon la date [Vc][G8].
@@ -138,11 +138,11 @@ Aucun contrôle actionné : seuls les deux liens de la page de défi ont été v
 - **Service** : téléphone, conversation et e-mail tous les jours de 9 h à 22 h (heure de l'Est) ; rendez-vous vidéo ou en boutique ; 17 boutiques américaines et Nassau [Vc][G17]. Pas de WhatsApp ni d'essai à domicile relevés [Vc].
 - **Preuves de fabrication** : aucune photo ni vidéo d'atelier, aucun suivi par étapes dans les pages lues ; le suivi est un formulaire (numéro de commande, e-mail) [Vc][G19]. Sur mesure : rendus 3D, « video and multiple angle views », pas de maquette en cire [Vc][G10].
   - Lieu : « Most of our settings and diamonds are created overseas… Center stones are set in the United States » [Vc][G10] ; fabrication en Inde selon la presse [T8]. 260 machines de croissance en propre, selon le dirigeant [T5].
-- **Environnement** : chaîne « Carbon Neutral » depuis le 21/04/2023 par achat de crédits carbone ; diamants Aether issus de CO2 capté [Vc][G20].
+- **Environnement** : l'essentiel de la chaîne dit « Carbon Neutral » depuis le 21/04/2023, par achat de crédits carbone ; diamants Aether issus de CO2 capté [Vc][G20].
 
 ## Points forts à retenir pour JR Diamond
 
-1. **Total = monture + pierre, sur deux lignes visibles.** Preuve : 6 récapitulatifs où la somme tombe juste [G6]. JR Diamond peut aller plus loin (métal au gramme, façon, sertissage), mais ce minimum est déjà attendu.
+1. **Total = monture + pierre, sur deux lignes visibles.** Preuve : 8 récapitulatifs où la somme tombe juste [G6]. JR Diamond peut aller plus loin (métal au gramme, façon, sertissage), mais ce minimum est déjà attendu.
 2. **Date estimée sur chaque fiche, avec l'état « In-Stock » ou « Made-to-Order »**, et un calendrier des dates limites de commande par catégorie avant les fêtes [G5][G13]. À transposer : « commandez avant le … pour Pessah ».
 3. **Taille réelle sur la main dans le filtre des carats** (« Actual Diamond Size 1.00 carat on Hand », curseur 1 à 7 ct) [G3]. Utile pour le futur sélecteur de carat du solitaire.
 4. **Quiz en 3 questions** (forme, budget, prix ou qualité) qui propose quelques pierres [G3]. Peu coûteux, adapté à un acheteur novice.

@@ -37,8 +37,8 @@ Les règles religieuses citées sont des avis de forum et des réponses publiée
 | 17 | [V] Les bijoux anciens sont estimés au poids de l'or : leurs tailles anciennes ne trouvent pas preneur | 1 | « on lui a offert une misère, surtout pour l'or » | I3 04/08/2025 |
 | 18 | [V] La monture se choisit après les fiançailles (un bracelet est offert d'abord). La concevoir soi-même stresse | 3 | « je l'ai trouvé stressant, parce que les options sont infinies » | I2 29/09/2021 · I4 09/2022 · I8 11/2022 |
 | 19 | [V] On choisit l'alliance pour aller avec la bague | 1 | « on m'a dit de choisir l'épaisseur de l'alliance […] je l'aime en ensemble » | I9 22/06/2026 |
-| 20 | [V] Achat à distance : les parents vivent à l'étranger, ou l'on commande sur Etsy chez un artisan israélien | 4 | « nous ne vivons pas en Israël et ne connaissons personne dans la bijouterie » | I1 20/09/2021 · R5 · R6 · R3 |
-| 21 | [V] Sous la houppa, l'alliance se met à l'index droit | 3 | « l'index de la main droite, dans tous les cas que je connais » | Y7 06/2012 · T8 11/2018 · Tsohar 2010 |
+| 20 | [V] Achat à distance : les parents vivent à l'étranger, ou l'on commande sur Etsy chez un artisan israélien | 4 | « nous ne vivons pas en Israël et ne connaissons personne dans la bijouterie » (non vérifié : extrait non retrouvé au contrôle ; le fil I1 existe) | I1 20/09/2021 · R5 · R6 · R3 |
+| 21 | [V] Sous la houppa, l'alliance se met à l'index droit | 2 + page Tsohar | « l'index de la main droite, dans tous les cas que je connais » | Y7 06/2012 · T8 11/2018 · Tsohar (page non datée) |
 | 22 | [I] Aucun fil ne se plaint de la langue. Les anglophones passent par la recommandation de leur communauté | 5 | — | R1 · I1 · P1 · R5 · R6 |
 
 ## 3. Ce qu'on dit des concurrents
@@ -48,14 +48,14 @@ Les règles religieuses citées sont des avis de forum et des réponses publiée
 | Gispan (Bourse) | Une petite boutique trouvée par hasard, devenue celle de toute une famille | — | R1 |
 | Chandally (Dizengoff, Tel-Aviv) | Bagues des 30 ans de mariage achetées chez elle, recommandée | — | R1 |
 | Shulman (Rehovot) | « très honnêtes » (réparations de montres) | aucun avis sur ses bagues | R1 |
-| Baltinester (rue de Jaffa, Jérusalem) | « Ils ont fait exactement ce que j'ai demandé », famille cliente depuis des années | — | I1 |
-| Meltzer | « incroyablement digne de confiance » | — | I1 |
-| Naama Jewelry | Créatrice haredie de bagues et d'alliances, « totalement digne de confiance » | — | I1 |
-| Litzenzky (Ashdod) | Vient chez la kallah avec un choix dans le budget, livre au marié, se fait payer ensuite | facture envoyée des jours ou des semaines plus tard | I1 |
+| Baltinester (rue de Jaffa, Jérusalem) | Recommandée dans I1. « Ils ont fait exactement ce que j'ai demandé », famille cliente depuis des années (non vérifié : extrait non retrouvé au contrôle) | — | I1 |
+| Meltzer | « incroyablement digne de confiance » (non vérifié dans I1 : extrait non retrouvé au contrôle) | — | I1 |
+| Naama Jewelry | Créatrice spécialisée en bagues de fiançailles et alliances. « Haredie » et « totalement digne de confiance » : non vérifié | — | I1 |
+| Litzenzky (Ashdod) | Vient chez la kallah avec un choix dans le budget annoncé ; livre au marié et se fait payer ensuite (non vérifié) | facture envoyée des jours ou des semaines plus tard (non vérifié) | I1 |
 | Boutiques de la Bourse et des rues voisines | Grand choix, rabais possible en espèces | guides à commission, pas moins cher qu'aux États-Unis, prix du site ≠ prix en caisse | TA1 · H1 · P1 · R1 |
 | Sia (Bourse) | A reproduit une bague vue à Londres, « en plus beau et à moitié prix », avec un mini-cours sur les diamants | avis TripAdvisor, pas un fil de forum | TA1 01/2024 |
 | Israel-diamonds (site) | ≈ 5 % moins cher que Blue Nile ou James Allen | peur de l'arnaque | R3 |
-| Artisans israéliens sur Etsy (Benati, Shlomit Rogel, Doron Merav) | Expédition rapide, maquettes du sur-mesure, 600 avis 5★ pour Benati (≈2016) | boutique à 2 avis : un « acte de foi » | R5 · R6 |
+| Artisans israéliens sur Etsy (Benati, Shlomit Rogel ; Doron Merav non retrouvé dans R5 ni R6 : non vérifié) | Expédition rapide, maquettes du sur-mesure, 600 avis 5★ pour Benati (≈2016) | boutique à 2 avis : un « acte de foi » | R5 · R6 |
 | Rogel Diamonds (Bourse) | Fiche sur Janglo | Janglo n'accepte que les avis positifs : ses avis ne prouvent rien | J1 |
 | Chaînes israéliennes | Plus simple que la Bourse pour 2 000 ₪ ou moins | — | H1 |
 | Feldman's, Monderer Perlow (Brooklyn, références du monde religieux) | Honnêteté, prix justes, synthétique et naturel | une participante juge leurs diamants moyens | I6 |
@@ -69,9 +69,9 @@ Les règles religieuses citées sont des avis de forum et des réponses publiée
 - Fils hors périmètre (sur-mesure aux États-Unis, sert de comparaison) [V, 7 fils] :
   - Le rendu CAO compte 20 % de métal en plus (retrait à la fonte, polissage) et des griffes plus longues. La bague finie est plus fine (R7, ≈07/2023).
   - Le pavé et les griffes sont faits à la main et n'apparaissent pas en CAO : « la beauté de ces détails ne se capture pas toujours dans un dessin informatique » (P2, 01/2024).
-  - La bague finie ne correspond pas à la CAO approuvée : pierres latérales plus grosses, finition inégale, monture trop massive malgré les promesses (R9 ≈2026, R10 ≈2026, R11 03/2024).
+  - La bague finie ne correspond pas à la CAO approuvée : pierres latérales plus grosses, finition inégale, monture trop massive malgré les promesses (R9 02/2026, R10 ≈2026, R11 03/2024).
   - Une maquette en résine aide : le métal final est un peu plus fin, la pierre paraît plus grosse, et elle permet de vérifier la taille (R8, ≈04/2023).
-  - Ce qui rassure : « des photos et vidéos du diamant sous différents éclairages avant mon accord » (R14, ≈02/2024). On approuve souvent 3 ou 4 rendus avant de valider (R7).
+  - Ce qui rassure : « des photos et vidéos du diamant sous différents éclairages avant mon accord » (R14, 02/2024). On approuve souvent 3 ou 4 rendus avant de valider (R7).
 - [I] Le rendu de JR Diamond vient du fichier de fabrication, ce qui réduit l'écart entre dessin et bague. Il faut quand même dire l'écart qui reste (poids ± 5 %, polissage). Filmer la pierre répond à la demande de R14.
 - [S] Une maquette imprimée avant la fonte serait appréciée en Israël. Aucun fil du périmètre ne la demande.
 

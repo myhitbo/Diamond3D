@@ -136,13 +136,13 @@ Fils lus du 15/11/2026, version servie par l'index de Parallel (cache de quelque
 - P59 reset-my-fancy-gray-into-this-ring-setting.292507, 07/04/2026 · Index du forum : https://www.pricescope.com/community/ (lu le 15/11/2026)
 
 Reddit : `https://www.reddit.com/r/<sous-forum>/comments/<id>/` (date estimée).
-- R1 EngagementRings/1qws90n, ≈ févr. 2026 · R2 EngagementRings/1ukf44x, ≈ juil. 2026 · R3 EngagementRingDesigns/1o1u8ot, ≈ oct. 2025
-- R4 EngagementRings/1bgzeia, ≈ mars 2024 · R5 EngagementRings/1sp97tp, ≈ mai 2026 · R6 EngagementRingDesigns/1whxjb1, ≈ oct. 2026
+- R1 EngagementRings/1qws90n, ≈ févr. 2026 · R2 EngagementRings/1ukf44x, ≈ juil. 2026 (atelier local de San Francisco qui copie un modèle Frank Darling) · R3 EngagementRingDesigns/1o1u8ot, ≈ oct. 2025
+- R4 EngagementRings/1bgzeia, ≈ mars 2024 · R5 EngagementRings/1sp97tp, ≈ mai 2026 (**non vérifié** : fil illisible lors de la vérification) · R6 EngagementRingDesigns/1whxjb1, ≈ oct. 2026
 - R7 EngagementRings/1fb920z, ≈ sept. 2024 · R8 EngagementRings/1q3071j, ≈ janv. 2026 · R9 EngagementRings/1wm38r8, ≈ oct. 2026
-- R10 EngagementRings/1tfsxhm, ≈ mai 2026 · R11 EngagementRings/1kf73p8, mai 2025 · R12 EngagementRings/1qx7mro, ≈ févr. 2026
-- R13 EngagementRings/1ub5mbr, ≈ juil. 2026 · R14 EngagementRings/1mcrmtr, ≈ juil. 2025 (étiquette « Brand Affiliate ») · R15 EngagementRings/1qicwr7, ≈ févr. 2026
+- R10 EngagementRings/1tfsxhm, ≈ mai 2026 · R11 EngagementRings/1kf73p8, début mai 2025 (message daté du 4/05/2025) · R12 EngagementRings/1qx7mro, ≈ févr. 2026
+- R13 EngagementRings/1ub5mbr, ≈ juil. 2026 · R14 EngagementRings/1mcrmtr, ≈ juil. 2025 (étiquette « Brand Affiliate ») · R15 EngagementRings/1qicwr7, ≈ janv. 2026 (« il y a 10 mois » au 15/11/2026)
 - R16 EngagementRings/1uu6973, ≈ juil. 2026 · R17 EngagementRings/1khbxap, ≈ mai 2025 · R18 EngagementRings/1aebam7, janv. 2024
 - R19 EngagementRingDesigns/1s5aoc4, ≈ avr. 2026 · R20 EngagementRings/1plp8kp, ≈ déc. 2025 · R21 EngagementRings/1f1bz2d, août 2024
-- R22 EngagementRings/1krer3j, mai 2025 · R23 Diamonds/1ghiz9l, nov. 2024 · R24 labdiamond/1i26poe, ≈ janv. 2025
-- R25 jewelers/1hb5nvm, ≈ déc. 2024 · R26 EngagementRings/1wn6wj4, ≈ oct. 2026 · R27 EngagementRingDesigns/1irrbbn, ≈ févr. 2025 (CAO validée, avis positif)
-- R28 EngagementRings/1ofliuj, ≈ oct. 2025 · R29 jewelry/1lvrskt, ≈ juil. 2025
+- R22 EngagementRings/1krer3j, ≈ mai 2025 (message supprimé par son auteur ; commentaires lus) · R23 Diamonds/1ghiz9l, nov. 2024 (**non vérifié** : fil illisible lors de la vérification) · R24 labdiamond/1i26poe, 15/01/2025
+- R25 jewelers/1hb5nvm, ≈ déc. 2024 · R26 EngagementRings/1wn6wj4, ≈ oct. 2026 · R27 EngagementRingDesigns/1irrbbn, 17/02/2025 (CAO validée, avis positif)
+- R28 EngagementRings/1ofliuj, ≈ oct. 2025 · R29 jewelry/1lvrskt, 09/07/2025

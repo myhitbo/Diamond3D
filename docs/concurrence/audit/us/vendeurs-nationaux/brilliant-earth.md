@@ -105,8 +105,7 @@ Non relevés faute d'accès : contenu exact de l'étape 3 et du panier, partage,
 
 ## Prix, délais, retours, garanties
 
-- **Affichage** : monture « (Setting Only) » et pierre affichées à part. FAQ : « We list the diamond and setting separately, so you see exactly where every dollar goes » [Vc][B2].
-  - Rien n'est décomposé à l'intérieur de la monture (métal, façon) [I]. La monture ne se vend pas seule : « available only with purchase of a diamond » [Vc][B9].
+- **Affichage** : monture « (Setting Only) » et pierre à part ; FAQ : « We list the diamond and setting separately, so you see exactly where every dollar goes » [Vc][B2]. Rien n'est décomposé dans la monture (métal, façon) [I] ; elle ne se vend pas seule [Vc][B9].
 - **Repères de prix** :
   - montures : 750 $ (Horizontal Petite Comfort Fit Solitaire, 14 k blanc), 1 050 $ (Twisted Vine, 14 k), 2 490 $ (Bezel Halo, platine) [Vc][B8][B9] ;
   - synthétique : dès 140 $ (0,30 ct) ; 1,44 ct ovale D VVS1 IGI 2 190 $ ; 3,02 ct ovale H VS1 IGI 3 980 $ [Vc][B5][B6] ;
@@ -119,11 +118,9 @@ Non relevés faute d'accès : contenu exact de l'étape 3 et du panier, partage,
 - **Promotions** : cadeau avec achat dès 1 000 $, codes successifs (STUDS, FREEGIFT, GIVEAWAY, DIAMOND, GIFT, BLACKFRIDAY « up to $800 in Jewelry Value »), tous sous « ENDS SOON! » [Vc][B6][B9][B21]. Offres étudiants, soignants, militaires [Vc][B22].
 - **Délais** :
   - date sur chaque fiche, avec heure limite : monture « Order now for delivery by Tue, Dec 1, depending on center diamond » ; pierre « Estimated Delivery by … if ordered by 2 PM PT tomorrow » ; alliance « Wed, Nov 18 - Tue, Nov 24, depending on selected ring size » [Vc][B6][B9][B11] ;
-  - bague composée « typically arrive within 2-3 weeks » [Vc][B12] ; 10-K : sur commande en 6 à 15 jours ouvrés, articles stockés en 2 à 5 [Vs][B24] ;
-  - sur mesure complet : 4–6 semaines [Vc][B13] ; express possible « for a fee » [Vc][B18].
+  - bague composée « typically arrive within 2-3 weeks » [Vc][B12] ; 10-K : sur commande en 6 à 15 jours ouvrés, stock en 2 à 5 [Vs][B24] ; sur mesure complet 4–6 semaines [Vc][B13] ; express « for a fee » [Vc][B18].
 - **Livraison** : FedEx gratuite aller et retour, assurée, signature au-delà de 250 $, pas de boîte postale [Vc][B17].
-  - International : FedEx International Priority gratuit, 2 à 5 jours ouvrés après l'expédition ; droits et taxes à la charge du client, sauf Royaume-Uni, Canada et Australie [Vc][B17].
-  - **Israël figure parmi les destinations** [Vc][B17].
+  - International : FedEx International Priority gratuit, 2 à 5 jours ouvrés après l'expédition ; droits et taxes pour le client, sauf Royaume-Uni, Canada et Australie. **Israël figure parmi les destinations** [Vc][B17].
 - **Retours** : 30 jours, gratuits, remboursement ou échange [Vc][B15].
   - Départ du délai : « when your purchase is available for shipment or pickup » [B15], ou « within 30 days of the ship date » [B17] ; jamais la réception [Vc].
   - Fêtes : commandes du 1/11 au 15/12 retournables jusqu'au 15/01 [Vc][B15].
@@ -132,8 +129,7 @@ Non relevés faute d'accès : contenu exact de l'étape 3 et du panier, partage,
 - **Mise à taille** : 1 gratuite sous 60 jours quelle que soit la taille, ou sous 1 an dans la plage de la bague, port compris. Payante pour le sur-mesure, le modifié et le gravé ; impossible pour les bagues tour complet et les métaux alternatifs (échange sous 60 jours) [Vc][B15].
 - **Garantie** : à vie contre les défauts de fabrication [Vc][B16].
   - Exclut l'usure, les griffes usées ou tordues, la perte de pierres, la perte et le vol. Remplacement sous 60 jours ; ensuite seulement pour les pièces de moins de 1 000 $. Annulée si un autre bijoutier intervient.
-  - Hors États-Unis, Canada, Australie et Royaume-Uni : 50 $ de dépôt pour l'expertise.
-  - Extension payante « Extend Protection Plan » (tiers, de 2 ans à vie), proposée dans le panier [Vc][B18][Vs][B24].
+  - Hors États-Unis, Canada, Australie et Royaume-Uni : 50 $ de dépôt pour l'expertise. Extension payante « Extend Protection Plan » (tiers, de 2 ans à vie), proposée dans le panier [Vc][B18][Vs][B24].
 - **Échange de pierre à vie** : crédit de 100 % du prix d'achat vers une pierre d'au moins **1,5 fois** sa valeur (naturel) ou **2 fois** (synthétique) ; pas pour les pierres de couleur ; États-Unis et Canada seulement ; achat ferme [Vc][B16].
 - **Certificats** : « IGI Certificate » ou « Digital GIA Certificate » (lien envoyé après l'achat) et « Professional Appraisal » inclus [Vc][B6][B7]. Numéro du certificat inscrit sur la pierre (bague prête) [Vc][B10].
 - **Libellé du synthétique** : « Lab Grown Diamond(s) » (titres, filtres), « Lab Diamond » (menus), « cultured diamonds » dans le texte d'origine. Naturel : « Natural, untreated diamond » [Vc][B4][B6][B7].

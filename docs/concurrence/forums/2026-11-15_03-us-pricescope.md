@@ -42,23 +42,23 @@ Légende : **[V]** vérifié (fil lu, adresse et date en section 7) ; **[I]** in
 | Brian Gavin | [V] Coupe de référence, gamme synthétique « Premium Lab » | [V] Qualité du matériau CVD inégale selon les pierres | P13, P15, P20, P22 |
 | Victor Canera | [V] Forgé main, finition « impeccable », bague d'héritage | [V] Environ deux fois le prix de DK ; sélectif sur les pierres extérieures | P4, P17, P22 |
 | CvB, Erika Winters | [V] Finesse (P24) ; griffes en serre (non vérifié) | [V] CvB : rendus sans cotes, pour éviter la copie (P3), nouvelle CAO payante après quelques tours (P4). Erika Winters : environ deux fois le prix de DK (P4) | P3, P4, P24 |
-| Brilliant Earth | [V] Vente agréable, salles d'exposition ; clients satisfaits depuis 2019-2021 | [V] Retard de deux mois, pavés perdus, griffes asymétriques, anneau de 1,7 mm au lieu de 2,5 annoncés, remboursement refusé ; un ex-employé évoque de nombreux sous-traitants, donc une qualité inégale | R12, R13, R14, R15, R16, R17, R20 |
-| Frank Darling | [V] Bons diamants, accueil agréable | [V] Maquette résine promise jamais reçue, silences, porosité, défaut d'abord nié ; CAO attendue plus de six semaines | R2, R11, R18, R19 |
+| Brilliant Earth | [V] Vente agréable, salles d'exposition ; des clientes disent n'avoir eu aucun problème en deux à dix ans de port (R16) | [V] Retard de deux mois, pavés perdus, griffes asymétriques, anneau de 1,7 mm au lieu de 2,5 annoncés, remboursement refusé ; un ancien employé dit que la marque ne défend ni ses produits ni ses employés (R20). L'évocation de nombreux sous-traitants n'a pas été retrouvée (non vérifié) | R12, R13, R14, R15, R16, R17, R20 |
+| Frank Darling | [V] Bons diamants, accueil agréable | [V] Maquette résine promise jamais reçue, silences, porosité, défaut d'abord nié ; CAO attendue plus de six semaines | R11, R18, R19 (R2 retiré : atelier local qui copie un modèle Frank Darling) |
 | VRAI | [V] Personnel aimable | [V] Aucune mise en garde sur un pavage trop creusé ; alliance conçue à fleur qui use la tête ; services cloisonnés ; devis de 2 775 $ pour la deuxième refaçon (refusé) | R26 |
-| James Allen, Blue Nile (Signet) | [V] Vidéos HD des pierres utiles pour apprendre ; pérennité du groupe pour les échanges | [V] Mise à taille ratée ; en 2013, rendus 3D de gravure reconnus non fidèles ; montures de catalogue de grands fondeurs | P12, P14, P19, P58, R21 |
-| Kay et grandes chaînes | — | [V] Vendeur intermédiaire entre client et équipe CAO, quatre tours, rendu jugé « très mauvais » | P2 |
-| Ateliers locaux | [V] Proximité pour l'entretien | [V] Exécution inégale, CAO assemblée d'éléments tout faits, dessinateurs sous-traités, pression commerciale | P11, P13, R1, R4, R5, R8, R10 |
-| Ateliers étrangers (Inde, Chine, Thaïlande) | [V] Main-d'œuvre moins chère ; un acheteur expérimenté fait travailler un atelier chinois | [V] Fausse déclaration en douane, silence, contact par WhatsApp seulement | P4, P6, P28, P38, R6 |
-| ROEN (New York), Rare Carat, Loose Grown Diamond | [V] Rare Carat : CAO réussie à partir de mots et d'un croquis | [V] ROEN : bague en taille 4 au lieu de 6,25, dédommagement contre engagement à ne rien publier. LGD : pierre de travers, défaut nié | R9, R22, R24 |
+| James Allen, Blue Nile (Signet) | [V] Vidéos HD des pierres utiles pour apprendre ; pérennité du groupe pour les échanges | [V] Mise à taille ratée ; en 2013, rendus 3D de gravure reconnus non fidèles ; montures de catalogue de grands fondeurs (non vérifié) | P12, P14, P19, P58, R21 |
+| Kay et grandes chaînes | — | [V] Vendeur intermédiaire entre client et équipe CAO, quatre tours, rendu loin du modèle d'inspiration ; un membre déconseille le sur-mesure chez ce type d'enseigne | P2 |
+| Ateliers locaux | [V] Proximité pour l'entretien | [V] Exécution inégale, CAO assemblée d'éléments tout faits, dessinateurs sous-traités, pression commerciale | P11, P13, R1, R2, R4, R5 (non vérifié), R8, R10 |
+| Ateliers étrangers (Inde, Chine, Thaïlande) | [V] Main-d'œuvre moins chère ; un acheteur expérimenté fait travailler un atelier chinois | [V] Fausse déclaration en douane, silence, contact par WhatsApp seulement | P4, P6, P28, R6 (P38 retiré : rien sur un atelier étranger) |
+| ROEN (New York), Rare Carat, Loose Grown Diamond | [V] Rare Carat : CAO réussie à partir d'une simple description | [V] ROEN : bague en taille 4 au lieu de 6,25, dédommagement contre engagement à ne rien publier. LGD : pierre de travers, défaut nié | R9, R22, R24 |
 
 ## 4. Configurateurs, rendus 3D et réalité
 
 - [V] **Le rendu des sites ne fait pas foi.** En 2013, James Allen reconnaît que ses rendus 3D « ne montrent pas fidèlement » la gravure et promet d'ajouter de vraies photos ; les membres préfèrent « voir les vraies bagues » (P58). En 2024-2026, le conseil n'a pas changé : demander un ancien rendu et la photo de la pièce finie qui en est issue (P2, P1).
 - [V] **Deux attentes opposées.** Certains veulent la CAO « verte » avec cotes (largeur, hauteur, angles) (P3, P55). D'autres ateliers ne montrent que des rendus finis, sans cotes, pour éviter la copie (P3, P4). Des acheteurs mesurent l'écran au pied à coulisse pour vérifier les proportions (P8).
-- [V] **La CAO montre le métal, pas la pierre sertie.** Les pierres du modèle sont génériques : « jugez la forme du métal, pas les pierres » (P8). Griffes et pavage sont souvent finis à la main, absents de la CAO (P1, P10). La cire paraît plus massive (P23). Un atelier chinois affirme que les pavés « paraissent toujours plus espacés » en CAO (R6).
+- [V] **La CAO montre le métal, pas la pierre sertie.** Les pierres du modèle sont génériques : « jugez la forme du métal, pas les pierres » (P8). Griffes et pavage sont souvent finis à la main, absents de la CAO (P12, P23). La cire paraît plus massive (P23). Un atelier chinois affirme que les pavés « paraissent toujours plus espacés » en CAO (R6).
 - [V] **Ce qui rassure** : la numérisation des vraies pierres pour la CAO (P8), la maquette en résine ou en cire essayée au doigt (P7, P23, P24), la photo de la pièce coulée avant sertissage (P52), la vidéo avant envoi (P34, P53).
 - [V] **La maquette ne dit pas le confort.** La cire était confortable, la bague en métal frotte les doigts voisins (R7). Une cire s'est cassée à l'essayage et l'atelier la disait « bien plus petite » que la bague (R8).
-- [V] **Les clients arrivent avec des images d'IA** que les ateliers ne savent pas fabriquer (R28). Un commentaire cite les outils « en temps réel » de Brilliant Earth et James Allen ; un autre estime qu'aucun outil cité n'est vraiment utile (R22).
+- [V] **Les clients arrivent avec des images d'IA** que les ateliers ne savent pas fabriquer (R28). Un commentaire cite les outils « en temps réel » de Brilliant Earth et James Allen (R22) ; l'avis selon lequel aucun outil cité ne serait vraiment utile n'a pas été retrouvé (non vérifié).
 - [I] Pour JR Diamond, la promesse « 3D issue du fichier de fabrication » répond exactement à la crainte n° 1. Mais elle ne couvre ni la finition main (griffes rabattues, polissage) ni la pierre sertie : il faut la doubler d'une photo de la pièce finie du même modèle, posée à côté du rendu.
 - [I] Le rendu le plus fidèle reste un rendu. Le présenter comme « la bague » sans réserve exposerait JR au grief R1/R7 (« plus massive que prévu »). Une mention courte du type « finition à la main : écart de ± x mm sur… » protège la promesse.
 
@@ -67,7 +67,7 @@ Légende : **[V]** vérifié (fil lu, adresse et date en section 7) ; **[I]** in
 ### Avantages à retenir (du plus fort au plus faible impact)
 1. [I] **Rendu et photo de la pièce finie côte à côte**, pour chaque modèle, avec les cotes clés (largeur et épaisseur de l'anneau, hauteur de la tête). Réponse directe à la crainte n° 1 (14 fils).
 2. [I] **Jalons validés par écrit** : CAO approuvée (taille de doigt rappelée à chaque version), cire ou résine en option, photos et vidéo de la pièce finie avant l'envoi. Les ateliers les mieux notés le font (DK : photos avant paiement, P4). Le « on voit naître son bijou » de JR en est la version continue.
-3. [I] **Pierre filmée avec son inscription laser visible**, sous plusieurs éclairages et angles, et lien vers le rapport GIA ou IGI. Répond à la peur de l'échange (5 fils) et à la méfiance envers les vidéos d'un seul angle (P35).
+3. [I] **Pierre filmée avec son inscription laser visible**, sous plusieurs éclairages et angles, et lien vers le rapport GIA ou IGI. Répond à la peur de l'échange (4 fils, dont 1 non vérifié) et à la méfiance envers les vidéos d'un seul angle (P35).
 4. [I] **Devis tout compris, révisions incluses, règle d'ajustement du métal** (JR affiche déjà ± 5 % du poids) et cours de l'or retenu daté. Les acheteurs recalculent grammes × titre (P39) : l'expliquer avant qu'ils le fassent.
 5. [I] **Conseil de solidité proactif** : épaisseur minimale, griffes en V sur les pointes de la marquise (P11, P49), CAO de l'ensemble bague + alliance (P10, R26). Dire non est un service.
 6. [I] **Interlocuteur unique et délai de réponse annoncé.** Le cloisonnement des grandes marques est un grief (R26, R14). Le délai de 14 jours ouvrés est court face aux « 3 mois minimum » du sur-mesure (P4) : à tenir absolument (R11 : délai promis, puis manqué).
@@ -76,15 +76,15 @@ Légende : **[V]** vérifié (fil lu, adresse et date en section 7) ; **[I]** in
 
 ### Erreurs à éviter (du plus fort au plus faible impact)
 1. [V] Promettre que « ce sera plus fin après le polissage » ou qu'un détail « se fera au sertissage » sans le montrer (P2, P10, R1, R7).
-2. [V] Fabriquer ou couler sans validation écrite de la dernière CAO (P3 ; dans P4, une cliente dit en garder rancune « encore aujourd'hui »).
-3. [I] **Paiement intégral, puis silence.** JR prévoit le paiement intégral sur le site ; sur les forums, c'est la combinaison qui déclenche le plus d'angoisse (P3, P6, R5, R11). À compenser par un suivi visible et une garantie écrite de conformité à la CAO validée (refaçon).
+2. [V] Fabriquer ou couler sans validation écrite de la dernière CAO (P3 ; dans P4, une cliente à qui l'atelier n'a pas montré la cire avant la fonte dit en garder rancune « encore aujourd'hui »).
+3. [I] **Paiement intégral, puis silence.** JR prévoit le paiement intégral sur le site ; sur les forums, c'est la combinaison qui déclenche le plus d'angoisse (P3, P6, R11 ; R5 non vérifié). À compenser par un suivi visible et une garantie écrite de conformité à la CAO validée (refaçon).
 4. [V] Changer un élément (couronne, métal, nombre de pierres) sans prévenir, même pour une bonne raison (P10, R2, R4).
 5. [V] Laisser passer un dessin fragile pour faire plaisir (R26).
-6. [V] Contact par WhatsApp seulement, sans téléphone ni identité vérifiable : jugé suspect pour un atelier étranger (P6). JR doit afficher aussi un téléphone, une adresse et un e-mail.
+6. [V] Contact par WhatsApp seulement : face à un atelier étranger muet, un membre conseille d'appeler, car un vendeur sérieux a un numéro de téléphone (P6). JR doit afficher aussi un téléphone, une adresse et un e-mail.
 7. [V] Fausse déclaration en douane ou envoi non assuré vers la France (P28, P31). Annoncer droits et TVA à l'avance : un acheteur européen renonce aux sites américains à cause d'environ 20 % de taxes (P29).
 8. [V] Clauses découvertes après coup : acompte non remboursable (R8, R10), dédommagement contre silence (R9).
 9. [I] Prix du synthétique sans justification : la communauté juge le détail gonflé (P15, P40). Le « prix expliqué » de JR est un atout, à condition de détailler pierre, métal, façon et bénéfice.
-10. [V] Répondre mollement aux projets lointains : des acheteurs européens se plaignent d'ateliers muets quand l'achat est à un an (P30).
+10. [V] Répondre mollement aux projets lointains : un acheteur européen se plaint d'ateliers muets ou sans devis pour un achat prévu dans quelques mois ; un professionnel répond que personne ne chiffre un projet lointain, et un membre ajoute que la volatilité de l'or rend tout devis fragile (P30).
 
 ## 6. Questions à ajouter à la FAQ ou aux guides
 
@@ -110,7 +110,7 @@ Fils lus du 15/11/2026, version servie par l'index de Parallel (cache de quelque
 - P7 please-help-with-e-ring-upgrade-setting-rendition.293421, 02/09/2026 · P8 help-me-with-my-first-custom-project-toi-et-moi.292216 (et /page-2), 24/02/2026
 - P9 engagement-ring-cad-review-support.293031, 04/07/2026 · P10 custom-ring-received-is-not-what-we-ordered.282938, 01/05/2024
 - P11 need-help-are-prongs-poorly-set-and-is-the-diamond-tilted.290729, 11/08/2025 · P12 help-need-reasonable-honest-but-great-quality-ring-maker-recommendations.288687, 06/03/2025
-- P13 feeling-a-bit-discouraged-where-did-i-go-wrong.291582, 20/11/2025 · P14 seeking-advice-on-choosing-a-whiteflash-diamond.285082, 22/10/2024
+- P13 feeling-a-bit-discouraged-where-did-i-go-wrong.291582, 20/11/2025 · P14 seeking-advice-on-choosing-a-whiteflash-diamond.285082, 21/10/2024
 - P15 can-i-really-trust-brian-gavin-whiteflash.291567, 17/11/2025 · P16 are-these-good-places-to-shop-oval-diamond-rc-james-allen-blue-nile.283374, 02/06/2024
 - P17 distinctive-gem-or-canera.284768, 06/10/2024 · P18 whiteflash-partner-diamonds.291369, 18/10/2025
 - P19 first-diamond-purchase-for-an-engagement-ring.282582, 03/04/2024 · P20 selecting-a-lab-grown-with-the-best-cut.289827, 26/05/2025
@@ -128,11 +128,11 @@ Fils lus du 15/11/2026, version servie par l'index de Parallel (cache de quelque
 - P43 igi-vs-gia-the-surprising-truth.284112, 09/08/2024 · P44 why-are-lab-diamond-prices-so-variable.288971, 20/03/2025
 - P45 gia-to-grade-labs-pass-fail-4-cs-for-naturals-only.289901, 03/06/2025 · P46 post-growth-treatment-in-lgd-a-double-standard.284519, 12/09/2024
 - P47 igi-cert-shows-h-a-but-hca-score-of-2-7-still-worth-buying.292381, 20/03/2026 · P48 poor-gcal-8x-vs-ideal-igi-lab-diamonds.285719, 16/11/2024
-- P49 questions-about-pear-ring-prongs-and-finding-diamond.284624, 23/09/2024 · P50 graff-policy-on-third-party-jewelers-resizing-rings.292914, 14/06/2026
+- P49 questions-about-pear-ring-prongs-and-finding-diamond.284624, 22/09/2024 · P50 graff-policy-on-third-party-jewelers-resizing-rings.292914, 14/06/2026
 - P51 need-advice-on-diamond-ring-lost-by-jeweler.292266, 02/03/2026 · P52 toi-et-moi-a-slow-descent-into-madness.292986 (/page-3), 28/06/2026
 - P53 help-me-find-my-dream-omc-elongated-warmer-ideally-2-5-3-ct-or-spready.290282 (/page-8), 10/07/2025 · P54 10-ctw-for-10-years.292975, 26/06/2026
 - P55 sharing-my-avoec-in-thick-platinum.292154 (/page-2), 16/02/2026 · P56 thoughts-on-final-cad-for-dk-ring.292697, 07/05/2026
-- P57 26th-anniversary-upgrade.290087, 23/06/2025 · P58 ja-engraved-engagement-ring-false-advertising.185935, 21/02/2013 (hors période)
+- P57 26th-anniversary-upgrade.290087, 23/06/2025 · P58 ja-engraved-engagement-ring-false-advertising.185935, au plus tard le 20/02/2013 (premier message déjà mis à jour le 20/02 ; hors période)
 - P59 reset-my-fancy-gray-into-this-ring-setting.292507, 07/04/2026 · Index du forum : https://www.pricescope.com/community/ (lu le 15/11/2026)
 
 Reddit : `https://www.reddit.com/r/<sous-forum>/comments/<id>/` (date estimée).

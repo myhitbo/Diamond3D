@@ -151,3 +151,24 @@ Italie et Espagne
 - S59 reddit.com/r/askspain/comments/1u55od0 (≈ 06/2026) · S60 reddit.com/r/EngagementRings/comments/1492tnx (14/06/2023, part.)
 
 Toutes les adresses Reddit sont à préfixer de `https://www.` ; les autres de `https://` (`www.` pour mumsnet.com et gutefrage.net).
+
+## Vérification (15/11/2026)
+
+- **Méthode** : chaque fil relu par les extraits de l'index de Parallel Search ou par sa copie en cache (sans récupération directe pour Reddit, sauf aux deux premières lectures, dont une bloquée par Reddit) ; lecture directe de MoneySavingExpert (`robots.txt` l'autorise), Forocoches et matrimonio.com. Mumsnet et gutefrage refusent l'accès direct (403) : lus par les extraits d'index seulement. Firecrawl indisponible (crédits épuisés). Aucune connexion, aucune publication.
+- **Fils relus** : 59 sur 61. Non relus : S41 et S47 (limite de débit atteinte) ; leurs constats tiennent par d'autres fils.
+- **Extraits contrôlés : 20** (17 au § 2, 3 au § 4). 19 confirmés, texte et date. 1 introuvable : la phrase « tendance venue des États-Unis » attribuée à S36. Elle est remplacée par un extrait vérifié de S33, de même sens.
+- **Faits [V] contrôlés en plus** : les 13 lignes du § 3, les 6 constats [V] du § 4, les délais du § 5 (4 à 8 semaines, 6, 8) et ses 9 erreurs marquées [V]. Les chiffres cités sont exacts : 1,4 mm, 130 €, 3 090 £ contre 1 715 £, 1 000 £/ct, 800 %, 700 € + 500 €, 20 %.
+- **Retirés : 2** :
+  - l'extrait de S36 ;
+  - « un artisan refuse d'y toucher », absent des fils relus. Il est remplacé par le fait vérifié de S60 : un bijoutier espagnol se moque d'une bague synthétique.
+- **Marqués « non vérifié » : 4** : la sous-déclaration des vendeurs (§ 2, TVA) ; S59 pour la moissanite ; pour Baunat, « modèle introuvable ailleurs » et « impressionné par la qualité ».
+- **Corrigés : 13** :
+  - S57 : le fil date du 08/05/2024, pas du 09/05 (§ 2 et § 7).
+  - S15 : bague d'occasion remodelée, pas un bijou de famille. Ligne du § 2 renommée « Bijoux de famille et remodelage ».
+  - S18 : Taylor & Hart « déconseille » de descendre sous 1,8 mm ; il ne le « refuse » pas.
+  - Erreur 9 : la bague de S12 a été perdue en transit, mais la perte était assurée chez le vendeur. « Sans suivi ni assurance » était inexact.
+  - Erreur 6 : S3 cite seulement les certificats EGL et SGL. Les dire « peu exigeants » est une inférence (I).
+  - Adresses Mumsnet (S21 à S28, S32) : sans le titre, l'adresse répond 404. Le titre a été ajouté.
+  - 7 dates estimées remplacées par la date exacte : S7 (04/12/2024), S9 (15/08/2025), S13 (25/07/2025), S16 (29/07/2025), S19 (31/10/2024), S20 (26/11/2025), S43 (03/12/2025).
+- **Nombres de fils** : contrôlés ligne par ligne contre les listes de sources, inchangés.
+- **Données personnelles** : aucun pseudonyme ni nom de particulier dans le fichier, avant comme après.

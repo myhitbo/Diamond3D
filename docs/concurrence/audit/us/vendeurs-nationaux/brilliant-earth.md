@@ -7,10 +7,8 @@
 - **Ce qui a été lu** : le texte des pages restitué par les extraits du moteur de recherche Parallel (sans contacter le site), le rapport annuel 10-K, les résultats du 3e trimestre et des avis tiers.
   - La lecture de copies en cache de brilliantearth.com a été refusée par le système d'autorisation de la session : pas d'autre tentative.
 - Complète la fiche Brilliant Earth de `docs/concurrence/2026-11-15_etats-unis.md` ([V1] à [V10]). Écarts avec cette fiche :
-  - échange de pierre : le crédit vaut bien 100 % du prix, mais vers une pierre d'au moins 1,5 fois (naturel) ou 2 fois (synthétique) sa valeur, aux États-Unis et au Canada seulement [B16] ;
-  - garantie : exclut toute perte de pierre et l'usure des griffes, pas seulement la pierre centrale [B16] ;
-  - retours de 30 jours : comptés depuis la mise à disposition pour l'expédition, pas depuis la réception [B15] ;
-  - 44 salles : confirmé par la page Contact ; le 10-K en compte 42 au 31/12/2025 [B21][B24]. Ajout : Israël figure parmi les destinations livrées [B17].
+  - échange de pierre : crédit de 100 %, mais vers une pierre d'au moins 1,5 fois (naturel) ou 2 fois (synthétique) sa valeur, États-Unis et Canada seulement ; garantie : exclut toute perte de pierre et l'usure, pas seulement la pierre centrale [B16] ;
+  - retours de 30 jours comptés depuis la mise à disposition pour l'expédition [B15] ; 44 salles sur la page Contact, 42 au 31/12/2025 selon le 10-K [B21][B24] ; ajout : Israël est livré [B17].
 - **Légende** : [V] vu dans le navigateur ou par curl ; [Vc] texte du site lu dans un extrait de recherche, non actionné (date de l'extrait inconnue : prix, dates et promotions peuvent dater de plusieurs mois) ; [Vs] document de la société déposé à la SEC ou publié pour les investisseurs ; [T] tiers (avis) ; [I] inféré ; [S] supposé. Prix en dollars US.
 
 ## Parcours
@@ -36,8 +34,7 @@ Aucun contrôle actionné : seuls ceux de la page de blocage ont été vus. Les 
 | Libellé | Type | Effet annoncé (non observé) | Prix | État |
 |---|---|---|---|---|
 | **Page de blocage [B2]** | | | | |
-| Verify you are human | case Turnstile | Vérification Cloudflare | — | Vue, non cochée (règles) [V] |
-| Privacy ; Help | liens | Pages Cloudflare | — | Vus, non ouverts [V] |
+| Verify you are human ; Privacy ; Help | case Turnstile, liens | Vérification Cloudflare ; pages Cloudflare | — | Vus, non actionnés (règles) [V] |
 | **En-tête et pied de page [B21][B22]** | | | | |
 | Select your country for shipping and currency ; USD ; Save ; Cancel | sélecteur | Pays de livraison et devise | Devise locale promise [B17] | Non testé : blocage |
 | Virtual Appointment ; our showrooms ; Contact us | liens | Rendez-vous vidéo ; salles ; contact | — | Non testé : blocage |
@@ -63,15 +60,12 @@ Aucun contrôle actionné : seuls ceux de la page de blocage ont été vus. Les 
 | Interactive Real Diamond Video ; Real Diamond Image ; vues cotées | médias | Vidéo et photo de la pierre vendue | — | Non testé |
 | light hand, dark hand, dark hand2 ; Darker / Lighter | boutons | Teinte de la main | — | Non testé |
 | add to bag ; add to ring | boutons | Panier, ou étape monture | Prix de la pierre | Non testé |
-| DROP HINT ; ADD TO WISHLIST | boutons | Envoyer un indice ; liste | — | Non testé (formulaire, compte) |
-| Email Us ; Contact Us ; Visit Store | liens | Question sur cette pierre | — | Non testé |
+| DROP HINT ; ADD TO WISHLIST ; Email Us ; Contact Us ; Visit Store | boutons, liens | Indice ; liste ; question sur cette pierre | — | Non testé (formulaire, compte) |
 | Compare Similar Diamonds : View Diamond (×4) | liens | Pierre voisine avec l'écart de prix | « Better Color » +480 $, « Larger Diamond » +130 $ | Lu [Vc][B6] |
-| Affirm « Learn more » ; Bank Wire Price | lien, texte | Mensualité ; prix par virement | −1,5 % | Lu [Vc] |
-| Need it sooner? | lien | Livraison accélérée au paiement | Non chiffré | Non testé |
+| Affirm « Learn more » ; Bank Wire Price ; Need it sooner? | lien, texte | Mensualité ; prix par virement ; express au paiement | −1,5 % ; express non chiffré | Lu [Vc] |
 | **Liste des montures [B8]** | | | | |
 | 13 raccourcis ; Quick Ship ; Delivery by Christmas | boutons | Filtres rapides | — | Non testé |
-| Setting Style (17) ; Bridal Sets Only ; Metal (7) ; Diamond Shape (11) ; Width (3) ; Prong Type (3) ; Setting Price | filtres | Listes ci-dessous | — | Non testé |
-| Sort By (4) ; Reset All ; View Results | liste, boutons | Tri | — | Non testé |
+| Setting Style (17) ; Bridal Sets Only ; Metal (7) ; Diamond Shape (11) ; Width (3) ; Prong Type (3) ; Setting Price ; Sort By (4) ; Reset All ; View Results | filtres, tri | Listes ci-dessous | — | Non testé |
 | **Fiche monture [B9]** | | | | |
 | Barre « Design Your Ring » : Browse Settings, Browse Diamonds, Select Ring Size | liens | Étapes du parcours | — | Non testé |
 | View in 3D | bouton | « rotate your design to see the profile, band width, and prongs » [B12] | — | Non testé : nature du rendu inconnue |
@@ -80,17 +74,14 @@ Aucun contrôle actionné : seuls ceux de la page de blocage ont été vus. Les 
 | Metal (6) | boutons | Change l'image et le prix | 14 k → 18 k blanc : +200 $ | Prix lus [Vc] |
 | Style ; Setting Carat Weight (1/8, 1/4) ; Band Width (1,5 ou 2 mm) | boutons | Variante de la monture | 1/8 → 1/4 ct tw : +900 $ en 18 k blanc [I] | Prix lus [Vc] |
 | Diamond Origin : Natural / Lab Grown | bascule | Les petites pierres suivent l'origine de la pierre centrale | — | Non testé |
-| CHOOSE THIS SETTING ; DROP HINT ; ADD TO WISHLIST | boutons | Étape suivante ; indice ; liste | — | Non testé |
-| Avis (317) | lien | Avis sur la monture | — | Non testé |
+| CHOOSE THIS SETTING ; DROP HINT ; ADD TO WISHLIST ; avis (317) | boutons, lien | Étape suivante ; indice ; liste ; avis sur la monture | — | Non testé |
 | **Bague prête et alliance [B10][B11]** | | | | |
-| Select size (moins de 3, 3 à 12 au quart, plus de 12) ; Size Guide | liste, lien | Taille ; date « depending on selected ring size » | — | Non testé |
+| Select size (moins de 3, 3 à 12 au quart, plus de 12) ; Size Guide ; Add To Bag | liste, lien, bouton | Taille ; date « depending on selected ring size » ; panier | — | Non testé |
 | add engraving (+$40) : texte, icônes, Block / Script, SUBMIT & ADD TO BAG, Skip Engraving & Add to Bag | fenêtre | Gravure intérieure | +40 $ | Non testé |
-| Add To Bag | bouton | Panier | — | Non testé |
 | **Services** | | | | |
 | Virtual Try On (sur mobile, sous les images) [B14] | bouton | Photo de la main, bague superposée, carats, forme, métal, alliance, « Save and Share » | — | Non testé : blocage, affichage iPhone non lancé |
 | Book Appointment : lieu, prestation (5), date, formulaire [B22] | fenêtre | Salle ou Zoom, 50 min | Gratuit | Non testé (formulaire exclu) |
-| Request a Free Ring Sizer [B20] | formulaire | Baguier envoyé par la poste | Gratuit | Non testé (données personnelles) |
-| Request a Quote [B13] | formulaire | Devis détaillé du sur-mesure | Gratuit | Non testé (formulaire exclu) |
+| Request a Free Ring Sizer [B20] ; Request a Quote [B13] | formulaires | Baguier envoyé par la poste ; devis détaillé du sur-mesure | Gratuits | Non testé (formulaires exclus) |
 | Order Status : numéro et e-mail [B21] | formulaire | Date prévue et numéro FedEx | — | Non testé (aucune commande) |
 | Find my matching wedding ring [B2] | outil | Bague et alliance ensemble | — | Non testé |
 
@@ -216,12 +207,8 @@ Non mesurable : seule la page de blocage s'est affichée. Sur ordinateur, répon
 - [B6] https://www.brilliantearth.com/lab-diamonds-search/view_detail/47104553 · …/58705841 · …/60039916 · …/62148571 (extraits)
 - [B7] https://www.brilliantearth.com/loose-diamonds/view_detail/80188195 · …/56549854 · …/41426946 · https://www.brilliantearth.com/en-ca/loose-diamonds/view_detail/89904789 (extraits)
 - [B8] https://www.brilliantearth.com/engagement-rings/shop-all/ (et `?page=3`, `?page=4`, `?page=9`) · https://www.brilliantearth.com/engagement-rings/platinum/?page=7 · https://www.brilliantearth.com/engagement-rings/4-prong (extraits)
-- [B9] Fiches montures (extraits) :
-  - https://www.brilliantearth.com/Petite-Twisted-Vine-Diamond-Ring-(1/8-ct.-tw.)-White-Gold-BE1D54-3821855 · `…-Gold-BE1D54-3821856` ;
-  - https://www.brilliantearth.com/Twisted-Vine-Solitaire-Ring-White-Gold-BE1M56D-1153494 · `…-14K-White-Gold-BE1M56D-76788679` ;
-  - https://www.brilliantearth.com/2mm-Petite-Elodie-Perfect-Fit-Solitaire-Ring-White-Gold-BE1284-43097728 (et `/en-au/…`) ;
-  - https://www.brilliantearth.com/Petite-Luxe-Twisted-Vine-Diamond-Ring-(1/4-ct.-tw.)-White-Gold-BE1M55D-1153190 · `…-14K-White-Gold-BE1M55D-76820203` ;
-  - https://www.brilliantearth.com/Petite-Twisted-Vine-Three-Stone-Diamond-Ring-(2/5-ct.-tw.)-White-Gold-BE1M30D-3015415.
+- [B9] Fiches montures (extraits) : https://www.brilliantearth.com/Petite-Twisted-Vine-Diamond-Ring-(1/8-ct.-tw.)-White-Gold-BE1D54-3821855 · `…-Gold-BE1D54-3821856` · https://www.brilliantearth.com/Twisted-Vine-Solitaire-Ring-White-Gold-BE1M56D-1153494 · `…-14K-White-Gold-BE1M56D-76788679`
+  · https://www.brilliantearth.com/2mm-Petite-Elodie-Perfect-Fit-Solitaire-Ring-White-Gold-BE1284-43097728 (et `/en-au/…`) · https://www.brilliantearth.com/Petite-Luxe-Twisted-Vine-Diamond-Ring-(1/4-ct.-tw.)-White-Gold-BE1M55D-1153190 · `…-14K-White-Gold-BE1M55D-76820203` · https://www.brilliantearth.com/Petite-Twisted-Vine-Three-Stone-Diamond-Ring-(2/5-ct.-tw.)-White-Gold-BE1M30D-3015415
 - [B10] https://www.brilliantearth.com/Petite-Elodie-1.5mm-Solitaire-with-1ct-Oval-Certified-Natural-Diamond-White-Gold-BE18959PSOV1CTNAT/ (extrait)
 - [B11] https://www.brilliantearth.com/2mm-Comfort-Fit-Wedding-Ring-14K-Gold-BE201 · https://www.brilliantearth.com/Avalon-Eternity-Diamond-6mm-Wedding-Ring-(2/5-ct.-tw.)-Gold-BE2M2621 (extraits)
 - [B12] https://www.brilliantearth.com/pages/custom-engagement-rings (extrait)

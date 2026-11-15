@@ -164,3 +164,42 @@ Autres pages, hors du décompte des fils :
 - J1 https://www.janglo.net/item/b6e131f2e24 : fiche lue le 15/11/2026.
 - Article YWN https://www.theyeshivaworld.com/news/headlines-breaking-stories/1964033/the-chosson-was-told-it-was-platinum-but-it-was-really-white-gold.html (11/04/2021).
 - Tsohar, cité par https://www.israfete.com/les-bagues (page non datée : la date du 30/04/2010 n'y figure pas ; dernier commentaire du 05/05/2023).
+
+## 8. Vérification
+
+15/11/2026. Contrôle en lecture seule, sans nouvelle exploration : aucun message posté, aucun compte, aucune connexion.
+
+**Bilan**
+- **33 extraits contrôlés** (25 en section 2, 6 en section 3, 2 en section 4). 29 sont confirmés : le fil existe, l'extrait ou son sens y figure, la date est juste. Aucun n'est retiré. 4 sont marqués « non vérifié » parce qu'ils sont introuvables au contrôle : l'extrait du constat 20 et ce que I1 dit de Baltinester, de Meltzer et de Naama Jewelry.
+- **3 rattachements de source retirés** parce que le fil ne dit pas ce qu'on lui prête :
+  - T3 (métal et bicolore) et T6 (or ou argent) ne parlent ni d'alliance lisse, ni de pierre, ni de gravure : retirés du constat 11 ;
+  - aucun commentaire de 2015 sur la connaissance du métal n'a été retrouvé dans C1 : retiré du constat 13.
+- **24 corrections** :
+  - 12 sur les constats et les extraits :
+    - nombres de fils des constats 1, 2, 3, 11, 13, 14 et 21 : TA1, l'article YWN et la page Tsohar ne sont pas des fils et sortent du décompte ;
+    - extrait du prix du site attribué à H1 (12/07/2021) ;
+    - le témoin des « 75 % » est le parent d'une participante, diamantaire sur la 47e rue, et non un courtier ;
+    - les deux extraits du constat 7 viennent de I5 ;
+    - formulation du constat 15 : Y6, T5 et T7 transmettent la bague telle quelle, sans nouvelle monture ;
+    - avantage 3 : la préférence pour l'or jaune vient de M1, pas de C1 ni de T3.
+  - 12 sur les dates : R2, R9, R14, I6, Y1, Y8, P1, C1, TA1, Tsohar (date non vérifiable), Y2 au constat 15 (2011-2013 et non 01/2011) et I3 au constat 17 (04/08/2025 et non 07/2025).
+- **Autres éléments marqués « non vérifié »** :
+  - I12 : fil introuvable au contrôle ;
+  - Doron Merav : absent de R5 et de R6 ;
+  - modalités de paiement et facture tardive du bijoutier d'Ashdod (I1). Sa venue chez la kallah avec un choix dans le budget est confirmée.
+- **Fils retrouvés** : 48 sur 49, et les 4 pages hors décompte (TA1, J1, article YWN, page Tsohar). Pseudonymes et données personnelles : aucun dans le fichier. Seuls des noms de commerces sont cités.
+
+**Méthode d'accès**
+- **Lus directement** : YWN (Y1 à Y10 et l'article), Torah-Box (T1 à T8), l'article de Chabad.org (C1) et israfete.com.
+- **Contrôlés seulement par les extraits du moteur de recherche (Parallel Search)**, sans contourner de blocage :
+  - Imamother renvoie une réponse vide aux lecteurs automatiques ;
+  - Hasolidit et Janglo affichent un écran de vérification ;
+  - PriceScope affiche un défi Cloudflare ;
+  - le robots.txt de Reddit et celui de Mi Yodeya (M1) interdisent tous les robots (`Disallow: /`) ;
+  - TripAdvisor n'a été lu que par extraits.
+- Bilan de l'accès : 19 fils lus directement (Y1 à Y10, T1 à T8, C1), 29 contrôlés par extraits datés (I1 à I11, R1 à R14, P1, P2, H1, M1).
+- Firecrawl n'avait plus de crédits.
+
+**Remarques du contrôle (hors décompte)**
+- Rogel Diamonds (J1) et la boutique Etsy Shlomit Rogel (R5) semblent être le même atelier de la Bourse : la page LinkedIn de l'entreprise parle du « studio Shlomit Rogel ».
+- Le même avis sur Meltzer (« extrêmement digne de confiance ») figure dans un autre fil d'Imamother, du 10/04/2024.

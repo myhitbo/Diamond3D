@@ -120,6 +120,13 @@ const UnavailableShape = z.object({
   reason: z.enum(['requires_dedicated_head']),
 });
 
+/**
+ * Pierre non modélisée, proposée « sur demande » à la place du diamant (atelier, 22/10) : diamant de couleur ;
+ * émeraude, saphir et rubis naturels. Elle pré-remplit le devis ; la 3D garde la pierre modélisée.
+ */
+export const RequestStone = z.enum(['colored-diamond', 'emerald', 'sapphire', 'ruby']);
+export type RequestStone = z.infer<typeof RequestStone>;
+
 const StoneSlot = z.object({
   id: z.string(),
   piece: z.string(),
@@ -127,6 +134,7 @@ const StoneSlot = z.object({
   variants: z.array(StoneVariant).min(1),
   defaultVariant: z.string(),
   unavailableShapes: z.array(UnavailableShape),
+  stonesOnRequest: z.array(RequestStone),
   /** D'autres tailles de pierre peuvent être étudiées par l'atelier, hors configurateur. */
   otherSizesOnRequest: z.boolean().optional(),
 });

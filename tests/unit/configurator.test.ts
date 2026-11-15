@@ -1,8 +1,22 @@
 import { describe, expect, it } from 'vitest';
 import { ring001 } from '@/models/ring-001/definition';
 import { METALS } from '@/config/metals';
-import type { ModelDefinition } from '@/lib/configurator/schema';
-import { applyChange, defaultState, metalFamilies, metalTitres, metalVolumeMm3, metalWeightEstimateG, pickMetal, stoneSummary, validateModel, visibleNodes } from '@/lib/configurator/logic';
+import { DICTIONARIES } from '@/i18n/dictionaries';
+import { LOCALES, type ModelDefinition } from '@/lib/configurator/schema';
+import {
+  applyChange,
+  buildRequestMessage,
+  defaultState,
+  fixedStoneCount,
+  metalFamilies,
+  metalTitres,
+  metalVolumeMm3,
+  metalWeightEstimateG,
+  pickMetal,
+  stoneSummary,
+  validateModel,
+  visibleNodes,
+} from '@/lib/configurator/logic';
 
 const clone = (): ModelDefinition => structuredClone(ring001) as ModelDefinition;
 
@@ -127,5 +141,74 @@ describe('couleur et titre du métal', () => {
   it('le 14 carats pèse moins que le 18 carats pour la même bague', () => {
     const s0 = defaultState(ring001);
     expect(metalWeightEstimateG(ring001, { ...s0, metal: 'yellow-gold-14k' })).toBeLessThan(metalWeightEstimateG(ring001, s0));
+  });
+});
+
+describe('formes et pierres « sur demande »', () => {
+  const s0 = defaultState(ring001);
+  const labGrown = { ...s0, diamondOrigin: 'lab-grown' as const };
+  const fr = DICTIONARIES.fr;
+
+  it('propose le diamant de couleur, l’émeraude, le saphir et le rubis sur la pierre centrale', () => {
+    expect(ring001.stoneSlots[0].stonesOnRequest).toEqual(['colored-diamond', 'emerald', 'sapphire', 'ruby']);
+  });
+
+  it('compte les diamants qui restent autour de la pierre centrale', () => {
+    expect(fixedStoneCount(ring001, s0)).toBe(16); // 6 autour de la marquise + 10 sur l’alliance
+    expect(fixedStoneCount(ring001, { ...s0, composition: 'solitaire' })).toBe(6);
+  });
+
+  it('sans demande, aucun message', () => {
+    expect(buildRequestMessage(fr, ring001, s0, {})).toBeUndefined();
+  });
+
+  it('forme seule : message inchangé', () => {
+    expect(buildRequestMessage(fr, ring001, s0, { shape: 'oval' })).toBe('Je souhaite ce bijou avec une pierre centrale de forme : Ovale.');
+  });
+
+  it('pierre seule, puis pierre et forme : les deux demandes figurent dans le message', () => {
+    expect(buildRequestMessage(fr, ring001, s0, { stone: 'emerald' })).toBe('Je souhaite ce bijou avec une émeraude naturelle en pierre centrale.');
+    expect(buildRequestMessage(fr, ring001, s0, { stone: 'sapphire', shape: 'oval' })).toBe(
+      'Je souhaite ce bijou avec un saphir naturel en pierre centrale, de forme : Ovale.',
+    );
+    expect(buildRequestMessage(DICTIONARIES.en, ring001, s0, { stone: 'ruby', shape: 'pear' })).toBe(
+      'I would like this piece with a natural ruby as the centre stone, in this shape: Pear.',
+    );
+    expect(buildRequestMessage(DICTIONARIES.he, ring001, s0, { stone: 'emerald' })).toBe('אני מעוניין/ת בתכשיט זה עם אזמרגד טבעי כאבן מרכזית.');
+  });
+
+  it('origine « synthétique » : la pierre de couleur reste naturelle, le message le dit des autres diamants', () => {
+    expect(buildRequestMessage(fr, ring001, labGrown, { stone: 'emerald' })).toBe(
+      'Je souhaite ce bijou avec une émeraude naturelle en pierre centrale. Les autres pierres restent des diamants synthétiques.',
+    );
+    expect(buildRequestMessage(DICTIONARIES.en, ring001, labGrown, { stone: 'sapphire' })).toBe(
+      'I would like this piece with a natural sapphire as the centre stone. The other stones remain lab-grown diamonds.',
+    );
+    expect(buildRequestMessage(DICTIONARIES.he, ring001, labGrown, { stone: 'ruby' })).toBe(
+      'אני מעוניין/ת בתכשיט זה עם אודם טבעי כאבן מרכזית. שאר האבנים נשארות יהלומי מעבדה.',
+    );
+    for (const locale of LOCALES) {
+      for (const stone of ['emerald', 'sapphire', 'ruby'] as const) {
+        for (const shape of [undefined, 'emerald', 'round'] as const) {
+          const text = buildRequestMessage(DICTIONARIES[locale], ring001, labGrown, { stone, shape })!;
+          expect(text, `${locale} ${stone} ${shape}`).not.toMatch(/(émeraude|saphir|rubis)\s+synthétique|lab-grown (emerald|sapphire|ruby)|(אזמרגד|ספיר|אודם) מעבדה/i);
+        }
+      }
+    }
+  });
+
+  it('diamant de couleur : il suit l’origine choisie, sans phrase sur les autres pierres', () => {
+    expect(buildRequestMessage(fr, ring001, labGrown, { stone: 'colored-diamond' })).toBe('Je souhaite ce bijou avec un diamant de couleur en pierre centrale.');
+    expect(buildRequestMessage(DICTIONARIES.en, ring001, s0, { stone: 'colored-diamond' })).toBe(
+      'I would like this piece with a coloured diamond as the centre stone.',
+    );
+  });
+
+  it('pas de phrase sur les autres diamants s’il n’y en a pas', () => {
+    const m = clone();
+    for (const part of m.geometry.pieces.A.parts) if (part.node === 'A__gem_side') part.stones = [];
+    const solitaire = { ...labGrown, composition: 'solitaire' };
+    expect(fixedStoneCount(m, solitaire)).toBe(0);
+    expect(buildRequestMessage(fr, m, solitaire, { stone: 'ruby' })).toBe('Je souhaite ce bijou avec un rubis naturel en pierre centrale.');
   });
 });

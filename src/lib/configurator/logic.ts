@@ -1,4 +1,4 @@
-import { ModelDefinition, type ConfigState, type MetalFamily, type MetalId, type MetalTitre } from './schema';
+import { ModelDefinition, type ConfigState, type MetalFamily, type MetalId, type MetalTitre, type RequestStone, type StoneShape } from './schema';
 import { METALS } from '@/config/metals';
 
 export function defaultState(m: ModelDefinition): ConfigState {
@@ -61,6 +61,45 @@ export function stoneSummary(m: ModelDefinition, s: ConfigState): StoneGroup[] {
     }
   }
   return [...groups.values()];
+}
+
+/** Pierres visibles hors des emplacements configurables : les diamants qui accompagnent la pierre centrale. */
+export function fixedStoneCount(m: ModelDefinition, s: ConfigState): number {
+  const inSlots = slotNodes(m);
+  return activePieces(m, s)
+    .flatMap((p) => m.geometry.pieces[p].parts)
+    .filter((x) => !inSlots.has(x.node))
+    .reduce((n, x) => n + (x.stones?.length ?? 0), 0);
+}
+
+/** Choix « sur demande », hors modèle 3D : une forme et une pierre peuvent se cumuler ; la 3D ne change pas. */
+export type StoneRequest = { shape?: StoneShape; stone?: RequestStone };
+
+/** Phrases du message pré-rempli, une série par langue (dictionnaires, clé `requestMessage`). */
+export type RequestTexts = {
+  shape: (shape: string) => string;
+  stone: (stone: string, shape?: string) => string;
+  stones: Record<RequestStone, string>;
+  labGrownOthers: string;
+};
+
+/**
+ * Message pré-rempli du devis pour une demande « sur demande » (rien si aucune demande).
+ * L'émeraude, le saphir et le rubis proposés sont naturels : l'origine choisie ne vaut que pour les diamants.
+ * En « synthétique », le message le dit des autres pierres, sans jamais qualifier la pierre de couleur de synthétique.
+ * Le diamant de couleur suit l'origine choisie, déjà écrite dans la configuration jointe.
+ */
+export function buildRequestMessage(
+  t: { shapes: Record<StoneShape, string>; requestMessage: RequestTexts },
+  m: ModelDefinition,
+  s: ConfigState,
+  r: StoneRequest,
+): string | undefined {
+  const shape = r.shape && t.shapes[r.shape];
+  if (!r.stone) return shape && t.requestMessage.shape(shape);
+  const text = t.requestMessage.stone(t.requestMessage.stones[r.stone], shape);
+  const labGrownOthers = r.stone !== 'colored-diamond' && s.diamondOrigin === 'lab-grown' && fixedStoneCount(m, s) > 0;
+  return labGrownOthers ? `${text} ${t.requestMessage.labGrownOthers}` : text;
 }
 
 /** Applique un changement en refusant toute valeur non prévue par la définition. */

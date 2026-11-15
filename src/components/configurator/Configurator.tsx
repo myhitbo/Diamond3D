@@ -7,7 +7,18 @@ import { getModel } from '@/models';
 import { METALS } from '@/config/metals';
 import { DICTIONARIES, formatNumber } from '@/i18n/dictionaries';
 import type { ConfigState, Locale, ModelDefinition } from '@/lib/configurator/schema';
-import { applyChange, defaultState, metalFamilies, metalTitres, metalWeightEstimateG, pickMetal, stoneSummary, visibleNodes } from '@/lib/configurator/logic';
+import {
+  applyChange,
+  buildRequestMessage,
+  defaultState,
+  metalFamilies,
+  metalTitres,
+  metalWeightEstimateG,
+  pickMetal,
+  stoneSummary,
+  visibleNodes,
+  type StoneRequest,
+} from '@/lib/configurator/logic';
 import type { Quality, ViewName } from './Viewer';
 import { initProbe, setProbe } from './debugProbe';
 import DiagnosticPanel from './DiagnosticPanel';
@@ -69,8 +80,8 @@ export default function Configurator({
   const [quality, setQuality] = useState<Quality>('high');
   const [debug, setDebug] = useState(false);
   const [quoteOpen, setQuoteOpen] = useState(false);
-  /** Forme non modélisée demandée par un bouton « sur demande » : pré-remplit le message du devis. */
-  const [requestedShape, setRequestedShape] = useState<string | null>(null);
+  /** Forme ou pierre non modélisées demandées par un bouton « sur demande » : pré-remplissent le message du devis. */
+  const [request, setRequest] = useState<StoneRequest>({});
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
@@ -102,6 +113,11 @@ export default function Configurator({
   const reset = () => {
     dispatch({ type: 'reset' });
     setView((v) => ({ name: 'hero', nonce: v.nonce + 1 }));
+  };
+  // Une forme et une pierre se cumulent : chaque bouton remplace seulement son propre choix.
+  const ask = (change: StoneRequest) => {
+    setRequest((r) => ({ ...r, ...change }));
+    setQuoteOpen(true);
   };
 
   return (
@@ -249,30 +265,26 @@ export default function Configurator({
             )}
             {centerSlot.otherSizesOnRequest && <p className={styles.note}>{t.otherSizesNote}</p>}
             {centerSlot.unavailableShapes.length > 0 && (
-              <div className={styles.onRequest}>
-                <p className={styles.onRequestTitle} id="other-shapes-title">
-                  {t.otherShapes}
-                </p>
-                <div className={styles.choices} role="group" aria-labelledby="other-shapes-title">
-                  {centerSlot.unavailableShapes.map((u) => (
-                    <button
-                      key={u.shape}
-                      type="button"
-                      className={styles.choiceOnRequest}
-                      disabled={!quoteEnabled}
-                      aria-controls={quoteEnabled ? 'quote-form' : undefined}
-                      onClick={() => {
-                        setRequestedShape(t.shapes[u.shape]);
-                        setQuoteOpen(true);
-                      }}
-                    >
-                      {t.shapes[u.shape]}
-                      <span className={styles.onRequestTag}>{t.onRequest}</span>
-                    </button>
-                  ))}
-                </div>
-                <p className={styles.note}>{t.otherShapesNote}</p>
-              </div>
+              <OnRequest
+                id="other-shapes-title"
+                title={t.otherShapes}
+                note={t.otherShapesNote}
+                tag={t.onRequest}
+                enabled={quoteEnabled}
+                options={centerSlot.unavailableShapes.map((u) => ({ id: u.shape, label: t.shapes[u.shape] }))}
+                onPick={(shape) => ask({ shape })}
+              />
+            )}
+            {centerSlot.stonesOnRequest.length > 0 && (
+              <OnRequest
+                id="other-stones-title"
+                title={t.otherStones}
+                note={t.otherStonesNote}
+                tag={t.onRequest}
+                enabled={quoteEnabled}
+                options={centerSlot.stonesOnRequest.map((stone) => ({ id: stone, label: t.requestStones[stone] }))}
+                onPick={(stone) => ask({ stone })}
+              />
             )}
           </Field>
         )}
@@ -383,10 +395,10 @@ export default function Configurator({
                 locale={locale}
                 state={state}
                 t={t.quote}
-                suggestedMessage={requestedShape ? t.shapeRequestMessage(requestedShape) : undefined}
+                suggestedMessage={buildRequestMessage(t, model, state, request)}
                 onClose={() => {
                   setQuoteOpen(false);
-                  setRequestedShape(null);
+                  setRequest({});
                 }}
               />
             )}
@@ -458,6 +470,53 @@ function Choices<T extends string>({
           {o.label}
         </button>
       ))}
+    </div>
+  );
+}
+
+/**
+ * Choix non modélisés (formes, pierres) : boutons en pointillés qui ouvrent le devis avec un message pré-rempli.
+ * Ce ne sont pas des options du configurateur (la 3D ne change pas) : un groupe de boutons, pas un groupe radio.
+ */
+function OnRequest<T extends string>({
+  id,
+  title,
+  note,
+  tag,
+  enabled,
+  options,
+  onPick,
+}: {
+  id: string;
+  title: string;
+  note: string;
+  tag: string;
+  /** Faux dans la préversion autonome : pas de devis, boutons inactifs. */
+  enabled: boolean;
+  options: { id: T; label: string }[];
+  onPick: (id: T) => void;
+}) {
+  return (
+    <div className={styles.onRequest}>
+      <p className={styles.onRequestTitle} id={id}>
+        {title}
+      </p>
+      <div className={styles.choices} role="group" aria-labelledby={id}>
+        {options.map((o) => (
+          <button
+            key={o.id}
+            type="button"
+            className={styles.choiceOnRequest}
+            disabled={!enabled}
+            aria-controls={enabled ? 'quote-form' : undefined}
+            onClick={() => onPick(o.id)}
+          >
+            {o.label}
+            <span className={styles.onRequestTag}>{tag}</span>
+          </button>
+        ))}
+      </div>
+      <p className={styles.note}>{note}</p>
     </div>
   );
 }

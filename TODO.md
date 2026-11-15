@@ -23,7 +23,8 @@
 - [ ] Densités des alliages et taux de perte : indisponibles chez l'atelier (3/11). Poids affichés « ≈ … (± 5 %) » depuis le 4/11.
 - [ ] Recevoir les 3 modèles `.3dm` + STL + photos studio promis par l'atelier (3/11).
 - [x] Or 14 k (jaune, blanc, rose) au configurateur, choix couleur + titre ; « Synthétique » en français (4/11).
-- [ ] Ajouter au configurateur : diamants de couleur, émeraude / saphir / rubis, origine naturelle / synthétique / imitation (libellés légaux par pays). Retirer l'argent s'il apparaît : non proposé par l'atelier. Certificat GIA / IGI dès 0,50 ct.
+- [x] Pierres de couleur au configurateur, « sur demande » (15/11) : diamant de couleur ; émeraude, saphir et rubis naturels. Boutons en pointillés sous la pierre centrale, comme les autres formes : ils ouvrent le devis avec un message pré-rempli (FR/EN/HE), la 3D reste la marquise, aucun prix. En origine « synthétique », le message précise que les autres pierres sont des diamants synthétiques (jamais « émeraude synthétique »).
+- [ ] Pierres de couleur, suite : rendu 3D (matériaux de l'émeraude, du saphir, du rubis et des diamants de couleur), prix (grille des pierres attendue de l'atelier). Origine naturelle / synthétique / imitation : libellés légaux par pays. Retirer l'argent s'il apparaît : non proposé par l'atelier. Certificat GIA / IGI dès 0,50 ct.
 
 ## Lancement en Israël (décisions du 4/11, voir `docs/STRATEGIE.md` §6)
 - [x] Procédure photo et vidéo envoyée à l'atelier en PDF (`docs/atelier/Procedure_photo_video_atelier.pdf`).
@@ -32,7 +33,7 @@
 - [x] Parcours « transformation de bijoux de famille » : photos de l'ancien bijou + demande de devis (`/fr|en|he/transformation`, 14/11). Reste : relecture par l'atelier.
 - [ ] Avocat israélien : la bague configurée relève-t-elle de l'exception « fabriqué sur mesure » au droit d'annulation ? Délai étendu pour nouveaux immigrants ? Poinçon ?
 - [x] Version hébreu (RTL) du configurateur et de la FAQ (4/11) : `/he/…`, polices Frank Ruhl Libre et Assistant.
-- [ ] Faire relire tous les textes hébreux par un locuteur natif (Yonathan ou un proche) : traduction faite par l'IA, termes de joaillerie à vérifier (« יהלום מעבדה », « זהב אדום » pour l'or rose, « הילה » pour le halo).
+- [ ] Faire relire tous les textes hébreux par un locuteur natif (Yonathan ou un proche) : traduction faite par l'IA, termes de joaillerie à vérifier (« יהלום מעבדה », « זהב אדום » pour l'or rose, « הילה » pour le halo ; pierres sur demande du configurateur : « יהלום צבעוני », « אזמרגד », « ספיר », « אודם »).
 - [ ] Vérifier s'il existe en Israël une obligation de vocabulaire pour les diamants de synthèse (équivalent du décret français 2002-65).
 
 ## FAQ (`/fr/faq`, contenu : `src/content/faq.ts`)

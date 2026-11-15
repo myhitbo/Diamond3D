@@ -87,6 +87,43 @@ test('les formes non modélisées sont proposées « sur demande » et pré-remp
   await expect(stoneGroup.getByRole('radio', { name: /Marquise/ })).toHaveAttribute('aria-checked', 'true');
 });
 
+test('les pierres de couleur sont proposées « sur demande » et pré-remplissent le devis', async ({ page }) => {
+  await page.goto(URL);
+  const stones = page.getByRole('group', { name: 'Autres pierres' });
+  await expect(stones.getByRole('button')).toHaveCount(4);
+  await stones.getByRole('button', { name: /Émeraude/ }).click();
+  await expect(page.getByRole('heading', { name: 'Demande de devis' })).toBeVisible();
+  const message = page.getByLabel('Message');
+  await expect(message).toHaveValue('Je souhaite ce bijou avec une émeraude naturelle en pierre centrale.');
+  // Forme et pierre se cumulent ; au clavier comme à la souris.
+  await page.getByRole('group', { name: 'Autres formes' }).getByRole('button', { name: /Ovale/ }).focus();
+  await page.keyboard.press('Enter');
+  await expect(message).toHaveValue('Je souhaite ce bijou avec une émeraude naturelle en pierre centrale, de forme : Ovale.');
+  // Origine « synthétique » : l'émeraude reste naturelle, le message le dit des diamants.
+  await page.getByRole('radio', { name: 'Synthétique' }).click();
+  await expect(message).toHaveValue(
+    'Je souhaite ce bijou avec une émeraude naturelle en pierre centrale, de forme : Ovale. Les autres pierres restent des diamants synthétiques.',
+  );
+  await stones.getByRole('button', { name: /Diamant de couleur/ }).focus();
+  await page.keyboard.press('Space');
+  await expect(message).toHaveValue('Je souhaite ce bijou avec un diamant de couleur en pierre centrale, de forme : Ovale.');
+  // La 3D ne change pas.
+  await expect(page.getByRole('radiogroup', { name: 'Pierre centrale' }).getByRole('radio', { name: /Marquise/ })).toHaveAttribute('aria-checked', 'true');
+  // Fermer le devis efface les demandes.
+  await page.getByRole('button', { name: 'Annuler' }).click();
+  await stones.getByRole('button', { name: /Rubis/ }).click();
+  await expect(message).toHaveValue('Je souhaite ce bijou avec un rubis naturel en pierre centrale. Les autres pierres restent des diamants synthétiques.');
+});
+
+test('pierres sur demande en hébreu', async ({ page }) => {
+  await page.goto('/he/configurator/ring-001');
+  const stones = page.getByRole('group', { name: 'אבנים אחרות' });
+  await expect(stones.getByRole('button')).toHaveCount(4);
+  await stones.getByRole('button', { name: /אזמרגד/ }).click();
+  await expect(page.getByRole('heading', { name: 'בקשת הצעת מחיר' })).toBeVisible();
+  await expect(page.getByLabel('הודעה')).toHaveValue('אני מעוניין/ת בתכשיט זה עם אזמרגד טבעי כאבן מרכזית.');
+});
+
 test('en-tête : aucun lien sur deux lignes', async ({ page }) => {
   for (const locale of ['fr', 'en', 'he']) {
     await page.goto(`/${locale}/configurateur/ring-001`);

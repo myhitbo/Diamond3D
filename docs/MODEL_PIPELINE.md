@@ -2,7 +2,7 @@
 
 ## Règles
 
-- Les fichiers de fabrication sont dans `cad/originals/`, versionnés dans le dépôt privé. Le pipeline les **lit sans jamais les réécrire**. Leur empreinte SHA-256 est comparée à celle de la recette : un fichier retravaillé est signalé, converti, et son empreinte est enregistrée dans `geometry.json`.
+- Les fichiers de fabrication sont dans `cad/originals/`, versionnés dans le dépôt (public depuis le 15/11/2026). Le pipeline les **lit sans jamais les réécrire**. Leur empreinte SHA-256 est comparée à celle de la recette : un fichier retravaillé est signalé, converti, et son empreinte est enregistrée dans `geometry.json`.
 - Le pipeline **ne crée aucune géométrie** : il réutilise les maillages de rendu que Rhino enregistre dans le `.3dm`, avec leurs normales, et les regroupe selon une recette.
 - Chaque objet des calques de production doit être affecté à **exactement une** pièce, sinon l'extraction échoue.
 - Les pierres ne sont **jamais simplifiées** (facettes exactes).

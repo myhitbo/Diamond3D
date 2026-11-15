@@ -91,7 +91,7 @@ Relevé : 150 contrôles sur la collection et 112 sur la fiche (ordinateur) ; 54
 
 - **Décomposition** : aucune. Un prix par variante ; le platine ajoute 300 € quel que soit le diamant (1 950 € et 3 200 € contre 1 650 € et 2 900 €) (V). Ni la fiche ni le panier ne disent « TTC » (V) ; la FAQ propose le hors TVA aux résidents hors Union (V, question lue), donc prix TVA comprise (I).
 - **Délai, par variante** (V) :
-  - en stock (or blanc ou jaune, 0,50 à 1,00 ct) : « En stock ! Livré au plus tard le : 22/11/2026 », soit 7 jours ;
+  - en stock (or blanc de 0,50 à 1,00 ct ; or jaune en 0,50 ct, seul poids essayé) : « En stock ! Livré au plus tard le : 22/11/2026 », soit 7 jours ;
   - à fabriquer (or rose, platine, 1,50 ct et plus) : « Livré au plus tard le : 10/12/2026 », soit 25 jours ;
   - la date suit la bague dans le panier.
   - Ailleurs : « environ 3 semaines » (page livraison), « 1 à 3 semaines » (page visio) (V).
@@ -109,14 +109,14 @@ Relevé : 150 contrôles sur la collection et 112 sur la fiche (ordinateur) ; 54
 
 | Cas | Ordinateur | iPhone 13 |
 |---|---|---|
-| Sans aucun geste | **photo absente après 20 s** ; la fenêtre promotionnelle s'affiche à 3,8 s | **photo absente après 20 s** ; fenêtre à 4,3 s |
+| Sans aucun geste | **photo absente après 20 s** ; plus grand élément affiché à 3,8 s, la fenêtre promotionnelle (I) | **photo absente après 20 s** ; plus grand élément à 4,3 s |
 | Avec un geste (souris à 1,05 s ; toucher à 2,3 s) | 1,7 s, soit 0,6 s après le geste | 2,7 s, soit 0,35 s après le toucher |
 
 Le thème ne lance ses scripts (galerie, tiroirs, prix) qu'au premier geste du visiteur (V, une mesure par cas). Un visiteur réel bouge vite ; un robot d'indexation ou un outil de mesure ne voit ni photo ni options actives (I).
 
 ## Confiance et service
 
-- **Fabrication** : « Fait main à Anvers par les meilleurs artisans joailliers », écrit sur chaque fiche (V). Aucune photo ni vidéo d'atelier sur la fiche, aucun suivi de fabrication ; seulement un lien de suivi du colis (V).
+- **Fabrication** : « Fait main à Anvers par les meilleurs artisans joailliers », écrit sur chaque fiche (V). Aucune photo ni vidéo d'atelier relevée sur la fiche, aucun suivi de fabrication annoncé ; seulement un lien de suivi du colis (V).
 - **Traçabilité** : page « Diamants blockchain » avec Everledger (trajet de la mine au détaillant), sur devis (V).
 - **Avis** : « Nos clients nous notent 5 sur Google et 4.9 sur Trustpilot », avec liens ; aucun avis lisible sur la fiche (V).
 - **Rendez-vous** : Anvers, Bruxelles ou visio de 45 minutes à 1 heure, par Calendly (V). Tournées annoncées : Luxembourg les 14 et 15/11, **Paris les 21 et 22/11** (V). Nuit d'hôtel NH Collection offerte aux clients venus d'un autre pays (V).
@@ -141,7 +141,7 @@ Le thème ne lance ses scripts (galerie, tiroirs, prix) qu'au premier geste du v
 2. **Une promotion de bracelets recouvre la bague de fiançailles** à l'arrivée, sur ordinateur et sur iPhone (V).
 3. **Quatre noms pour le synthétique** sur une même page, dont « cultivé » (V).
 4. **Devise en dollars sur la page française** pour un visiteur hors d'Europe (V).
-5. **Version française servie en anglais** quand le navigateur est en anglais, malgré `/fr/` dans l'adresse (V, relevé `controls.cjs`).
+5. **Fiche française servie en anglais** à un navigateur réglé en anglais, malgré `/fr/` dans l'adresse ; la collection, elle, est restée en français (V, relevés `controls.cjs`).
 6. **Erreurs JavaScript** à chaque chargement (« Invalid left-hand side in assignment ») et à chaque changement de variante (« Cannot read properties of null ») (V).
 7. **L'image ne suit pas le diamant** : même rendu de 0,50 à 3,00 ct ; le platine montre l'or blanc (V).
 8. **Délais et certificats formulés différemment** d'une page à l'autre (V).

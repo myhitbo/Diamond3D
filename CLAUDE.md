@@ -13,7 +13,8 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - Branche principale : **`main`** (branche par défaut, déployée en production sur Vercel). Les anciennes branches `ccr-297332c6-4qfws6` et `ccr-a0d79d3c-glq4h2` y sont fusionnées. Commit et push à chaque étape, **pas de PR** sauf demande.
 - Code : guillemets simples, largeur ~160. Il n'y a **pas** de configuration Prettier : ne pas lancer `npx prettier` sans `--single-quote --print-width 160`.
 - Libellés légaux : en français, « synthétique » (décret 2002-65 ; « de laboratoire » est interdit). Synthétique ≠ imitation.
-- Les fichiers CAO de l'atelier **sont versionnés** dans ce dépôt privé (`cad/originals/`, décision du 4/11 au soir) ; le pipeline les lit sans les réécrire. `cad/intermediate/` reste ignoré. Si le dépôt devient public, ces fichiers le deviennent aussi.
+- Les fichiers CAO de l'atelier **sont versionnés** dans ce dépôt (`cad/originals/`, décision du 4/11 au soir) ; le pipeline les lit sans les réécrire. `cad/intermediate/` reste ignoré.
+- **Le dépôt est public depuis le 15/11** (décision du propriétaire : « publication voulue » ; vérifié auprès de GitHub). Tout ce qui est poussé est lisible par tous : fichiers CAO, prix et marges (`docs/PRICING_RULES.md`, `src/config/pricing.ts`), réponses de l'atelier, dossier pour l'avocat, étude de concurrence. Ne jamais y écrire de secret (clé, mot de passe, jeton) ni de donnée personnelle d'un client ; les valeurs réelles restent dans Vercel. Contrôle du 15/11 : aucun secret dans les fichiers suivis ni dans les 67 commits.
 
 ## Environnement (session cloud)
 - Chromium : `/opt/pw-browsers/chromium-1243/chrome-linux64/chrome`. Tests navigateur : `CHROMIUM_PATH=… npx playwright test`.
@@ -64,6 +65,15 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
   - `docs/QUESTIONS_ATELIER.md` ;
   - `docs/PROCEDURE_PHOTO_ATELIER.md` et sa version PDF `docs/atelier/Procedure_photo_video_atelier.pdf`, envoyée à Yonathan ;
   - vidéo de démonstration `docs/atelier/demo-site-2026-11-04.mp4`.
+
+## Étude de concurrence du 15/11 (en cours)
+- Dossier `docs/concurrence/`. Ordre des marchés voulu par le propriétaire : États-Unis, Israël, Europe, Australie.
+- **Exploration** (4 dossiers `2026-11-15_<marché>.md`, chacun ouvert par l'inventaire des sites).
+- **Forums** (`forums/`, 10 rapports, citations vérifiées une à une, section « Vérification » en fin de fichier). Constats communs : délai qui glisse sans prévenir ; bijou reçu différent de la CAO validée (cotes en mm, tolérance, photo ou vidéo avant l'envoi) ; méfiance sur les prix (même pierre, même certificat, prix très différents) ; peur de l'échange de la pierre au sertissage ; alliance de kiddouchin lisse, sans pierre, payée par le marié.
+- **Audits de sites** (`audit/<marché>/<territoire>/` : `INVENTAIRE.md`, un rapport par site, `SYNTHESE_<groupe>.md`). Chaque bouton et option est vérifié dans un navigateur, sur ordinateur et en affichage iPhone, jusqu'au panier, sans compte ni paiement. Au 15/11 au soir : vendeurs nationaux américains et Israël audités ; États américains, Europe et Australie en cours.
+- **Reste à faire** : fin des audits, puis deux comparaisons avec le prototype (produit et expérience ; offre et confiance), un contrôle des affirmations sur notre code, et la synthèse.
+- **Règles de l'étude** : lecture seule, respect de `robots.txt` et des protections (un site qui bloque les robots est marqué « bloqué », jamais contourné), aucun pseudonyme recopié, extraits de 25 mots au plus. Deux écarts à `robots.txt` ont eu lieu (Hasolidit, Keyzar) : ils sont notés dans les rapports, et les constats concernés de Keyzar portent la marque `[P1]`.
+- **Limite d'usage** : une fenêtre de 5 heures laisse passer environ 15 millions de jetons ; au-delà de 3 enchaînements d'agents à la fois, elle est vidée en une heure et le travail en cours est perdu.
 
 ## Réponses de l'atelier déjà acquises
 - **Métaux** : or 14 et 18 k (jaune, blanc, rose) et platine ; pas d'argent.

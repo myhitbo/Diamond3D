@@ -1,5 +1,10 @@
 # Historique
 
+## 2026-11-15 — Dépôt public, étude de concurrence (sans changement de code)
+
+- Le dépôt GitHub est public (décision du propriétaire). Les fichiers CAO, les règles de prix et les dossiers de `docs/` sont lisibles par tous. Contrôle : aucun secret dans les fichiers suivis ni dans l'historique.
+- Étude de concurrence dans `docs/concurrence/` : exploration de quatre marchés, dix rapports de forums vérifiés, audits de sites en cours.
+
 ## 0.4.0 — 2026-11-15 — Guides en anglais
 
 - Les six guides existent en anglais, sous `/en/guides` : mêmes faits, mêmes sources, même date de vérification, badge « Draft ». Adresses traduites (`/en/guides/ring-size`, `/en/guides/14k-or-18k-gold`…). En anglais, « lab-grown » comme le configurateur ; la loi française et le mot « synthétique » sont expliqués dans le guide concerné.

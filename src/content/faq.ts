@@ -25,8 +25,8 @@ export type FaqItem = {
 export type FaqCategory = { id: string; title: L; items: FaqItem[] };
 
 const GIA_LGD = {
-  label: 'GIA, Laboratory-grown diamonds',
-  url: 'https://4cs.gia.edu/en-us/laboratory-grown-diamond/',
+  label: 'GIA, simulants, moissanite and lab-grown diamonds',
+  url: 'https://4cs.gia.edu/en-us/simulants-moissanite-and-lab-grown-diamonds/',
 };
 const GIA_DIFF = {
   label: 'GIA, natural vs laboratory-grown',
@@ -38,7 +38,7 @@ const IGI_LGD = {
 };
 const SA_EH31 = {
   label: 'Choulhan Aroukh, Even HaEzer 31',
-  url: 'https://www.sefaria.org.il/Shulchan_Arukh,_Even_HaEzer.31',
+  url: 'https://www.sefaria.org/Shulchan_Arukh,_Even_HaEzer.31',
 };
 const HOTD = {
   label: 'Halakha of the Day, gold, silver and stones',
@@ -55,6 +55,10 @@ const IDE = {
 const KNOT = {
   label: 'The Knot, engagement ring replating',
   url: 'https://www.theknot.com/content/engagement-ring-replating',
+};
+const WITH_CLARITY = {
+  label: 'With Clarity, ring dipping',
+  url: 'https://www.withclarity.com/blogs/metal/ring-dipping',
 };
 
 export const FAQ: FaqCategory[] = [
@@ -360,23 +364,23 @@ export const FAQ: FaqCategory[] = [
         a: {
           fr: [
             'L’or blanc est un alliage légèrement teinté, recouvert d’une fine couche de rhodium qui lui donne son blanc éclatant. Avec le temps, cette couche s’use et une nuance chaude peut réapparaître.',
-            'Il suffit de refaire le rhodiage, en général tous les un à deux ans pour une bague portée tous les jours. L’atelier s’en charge.',
+            'Il suffit de refaire le rhodiage quand la nuance réapparaît. Le rythme dépend du port : selon les joailliers, d’un à cinq ans pour une bague portée tous les jours. L’atelier s’en charge.',
             'Le platine, lui, est naturellement blanc et n’a pas besoin de rhodiage.',
           ],
           en: [
             'White gold is a slightly tinted alloy covered with a thin layer of rhodium that gives it its bright white. Over time the layer wears and a warm tint can show through.',
-            'It simply needs replating, usually every one to two years for a ring worn daily. The workshop does it.',
+            'It simply needs replating when the tint shows. How often depends on wear: jewellers suggest anywhere from one to five years for a ring worn daily. The workshop does it.',
             'Platinum is naturally white and does not need rhodium plating.',
           ],
           he: [
             'זהב לבן הוא סגסוגת בגוון עדין, המצופה בשכבה דקה של רודיום שמעניקה לו את הלובן הבוהק. עם הזמן השכבה נשחקת וגוון חם יותר עלול להופיע.',
-            'מספיק לצפות מחדש ברודיום, בדרך כלל כל שנה עד שנתיים לטבעת שעונדים כל יום. הסדנה עושה זאת.',
+            'מספיק לצפות מחדש ברודיום כשהגוון חוזר. התדירות תלויה בשימוש: לפי צורפים, בין שנה לחמש שנים לטבעת שעונדים כל יום. הסדנה עושה זאת.',
             'פלטינה לבנה מטבעה ואינה צריכה ציפוי רודיום.',
           ],
         },
         status: 'source',
-        basis: 'fréquence : sources de joailliers concordantes (1 à 2 ans pour un port quotidien) ; rhodiage par l’atelier : 3/11',
-        sources: [KNOT],
+        basis: 'fréquence (revue le 15/11) : les sources divergent, The Knot (joailliers interrogés) ≈ 5 ans ou dès que la couleur change, With Clarity 1 à 3 ans ; l’ancienne réponse « 1 à 2 ans » ne correspondait pas à The Knot ; rhodiage par l’atelier : 3/11',
+        sources: [KNOT, WITH_CLARITY],
       },
       {
         id: 'argent',

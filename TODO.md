@@ -40,6 +40,8 @@
 - [ ] Faire relire par l'atelier les réponses issues de déductions : gravure de l'alliance de kiddouchin après la cérémonie, contrôle du titre et des pierres pour une transformation, page transformation (rien n'est démonté avant accord, perte de poids à la fonte, pierres fragiles, photos des étapes), les six guides (questions 61 à 66 de `docs/QUESTIONS_ATELIER.md`). Alliances serties tout autour difficiles à mettre à taille : confirmé par le GIA le 14/11.
 - [ ] Ajouter un contact réel (WhatsApp de l'atelier) sous « Une autre question ? ».
 - [ ] Retirer le badge « Brouillon » quand plus aucune réponse n'est « À confirmer ».
+- [x] Réponse « L'or blanc jaunit-il ? » corrigée (15/11) : la fréquence du rhodiage citée ne correspondait pas à la source ; d'un à cinq ans selon les joailliers.
+- [x] Liens de sources contrôlés (15/11) : tous en ligne, redirections remplacées par l'adresse finale.
 - [x] Réponse « Or 14 ou 18 carats » corrigée (14/11) : la dureté dépend de l'alliage (fiches de fondeur), le 14 carats n'est pas « en général plus dur ». Même correction dans la note du configurateur.
 
 ## Guides (`/fr/guides`, contenu : `src/content/guides.ts`)

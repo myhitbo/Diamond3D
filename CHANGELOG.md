@@ -1,5 +1,11 @@
 # Historique
 
+## 0.3.2 — 2026-11-15 — Sources contrôlées, tests iPad et Firefox
+
+- Les 40 liens de sources (guides et FAQ) répondent tous. Sept liens qui passaient par une redirection pointent maintenant vers l'adresse finale. Deux paires de sources GIA menaient à la même page : elles sont fusionnées. Le GIA, Sefaria et Total Materia ont changé d'adresse.
+- FAQ « L'or blanc jaunit-il ? » corrigée dans les trois langues : la source citée (The Knot) ne disait pas « tous les un à deux ans ». Les joailliers donnent d'un à cinq ans selon le port ; source ajoutée (With Clarity).
+- Tests : 80 WebKit (iPhone et iPad, 2 ignorés chacun) et 20 Firefox, tous verts.
+
 ## 0.3.1 — 2026-11-14 — Guides : les 4 C, l'or, la taille de doigt
 
 - Trois guides en français, faits vérifiés le 14/11, sources en bas de page, badge « Brouillon » :

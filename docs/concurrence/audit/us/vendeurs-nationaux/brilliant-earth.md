@@ -141,14 +141,12 @@ Non relevés faute d'accès : contenu exact de l'étape 3 et du panier, partage,
 
 ## Confiance et service
 
-- **Omnicanal** : 44 salles listées sur la page Contact (dont Beverly Hills, San Antonio, San Jose) ; 42 au 31/12/2025 selon le 10-K. Sur rendez-vous, sans rendez-vous accepté [Vc][B21][Vs][B24].
-  - Au 3e trimestre 2026, réservations sans rendez-vous en salle : +50 % sur un an [Vs][B25].
+- **Omnicanal** : 44 salles listées sur la page Contact (dont Beverly Hills, San Antonio, San Jose), 42 au 31/12/2025 selon le 10-K ; visites sans rendez-vous acceptées [Vc][B21][Vs][B24]. Au 3e trimestre 2026, réservations sans rendez-vous : +50 % sur un an [Vs][B25].
 - **Rendez-vous vidéo** : Zoom 50 min, gratuit, tous les jours de 7 h à 18 h (heure du Pacifique) [Vc][B21]. En salle : bague de fiançailles, alliance, bijoux (50 min), dépôt ou retrait (15 min) [Vc][B22].
 - **Assistance 24/7** : téléphone, chat, SMS ; numéros pour le Canada, le Royaume-Uni et « All Other Countries » (+1 415 426 2781) [Vc][B17][B21].
 - **Essayage virtuel** sur une photo de la main, sans réalité augmentée en direct : redimensionner, déplacer, carats, forme, métal, alliance ; enregistrer, télécharger ou envoyer à un conseiller [Vc][B14].
-- **Preuves de fabrication** : aucune photo ni vidéo d'atelier relevée [I].
-  - Modèles du studio maison, fabriqués par des « long-term manufacturing partners » [Vs][B24]. Suivi de commande : date prévue et numéro FedEx seulement [Vc][B21].
-  - Sur mesure : « computerized model » à valider avant fabrication [Vc][B13].
+- **Preuves de fabrication** : aucune photo ni vidéo d'atelier relevée [I]. Modèles du studio maison, fabriqués par des « long-term manufacturing partners » [Vs][B24].
+  - Suivi de commande : date prévue et numéro FedEx seulement [Vc][B21]. Sur mesure : « computerized model » à valider avant fabrication [Vc][B13].
 - **Traçabilité** : provenance de chaque pierre naturelle, « Beyond Conflict Free », blockchain, rapport d'origine GIA [Vc][B7].
 - **Avis** :
   - Trustpilot 4,2/5 sur 1 618 avis ; profil payant signalé par Trustpilot ; répartition lue : 69 % à 5 étoiles, 18 % à 1 étoile [T][B26] ;
@@ -173,10 +171,7 @@ Non relevés faute d'accès : contenu exact de l'étape 3 et du panier, partage,
 
 1. **Blocage des visiteurs** : captcha Turnstile dès la page de départ, robots.txt compris [V][B1][B2]. Les acheteurs derrière un VPN ou un réseau d'entreprise pourraient le subir [S].
 2. **Le visuel ne montre pas la bague commandée** : photos « Shown with 2 carat diamond » quel que soit le choix [Vc][B9]. « View in 3D » n'apparaît que sur certaines fiches (absent de l'extrait de la 2mm Petite Elodie) [Vc][B9] ; rien n'indique si c'est un rendu [S]. C'est la faille que comble la promesse de JR (modèle issu du fichier de fabrication) [I].
-3. **Gravure, trois règles contradictoires** [Vc] :
-   - fiche : « Engraved items are not eligible for return, resize, or exchange » [B11] ;
-   - page Retours : retour possible contre 40 $, retaille payante sous 1 an [B15] ;
-   - guide : retaille gratuite sous 60 jours, regravure offerte [B19].
+3. **Gravure, trois règles contradictoires** [Vc] : la fiche dit « Engraved items are not eligible for return, resize, or exchange » [B11] ; la page Retours, retour possible contre 40 $ et retaille payante sous 1 an [B15] ; le guide, retaille gratuite sous 60 jours avec regravure offerte [B19].
 4. **Délai de retour qui court avant la réception** (« available for shipment », ou « ship date ») [Vc][B15][B17].
 5. **Urgence permanente** : « Going Fast 61% chance of selling by tomorrow », « In Another User's Bag », « Only One Available », et « ENDS SOON! » sur une suite de codes différents [Vc][B6][B7] [I].
 6. **Garantie « à vie » restreinte** : perte de pierre et griffes usées exclues ; remplacement limité à 60 jours ou aux pièces de moins de 1 000 $ [Vc][B16].

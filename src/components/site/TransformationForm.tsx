@@ -7,6 +7,7 @@ import type { Locale } from '@/lib/configurator/schema';
 import { checkPhotos, PHOTO_LIMITS, type QuoteError } from '@/lib/quote/request';
 import { buildTransformationWhatsApp } from '@/lib/quote/transformation';
 import { buildWhatsAppLink, normalizeWhatsAppNumber } from '@/lib/quote/whatsapp';
+import { privacyPath } from '@/lib/routes';
 import styles from '@/components/configurator/Configurator.module.css';
 
 type Status = { kind: 'idle' } | { kind: 'sending' } | { kind: 'sent' } | { kind: 'error'; message: string };
@@ -123,6 +124,13 @@ export default function TransformationForm({ locale }: { locale: Locale }) {
           <input name="consent" type="checkbox" required />
           <span>{t.fieldNames.consent}</span>
         </label>
+        {/* Nouvel onglet : la saisie en cours reste dans le formulaire. */}
+        <p className={styles.note}>
+          {t.privacyNote}{' '}
+          <a href={privacyPath(locale)} target="_blank" rel="noopener">
+            {t.privacyLink}
+          </a>
+        </p>
         {status.kind === 'error' && (
           <p className={styles.error} role="alert">
             {status.message}

@@ -189,15 +189,16 @@ test('configurateur : liens vers les guides en français et en anglais, absents 
 test('pied de page : liens du site, guides en français et en anglais', async ({ page }) => {
   await page.goto('/fr/faq');
   const footer = page.getByRole('contentinfo').getByRole('navigation', { name: 'Pied de page' });
-  await expect(footer.getByRole('link')).toHaveText(['Configurateur', 'Bijou de famille', 'Guides', 'FAQ']);
+  await expect(footer.getByRole('link')).toHaveText(['Configurateur', 'Bijou de famille', 'Guides', 'FAQ', 'Déclaration d’accessibilité', 'Politique de confidentialité']);
   await footer.getByRole('link', { name: 'Bijou de famille' }).click();
   await expect(page).toHaveURL(/\/fr\/transformation$/);
   await page.goto('/en/faq');
-  await expect(page.getByRole('contentinfo').getByRole('link')).toHaveText(['Configurator', 'Family jewellery', 'Guides', 'FAQ']);
+  await expect(page.getByRole('contentinfo').getByRole('link')).toHaveText(['Configurator', 'Family jewellery', 'Guides', 'FAQ', 'Accessibility statement', 'Privacy policy']);
   await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Configurator' })).toHaveAttribute('href', '/en/configurator/ring-001');
   await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Guides' })).toHaveAttribute('href', '/en/guides');
   await page.goto('/he/faq');
-  await expect(page.getByRole('contentinfo').getByRole('link')).toHaveCount(3);
+  // Hébreu : pas de guides ; déclaration d'accessibilité et politique de confidentialité comme ailleurs (voir legal.spec.ts).
+  await expect(page.getByRole('contentinfo').getByRole('link')).toHaveCount(5);
   await expect(page.locator('footer a[href*="/guides"]')).toHaveCount(0);
 });
 

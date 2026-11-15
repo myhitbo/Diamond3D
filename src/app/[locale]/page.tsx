@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Fragment } from 'react';
-import SiteHeader from '@/components/site/SiteHeader';
+import SiteHeader, { MAIN_ID } from '@/components/site/SiteHeader';
 import { isGuideLocale } from '@/content/guides/types';
 import { HOME, type HomeCard } from '@/content/home';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
@@ -53,7 +53,7 @@ export default async function HomePage({ params }: { params: Params }) {
   return (
     <>
       <SiteHeader locale={locale} path="/" />
-      <main className={prose.page}>
+      <main id={MAIN_ID} className={prose.page}>
         <p className={prose.eyebrow}>{c.eyebrow}</p>
         <h1 className={prose.title}>{c.title}</h1>
         <p className={prose.lede}>{c.lede}</p>

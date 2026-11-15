@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Configurator from '@/components/configurator/Configurator';
-import SiteHeader from '@/components/site/SiteHeader';
+import SiteHeader, { MAIN_ID } from '@/components/site/SiteHeader';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
 import { notFoundMetadata } from '@/lib/metadata';
 
@@ -25,7 +25,7 @@ export default async function Page({ params }: { params: Promise<{ locale: strin
   return (
     <>
       <SiteHeader locale={locale as Locale} path="/diagnostic" />
-      <main>
+      <main id={MAIN_ID}>
         <Configurator modelId="ring-001" locale={locale as Locale} diagnostic />
       </main>
     </>

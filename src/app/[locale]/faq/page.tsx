@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import SiteHeader from '@/components/site/SiteHeader';
+import SiteHeader, { MAIN_ID } from '@/components/site/SiteHeader';
 import { FAQ, allFaqItems } from '@/content/faq';
 import { DICTIONARIES } from '@/i18n/dictionaries';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
@@ -48,7 +48,7 @@ export default async function FaqPage({ params }: { params: Params }) {
   return (
     <>
       <SiteHeader locale={locale} path="/faq" />
-      <main className={styles.page}>
+      <main id={MAIN_ID} className={styles.page}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(locale)).replace(/</g, '\\u003c') }} />
         <header className={styles.intro}>
           <h1 className={styles.title}>{t.faqTitle}</h1>

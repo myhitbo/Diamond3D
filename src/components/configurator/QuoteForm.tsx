@@ -6,6 +6,7 @@ import type { ConfigState, Locale } from '@/lib/configurator/schema';
 import { getModel } from '@/models';
 import { checkPhotos, PHOTO_LIMITS, type QuoteError } from '@/lib/quote/request';
 import { buildWhatsAppLink, buildWhatsAppMessage, normalizeWhatsAppNumber } from '@/lib/quote/whatsapp';
+import { privacyPath } from '@/lib/routes';
 import styles from './Configurator.module.css';
 
 type Status = { kind: 'idle' } | { kind: 'sending' } | { kind: 'sent' } | { kind: 'error'; message: string };
@@ -160,6 +161,13 @@ export default function QuoteForm({
           <input name="publishConsent" type="checkbox" />
           <span>{t.fieldNames.publishConsent}</span>
         </label>
+        {/* Nouvel onglet : la saisie en cours reste dans le formulaire. */}
+        <p className={styles.note}>
+          {t.privacyNote}{' '}
+          <a href={privacyPath(locale)} target="_blank" rel="noopener">
+            {t.privacyLink}
+          </a>
+        </p>
         {status.kind === 'error' && (
           <p className={styles.error} role="alert">
             {status.message}

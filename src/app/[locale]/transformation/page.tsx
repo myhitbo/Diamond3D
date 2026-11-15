@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import SiteHeader from '@/components/site/SiteHeader';
+import SiteHeader, { MAIN_ID } from '@/components/site/SiteHeader';
 import TransformationForm from '@/components/site/TransformationForm';
 import { TRANSFORMATION } from '@/content/transformation';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
@@ -30,7 +30,7 @@ export default async function TransformationPage({ params }: { params: Params })
   return (
     <>
       <SiteHeader locale={locale} path="/transformation" />
-      <main className={styles.page}>
+      <main id={MAIN_ID} className={styles.page}>
         <h1 className={styles.title}>{c.title}</h1>
         <p className={styles.lede}>{c.lede}</p>
         <p className={styles.badge}>{c.draft}</p>

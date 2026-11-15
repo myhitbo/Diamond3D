@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Configurator from '@/components/configurator/Configurator';
-import SiteHeader from '@/components/site/SiteHeader';
+import SiteHeader, { MAIN_ID } from '@/components/site/SiteHeader';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
 import { notFoundMetadata, pageMetadata } from '@/lib/metadata';
 import { configuratorPath, languageAlternates } from '@/lib/routes';
@@ -32,7 +32,7 @@ export default async function Page({ params }: { params: Params }) {
   return (
     <>
       <SiteHeader locale={locale as Locale} path={`/configurateur/${modelId}`} />
-      <main>
+      <main id={MAIN_ID}>
         <Configurator modelId={modelId} locale={locale as Locale} />
       </main>
     </>

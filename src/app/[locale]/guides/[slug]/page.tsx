@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import SiteHeader from '@/components/site/SiteHeader';
+import SiteHeader, { MAIN_ID } from '@/components/site/SiteHeader';
 import { GUIDE_LOCALES, GUIDE_UI, GUIDES, getGuide, guideAlternates, guidePath, isGuideLocale, type Guide, type GuideLocale } from '@/content/guides';
 import { notFoundMetadata, pageMetadata } from '@/lib/metadata';
 import styles from '../../prose.module.css';
@@ -54,7 +54,7 @@ export default async function GuidePage({ params }: { params: Params }) {
   return (
     <>
       <SiteHeader locale={locale} path={`/guides/${guide.slug}`} locales={GUIDE_LOCALES.filter((l) => hrefs[l])} hrefs={hrefs} />
-      <main className={styles.page}>
+      <main id={MAIN_ID} className={styles.page}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(guide, locale)).replace(/</g, '\\u003c') }} />
         <p className={styles.eyebrow}>
           <Link href={`/${locale}/guides`}>{ui.title}</Link>

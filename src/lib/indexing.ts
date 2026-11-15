@@ -22,6 +22,9 @@ export const SITEMAP_PAGES: { path: string; locales: readonly Locale[] }[] = [
   { path: '/transformation', locales: LOCALES },
   { path: '/faq', locales: LOCALES },
   { path: '/guides', locales: GUIDE_LOCALES },
+  // Adresses traduites hors du français (`/en/accessibility`, `/he/privacy`) : `languageAlternates` les donne.
+  { path: '/accessibilite', locales: LOCALES },
+  { path: '/confidentialite', locales: LOCALES },
 ];
 
 /** Chaque page dans chaque langue, avec l'adresse des autres langues (`hreflang`, la page elle-même comprise). */

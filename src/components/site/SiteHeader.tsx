@@ -1,9 +1,12 @@
 import Link from 'next/link';
 import { DICTIONARIES } from '@/i18n/dictionaries';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
-import { homePath, localizedPath } from '@/lib/routes';
+import { accessibilityPath, homePath, localizedPath } from '@/lib/routes';
 
 const LOCALE_LABELS: Record<Locale, string> = { fr: 'FR', en: 'EN', he: 'עב' };
+
+/** Identifiant du contenu principal (`<main id={MAIN_ID}>` sur chaque page) : cible du lien « Aller au contenu ». */
+export const MAIN_ID = 'contenu';
 
 /**
  * En-tête commun. `path` : chemin interne de la page sans la langue (ex. « /faq »), pour changer de langue sur place ;
@@ -25,6 +28,12 @@ export default function SiteHeader({
   const t = DICTIONARIES[locale];
   return (
     <header className="site-header">
+      {/* Liens d'évitement : premiers éléments au clavier, visibles seulement quand ils ont le focus. Le second est l'un des deux
+          chemins vers la déclaration d'accessibilité que demande le guide de la Commission (l'autre : le pied de page). */}
+      <div className="skip-links">
+        <a href={`#${MAIN_ID}`}>{t.skipToContent}</a>
+        <Link href={accessibilityPath(locale)}>{t.navAccessibility}</Link>
+      </div>
       {/* Le mot-symbole mène à l'accueil de la langue courante. */}
       <Link href={homePath(locale)} className="wordmark" aria-current={path === '/' ? 'page' : undefined}>
         JR Diamond

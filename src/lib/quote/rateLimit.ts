@@ -1,7 +1,8 @@
 // Limitation simple, en mémoire, par adresse IP : suffisante contre les envois répétés
 // d'un même navigateur, pas contre une attaque distribuée (instance unique, remise à zéro au redémarrage).
-const WINDOW_MS = 10 * 60 * 1000;
-const MAX_PER_WINDOW = 5;
+// Exportées pour le test qui vérifie que la politique de confidentialité les décrit (`src/content/legal/privacy.ts`).
+export const WINDOW_MS = 10 * 60 * 1000;
+export const MAX_PER_WINDOW = 5;
 const hits = new Map<string, number[]>();
 
 /** `true` si cette adresse a dépassé la limite. Le compteur est commun à toutes les routes de demande. */

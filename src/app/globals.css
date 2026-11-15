@@ -49,6 +49,34 @@ button {
   background: var(--ivory);
 }
 
+/* Liens d'évitement (en-tête) : hors de la mise en page, cachés tant qu'ils n'ont pas le focus du clavier. */
+.skip-links {
+  position: absolute;
+  top: 8px;
+  inset-inline-start: 8px;
+  z-index: 100;
+}
+
+.skip-links a {
+  display: inline-block;
+  margin-inline-end: 8px;
+  padding: 10px 16px;
+  background: var(--ink);
+  color: var(--ivory);
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.skip-links a:not(:focus) {
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .wordmark {
   font-family: var(--font-display);
   font-size: 22px;

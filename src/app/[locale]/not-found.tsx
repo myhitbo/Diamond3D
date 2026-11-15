@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { locale as rootLocale } from 'next/root-params';
-import SiteHeader from '@/components/site/SiteHeader';
+import SiteHeader, { MAIN_ID } from '@/components/site/SiteHeader';
 import { NOT_FOUND } from '@/content/not-found';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
 import { notFoundMetadata } from '@/lib/metadata';
@@ -33,7 +33,7 @@ export default async function NotFound() {
   return (
     <>
       <SiteHeader locale={locale} path="" hrefs={HOMES} />
-      <main className={prose.page}>
+      <main id={MAIN_ID} className={prose.page}>
         <p className={prose.eyebrow}>404</p>
         <h1 className={prose.title}>{c.title}</h1>
         <p className={prose.lede}>{c.text}</p>

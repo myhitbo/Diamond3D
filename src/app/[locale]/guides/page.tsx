@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import SiteHeader from '@/components/site/SiteHeader';
+import SiteHeader, { MAIN_ID } from '@/components/site/SiteHeader';
 import { GUIDE_LOCALES, GUIDE_UI, GUIDES, guidePath, isGuideLocale } from '@/content/guides';
 import { notFoundMetadata, pageMetadata } from '@/lib/metadata';
 import { languageAlternates, localizedPath } from '@/lib/routes';
@@ -29,7 +29,7 @@ export default async function GuidesPage({ params }: { params: Params }) {
   return (
     <>
       <SiteHeader locale={locale} path="/guides" locales={GUIDE_LOCALES} />
-      <main className={styles.page}>
+      <main id={MAIN_ID} className={styles.page}>
         <h1 className={styles.title}>{ui.title}</h1>
         <p className={styles.lede}>{ui.lede}</p>
         <ul className={styles.cards}>

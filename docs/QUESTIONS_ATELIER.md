@@ -1,6 +1,6 @@
 # Questions à l'atelier — préparation des phases 3 à 6
 
-Deux versions : une **courte** (10 questions, pour un premier échange ou un message rapide) et une **complète** (66 questions, à remplir au fil des phases).
+Deux versions : une **courte** (10 questions, pour un premier échange ou un message rapide) et une **complète** (79 questions, à remplir au fil des phases).
 
 ---
 
@@ -162,6 +162,24 @@ Le catalogue sera élargi à partir de modèles CGTrader (gratuits d'abord, puis
 64. Le guide des 4 C dit que la couleur et la pureté se choisissent avec vous, dans le devis. Est-ce votre façon de faire ?
 65. Le guide de la taille de doigt donne la taille israélienne comme « taille française − 40 » (12 = 52), d'après deux bijoutiers israéliens. Est-ce le système que vous employez ?
 66. Le guide de l'or ne tranche pas sur la dureté : selon les fiches des fondeurs, elle dépend de l'alliage plus que du titre. Votre expérience à l'atelier ?
+
+## 14. Déclaration d'accessibilité, politique de confidentialité, informations légales (ajouté le 15/11)
+
+Les deux pages existent en brouillon (`/fr/accessibilite`, `/fr/confidentialite`, `/en/accessibility`, `/en/privacy`, `/he/accessibility`, `/he/privacy`). Tout ce qui manque y apparaît en surligné « [à compléter : …] » ; les réponses se saisissent une seule fois, dans `src/config/business.ts`.
+
+67. Forme juridique de l'activité : עוסק פטור, עוסק מורשה ou société ? Nom légal exact, nom commercial, et numéro à publier sur le site (ח.פ. pour une société, ע.מ. ou numéro d'identité pour un entrepreneur en nom propre).
+68. Adresse postale à publier (immeuble et bureau à la Bourse du diamant), téléphone, et adresse e-mail publique pour les questions et les demandes d'accès ou de rectification des données. Avez-vous une adresse à l'étranger, en France par exemple ?
+69. Chiffre d'affaires annuel des trois derniers exercices, nombre de salariés, total du bilan. Ces chiffres décident de l'exemption d'accessibilité (100 000 ₪), du référent accessibilité obligatoire (25 salariés), du sous-titrage obligatoire des vidéos (5 M₪), du montant des amendes, et plus tard du statut de microentreprise en France (10 personnes, 2 M€).
+70. Qui sera le contact accessibilité publié sur le site (nom, téléphone, e-mail, WhatsApp) ? Qui s'engage à répondre, à proposer tout de suite une autre solution (devis par téléphone ou par e-mail) et à faire corriger un défaut signalé en 60 jours au plus ?
+71. Recevez-vous des clients à l'atelier de la Bourse ? Comment se passe l'accès : contrôle à l'entrée, pièce d'identité, ascenseur, toilettes accessibles, stationnement, transports ? Une autre solution est-elle possible (rendez-vous ailleurs, visite, visioconférence) ? S'il n'y a pas d'accueil du public, la page le dira.
+72. Les vidéos de fabrication auront-elles une voix ou un commentaire, ou seront-elles seulement visuelles ? Les PDF que vous voudriez publier (procédure, certificats) sont-ils créés par l'atelier ou reçus de tiers (GIA, IGI) ?
+73. Quelle messagerie recevra les demandes du site et enverra les e-mails : Gmail ou Google Workspace, Outlook, hébergeur israélien ? Dans quel pays sont ses serveurs ? Avez-vous un contrat ou un accord de traitement des données avec ce fournisseur ?
+74. Combien de personnes ont accès à la boîte des devis et au WhatsApp de l'atelier ? Jusqu'à 2 personnes en plus de vous, le règlement israélien de 2017 sur la sécurité des données prévoit un niveau allégé ; au-delà, un niveau plus exigeant.
+75. Durée de conservation (précise la question 56) : pour une demande de devis sans suite, pour une commande, pour les photos d'un bijou de famille ? Que deviennent ensuite les e-mails (suppression, archivage) ? Acceptez-vous de supprimer les données d'un client sur simple demande, même si elles sont exactes ?
+76. Les adresses des clients serviront-elles à relancer un devis, à envoyer une lettre d'information ou des promotions par WhatsApp ? Le numéro WhatsApp est-il un compte WhatsApp Business ?
+77. Publication des photos et vidéos de fabrication : comment un client retire-t-il son accord, et que devient une publication déjà faite ? Ses mains ou son visage peuvent-ils apparaître ?
+78. Informations de vente à distance à publier (reprend les questions 42 à 46) : moyens et modalités de paiement, mode et délai de livraison, durée de validité d'un devis, garantie (durée, ce qu'elle couvre).
+79. Relecture du texte hébreu des deux pages par un locuteur natif (traduction faite par l'IA).
 
 ## Ce que j'attends concrètement, par ordre d'urgence
 

@@ -36,10 +36,17 @@ describe('plan du site', () => {
         '/en/guides',
         '/fr/guides/taille-de-doigt',
         '/en/guides/ring-size',
+        '/fr/accessibilite',
+        '/en/accessibility',
+        '/he/accessibility',
+        '/fr/confidentialite',
+        '/en/privacy',
+        '/he/privacy',
       ]),
     );
-    // 3 accueils, 3 configurateurs, 3 transformations, 3 FAQ, 2 listes de guides, 6 guides en français et 6 en anglais.
-    expect(urls).toHaveLength(14 + GUIDE_LOCALES.length * GUIDES.fr.length);
+    // 3 accueils, 3 configurateurs, 3 transformations, 3 FAQ, 2 listes de guides, 3 déclarations d'accessibilité,
+    // 3 politiques de confidentialité, 6 guides en français et 6 en anglais.
+    expect(urls).toHaveLength(20 + GUIDE_LOCALES.length * GUIDES.fr.length);
     expect(new Set(urls).size).toBe(urls.length);
   });
 
@@ -47,7 +54,7 @@ describe('plan du site', () => {
     for (const u of urls) {
       expect(u).not.toMatch(/^\/he\/guides/);
       expect(u).not.toMatch(/diagnostic/);
-      expect(u).not.toMatch(/^\/(en|he)\/configurateur/);
+      expect(u).not.toMatch(/^\/(en|he)\/(configurateur|accessibilite|confidentialite)/);
       expect(u).not.toMatch(/^\/api/);
       expect(u).not.toMatch(/\/$/);
     }
@@ -59,6 +66,8 @@ describe('plan du site', () => {
     const size = entries.find((e) => e.url === `${BASE}/en/guides/ring-size`)!;
     expect(size.alternates?.languages).toEqual({ fr: `${BASE}/fr/guides/taille-de-doigt`, en: `${BASE}/en/guides/ring-size` });
     expect(size.lastModified).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    const privacy = entries.find((e) => e.url === `${BASE}/he/privacy`)!;
+    expect(privacy.alternates?.languages).toEqual({ fr: `${BASE}/fr/confidentialite`, en: `${BASE}/en/privacy`, he: `${BASE}/he/privacy` });
     const guides = entries.find((e) => e.url === `${BASE}/fr/guides`)!;
     expect(Object.keys(guides.alternates!.languages!)).toEqual(['fr', 'en']);
     for (const e of entries) expect(Object.values(e.alternates!.languages!)).toContain(e.url);

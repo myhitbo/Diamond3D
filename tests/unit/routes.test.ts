@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { configuratorPath, languageAlternates, localizedPath, translatedRouteRules } from '@/lib/routes';
+import { configuratorPath, homePath, languageAlternates, localizedPath, translatedRouteRules } from '@/lib/routes';
 
 describe('adresses traduites', () => {
   it('configurateur : segment propre à chaque langue', () => {
@@ -22,6 +22,14 @@ describe('adresses traduites', () => {
       he: '/he/configurator/ring-001',
     });
     expect(languageAlternates('/guides', ['fr'])).toEqual({ fr: '/fr/guides' });
+  });
+
+  it('accueil : /fr, /en, /he, sans double barre ni barre finale', () => {
+    expect(homePath('fr')).toBe('/fr');
+    expect(localizedPath('he', '/')).toBe('/he');
+    expect(localizedPath('en', '')).toBe('/en');
+    expect(languageAlternates('/')).toEqual({ fr: '/fr', en: '/en', he: '/he' });
+    for (const href of Object.values(languageAlternates('/'))) expect(href).not.toMatch(/\/\/|\/$/);
   });
 
   it('réécritures et redirections : anglais et hébreu seulement, sans boucle', () => {

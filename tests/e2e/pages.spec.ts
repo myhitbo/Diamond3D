@@ -1,6 +1,61 @@
 import { expect, test } from '@playwright/test';
 
-// Pages de texte : transformation, guides, adresses traduites, pied de page. Aucune 3D : valable sur tous les navigateurs.
+// Pages de texte : accueil, transformation, guides, adresses traduites, pied de page. Aucune 3D : valable sur tous les navigateurs.
+
+test('accueil : « / » mène à /fr, appel vers le configurateur, retour par le mot-symbole', async ({ page, request }) => {
+  const res = await request.get('/', { maxRedirects: 0 });
+  expect(res.status()).toBe(307);
+  expect(res.headers()['location']).toBe('/fr');
+
+  await page.goto('/');
+  await expect(page).toHaveURL(/\/fr$/);
+  await expect(page.locator('html')).toHaveAttribute('lang', 'fr');
+  await expect(page).toHaveTitle('JR Diamond · Joaillerie à la Bourse du diamant de Ramat Gan');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Votre bague, vue en 3D, fabriquée à Ramat Gan');
+  await expect(page.getByText('Brouillon · page en attente de relecture par l’atelier')).toBeVisible();
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', /\/fr$/);
+  await expect(page.locator('link[rel="alternate"][hreflang="he"]')).toHaveAttribute('href', /\/he$/);
+  // Le rendu 3D réel, présenté comme tel.
+  const render = page.getByRole('img', { name: /Ensemble marquise en or jaune/ });
+  await expect(render).toBeVisible();
+  expect(await render.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
+  await expect(page.getByText(/un rendu 3D, pas une photo/)).toBeVisible();
+  // Liens du corps de page : transformation, guides, FAQ.
+  const main = page.getByRole('main');
+  await expect(main.getByRole('link', { name: /Transformer un bijou de famille/ })).toHaveAttribute('href', '/fr/transformation');
+  await expect(main.getByRole('link', { name: /^Guides/ })).toHaveAttribute('href', '/fr/guides');
+  await expect(main.getByRole('link', { name: /^Questions fréquentes/ })).toHaveAttribute('href', '/fr/faq');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
+
+  await main.getByRole('link', { name: 'Configurer une bague' }).click();
+  await expect(page).toHaveURL(/\/fr\/configurateur\/ring-001$/);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ensemble marquise');
+  await page.getByRole('link', { name: 'JR Diamond' }).click();
+  await expect(page).toHaveURL(/\/fr$/);
+});
+
+test('accueil en anglais et en hébreu : traduit, sens droite-à-gauche, pas de guides en hébreu', async ({ page }) => {
+  await page.goto('/en');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Your ring, seen in 3D, made in Ramat Gan');
+  await expect(page.getByRole('main').getByRole('link', { name: 'Configure a ring' })).toHaveAttribute('href', '/en/configurator/ring-001');
+  await expect(page.getByRole('main').getByRole('link', { name: /^Guides/ })).toHaveAttribute('href', '/en/guides');
+
+  await page.getByRole('navigation', { name: 'Langue / Language' }).getByRole('link', { name: 'עב', exact: true }).click();
+  await expect(page).toHaveURL(/\/he$/);
+  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+  await expect(page.locator('html')).toHaveAttribute('lang', 'he');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('הטבעת שלכם, בתלת־ממד, מיוצרת ברמת גן');
+  await expect(page.getByText('טיוטה · העמוד ממתין לאישור הסדנה')).toBeVisible();
+  await expect(page.getByRole('main').getByRole('link', { name: 'עיצוב טבעת' })).toHaveAttribute('href', '/he/configurator/ring-001');
+  await expect(page.getByRole('main').getByRole('link', { name: /חיים חדשים לתכשיט משפחתי/ })).toHaveAttribute('href', '/he/transformation');
+  await expect(page.locator('a[href*="/guides"]')).toHaveCount(0);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
+
+  // Le mot-symbole mène à l'accueil de la langue courante.
+  await page.goto('/he/faq');
+  await page.getByRole('link', { name: 'JR Diamond' }).click();
+  await expect(page).toHaveURL(/\/he$/);
+});
 
 test('adresses traduites : /en/configurator sert la page, l’ancienne adresse y redirige', async ({ page, request }) => {
   const res = await request.get('/en/configurateur/ring-001', { maxRedirects: 0 });

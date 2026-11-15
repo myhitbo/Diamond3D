@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { DICTIONARIES } from '@/i18n/dictionaries';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
-import { configuratorPath, localizedPath } from '@/lib/routes';
+import { homePath, localizedPath } from '@/lib/routes';
 
 const LOCALE_LABELS: Record<Locale, string> = { fr: 'FR', en: 'EN', he: 'עב' };
 
@@ -24,7 +24,8 @@ export default function SiteHeader({
   const t = DICTIONARIES[locale];
   return (
     <header className="site-header">
-      <Link href={configuratorPath(locale)} className="wordmark">
+      {/* Le mot-symbole mène à l'accueil de la langue courante. */}
+      <Link href={homePath(locale)} className="wordmark" aria-current={path === '/' ? 'page' : undefined}>
         JR Diamond
       </Link>
       <p className="tagline">{t.brandTagline}</p>

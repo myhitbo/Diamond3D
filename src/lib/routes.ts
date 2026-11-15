@@ -19,12 +19,19 @@ export const DEFAULT_MODEL_ID = 'ring-001';
 
 export const configuratorPath = (locale: Locale, modelId: string = DEFAULT_MODEL_ID) => `/${locale}/${CONFIGURATOR_SEGMENT[locale]}/${modelId}`;
 
-/** Adresse publique d'un chemin interne (sans la langue, ex. « /configurateur/ring-001 » ou « /faq »). */
+/**
+ * Adresse publique d'un chemin interne (sans la langue, ex. « /configurateur/ring-001 » ou « /faq »).
+ * L'accueil (« / » ou « ») donne `/fr`, sans barre finale : le site n'en met nulle part (`trailingSlash` par défaut).
+ */
 export function localizedPath(locale: Locale, internalPath: string): string {
+  if (internalPath === '/' || internalPath === '') return `/${locale}`;
   const prefix = `/${INTERNAL_CONFIGURATOR_SEGMENT}/`;
   const path = internalPath.startsWith(prefix) ? `/${CONFIGURATOR_SEGMENT[locale]}/${internalPath.slice(prefix.length)}` : internalPath;
   return `/${locale}${path}`;
 }
+
+/** Page d'accueil d'une langue (`/fr`, `/en`, `/he`). */
+export const homePath = (locale: Locale) => localizedPath(locale, '/');
 
 /** `alternates.languages` des métadonnées, pour un chemin interne disponible dans les langues données. */
 export const languageAlternates = (internalPath: string, locales: readonly Locale[] = LOCALES) =>

@@ -1,0 +1,105 @@
+/* Accueil : appel principal, rendu 3D, points, métaux et pierres. Titres, badge, bouton et cartes : prose.module.css. */
+.action {
+  margin: 18px 0 0;
+}
+
+.ctaNote {
+  max-width: 560px;
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.figure {
+  margin: 36px 0 0;
+}
+
+.figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.figure figcaption {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.points {
+  display: grid;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 640px) {
+  .points {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.points li {
+  padding: 20px 22px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+}
+
+.points strong {
+  display: block;
+  margin-bottom: 8px;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 21px;
+  line-height: 1.25;
+  color: var(--ink);
+}
+
+.points span {
+  display: block;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.making {
+  margin: 18px 0 0;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.materials {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 12px 24px;
+  margin: 0;
+}
+
+.materials dt {
+  padding-top: 4px;
+  color: var(--gold);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.materials dd {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+@media (max-width: 560px) {
+  .materials {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+  .materials dd {
+    margin-bottom: 12px;
+  }
+}

@@ -8,8 +8,8 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   async redirects() {
     return [
-      // Prototype : la racine mène au configurateur du modèle pilote.
-      { source: '/', destination: '/fr/configurateur/ring-001', permanent: false },
+      // La racine mène à l'accueil français. Temporaire : la langue par défaut pourra changer au lancement en Israël.
+      { source: '/', destination: '/fr', permanent: false },
       // Anciennes adresses françaises sous /en et /he : vers l'adresse traduite.
       ...routes.redirects,
     ];

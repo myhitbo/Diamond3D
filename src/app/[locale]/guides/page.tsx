@@ -3,16 +3,22 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import SiteHeader from '@/components/site/SiteHeader';
 import { GUIDE_LOCALES, GUIDE_UI, GUIDES, guidePath, isGuideLocale } from '@/content/guides';
-import { languageAlternates } from '@/lib/routes';
+import { notFoundMetadata, pageMetadata } from '@/lib/metadata';
+import { languageAlternates, localizedPath } from '@/lib/routes';
 import styles from '../prose.module.css';
 
 type Params = Promise<{ locale: string }>;
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale } = await params;
-  if (!isGuideLocale(locale)) return {};
+  if (!isGuideLocale(locale)) return notFoundMetadata(locale);
   const ui = GUIDE_UI[locale];
-  return { title: ui.title, description: ui.lede, alternates: { canonical: `/${locale}/guides`, languages: languageAlternates('/guides', GUIDE_LOCALES) } };
+  return pageMetadata(locale, {
+    title: ui.title,
+    description: ui.lede,
+    path: localizedPath(locale, '/guides'),
+    languages: languageAlternates('/guides', GUIDE_LOCALES),
+  });
 }
 
 /** Les guides existent en français et en anglais ; en hébreu, la page répond 404. */

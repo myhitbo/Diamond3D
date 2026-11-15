@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import SiteHeader from '@/components/site/SiteHeader';
 import { GUIDE_LOCALES, GUIDE_UI, GUIDES, getGuide, guideAlternates, guidePath, isGuideLocale, type Guide, type GuideLocale } from '@/content/guides';
+import { notFoundMetadata, pageMetadata } from '@/lib/metadata';
 import styles from '../../prose.module.css';
 
 type Params = Promise<{ locale: string; slug: string }>;
@@ -17,12 +18,14 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale, slug } = await params;
   const guide = getGuide(locale, slug);
-  if (!guide || !isGuideLocale(locale)) return {};
-  return {
+  if (!guide || !isGuideLocale(locale)) return notFoundMetadata(locale);
+  return pageMetadata(locale, {
     title: guide.title,
     description: guide.description,
-    alternates: { canonical: guidePath(locale, guide.slug), languages: guideAlternates(guide.id) },
-  };
+    path: guidePath(locale, guide.slug),
+    languages: guideAlternates(guide.id),
+    modifiedTime: guide.verified,
+  });
 }
 
 function jsonLd(guide: Guide, locale: GuideLocale) {

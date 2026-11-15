@@ -1,7 +1,9 @@
 import type { NextConfig } from 'next';
+import { TRANSLATED_REDIRECTS_PERMANENT } from './src/config/site';
 import { translatedRouteRules } from './src/lib/routes';
 
-const routes = translatedRouteRules();
+// Temporaires avant le lancement, permanentes ensuite : un seul réglage, dans `src/config/site.ts`.
+const routes = translatedRouteRules(TRANSLATED_REDIRECTS_PERMANENT);
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,

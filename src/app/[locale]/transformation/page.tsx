@@ -4,16 +4,22 @@ import SiteHeader from '@/components/site/SiteHeader';
 import TransformationForm from '@/components/site/TransformationForm';
 import { TRANSFORMATION } from '@/content/transformation';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
-import { languageAlternates } from '@/lib/routes';
+import { notFoundMetadata, pageMetadata } from '@/lib/metadata';
+import { languageAlternates, localizedPath } from '@/lib/routes';
 import styles from '../prose.module.css';
 
 type Params = Promise<{ locale: string }>;
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale } = await params;
-  if (!LOCALES.includes(locale as Locale)) return {};
+  if (!LOCALES.includes(locale as Locale)) return notFoundMetadata(locale);
   const c = TRANSFORMATION[locale as Locale];
-  return { title: c.title, description: c.lede, alternates: { canonical: `/${locale}/transformation`, languages: languageAlternates('/transformation') } };
+  return pageMetadata(locale as Locale, {
+    title: c.title,
+    description: c.lede,
+    path: localizedPath(locale as Locale, '/transformation'),
+    languages: languageAlternates('/transformation'),
+  });
 }
 
 export default async function TransformationPage({ params }: { params: Params }) {

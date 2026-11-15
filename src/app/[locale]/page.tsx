@@ -7,6 +7,7 @@ import SiteHeader from '@/components/site/SiteHeader';
 import { isGuideLocale } from '@/content/guides/types';
 import { HOME, type HomeCard } from '@/content/home';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
+import { notFoundMetadata, pageMetadata } from '@/lib/metadata';
 import { configuratorPath, homePath, languageAlternates, localizedPath } from '@/lib/routes';
 import styles from './home.module.css';
 import prose from './prose.module.css';
@@ -21,14 +22,16 @@ const RENDER = { src: '/images/ring-001-rendu-3d.webp', width: 1400, height: 105
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale } = await params;
-  if (!LOCALES.includes(locale as Locale)) return {};
+  if (!LOCALES.includes(locale as Locale)) return notFoundMetadata(locale);
   const c = HOME[locale as Locale];
-  return {
+  return pageMetadata(locale as Locale, {
     // Titre complet : l'accueil porte déjà le nom de la marque, le gabarit « · JR Diamond » du layout le répéterait.
-    title: { absolute: c.metaTitle },
+    title: c.metaTitle,
+    absoluteTitle: true,
     description: c.description,
-    alternates: { canonical: homePath(locale as Locale), languages: languageAlternates('/') },
-  };
+    path: homePath(locale as Locale),
+    languages: languageAlternates('/'),
+  });
 }
 
 function Card({ href, card }: { href: string; card: HomeCard }) {

@@ -28,6 +28,8 @@
 
 ## Lancement en Israël (décisions du 4/11, voir `docs/STRATEGIE.md` §6)
 - [x] Procédure photo et vidéo envoyée à l'atelier en PDF (`docs/atelier/Procedure_photo_video_atelier.pdf`).
+- [ ] Le jour du lancement : basculer `SITE_INDEXABLE` à `true` dans `src/config/site.ts` (et avec lui les redirections permanentes des adresses traduites, `TRANSLATED_REDIRECTS_PERMANENT`), renseigner `NEXT_PUBLIC_SITE_URL` si le domaine change, redéployer, puis lever la protection Vercel. Un seul réglage ouvre l'indexation (balise robots), le plan du site et son annonce dans `robots.txt`. Ensuite : envoyer un lien sur WhatsApp pour vérifier l'aperçu (image, titre), soumettre `/sitemap.xml` à la Search Console.
+- [x] Page 404 traduite (`/fr|en|he/…`, français hors langue), aperçus de liens partagés (Open Graph, image `public/images/apercu-partage.jpg`), `robots.txt` et plan du site pilotés par l'interrupteur de lancement (15/11). Aperçus invisibles tant que la protection Vercel est active. Relecture native du texte hébreu de la 404 à faire.
 - [ ] Prix affichés en ₪ TTC (TVA 18 %).
 - [ ] Alliance de kiddouchin : obtenir un modèle simple (atelier ou CGTrader) et faire la page. Guide fait le 14/11 (`/fr/guides/alliance-de-kiddouchin`).
 - [x] Parcours « transformation de bijoux de famille » : photos de l'ancien bijou + demande de devis (`/fr|en|he/transformation`, 14/11). Reste : relecture par l'atelier.
@@ -68,6 +70,6 @@
 - [ ] Paiement : ouvrir un compte Grow au nom de l'entreprise de l'atelier, demander des devis à PayPlus et Cardcom, puis développer le parcours devis → lien de paiement.
 - [ ] Juridique : compléter la partie 4 du dossier avec l'atelier et consulter un avocat israélien.
 - [ ] Devis : faire relire les textes hébreux du formulaire (traduction IA).
-- [x] Adresses traduites (`/en/configurator/…`, `/he/configurator/…`, 14/11). Redirections à passer en permanent au lancement.
+- [x] Adresses traduites (`/en/configurator/…`, `/he/configurator/…`, 14/11). Redirections passées en permanent au lancement par l'interrupteur `SITE_INDEXABLE` (voir « Lancement en Israël »).
 - [x] Tests Safari et Firefox automatisés (15/11) : WebKit iPhone et iPad, Firefox sans 3D (`npm run test:e2e:browsers`). Reste le test sur appareils réels (section « Bloquant »).
 - [ ] Calibrer les teintes des métaux sur des photos authentiques.

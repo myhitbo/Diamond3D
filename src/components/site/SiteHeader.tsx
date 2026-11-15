@@ -6,7 +6,8 @@ import { homePath, localizedPath } from '@/lib/routes';
 const LOCALE_LABELS: Record<Locale, string> = { fr: 'FR', en: 'EN', he: 'עב' };
 
 /**
- * En-tête commun. `path` : chemin interne de la page sans la langue (ex. « /faq »), pour changer de langue sur place.
+ * En-tête commun. `path` : chemin interne de la page sans la langue (ex. « /faq »), pour changer de langue sur place ;
+ * vide pour une page sans adresse propre (404), avec `hrefs` pour toutes les langues.
  * `locales` : langues dans lesquelles la page existe (par défaut toutes).
  * `hrefs` : adresse de la page dans une langue, quand elle ne se déduit pas de `path` (guide dont l'adresse est traduite).
  */

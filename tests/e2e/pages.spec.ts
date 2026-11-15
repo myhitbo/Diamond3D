@@ -200,3 +200,69 @@ test('pied de page : liens du site, guides en français et en anglais', async ({
   await expect(page.getByRole('contentinfo').getByRole('link')).toHaveCount(3);
   await expect(page.locator('footer a[href*="/guides"]')).toHaveCount(0);
 });
+
+test('404 traduite : français hors langue et sous /fr, anglais, hébreu de droite à gauche ; statut 404', async ({ page }) => {
+  const cases = [
+    { url: '/nimporte-quoi', lang: 'fr', dir: 'ltr', h1: 'Page introuvable', nav: 'Pages du site', links: ['/fr', '/fr/configurateur/ring-001', '/fr/faq'] },
+    { url: '/fr/configurateur/inconnu', lang: 'fr', dir: 'ltr', h1: 'Page introuvable', nav: 'Pages du site', links: ['/fr', '/fr/configurateur/ring-001', '/fr/faq'] },
+    { url: '/en/nothing-here', lang: 'en', dir: 'ltr', h1: 'Page not found', nav: 'Site pages', links: ['/en', '/en/configurator/ring-001', '/en/faq'] },
+    { url: '/he/guides', lang: 'he', dir: 'rtl', h1: 'הדף לא נמצא', nav: 'דפי האתר', links: ['/he', '/he/configurator/ring-001', '/he/faq'] },
+  ];
+  for (const c of cases) {
+    const res = await page.goto(c.url);
+    expect(res!.status(), c.url).toBe(404);
+    await expect(page.getByRole('heading', { level: 1 })).toHaveText(c.h1);
+    await expect(page.locator('html')).toHaveAttribute('lang', c.lang);
+    await expect(page.locator('html')).toHaveAttribute('dir', c.dir);
+    await expect(page).toHaveTitle(`${c.h1} · JR Diamond`);
+    await expect(page.getByRole('navigation', { name: c.nav }).getByRole('link')).toHaveCount(3);
+    for (const [i, href] of c.links.entries()) await expect(page.getByRole('navigation', { name: c.nav }).getByRole('link').nth(i)).toHaveAttribute('href', href);
+    // En-tête (sélecteur de langue vers les accueils) et pied de page du site.
+    await expect(page.getByRole('navigation', { name: 'Langue / Language' }).getByRole('link', { name: 'EN', exact: true })).toHaveAttribute('href', '/en');
+    await expect(page.getByRole('contentinfo')).toBeVisible();
+    expect(await page.locator('meta[name="robots"]').evaluateAll((m) => m.map((x) => x.getAttribute('content')).join(' '))).toMatch(/noindex/);
+  }
+  // Hébreu : traduction automatique, signalée comme les autres pages.
+  await expect(page.getByText('טיוטה · תרגום ממתין להגהה')).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
+  await page.getByRole('navigation', { name: 'דפי האתר' }).getByRole('link', { name: 'שאלות נפוצות' }).click();
+  await expect(page).toHaveURL(/\/he\/faq$/);
+});
+
+test('robots.txt et plan du site avant le lancement : exploration permise, rien d’annoncé', async ({ request }) => {
+  const robots = await request.get('/robots.txt');
+  expect(robots.status()).toBe(200);
+  const text = await robots.text();
+  expect(text).toMatch(/^User-Agent: \*$/m);
+  expect(text).toMatch(/^Allow: \/$/m);
+  expect(text).toMatch(/^Disallow: \/api\/$/m);
+  // Un « Disallow: / » empêcherait les robots de lire la balise noindex des pages.
+  expect(text).not.toMatch(/^Disallow: \/$/m);
+  expect(text).not.toMatch(/Sitemap:/i);
+  const sitemap = await request.get('/sitemap.xml');
+  expect(sitemap.status()).toBe(200);
+  expect(await sitemap.text()).not.toMatch(/<url>/);
+});
+
+test('aperçu de lien partagé : balises Open Graph dans le HTML du serveur, image servie', async ({ page, request }) => {
+  // Ce que lit WhatsApp : le <head> du HTML envoyé, sans JavaScript.
+  const html = await (await request.get('/fr')).text();
+  const head = html.slice(0, html.indexOf('</head>'));
+  for (const p of ['og:title', 'og:description', 'og:url', 'og:image', 'og:site_name', 'og:locale']) expect(head, p).toContain(`property="${p}"`);
+  expect(head).toMatch(/<meta property="og:image" content="https:\/\/[^"]+\/images\/apercu-partage\.jpg"/);
+
+  await page.goto('/he/faq');
+  const og = (p: string) => page.locator(`meta[property="${p}"]`);
+  await expect(og('og:title')).toHaveAttribute('content', 'שאלות נפוצות');
+  await expect(og('og:url')).toHaveAttribute('content', /^https:\/\/.+\/he\/faq$/);
+  await expect(og('og:locale')).toHaveAttribute('content', 'he_IL');
+  await expect(og('og:locale:alternate')).toHaveCount(2);
+  await expect(og('og:image:width')).toHaveAttribute('content', '1200');
+  await expect(og('og:image:height')).toHaveAttribute('content', '630');
+  await expect(page.locator('meta[name="twitter:card"]')).toHaveAttribute('content', 'summary_large_image');
+  const image = await og('og:image').getAttribute('content');
+  const res = await request.get(new URL(image!).pathname);
+  expect(res.status()).toBe(200);
+  expect(res.headers()['content-type']).toBe('image/jpeg');
+  expect((await res.body()).length).toBeLessThan(600 * 1024);
+});

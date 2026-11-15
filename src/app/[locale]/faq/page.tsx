@@ -5,20 +5,22 @@ import SiteHeader from '@/components/site/SiteHeader';
 import { FAQ, allFaqItems } from '@/content/faq';
 import { DICTIONARIES } from '@/i18n/dictionaries';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
-import { configuratorPath, languageAlternates } from '@/lib/routes';
+import { notFoundMetadata, pageMetadata } from '@/lib/metadata';
+import { configuratorPath, languageAlternates, localizedPath } from '@/lib/routes';
 import styles from './faq.module.css';
 
 type Params = Promise<{ locale: string }>;
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale } = await params;
-  if (!LOCALES.includes(locale as Locale)) return {};
+  if (!LOCALES.includes(locale as Locale)) return notFoundMetadata(locale);
   const t = DICTIONARIES[locale as Locale];
-  return {
+  return pageMetadata(locale as Locale, {
     title: t.faqTitle,
     description: t.faqLede,
-    alternates: { languages: languageAlternates('/faq') },
-  };
+    path: localizedPath(locale as Locale, '/faq'),
+    languages: languageAlternates('/faq'),
+  });
 }
 
 /** Données structurées FAQPage : seulement les réponses validées (pas les « à confirmer »). */

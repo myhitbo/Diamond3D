@@ -14,6 +14,12 @@ export const CONFIGURATOR_SEGMENT: Record<Locale, string> = { fr: 'configurateur
 /** Segment interne (nom du dossier) du configurateur. */
 export const INTERNAL_CONFIGURATOR_SEGMENT = 'configurateur';
 
+/**
+ * Langue d'une adresse dont le premier segment n'est pas une langue (`/nimporte-quoi`) : le français, langue par défaut.
+ * Sert au document et à la page 404 de ces adresses (voir `src/app/[locale]/layout.tsx`).
+ */
+export const localeOrDefault = (segment: string): Locale => ((LOCALES as readonly string[]).includes(segment) ? (segment as Locale) : 'fr');
+
 /** Modèle affiché par défaut tant que le catalogue n'a qu'une pièce. */
 export const DEFAULT_MODEL_ID = 'ring-001';
 
@@ -37,8 +43,12 @@ export const homePath = (locale: Locale) => localizedPath(locale, '/');
 export const languageAlternates = (internalPath: string, locales: readonly Locale[] = LOCALES) =>
   Object.fromEntries(locales.map((l) => [l, localizedPath(l, internalPath)]));
 
-/** Réécritures et redirections à déclarer dans `next.config.ts`. */
-export function translatedRouteRules() {
+/**
+ * Réécritures et redirections à déclarer dans `next.config.ts`.
+ * `permanent` : réglé dans `src/config/site.ts` (`TRANSLATED_REDIRECTS_PERMANENT`, qui suit l'interrupteur de lancement) ;
+ * temporaire par défaut.
+ */
+export function translatedRouteRules(permanent = false) {
   const translated = LOCALES.filter((l) => CONFIGURATOR_SEGMENT[l] !== INTERNAL_CONFIGURATOR_SEGMENT);
   return {
     rewrites: translated.map((l) => ({
@@ -48,8 +58,7 @@ export function translatedRouteRules() {
     redirects: translated.map((l) => ({
       source: `/${l}/${INTERNAL_CONFIGURATOR_SEGMENT}/:modelId`,
       destination: `/${l}/${CONFIGURATOR_SEGMENT[l]}/:modelId`,
-      // Temporaire tant que le site est un prototype non indexé ; à passer en permanent au lancement.
-      permanent: false,
+      permanent,
     })),
   };
 }

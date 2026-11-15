@@ -26,7 +26,7 @@
 - [ ] Ajouter au configurateur : diamants de couleur, émeraude / saphir / rubis, origine naturelle / synthétique / imitation (libellés légaux par pays). Retirer l'argent s'il apparaît : non proposé par l'atelier. Certificat GIA / IGI dès 0,50 ct.
 
 ## Lancement en Israël (décisions du 4/11, voir `docs/STRATEGIE.md` §6)
-- [ ] Envoyer `docs/PROCEDURE_PHOTO_ATELIER.md` à l'atelier.
+- [x] Procédure photo et vidéo envoyée à l'atelier en PDF (`docs/atelier/Procedure_photo_video_atelier.pdf`).
 - [ ] Prix affichés en ₪ TTC (TVA 18 %).
 - [ ] Alliance de kiddouchin : obtenir un modèle simple (atelier ou CGTrader) et faire la page. Guide fait le 14/11 (`/fr/guides/alliance-de-kiddouchin`).
 - [x] Parcours « transformation de bijoux de famille » : photos de l'ancien bijou + demande de devis (`/fr|en|he/transformation`, 14/11). Reste : relecture par l'atelier.
@@ -68,5 +68,5 @@
 - [ ] Juridique : compléter la partie 4 du dossier avec l'atelier et consulter un avocat israélien.
 - [ ] Devis : faire relire les textes hébreux du formulaire (traduction IA).
 - [x] Adresses traduites (`/en/configurator/…`, `/he/configurator/…`, 14/11). Redirections à passer en permanent au lancement.
-- [ ] Tests Safari et Firefox.
+- [x] Tests Safari et Firefox automatisés (15/11) : WebKit iPhone et iPad, Firefox sans 3D (`npm run test:e2e:browsers`). Reste le test sur appareils réels (section « Bloquant »).
 - [ ] Calibrer les teintes des métaux sur des photos authentiques.

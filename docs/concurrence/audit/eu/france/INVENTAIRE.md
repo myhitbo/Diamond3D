@@ -30,7 +30,7 @@ Toutes les adresses de la colonne « Page de départ » ont répondu 200 à `cur
 | Rang | Acteur | Ville | Adresse | Page de départ | Configurateur | Blocage | Langues | Pourquoi |
 |---|---|---|---|---|---|---|---|---|
 | 1 | Courbet | Paris 1er (7 place Vendôme) | https://www.courbet.com/ | https://www.courbet.com/page/creation-bague-fiancailles puis https://www.courbet.com/configurator/configure/R26W1011%2003%20FV | **Oui, 3D temps réel** (moteur Apviz). 2 étapes : or (3 couleurs), forme (6), carat (4), couleur (D, E, F), pureté (VVS, VS). Prix à chaque choix, de 3 600 à 6 500 € relevés (V) | aucun. robots.txt interdit `/panier/ajout/` et `/cart/add/` : l'ajout au panier n'a pas été automatisé (V) | FR, EN (en.courbet.com) | Seul configurateur 3D de bague de fiançailles français lisible en navigateur. Tout synthétique. **Société liquidée, vente en ligne à l'arrêt** (V). **Audité** : `courbet.md` |
-| 2 | Edenly | Genève (société) ; boutique Paris Opéra | https://www.edenly.com/ | https://www.edenly.com/create-engagement.php (accueil de « L'Atelier » : https://www.edenly.com/create-home.php) | Oui, 3D : modèle (solitaire, accompagné, halo), 11 pierres dont diamant naturel et synthétique, 0,3 à 1 ct, or 9 ou 18 k (V, texte de la page lu par la recherche ; non actionné) | **bloqué** : défi Cloudflare 403 « Just a moment… » sur l'accueil (curl) et sur `create-engagement.php` en Chromium (V). robots.txt interdit `create-engagement.php?id=` (V) | FR, EN, DE, ES, IT, NL, PL, RO | Concurrent 3D le plus direct en France : prix affichés (créations de clients à 900–1 170 € en synthétique 0,5 à 1 ct, V), retour à 30 jours sur les pièces configurées (inventaire européen). **Non audité** |
+| 2 | Edenly | Genève (société) ; boutique Paris Opéra | https://www.edenly.com/ | https://www.edenly.com/create-engagement.php (accueil de « L'Atelier » : https://www.edenly.com/create-home.php) | Oui, 3D : modèle (solitaire, accompagné, halo), 11 pierres dont diamant naturel et synthétique, 0,3 à 1 ct, or 9 ou 18 k (V, texte de la page lu par la recherche ; non actionné) | **bloqué** : défi Cloudflare 403 « Just a moment… » sur l'accueil (curl) et sur `create-engagement.php` en Chromium (V). robots.txt interdit `create-engagement.php?id=` (V) | FR, EN, DE, ES, IT, NL, PL, RO | Concurrent 3D le plus direct en France : prix affichés (créations de clients à 900–1 170 € en synthétique 0,5 à 1 ct, V), retour à 30 jours sur les pièces configurées (inventaire européen). **Bloqué, non audité** : `edenly.md` |
 | 3 | Bonnot Paris | Paris 8e (40 rue des Mathurins) ; showroom à Angers | https://www.bonnot-paris.com/ | https://www.bonnot-paris.com/creer-avec-studio-bonnot | **Oui, « Le Studio »**, 3 étapes : pierre réelle photographiée (stock filtrable), 23 designs en 4 métaux, puis simulation par IA « à votre doigt ». La simulation et le prix de la bague n'apparaissent qu'après saisie du prénom, de l'e-mail et du téléphone (V) | aucun. robots.txt interdit `/cart`, `/checkout`, `/account` et les filtres passés en paramètres (V) | FR, DE, EN, ES, IT, PT-BR, ZH-CN ; €, $, £, CHF, CA$ | L'inverse exact de JR Diamond : la pierre est réelle (« la pierre photographiée est celle que vous choisissez »), la bague est une image d'IA. Pierres de couleur naturelles seulement. **Audité** : `bonnot-paris.md` |
 | 4 | L'Alliancier | Reichstett (siège) et Vendenheim (boutique), Bas-Rhin ; marque de la bijouterie Kamlet (V) | https://www.alliancier.com/ | https://www.alliancier.com/configurateur-alliance-3d/ | **Oui, 3D d'alliances** : c'est le configurateur du fabricant allemand Breuning (`konfigurator.breuning.de`), intégré à la page. 6 onglets, paire d'alliances, prix TTC par bague à chaque choix (V) | pas de défi. Le serveur a répondu 429 (trop de requêtes) à 68–79 feuilles de style et scripts à chaque chargement en Chromium de bureau, à aucun en identité iPhone : page de bureau sans style, configurateur intact (V) | FR | Seul configurateur 3D d'alliances relevé chez un détaillant français. Commande « validée manuellement » par un rappel (V). **Audité** : `l-alliancier.md` |
 | 5 | La Maison de l'Alliance | Paris (bijouterie familiale « depuis 1987 », V) | https://www.maisondelalliance.fr/ | https://www.maisondelalliance.fr/bijoux-diamant/sur-mesure/solitaires | Partiel : on choisit une monture (platine, or blanc, jaune ou rose), puis un poids de diamant (8 choix de 0,3 à 1 ct) et une qualité (6 choix) ; taille de doigt dès 45 ; panier. Les fiches liées nomment des pierres précises, par exemple « 0.50 D SI1 » (V, relevé de contrôles ; options non actionnées) | aucun ; robots.txt n'interdit que `/admin/` (V) | FR | Parcours « monture + diamant certifié » sans 3D. Rubrique « Diamants de synthèse ». Livraison offerte, mise à taille gratuite 6 mois, paiement en plusieurs fois (V, libellés des boutons). Premier remplaçant si un audit de plus est décidé |
@@ -40,6 +40,23 @@ Toutes les adresses de la colonne « Page de départ » ont répondu 200 à `cur
 | 9 | Histoire d'Or | réseau national de bijouteries (V : retrait en magasin sous 2 h) | https://www.histoiredor.com/fr_FR | https://www.histoiredor.com/fr_FR/c/bagues/par-type/bagues-de-fiancailles/ | Non : fiche avec taille de bague, « Ajouter au panier » et « Retirer en magasin » (V) | aucun | FR | Marque nationale. Vend du synthétique sous le libellé légal : « Bague […] Platine Diamant Synthétique » (V). « Satisfait ou remboursé sous 60 jours » (V) |
 | 10 | Celinni | Paris | https://www.celinni.com/fr/ | https://www.celinni.com/fr/12-bagues-de-fiancailles | Non : catalogue (V, curl) | **bloqué** : 403 en Chromium sur une fiche de solitaire, page vide ; curl répond 200 (V) | FR | Diamantaire « depuis 6 générations », diamant naturel, argument de prix face à la place Vendôme (V). Non auditable |
 
+### État des audits au 16/11/2026
+
+| Site | Statut | Rapport | Note |
+|---|---|---|---|
+| Courbet | partiel (société liquidée, vente inerte) | [courbet.md](courbet.md) | audité le 15/11 |
+| Bonnot Paris | partiel | [bonnot-paris.md](bonnot-paris.md) | audité le 15/11 |
+| L'Alliancier | partiel | [l-alliancier.md](l-alliancier.md) | audité le 15/11 |
+| Edenly | **bloqué** (défi Cloudflare constaté le 15/11, pas de nouvel essai) | [edenly.md](edenly.md) | seul `robots.txt` relu le 16/11 |
+| La Maison de l'Alliance | complet jusqu'au panier | [la-maison-de-l-alliance.md](la-maison-de-l-alliance.md) | seul site du groupe dont le panier a été atteint |
+| MonDiamant | partiel (panier interdit : l'ajout passe par `/module/`) | [mondiamant.md](mondiamant.md) | |
+| Gemmyo | partiel (panier, `/ajax/` et filtres interdits) | [gemmyo.md](gemmyo.md) | |
+| Laveran Paris | partiel, **lecture statique** (le site publie des règles pour les agents, `agents.md`) | [laveran-paris.md](laveran-paris.md) | aucun contrôle actionné |
+| Histoire d'Or | partiel (panier et contenu `/on/demandware.store/` interdits) | [histoire-d-or.md](histoire-d-or.md) | pas de configuration à tester |
+| Celinni | bloqué (403) | — | non tenté de nouveau |
+
+Synthèse du groupe : [SYNTHESE_fr.md](SYNTHESE_fr.md).
+
 ### Terme français du diamant synthétique, site par site
 
 | Site | Libellé relevé | Conforme au décret 2002-65 ? |
@@ -48,7 +65,7 @@ Toutes les adresses de la colonne « Page de départ » ont répondu 200 à `cur
 | Edenly | « diamant synthétique », « diamant naturel ou de synthèse » (V) | oui |
 | La Maison de l'Alliance | rubrique « Diamants de synthèse » (V) | oui |
 | Histoire d'Or | « Diamant Synthétique » dans le nom des produits (V) | oui |
-| Laveran Paris | « diamants de laboratoire » (11 occurrences sur l'accueil), « de synthèse » (2) (V) | non pour le terme principal (I) |
+| Laveran Paris | « diamants de laboratoire » (11 occurrences sur l'accueil), « de synthèse » (2) (V) ; fiche (16/11) : « Diamants Synthétiques » dans les détails, mais « Un diamant de laboratoire est-il un vrai diamant ? Oui. » (V) | non pour le terme principal ; « vrai » interdit (I) |
 | MonDiamant | une occurrence de « synthétique » et une de « de laboratoire » sur la page catalogue ; offre en diamant naturel GIA (V) | sans objet |
 | Bonnot Paris | « nous ne vendons aucune pierre synthétique » (V) | sans objet |
 | Gemmyo, Celinni | naturel seulement (V) | sans objet |

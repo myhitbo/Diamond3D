@@ -41,7 +41,7 @@ test('envoie une demande avec la configuration choisie et une photo', async ({ p
   await page.getByRole('button', { name: 'Envoyer la demande' }).click();
   expect((await res).status()).toBe(200);
   const sent = (await page.evaluate(() => (window as unknown as { __sent: unknown }).__sent)) as { config: string; photos: string[] };
-  expect(JSON.parse(sent.config).metal).toBe('rose-gold-18k');
+  expect(JSON.parse(sent.config).metal).toBe('rose-gold-14k');
   expect(sent.photos).toEqual(['main.png']);
 
   await expect(page.getByRole('heading', { name: 'Demande envoyée' })).toBeVisible();

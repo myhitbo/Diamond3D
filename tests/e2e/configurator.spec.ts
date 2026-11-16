@@ -27,14 +27,14 @@ test('le changement de métal modifie le matériau, pas la géométrie', async (
   await page.goto(URL);
   await ready(page);
   const nodesBefore = await page.evaluate(() => window.__jr!.visibleNodes());
-  expect(await page.evaluate(() => window.__jr!.metalColor())).toBe('#f0cc86');
+  expect(await page.evaluate(() => window.__jr!.metalColor())).toBe('#e9c98e'); // or jaune 14 carats, métal par défaut (atelier, 16/11)
   await page.getByRole('radio', { name: 'Or rose', exact: true }).click();
-  await expect.poll(() => page.evaluate(() => window.__jr!.metalColor())).toBe('#eebba0');
-  await expect(page.getByRole('radio', { name: 'Or rose', exact: true })).toHaveAttribute('aria-checked', 'true');
-  // Passage en 14 carats : même couleur choisie, autre titre.
-  await page.getByRole('radiogroup', { name: 'Titre de l’or' }).getByRole('radio', { name: '14 carats' }).click();
   await expect.poll(() => page.evaluate(() => window.__jr!.metalColor())).toBe('#eab39a');
-  await expect(page.getByText('Or rose 14 carats').first()).toBeVisible();
+  await expect(page.getByRole('radio', { name: 'Or rose', exact: true })).toHaveAttribute('aria-checked', 'true');
+  // Passage en 18 carats : même couleur choisie, autre titre.
+  await page.getByRole('radiogroup', { name: 'Titre de l’or' }).getByRole('radio', { name: '18 carats' }).click();
+  await expect.poll(() => page.evaluate(() => window.__jr!.metalColor())).toBe('#eebba0');
+  await expect(page.getByText('Or rose 18 carats').first()).toBeVisible();
   expect(await page.evaluate(() => window.__jr!.visibleNodes())).toEqual(nodesBefore);
   // Le platine n'a pas de titre d'or.
   await page.getByRole('radio', { name: 'Platine', exact: true }).click();
@@ -199,7 +199,7 @@ test('réinitialiser revient à la configuration initiale', async ({ page }) => 
   await page.getByRole('radio', { name: 'Platine', exact: true }).click();
   await page.getByRole('radio', { name: 'Solitaire' }).click();
   await page.getByRole('button', { name: 'Réinitialiser' }).click();
-  await expect.poll(() => page.evaluate(() => window.__jr!.metalColor())).toBe('#f0cc86');
+  await expect.poll(() => page.evaluate(() => window.__jr!.metalColor())).toBe('#e9c98e');
   expect(await page.evaluate(() => window.__jr!.visibleNodes())).toHaveLength(8);
 });
 

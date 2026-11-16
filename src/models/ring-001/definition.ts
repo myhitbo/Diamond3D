@@ -46,7 +46,7 @@ export const ring001 = {
   metals: {
     // Atelier, 3/11 : or 14 k et 18 k (jaune, blanc, rose) et platine ; pas d'argent.
     options: ['yellow-gold-14k', 'white-gold-14k', 'rose-gold-14k', 'yellow-gold-18k', 'white-gold-18k', 'rose-gold-18k', 'platinum-950'],
-    default: 'yellow-gold-18k',
+    default: 'yellow-gold-14k', // atelier, 16/11 : or jaune 14 k par défaut
     availabilityConfirmed: true,
   },
   stoneSlots: [

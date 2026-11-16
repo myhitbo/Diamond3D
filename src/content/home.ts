@@ -72,7 +72,7 @@ export const HOME: Record<Locale, HomeContent> = {
       },
       {
         title: 'Un prix sur devis',
-        text: 'Le prix dépend du métal, du titre de l’or et des pierres choisis. L’atelier vous répond avec un devis, sans engagement.',
+        text: 'Le prix dépend du métal, du titre de l’or et des pierres choisis. L’atelier vous répond avec un devis sous 24 à 48 h ouvrées, sans engagement.',
       },
       { title: 'Première mise à taille offerte', text: 'Si la bague n’est pas à la bonne taille, la première mise à taille est offerte pendant la première année.' },
     ],
@@ -117,7 +117,7 @@ export const HOME: Record<Locale, HomeContent> = {
       },
       {
         title: 'Priced on quote',
-        text: 'The price depends on the metal, the gold karat and the stones you choose. The workshop replies with a quote, with no obligation.',
+        text: 'The price depends on the metal, the gold karat and the stones you choose. The workshop replies with a quote within 24 to 48 working hours, with no obligation.',
       },
       { title: 'First resizing free', text: 'If the ring does not fit, the first resizing is free during the first year.' },
     ],
@@ -156,7 +156,7 @@ export const HOME: Record<Locale, HomeContent> = {
         text: 'הטבעת שאתם מסובבים על המסך נלקחה מקובץ ה־CAD שממנו הסדנה מייצרת אותה. היא לא שורטטה מחדש לאתר: רק כמה פרטים פושטו לתצוגה. הצבעים, לעומת זאת, הם צבעי מסך.',
       },
       { title: 'סדנה בבורסת היהלומים ברמת גן', text: 'הסדנה שלנו היא שמייצרת את התכשיט שלכם. זמן הייצור: 14 ימי עבודה מיום ההזמנה, לתכשיט מהקטלוג שלנו.' },
-      { title: 'מחיר לפי הצעת מחיר', text: 'המחיר תלוי במתכת, בקראט הזהב ובאבנים שבחרתם. הסדנה משיבה בהצעת מחיר, ללא התחייבות.' },
+      { title: 'מחיר לפי הצעת מחיר', text: 'המחיר תלוי במתכת, בקראט הזהב ובאבנים שבחרתם. הסדנה משיבה בהצעת מחיר תוך 24 עד 48 שעות עבודה, ללא התחייבות.' },
       { title: 'התאמת המידה הראשונה חינם', text: 'אם הטבעת לא במידה, התאמת המידה הראשונה חינם במהלך השנה הראשונה.' },
     ],
     making: 'נרצה גם להראות לכם את התכשיט שלכם בזמן הייצור, בתמונות ובסרטונים.',

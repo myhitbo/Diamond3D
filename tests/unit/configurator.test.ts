@@ -76,10 +76,13 @@ describe('règles de changement', () => {
 
 describe('estimations', () => {
   const s0 = defaultState(ring001);
+  it('métal par défaut : or jaune 14 k (atelier, 16/11)', () => {
+    expect(s0.metal).toBe('yellow-gold-14k');
+  });
   it('poids = volume STL × densité nominale', () => {
     expect(metalVolumeMm3(ring001, s0)).toBeCloseTo(153.48 + 135.4, 2);
     const w = metalWeightEstimateG(ring001, { ...s0, composition: 'solitaire' });
-    expect(w).toBeCloseTo((153.48 / 1000) * METALS['yellow-gold-18k'].density.nominalGcm3, 6);
+    expect(w).toBeCloseTo((153.48 / 1000) * METALS['yellow-gold-14k'].density.nominalGcm3, 6);
   });
   it('récapitule les pierres visibles', () => {
     const g = stoneSummary(ring001, { ...s0, composition: 'solitaire' });
@@ -128,7 +131,7 @@ describe('couleur et titre du métal', () => {
   it('garde le titre en changeant de couleur, et retombe sur le seul titre possible', () => {
     expect(pickMetal(ring001, 'white', '14k')).toBe('white-gold-14k');
     expect(pickMetal(ring001, 'platinum', '14k')).toBe('platinum-950');
-    expect(pickMetal(ring001, 'yellow', 'platinum')).toBe('yellow-gold-18k'); // titre du métal par défaut
+    expect(pickMetal(ring001, 'yellow', 'platinum')).toBe('yellow-gold-14k'); // titre du métal par défaut (atelier, 16/11)
   });
 
   it('chaque métal du catalogue a une couleur et un titre cohérents avec son identifiant', () => {
@@ -140,7 +143,7 @@ describe('couleur et titre du métal', () => {
 
   it('le 14 carats pèse moins que le 18 carats pour la même bague', () => {
     const s0 = defaultState(ring001);
-    expect(metalWeightEstimateG(ring001, { ...s0, metal: 'yellow-gold-14k' })).toBeLessThan(metalWeightEstimateG(ring001, s0));
+    expect(metalWeightEstimateG(ring001, { ...s0, metal: 'yellow-gold-14k' })).toBeLessThan(metalWeightEstimateG(ring001, { ...s0, metal: 'yellow-gold-18k' }));
   });
 });
 

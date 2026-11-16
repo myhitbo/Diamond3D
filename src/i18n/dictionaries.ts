@@ -51,7 +51,7 @@ const fr = {
   requestQuoteSiteOnly: 'La demande de devis se fait depuis le site.',
   quote: {
     title: 'Demande de devis',
-    intro: 'La configuration ci-dessus est jointe à votre demande. L’atelier vous répond par e-mail, sans engagement.',
+    intro: 'La configuration ci-dessus est jointe à votre demande. L’atelier vous répond sous 24 à 48 h ouvrées, sans engagement.',
     fieldNames: {
       name: 'Nom',
       email: 'E-mail',
@@ -63,7 +63,7 @@ const fr = {
       publishConsent: 'Facultatif : j’accepte que des photos et vidéos de la fabrication de mon bijou soient publiées par l’atelier (sans mon nom).',
       config: 'Configuration',
     },
-    ringSizePlaceholder: 'Ex. 52, ou « je ne sais pas »',
+    ringSizePlaceholder: 'Ex. 52 (européenne), 6 (US) ou « je ne sais pas »',
     requiredNote: 'Les champs marqués d’un astérisque (*) sont obligatoires.',
     /** Erreurs affichées sous les champs, avant tout envoi (`FormFeedback.tsx`). */
     fieldErrors: {
@@ -85,7 +85,7 @@ const fr = {
     cancel: 'Annuler',
     close: 'Fermer',
     successTitle: 'Demande envoyée',
-    successText: 'Merci. L’atelier a bien reçu votre demande et vous répondra par e-mail.',
+    successText: 'Merci. L’atelier a bien reçu votre demande et vous répondra par e-mail sous 24 à 48 h ouvrées.',
     errors: {
       invalidFields: (f: string) => `Merci de vérifier : ${f}.`,
       invalid: 'Merci de vérifier les champs du formulaire.',
@@ -199,7 +199,7 @@ const en: Dict = {
   requestQuoteSiteOnly: 'Quote requests are made on the website.',
   quote: {
     title: 'Quote request',
-    intro: 'The configuration above is attached to your request. The workshop will reply by email, with no obligation.',
+    intro: 'The configuration above is attached to your request. The workshop replies within 24 to 48 working hours, with no obligation.',
     fieldNames: {
       name: 'Name',
       email: 'Email',
@@ -211,7 +211,7 @@ const en: Dict = {
       publishConsent: 'Optional: I agree that the workshop may publish photos and videos of my piece being made (without my name).',
       config: 'Configuration',
     },
-    ringSizePlaceholder: 'E.g. 52, M, 6, or “not sure”',
+    ringSizePlaceholder: 'E.g. 52 (European), 6 (US) or “not sure”',
     requiredNote: 'Fields marked with an asterisk (*) are required.',
     fieldErrors: {
       name: 'Enter your name (at least 2 characters).',
@@ -231,7 +231,7 @@ const en: Dict = {
     cancel: 'Cancel',
     close: 'Close',
     successTitle: 'Request sent',
-    successText: 'Thank you. The workshop has received your request and will reply by email.',
+    successText: 'Thank you. The workshop has received your request and will reply by email within 24 to 48 working hours.',
     errors: {
       invalidFields: (f: string) => `Please check: ${f}.`,
       invalid: 'Please check the form fields.',
@@ -338,7 +338,7 @@ const he: Dict = {
   requestQuoteSiteOnly: 'בקשת הצעת מחיר נעשית דרך האתר.',
   quote: {
     title: 'בקשת הצעת מחיר',
-    intro: 'התצורה שלמעלה מצורפת לבקשה. הסדנה תשיב לכם בדוא״ל, ללא התחייבות.',
+    intro: 'התצורה שלמעלה מצורפת לבקשה. הסדנה תשיב לכם תוך 24 עד 48 שעות עבודה, ללא התחייבות.',
     fieldNames: {
       name: 'שם',
       email: 'דוא״ל',
@@ -350,7 +350,7 @@ const he: Dict = {
       publishConsent: 'לא חובה: אני מסכים/ה שהסדנה תפרסם תמונות וסרטונים מייצור התכשיט שלי (ללא שמי).',
       config: 'תצורה',
     },
-    ringSizePlaceholder: 'לדוגמה 52, או „לא יודע/ת”',
+    ringSizePlaceholder: 'לדוגמה 52 (אירופאית), 6 (אמריקאית) או „לא יודע/ת”',
     requiredNote: 'שדות המסומנים בכוכבית (*) הם שדות חובה.',
     fieldErrors: {
       name: 'נא למלא את שמכם (2 תווים לפחות).',
@@ -370,7 +370,7 @@ const he: Dict = {
     cancel: 'ביטול',
     close: 'סגירה',
     successTitle: 'הבקשה נשלחה',
-    successText: 'תודה. הסדנה קיבלה את בקשתכם ותשיב בדוא״ל.',
+    successText: 'תודה. הסדנה קיבלה את בקשתכם ותשיב בדוא״ל תוך 24 עד 48 שעות עבודה.',
     errors: {
       invalidFields: (f: string) => `נא לבדוק: ${f}.`,
       invalid: 'נא לבדוק את שדות הטופס.',

@@ -282,7 +282,7 @@ test.describe('clavier', () => {
     await metal.getByRole('radio', { checked: true }).focus();
     await page.keyboard.press('ArrowRight');
     await expect(metal.getByRole('radio', { name: 'Or blanc' })).toHaveAttribute('aria-checked', 'true');
-    await expect(page.getByRole('heading', { name: 'Métal Or blanc 18 carats' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Métal Or blanc 14 carats' })).toBeVisible();
 
     await page.goto(CONFIGURATOR.he);
     const he = page.getByRole('radiogroup', { name: UI.he.composition });
@@ -440,12 +440,12 @@ test('vue 3D : nom, description de la bague et des choix, mise à jour annoncée
   await openConfigurator(page, 'fr');
   const canvas = page.getByRole('img', { name: UI.fr.canvas });
   await expect(canvas).toHaveAttribute('tabindex', '0');
-  await expect(canvas).toHaveAccessibleDescription(/^Ensemble marquise\. Composition : Ensemble\. .*Métal : Or jaune 18 carats\. Pierres : .*Marquise.*Origine du diamant : Naturel\. Quand l’aperçu a le focus : flèches pour tourner/);
+  await expect(canvas).toHaveAccessibleDescription(/^Ensemble marquise\. Composition : Ensemble\. .*Métal : Or jaune 14 carats\. Pierres : .*Marquise.*Origine du diamant : Naturel\. Quand l’aperçu a le focus : flèches pour tourner/);
   await expect(page.locator('#viewer-description')).toHaveAttribute('aria-live', 'polite');
   await page.getByRole('radio', { name: 'Or rose', exact: true }).click();
   await page.getByRole('radio', { name: 'Alliance' }).click();
   await page.getByRole('radio', { name: 'Synthétique' }).click();
-  await expect(canvas).toHaveAccessibleDescription(/Composition : Alliance\. L’alliance dégradée seule\. Métal : Or rose 18 carats\. .*Origine du diamant : Synthétique\./);
+  await expect(canvas).toHaveAccessibleDescription(/Composition : Alliance\. L’alliance dégradée seule\. Métal : Or rose 14 carats\. .*Origine du diamant : Synthétique\./);
   await expect(page.locator('#viewer-description')).not.toContainText('Marquise');
 
   await openConfigurator(page, 'he');

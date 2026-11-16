@@ -54,20 +54,33 @@ describe('informations de l’entreprise (src/config/business.ts)', () => {
   });
 
   it('information manquante : marque visible dans la langue de la page ; remplie : la valeur', () => {
-    expect(BUSINESS.phone).toBeNull();
-    expect(businessText('phone', 'fr')).toEqual({ text: '[à compléter : téléphone]', missing: true });
-    expect(businessText('phone', 'en')).toEqual({ text: '[to be completed: phone]', missing: true });
-    expect(businessText('phone', 'he')).toEqual({ text: '[להשלמה: טלפון]', missing: true });
-    BUSINESS.phone = '+972 3 000 0000';
+    expect(BUSINESS.email).toBeNull();
+    expect(businessText('email', 'fr')).toEqual({ text: '[à compléter : adresse e-mail]', missing: true });
+    expect(businessText('email', 'en')).toEqual({ text: '[to be completed: email address]', missing: true });
+    expect(businessText('email', 'he')).toEqual({ text: '[להשלמה: כתובת דוא״ל]', missing: true });
+    BUSINESS.email = 'atelier@example.com';
     BUSINESS.address = { fr: 'Ramat Gan', en: 'Ramat Gan', he: 'רמת גן' };
     try {
-      expect(businessText('phone', 'he')).toEqual({ text: '+972 3 000 0000', missing: false });
+      expect(businessText('email', 'he')).toEqual({ text: 'atelier@example.com', missing: false });
       expect(businessText('address', 'he')).toEqual({ text: 'רמת גן', missing: false });
-      expect(missingBusinessFields()).not.toContain('phone');
+      expect(missingBusinessFields()).not.toContain('email');
     } finally {
-      BUSINESS.phone = null;
+      BUSINESS.email = null;
       BUSINESS.address = null;
     }
+  });
+
+  it('informations de l’atelier du 16/11 : nom, numéro d’osek patour, téléphone, paiement, livraison', () => {
+    expect(BUSINESS.legalName).toBe('Diamdor');
+    expect(businessText('registrationNumber', 'fr').text).toBe('Osek patour (עוסק פטור) n° 345837116');
+    expect(businessText('registrationNumber', 'en').text).toBe('Exempt dealer (עוסק פטור) No. 345837116');
+    expect(businessText('registrationNumber', 'he').text).toBe('עוסק פטור מס׳ 345837116');
+    expect(BUSINESS.phone).toBe('+972 55-255-0455');
+    expect(businessText('payment', 'fr').text).toBe('carte bancaire en ligne et Bit');
+    expect(businessText('delivery', 'fr').text).toMatch(/^en Israël, par coursier .*150 à 200 ₪.*retrait à l’atelier/);
+    // Rien sur l'étranger tant que l'atelier ne l'a pas confirmé ; e-mail, adresse et annulation restent à compléter.
+    for (const l of ['fr', 'en', 'he'] as const) expect(businessText('delivery', l).text).not.toMatch(/France|étranger|abroad|חו״ל/);
+    for (const f of ['email', 'address', 'cancellation'] as const) expect(BUSINESS[f]).toBeNull();
   });
 });
 

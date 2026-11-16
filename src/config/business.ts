@@ -3,7 +3,8 @@ import type { Locale } from '@/lib/configurator/schema';
 /**
  * Informations sur l'entreprise affichées par les pages légales (déclaration d'accessibilité, politique de confidentialité).
  *
- * À REMPLIR AVANT LA VENTE (voir TODO.md et les questions 67 à 79 de `docs/QUESTIONS_ATELIER.md`). Tant qu'une valeur vaut
+ * À REMPLIR AVANT LA VENTE (voir TODO.md et les questions 67 à 79 de `docs/QUESTIONS_ATELIER.md`). Remplis le 16/11 d'après
+ * l'atelier : nom, numéro, téléphone, paiement, livraison ; restent notamment l'e-mail, l'adresse et l'annulation. Tant qu'une valeur vaut
  * `null`, les pages affichent à sa place une marque visible : « [à compléter : …] », « [to be completed: …] », « [להשלמה: …] ».
  * Un seul endroit à remplir : les textes des pages (`src/content/legal/`) appellent ces valeurs par leur nom (`{legalName}`).
  *
@@ -63,14 +64,27 @@ export type BusinessField =
   | 'cancellation';
 
 export const BUSINESS: Record<BusinessField, BusinessValue> = {
-  /** Nom légal de l'exploitant du site : raison sociale de la société, ou nom de l'entrepreneur en nom propre. */
-  legalName: null,
-  /** Numéro de société (ח.פ.) ou numéro d'entrepreneur (ע.מ.) ; pour un entrepreneur en nom propre, voir la question 40 de `docs/juridique/DOSSIER_AVOCAT_IL.md`. */
-  registrationNumber: null,
+  /**
+   * Nom légal de l'exploitant du site. « Diamdor » : nom donné par Yonathan le 16/11 (WhatsApp, 10 h 37).
+   * À confirmer : pour un osek patour (entrepreneur en nom propre), le nom légal est en principe celui du titulaire,
+   * « Diamdor » serait alors un nom commercial (nom du titulaire demandé dans la relance du 16/11).
+   */
+  legalName: 'Diamdor',
+  /**
+   * Numéro d'osek patour (עוסק פטור), donné le 16/11 (WhatsApp, 10 h 37). Yonathan l'a écrit « חפ », mais ce n'est pas un
+   * ח.פ. (numéro de société) : un osek patour n'en a pas, son numéro est en principe celui de sa carte d'identité [I].
+   * Au passage en société : numéro ח.פ. de la société (voir `vatStatus`). Publication du numéro : question 40 de
+   * `docs/juridique/DOSSIER_AVOCAT_IL.md`.
+   */
+  registrationNumber: {
+    fr: 'Osek patour (עוסק פטור) n° 345837116',
+    en: 'Exempt dealer (עוסק פטור) No. 345837116',
+    he: 'עוסק פטור מס׳ 345837116',
+  },
   /** Adresse postale complète (immeuble et bureau à la Bourse du diamant, Ramat Gan). */
   address: null,
-  /** Téléphone de l'atelier, format international (+972 …). */
-  phone: null,
+  /** Téléphone et WhatsApp de l'atelier (16/11), format international. */
+  phone: '+972 55-255-0455',
   /** Adresse e-mail publique : questions, demandes d'accès et de rectification des données. */
   email: null,
   /** Personne qui reçoit les signalements d'accessibilité (nommément) et ses coordonnées. */
@@ -92,10 +106,18 @@ export const BUSINESS: Record<BusinessField, BusinessValue> = {
    * usage non commercial.
    */
   hostLogRetention: null,
-  /** Moyens et modalités de paiement. */
-  payment: null,
-  /** Mode, délai et zone de livraison (Israël, France plus tard), retrait à l'atelier. */
-  delivery: null,
+  /** Moyens de paiement (atelier, 16/11). Paiement en plusieurs fois : sans réponse. */
+  payment: {
+    fr: 'carte bancaire en ligne et Bit',
+    en: 'bank card online and Bit',
+    he: 'כרטיס אשראי באתר ו־Bit',
+  },
+  /** Livraison (atelier, 16/11) : Israël seulement ; rien sur l'étranger tant que l'atelier ne l'a pas confirmé. */
+  delivery: {
+    fr: 'en Israël, par coursier (frais selon la ville, en général 150 à 200 ₪, fixés dans le devis), ou retrait à l’atelier, à la Bourse du diamant de Ramat Gan',
+    en: 'in Israel, by courier (fee depending on the city, usually ₪150 to ₪200, set in the quote), or collection from the workshop at the Diamond Exchange in Ramat Gan',
+    he: 'בישראל, בשליח (העלות לפי העיר, בדרך כלל 150 עד 200 ₪, נקבעת בהצעת המחיר), או איסוף מהסדנה בבורסת היהלומים ברמת גן',
+  },
   /** Mention de TVA : découle de `vatStatus`, ne pas la saisir ici. */
   vatNotice: VAT_NOTICE[vatStatus],
   /** Durée de validité d'un devis. */
@@ -109,7 +131,7 @@ export const BUSINESS: Record<BusinessField, BusinessValue> = {
 /** Libellé de chaque information, affiché dans la marque « à compléter » tant qu'elle manque. */
 export const BUSINESS_LABELS: Record<BusinessField, Record<Locale, string>> = {
   legalName: { fr: 'nom légal de l’entreprise', en: 'legal name of the business', he: 'שם העסק הרשמי' },
-  registrationNumber: { fr: 'numéro ח.פ. ou ע.מ.', en: 'company or dealer number (ח.פ. or ע.מ.)', he: 'מספר ח.פ. או ע.מ.' },
+  registrationNumber: { fr: 'numéro d’osek (עוסק) ou de société (ח.פ.)', en: 'dealer (עוסק) or company (ח.פ.) number', he: 'מספר עוסק או ח.פ.' },
   address: { fr: 'adresse postale', en: 'postal address', he: 'כתובת למשלוח דואר' },
   phone: { fr: 'téléphone', en: 'phone', he: 'טלפון' },
   email: { fr: 'adresse e-mail', en: 'email address', he: 'כתובת דוא״ל' },

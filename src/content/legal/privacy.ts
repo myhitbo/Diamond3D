@@ -37,7 +37,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
         id: 'responsable',
         title: 'Qui est responsable de vos données',
         paragraphs: [
-          'Le site JR Diamond est exploité par {legalName} ({registrationNumber}), {address}. C’est l’atelier qui reçoit vos demandes et décide de leur usage.',
+          'Le site JR Diamond est exploité par {legalName}, {registrationNumber}, {address}. C’est l’atelier qui reçoit vos demandes et décide de leur usage.',
           'Pour toute question sur vos données : {email} ou {phone}.',
         ],
       },
@@ -159,7 +159,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
         id: 'responsable',
         title: 'Who is responsible for your data',
         paragraphs: [
-          'The JR Diamond site is operated by {legalName} ({registrationNumber}), {address}. The workshop receives your requests and decides how they are used.',
+          'The JR Diamond site is operated by {legalName}, {registrationNumber}, {address}. The workshop receives your requests and decides how they are used.',
           'For any question about your data: {email} or {phone}.',
         ],
       },
@@ -282,7 +282,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
         id: 'responsable',
         title: 'מי אחראי למידע שלכם',
         paragraphs: [
-          'אתר JR Diamond מופעל על ידי {legalName} ({registrationNumber}), {address}. הסדנה היא שמקבלת את הפניות שלכם וקובעת את השימוש בהן.',
+          'אתר JR Diamond מופעל על ידי {legalName}, {registrationNumber}, {address}. הסדנה היא שמקבלת את הפניות שלכם וקובעת את השימוש בהן.',
           'לכל שאלה על המידע שלכם: {email} או {phone}.',
         ],
       },

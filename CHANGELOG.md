@@ -5,6 +5,7 @@
 - La configuration (composition, métal, origine, pierre) est dans l'adresse de la page : recharger, mettre en favori ou envoyer le lien rouvre la même bague. Valeurs inconnues ignorées une à une ; aucune nouvelle entrée d'historique.
 - Bouton « Partager cette configuration » (FR, EN, HE) : partage du système, sinon copie du lien, sinon lien affiché et sélectionné.
 - Le lien complet part dans l'e-mail du devis et dans le message WhatsApp (avant : page sans configuration).
+- Concurrence, périmètre réduit voulu par le propriétaire : 10 sites israéliens et 5 français audités de plus (16 et 8 en tout), synthèses `SYNTHESE_il.md` et `SYNTHESE_fr.md`. Écart noté chez Laveran (`agents.md`).
 - Tests : 4 unitaires et 4 navigateur ajoutés. Suites complètes : 116 unitaires ; Chromium 247 passés, 3 ignorés ; iPhone et iPad 104 passés, 21 ignorés chacun ; Firefox 87 passés, 5 ignorés ; aucun échec. Déclaration d'accessibilité datée du 16/11.
 
 ## 2026-11-16 — Étude de concurrence terminée, dépôt public

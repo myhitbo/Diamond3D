@@ -1,5 +1,16 @@
 # Historique
 
+## 0.6.0 — 2026-11-16 — Réponses de l'atelier : aucun prix automatique, osek patour, WhatsApp
+
+- **Réponses de l'atelier du 16/11** archivées (`docs/atelier/2026-11-16_reponses.txt` : messages WhatsApp ; le fichier joint reste à coller tel quel, il n'a pas été reçu par la session) et rapprochées des 22 points du message du 14/11 (`docs/REPONSES_ATELIER.md`).
+- **Aucun prix automatique** : chaque prix est fixé à la main par Yonathan dans un devis ; le site reste « Sur devis ». Le moteur de prix est abandonné, ni branché ni supprimé. Repères internes, jamais affichés : platine 280 + 100 ₪/g, polissage ≈ 10 $, rhodiage ≈ 10 $ de plus, supplément pour une pièce complexe (`docs/PRICING_RULES.md`).
+- **Osek patour, sans TVA** : plus de « TTC » ni de « TVA 18 % ». Un seul réglage, `vatStatus` (`src/config/business.ts`), décide de la mention de TVA de la FAQ « prix » et de la politique de confidentialité ; testé pour ses deux valeurs. FAQ « prix » réécrite : chaque prix est fixé par l'atelier pour la pièce.
+- **Informations de l'entreprise** : « Diamdor » (à confirmer : nom du titulaire), numéro d'osek patour 345837116, téléphone +972 55-255-0455, paiement par carte en ligne et Bit, livraison en Israël par coursier ou retrait à la Bourse.
+- **Configurateur et formulaires** : or jaune 14 k par défaut ; réponse aux devis « sous 24 à 48 h ouvrées » ; taille européenne de référence, avec l'équivalent américain. `NEXT_PUBLIC_WHATSAPP_NUMBER` saisi dans Vercel (production et preview).
+- **Textes** (FR, EN, HE) : FAQ validée par l'atelier (sur mesure, paiement, livraison, entretien ; l'annulation reste « À confirmer » jusqu'à l'avis de l'avocat ; la livraison à l'étranger est retirée) ; pas de certificat systématique sous 0,50 ct ; or blanc sans nickel ; poinçon 585 ou 750 ; guide de la taille sans « taille israélienne » comme norme ; bijou de famille confirmé, avec l'apport à l'atelier et l'assurance de l'envoi. Nouveaux textes hébreux à faire relire.
+- Dossier de l'avocat : questions 44 à 47 (non-reprise du sur-mesure, clause de casse au dessertissage non publiée, osek patour, transport). Relance de l'atelier prête (`docs/atelier/2026-11-16_relance.md`, 11 questions).
+- Tests : TESTS_PLACEHOLDER
+
 ## 0.5.0 — 2026-11-15 — Accueil, pages légales, accessibilité, pierres de couleur, lancement préparé
 
 - **Page d'accueil** `/fr`, `/en`, `/he` (« l'atelier en direct ») limitée aux faits acquis, image du vrai rendu 3D légendée « rendu 3D, pas une photo ». « / » redirige vers `/fr`. Badge « Brouillon ».

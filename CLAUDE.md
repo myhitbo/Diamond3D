@@ -1,6 +1,6 @@
 # Mémoire du projet JR Diamond
 
-Mise à jour : 15 novembre 2026. Ce fichier résume l'état du projet pour reprendre le travail sans relire tout l'historique.
+Mise à jour : 16 novembre 2026. Ce fichier résume l'état du projet pour reprendre le travail sans relire tout l'historique.
 Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers de fond).
 
 ## Le projet en bref
@@ -47,7 +47,8 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
   - métal en deux temps : couleur (jaune, blanc, rose, platine), puis titre 14 ou 18 carats ;
   - origine naturel / synthétique ;
   - poids de la marquise « ≈ 0,25 ct, à confirmer » ;
-  - poids du métal ± 5 %, délai « 14 jours ouvrés », prix « Sur devis ».
+  - métal par défaut : or jaune 14 k (atelier, 16/11) ;
+  - poids du métal ± 5 %, délai « 14 jours ouvrés », prix « Sur devis », réponse au devis « sous 24 à 48 h ouvrées ».
 - **Rendu des pierres** : en rendu simplifié (appareils lents), miroir à facettes. Avant, des taches blanches donnaient l'impression que « les diamants disparaissent ». Le rendu ne bascule que sous 24 images/s.
 - **Version hébreu** (`/he/…`) : sens droite-à-gauche, polices Frank Ruhl Libre et Assistant. Traduction faite par l'IA, **relecture native à faire**.
 - **Formulaire de devis** (phase 4, version légère, 13/11) : FR/EN/HE, route `POST /api/devis`, envoi SMTP à l'atelier avec photos jointes, sans base de données ; accord facultatif de publication des photos et vidéos de fabrication. Variables : `.env.example`. Sans SMTP configuré : réponse 503, message « indisponible ». Tests en envoi simulé (`QUOTE_DRY_RUN=1`).
@@ -63,10 +64,10 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - **Mesure de performance** (15/11) : campagne complète (3 scénarios × 3 passes). Première image 3D 2,2 s sur ordinateur, 6,5 s sur mobile ×4 en 4G lente ; 828 Ko transférés. Détails dans `docs/PROTOTYPE_REPORT.md`, JSON dans `docs/perf/`.
 - **ring-001 régénéré depuis `Ring.3dm`** (14/11) : `models:extract` simplifie d'abord, retouche ensuite ; équivalent au modèle du 3/11 (0,001 mm).
 - **Études du 14/11** : `docs/PAIEMENT.md` (Stripe indisponible en Israël ; recommandation : Grow, parcours devis → prix confirmé → lien de paiement ; Bit plafonné à 5 000 ₪ par transaction chez la plupart des prestataires) et `docs/juridique/DOSSIER_AVOCAT_IL.md` (24 questions, résumé en hébreu).
-- **Bijou de famille** (14/11) : `/fr|en|he/transformation`, formulaire avec photos (`POST /api/transformation`, même envoi SMTP que le devis), contenu `src/content/transformation.ts`. Badge « Brouillon » : trois formulations sont des déductions à faire valider (questions 57 à 60 de `docs/QUESTIONS_ATELIER.md`).
-- **Guides en français et en anglais** (14/11, anglais le 15/11) : `/fr/guides` et `/en/guides`, six guides (synthétique ou naturel, formes de diamant, alliance de kiddouchin, les 4 C, or 14 ou 18 carats, taille de doigt), sources en bas de page, badge « Brouillon ». Contenu dans `src/content/guides/` : `fr.ts` (règles de rédaction en tête), `en.ts`, `types.ts` (types, `ringSizeRow`), `index.ts` (accès par langue, textes d'interface). Un guide garde son `id` d'une langue à l'autre et son adresse est traduite (`/en/guides/ring-size`) ; l'en-tête reçoit l'adresse de chaque langue (`hrefs`). Un test vérifie que l'anglais suit le français : mêmes rubriques, mêmes sources. En anglais : « lab-grown » (comme le configurateur), orthographe britannique, « karat » pour l'or. Pas de guides en hébreu : `/he/guides` répond 404. Une section peut porter un tableau (`table`) ; le tableau des tailles est calculé (`ringSizeRow` : ISO 8653, taille israélienne = française − 40, taille américaine au quart). Les configurateurs français et anglais renvoient aux guides de l'or et de la taille (`guideLinks`, absents en hébreu et dans la préversion). Questions 61 à 66 de `docs/QUESTIONS_ATELIER.md` pour l'atelier.
+- **Bijou de famille** (14/11) : `/fr|en|he/transformation`, formulaire avec photos (`POST /api/transformation`, même envoi SMTP que le devis), contenu `src/content/transformation.ts`. Formulations confirmées par l'atelier le 16/11 (questions 57 à 60), avec l'apport à l'atelier et l'assurance de l'envoi ; badge « Brouillon » maintenu pour la relecture de l'hébreu.
+- **Guides en français et en anglais** (14/11, anglais le 15/11) : `/fr/guides` et `/en/guides`, six guides (synthétique ou naturel, formes de diamant, alliance de kiddouchin, les 4 C, or 14 ou 18 carats, taille de doigt), sources en bas de page, badge « Brouillon ». Contenu dans `src/content/guides/` : `fr.ts` (règles de rédaction en tête), `en.ts`, `types.ts` (types, `ringSizeRow`), `index.ts` (accès par langue, textes d'interface). Un guide garde son `id` d'une langue à l'autre et son adresse est traduite (`/en/guides/ring-size`) ; l'en-tête reçoit l'adresse de chaque langue (`hrefs`). Un test vérifie que l'anglais suit le français : mêmes rubriques, mêmes sources. En anglais : « lab-grown » (comme le configurateur), orthographe britannique, « karat » pour l'or. Pas de guides en hébreu : `/he/guides` répond 404. Une section peut porter un tableau (`table`) ; le tableau des tailles est calculé (`ringSizeRow` : taille européenne ISO 8653, référence de l'atelier, et taille américaine au quart ; la « taille israélienne = européenne − 40 » n'est plus qu'un usage cité avec ses sources). Les configurateurs français et anglais renvoient aux guides de l'or et de la taille (`guideLinks`, absents en hébreu et dans la préversion). Questions 61 à 66 de `docs/QUESTIONS_ATELIER.md` pour l'atelier.
 - **Adresses traduites** (14/11, généralisées le 15/11) : les pages traduites sont déclarées dans `TRANSLATED_SEGMENTS` (`src/lib/routes.ts`) : configurateur, accessibilité, confidentialité. Une ligne suffit : réécritures, redirections (307 avant le lancement, 308 ensuite), sélecteur de langue, hreflang et plan du site suivent. Pour écrire un lien : `configuratorPath`, `localizedPath`, `accessibilityPath`, `privacyPath`, `homePath`. Pied de page commun `SiteFooter`.
-- **FAQ** (`/fr|en|he/faq`, contenu `src/content/faq.ts`) : 24 questions en 6 thèmes, réponses sourcées, 7 marquées « À confirmer » (suivi de la fabrication et pierre filmée depuis le 15/11). Données structurées FAQPage (réponses validées seulement).
+- **FAQ** (`/fr|en|he/faq`, contenu `src/content/faq.ts`) : 24 questions en 6 thèmes, réponses sourcées, 3 marquées « À confirmer » depuis le 16/11 : annulation (avis de l'avocat), suivi de la fabrication, pierre filmée. La réponse « prix » dépend de `vatStatus`. Données structurées FAQPage (réponses validées seulement).
 - **Prix : aucun prix automatique** (décision de l'atelier du 16/11). Chaque prix est fixé à la main par Yonathan dans un devis ; sans prix validé, le site affiche « Sur devis ». Pas de prix « à partir de », pas de bénéfice calculé, pas de plafond, pas de conversion dollar → ₪. Le moteur `src/lib/pricing/engine.ts` (paramètres `src/config/pricing.ts`) est **abandonné, décision atelier du 16/11** : ni branché ni supprimé. Repères internes, jamais affichés (platine, polissage, rhodiage) : `docs/PRICING_RULES.md`.
 - **Documents** :
   - `docs/CAHIER_DES_CHARGES.md` ;
@@ -89,25 +90,27 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - **Décisions du propriétaire** : photos et vidéos de fabrication acceptées ; transformation de bijoux de famille et alliance de kiddouchin déjà pratiquées ; capacité « illimitée » ; budget d'acquisition selon les revenus.
 - **Bibliothèque de modèles** : CGTrader (partie gratuite comprise). DD Diamond n'est qu'un exemple de site.
 
+## Réponses du 16/11 (atelier et WhatsApp)
+- Aucun prix automatique (voir « Prix » ci-dessus). Osek patour (עוסק פטור), « Diamdor », n° 345837116, sans TVA ; société au-delà du plafond de chiffre d'affaires.
+- Métal par défaut or jaune 14 k ; téléphone et WhatsApp +972 55-255-0455 ; carte en ligne et Bit ; livraison en Israël par coursier (150 à 200 ₪ selon la ville, dans le devis) ou retrait à la Bourse ; réponse aux devis sous 24 à 48 h ouvrées.
+- Or blanc sans nickel ; bagues poinçonnées 585 ou 750 ; pas de certificat systématique sous 0,50 ct ; tailles européennes, aussi utilisées en Israël.
+- Bijou de famille : confirmé ; apport à l'atelier recommandé ; assurance de l'envoi à la charge du client s'il l'organise, de l'atelier s'il organise un envoi international.
+- Planche avant/après des griffes validée.
+
 ## Ce qui reste à faire
 
-### En attente de Yonathan (message de 22 questions envoyé le 4/11 ; relance prête le 13/11 ; message complet du 14/11, 22 points, qui la remplace : `docs/atelier/2026-11-14_message.md`, **envoyé le 15/11**)
-- Validation de la règle de bénéfice et du tableau par catégorie ; plafond pour un diamant naturel.
-- Taux de change dollar → ₪ (proposé : taux officiel de la Banque d'Israël).
-- Prix du platine (il interroge les fonderies).
-- Grille de prix des pierres.
-- Polissage final et rhodiage : un seul frais ou deux ?
-- Métal par défaut (14 k ou 18 k).
-- Moyens de paiement, annulation et retour, livraison (Israël et France), numéro WhatsApp.
-- Questions 67 à 84 de `docs/QUESTIONS_ATELIER.md` (15/11, pas encore envoyées) : informations légales et conditions de vente pour `src/config/business.ts`, contact accessibilité, accès au local, conservation des données, retrait de l'accord de publication, étapes faites par l'atelier, point de départ de l'année de mise à taille offerte, photos et vidéos de fabrication, pierre filmée, termes hébreux des pierres.
-- Relecture des 7 réponses « À confirmer » et des 3 déductions de la FAQ ; relecture des six guides (questions 61 à 66 : alliage de l'or blanc, poinçon, pierres sous 0,50 ct, tailles israéliennes).
-- Relecture des textes hébreux. Existe-t-il en Israël un terme imposé pour les diamants de synthèse, ou un poinçon obligatoire ?
-- Fichiers : alliance de kiddouchin, solitaire (pour le choix du carat), `Ring.3dm`, 3 autres modèles avec leurs photos studio.
-- Validation de la planche avant/après des griffes (biseau des deux griffes de pointe de la marquise).
+### En attente de Yonathan (réponses du 16/11 reçues, voir `docs/REPONSES_ATELIER.md` ; relance prête, **pas encore envoyée** : `docs/atelier/2026-11-16_relance.md`)
+- Fichier de réponses du 16/11 à archiver tel quel dans `docs/atelier/2026-11-16_reponses.txt` : il n'a pas été reçu par la session du 16/11, qui a travaillé sur le résumé du propriétaire.
+- Nom légal du titulaire de l'osek patour (« Diamdor » serait un nom commercial), adresse, e-mail des devis (« en création »), contact accessibilité.
+- Poids réels de la marquise et des 16 petites pierres, couleur et pureté par défaut.
+- Paiement en plusieurs fois ; livraison en France ; plage de tailles et baguier ; terme hébreu imposé pour le synthétique ; dureté 14 k / 18 k.
+- Fichiers : alliance de kiddouchin, solitaire (pour le choix du carat), 3 autres modèles avec leurs photos studio ; logo ; une bague finie dans chaque métal.
+- Questions 69 à 84 de `docs/QUESTIONS_ATELIER.md` (accès au local, conservation des données, retrait de l'accord de publication, étapes faites par l'atelier, point de départ de l'année de mise à taille offerte, photos et vidéos de fabrication, pierre filmée, termes hébreux des pierres).
+- Relecture des textes hébreux, dont ceux du 16/11 (liste dans `TODO.md`).
 
 ### Développement possible sans attendre
 Au 14/11 au soir, plus rien ici ne se fait sans une action extérieure : les trois points restants sont prêts côté code et attendent le propriétaire, l'atelier ou la date de lancement.
-- **Envoi réel des devis : il manque seulement des valeurs à saisir dans Vercel** (vérifié le 16/11 : aucune variable d'environnement dans le projet `jr-diamond`). WhatsApp : renseigner `NEXT_PUBLIC_WHATSAPP_NUMBER` (numéro de l'atelier, format international) puis redéployer ; le bouton « Envoyer sur WhatsApp » apparaît (lien wa.me, message pré-rempli, photos à joindre à la main). E-mail : variables `QUOTE_TO`, `QUOTE_FROM`, `SMTP_*` ; sans elles, le bouton « Envoyer la demande » répond « indisponible ». La notification automatique par la WhatsApp Business Platform de Meta n'est pas faite (compte Meta, numéro dédié, coût par message).
+- **Envoi réel des devis** : WhatsApp en place depuis le 16/11 (`NEXT_PUBLIC_WHATSAPP_NUMBER=+972552550455` dans Vercel, production et preview ; bouton « Envoyer sur WhatsApp », lien wa.me, message pré-rempli, photos à joindre à la main). E-mail, quand l'adresse de l'atelier existera : variables `QUOTE_TO`, `QUOTE_FROM`, `SMTP_*` ; sans elles, le bouton « Envoyer la demande » répond « indisponible ». La notification automatique par la WhatsApp Business Platform de Meta n'est pas faite (compte Meta, numéro dédié, coût par message).
 - Page de l'alliance de kiddouchin : attend un modèle (atelier ou CGTrader). Un anneau généré par le code contredirait la promesse « ce que vous voyez existe ». Les guides de l'alliance, de l'or et de la taille sont prêts.
 - Jour du lancement : `SITE_INDEXABLE = true` dans `src/config/site.ts` (balise robots, plan du site, redirections permanentes ; pas avant, un navigateur garde une redirection permanente en mémoire). Retirer le « garde-fou avant le lancement » de `tests/unit/seo.test.ts`, renseigner `NEXT_PUBLIC_SITE_URL` si le domaine change, lever la protection Vercel (cookie `_vercel_jwt`), choisir la langue de la racine (`/` mène à `/fr`, alors que le lancement se fait en Israël), puis envoyer un lien sur WhatsApp pour vérifier l'aperçu.
 
@@ -118,11 +121,12 @@ Au 14/11 au soir, plus rien ici ne se fait sans une action extérieure : les tro
 
 ### Avant la vente
 - Avocat israélien :
-  - la bague configurée relève-t-elle de l'exception « fabriqué sur mesure » au droit d'annulation ?
+  - la bague configurée relève-t-elle de l'exception « fabriqué sur mesure » au droit d'annulation ? (question 44 : l'atelier veut « ni reprise ni échange, sauf défaut ») ;
+  - clause de l'atelier « le sertisseur décline toute responsabilité en cas de casse » (bijou de famille), non publiée (question 45) ; mentions d'un osek patour et publication de son numéro (questions 40 et 46) ; transport (question 47) ;
   - délai étendu pour les nouveaux immigrants ?
   - poinçon obligatoire ?
   - validation de la déclaration d'accessibilité et de la politique de confidentialité (questions 25 à 43, sections H et I de `docs/juridique/DOSSIER_AVOCAT_IL.md`), dont le transfert des données vers Vercel aux États-Unis.
-- Remplir les 18 informations de `src/config/business.ts`. Deux manques bloquent à eux seuls l'ouverture : le contact de la déclaration d'accessibilité (règle 35ה) et le responsable du traitement dans la politique (article 11).
+- Compléter `src/config/business.ts` : rempli le 16/11 pour le nom (« Diamdor », à confirmer), le numéro d'osek patour, le téléphone, le paiement et la livraison ; `vatStatus` (`exempt`) décide de la mention de TVA. Manquent notamment l'e-mail, l'adresse, l'annulation et le contact de la déclaration d'accessibilité (règle 35ה), qui bloque à lui seul l'ouverture.
 - Accessibilité, sans délai de grâce pour un site nouveau en Israël : contrôle manuel selon le formulaire de la Commission, test avec NVDA et VoiceOver (si possible TalkBack), à reporter dans `screenReaders` de `accessibility-status.ts`.
 - Tests sur appareils réels (iPhone Safari, Android) avec `docs/DEVICE_TESTS.md` et `/fr/diagnostic` : outillage prêt le 13/11, tests à faire par le propriétaire. Speed Insights servi en production (vérifié le 13/11). Intégration continue verte (13/11).
 - Retirer les badges « Brouillon » quand le modèle et la FAQ sont validés par l'atelier.

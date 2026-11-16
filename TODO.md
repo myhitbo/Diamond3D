@@ -63,9 +63,8 @@
 - [ ] Toute correction d'un guide se fait dans les deux langues (`fr.ts` et `en.ts`).
 
 ## Prix
-- [x] Moteur de prix indicatif en ₪ TTC (4/11), non branché : `src/lib/pricing/engine.ts`. Il refuse de calculer tant qu'il manque un paramètre.
-- [ ] Brancher le prix « à partir de » dans le configurateur dès que `src/config/pricing.ts` ne contient plus de `null` pour ring-001.
-- [ ] Lever les 9 points « Manque » de `docs/PRICING_RULES.md` (marge sur les postes en USD, double comptage, change, platine…).
+- [x] Décision de l'atelier (16/11) : aucun prix automatique. Chaque prix est fixé à la main par Yonathan, modèle par modèle, dans un devis ; le site affiche « Sur devis ». Repères internes (platine 280 + 100 ₪/g, polissage, rhodiage, supplément pour une pièce complexe) dans `docs/PRICING_RULES.md`, jamais affichés.
+- [x] Moteur de prix (4/11, `src/lib/pricing/engine.ts`) : **abandonné, décision atelier du 16/11**, ni branché ni supprimé. Les points « Manque » de `docs/PRICING_RULES.md` sont sans objet.
 
 ## Site
 - [x] Délai affiché : 14 jours ouvrés (4/11).

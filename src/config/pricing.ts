@@ -1,6 +1,10 @@
 import type { PriceParams } from '@/lib/pricing/engine';
 
 /**
+ * ABANDONNÉ, décision de l'atelier du 16/11/2026 : aucun prix automatique, chaque prix est fixé à la main par Yonathan
+ * dans un devis (docs/PRICING_RULES.md). Ce fichier et `src/lib/pricing/engine.ts` restent pour l'historique : ne pas
+ * les brancher sur le site sans une nouvelle décision de l'atelier.
+ *
  * Paramètres de prix communiqués par l'atelier les 3 et 4/11/2026 (docs/PRICING_RULES.md).
  * Les `null` sont les points encore manquants : tant qu'il en reste, le moteur
  * répond « incomplete » et le site affiche « Sur devis ».

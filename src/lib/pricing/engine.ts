@@ -3,8 +3,10 @@ import type { MetalTitre } from '@/lib/configurator/schema';
 /**
  * Moteur de prix indicatif (Israël, ₪ TTC).
  *
- * Non branché sur le site : `pricing.mode` reste « quote » tant que l'atelier n'a pas
- * réglé les points « Manque » de docs/PRICING_RULES.md. Le moteur refuse de calculer
+ * ABANDONNÉ, décision de l'atelier du 16/11/2026 : aucun prix automatique (ni prix « à partir de »,
+ * ni bénéfice calculé, ni plafond, ni conversion dollar → ₪). Chaque prix est fixé à la main par
+ * l'atelier dans un devis. Ni branché ni supprimé ; `pricing.mode` reste « quote ».
+ * Historique : le moteur attendait que l'atelier règle les points « Manque » de docs/PRICING_RULES.md. Le moteur refuse de calculer
  * et liste ce qui manque plutôt que d'inventer une valeur.
  *
  * Structure (atelier, 4/11) : métal, façon, pierres et sertissage sont facturés au prix

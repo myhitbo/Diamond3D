@@ -44,7 +44,7 @@ Légende : **[V]** vérifié · **[I]** inféré · **[?]** à confirmer.
 
 ### Ce qui est acquis
 - **Aucun prix automatique** [V] : ni prix « à partir de », ni bénéfice calculé, ni plafond, ni conversion dollar → ₪. Chaque prix est fixé à la main par Yonathan pour la pièce. Sans prix validé par lui, le site affiche « Sur devis ». Le moteur `src/lib/pricing/engine.ts` est abandonné, ni branché ni supprimé.
-- **Statut** [V] : osek patour (עוסק פטור), donc pas de TVA aujourd'hui. Passage en société quand le plafond de chiffre d'affaires sera dépassé. Le site affiche la mention qui correspond au réglage `VAT_STATUS` (`src/config/business.ts`).
+- **Statut** [V] : osek patour (עוסק פטור), donc pas de TVA aujourd'hui. Passage en société quand le plafond de chiffre d'affaires sera dépassé. Le site affiche la mention qui correspond au réglage `vatStatus` (`src/config/business.ts`).
 - **Repères internes**, jamais affichés : platine 280 + 100 ₪/g ; polissage ≈ 10 $ ; rhodiage ≈ 10 $ de plus ; supplément pour une pièce complexe [V]. Voir `PRICING_RULES.md`.
 - Métal par défaut : or jaune 14 k [V]. Délai de réponse aux devis : 24 à 48 h ouvrées [V]. Téléphone et WhatsApp : +972 55-255-0455 [V]. Paiement par carte en ligne et par Bit [V]. Livraison en Israël par coursier ou retrait à la Bourse [V].
 - Or blanc sans nickel, poinçon 585 ou 750 [V]. Tailles européennes [V].
@@ -53,7 +53,7 @@ Légende : **[V]** vérifié · **[I]** inféré · **[?]** à confirmer.
 ### Points d'attention
 - **Numéro** [I] : Yonathan écrit « חפ » (numéro de société), puis « Essek patour ». Un osek patour n'a pas de ח.פ. : son numéro est en principe celui de sa carte d'identité. 345837116 ne commence pas par 51, comme les numéros de société. Le site l'affiche comme numéro d'osek patour.
 - **Nom légal** [I] : pour un osek patour, le nom légal est en principe celui du titulaire. « Diamdor » serait alors un nom commercial. Nom du titulaire à demander.
-- **Plafond de l'osek patour** [?] : le montant annuel est à vérifier, et l'échéance à estimer d'après le prix d'une bague. Au passage en société, il faudra changer `VAT_STATUS`, le nom légal et le numéro, et rouvrir le compte du prestataire de paiement au nom de la société.
+- **Plafond de l'osek patour** [?] : le montant annuel est à vérifier, et l'échéance à estimer d'après le prix d'une bague. Au passage en société, il faudra changer `vatStatus`, le nom légal et le numéro, et rouvrir le compte du prestataire de paiement au nom de la société.
 - **Paiement intégral sur le site** (3/11) [I] : sans prix automatique, le paiement suit le devis (devis → prix fixé par Yonathan → lien de paiement), comme le prévoyait `PAIEMENT.md`.
 
 ### Encore sans réponse

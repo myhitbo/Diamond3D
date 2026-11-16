@@ -1,7 +1,7 @@
 import type { MetalTitre } from '@/lib/configurator/schema';
 
 /**
- * Moteur de prix indicatif (Israël, ₪ TTC).
+ * Moteur de prix indicatif (Israël, ₪, TVA de 18 % incluse : hypothèse du 4/11, sans objet tant que l'atelier est osek patour).
  *
  * ABANDONNÉ, décision de l'atelier du 16/11/2026 : aucun prix automatique (ni prix « à partir de »,
  * ni bénéfice calculé, ni plafond, ni conversion dollar → ₪). Chaque prix est fixé à la main par
@@ -139,5 +139,5 @@ export function indicativePrice(p: PriceParams, input: PriceInput): PriceResult 
 export const profitIls = (r: ProfitRule, materialsIls: number) =>
   Math.min(r.maxIls, Math.max(r.minIls, r.fixedIls + r.rateOnMaterials * materialsIls));
 
-/** Prix « à partir de » : bas de la fourchette TTC, arrondi à la dizaine de ₪ inférieure. */
+/** Prix « à partir de » (abandonné le 16/11) : bas de la fourchette TVA comprise, arrondi à la dizaine de ₪ inférieure. */
 export const fromPriceIls = (r: Extract<PriceResult, { status: 'indicative' }>) => Math.floor(r.ttc[0] / 10) * 10;

@@ -18,7 +18,7 @@ import type { Locale } from '@/lib/configurator/schema';
 import type { LegalLink, LegalPage } from './types';
 
 /** Date de mise à jour de la politique, AAAA-MM-JJ : à changer à chaque modification. */
-export const PRIVACY_UPDATED = '2026-11-15';
+export const PRIVACY_UPDATED = '2026-11-16';
 
 const links = (vercel: string, speed: string, whatsapp: string): LegalLink[] => [
   { label: vercel, url: 'https://vercel.com/legal/privacy-notice' },
@@ -137,7 +137,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
           'Vendeur : {legalName}, {registrationNumber}.',
           'Adresse : {address}. Téléphone : {phone}. E-mail : {email}.',
           'Produits : bijoux fabriqués à la commande par l’atelier. Leurs caractéristiques figurent sur la page de chaque modèle et dans le devis.',
-          'Prix : sur devis. Le prix d’un bijou n’est pas affiché sur le site ; il figure dans le devis.',
+          'Prix : sur devis. Le prix d’un bijou n’est pas affiché sur le site ; il figure dans le devis. {vatNotice}',
           'Validité du devis : {quoteValidity}.',
           'Paiement : {payment}.',
           'Fabrication : 14 jours ouvrés. Livraison : {delivery}.',
@@ -259,7 +259,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
           'Seller: {legalName}, {registrationNumber}.',
           'Address: {address}. Phone: {phone}. Email: {email}.',
           'Products: jewellery made to order by the workshop. Their characteristics are given on each model’s page and in the quote.',
-          'Price: on request. The price of a piece is not shown on the site; it is given in the quote.',
+          'Price: on request. The price of a piece is not shown on the site; it is given in the quote. {vatNotice}',
           'Quote validity: {quoteValidity}.',
           'Payment: {payment}.',
           'Production: 14 business days. Delivery: {delivery}.',
@@ -382,7 +382,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
           'המוכר: {legalName}, {registrationNumber}.',
           'כתובת: {address}. טלפון: {phone}. דוא״ל: {email}.',
           'המוצרים: תכשיטים המיוצרים בהזמנה בסדנה. מאפייניהם מפורטים בדף של כל דגם ובהצעת המחיר.',
-          'מחיר: לפי הצעת מחיר. מחיר התכשיט אינו מוצג באתר; הוא מופיע בהצעת המחיר.',
+          'מחיר: לפי הצעת מחיר. מחיר התכשיט אינו מוצג באתר; הוא מופיע בהצעת המחיר. {vatNotice}',
           'תוקף הצעת המחיר: {quoteValidity}.',
           'תשלום: {payment}.',
           'ייצור: 14 ימי עבודה. משלוח: {delivery}.',

@@ -13,6 +13,34 @@ import type { Locale } from '@/lib/configurator/schema';
  */
 export type BusinessValue = string | Record<Locale, string> | null;
 
+/**
+ * Statut au regard de la TVA israélienne : le SEUL réglage à changer au passage en société.
+ * - `exempt` : osek patour (עוסק פטור), qui ne facture pas de TVA (situation de l'atelier au 16/11/2026) ;
+ * - `registered` : société ou osek mourché, prix TVA comprise.
+ * Il décide de la mention de TVA de la FAQ (`prix`) et des pages légales (`{vatNotice}`). Au passage en société,
+ * changer aussi `legalName` et `registrationNumber` (ח.פ.), et rouvrir le compte du prestataire de paiement au nom
+ * de la société (voir TODO.md).
+ */
+export type VatStatus = 'exempt' | 'registered';
+export const vatStatus: VatStatus = 'exempt';
+
+/** TVA israélienne depuis le 1/1/2025 (18 %). */
+export const VAT_RATE_PERCENT = 18;
+
+/** Mention de TVA selon le statut, dans chaque langue. */
+export const VAT_NOTICE: Record<VatStatus, Record<Locale, string>> = {
+  exempt: {
+    fr: 'L’atelier est osek patour (עוסק פטור) : il ne facture pas de TVA, aucune TVA ne s’ajoute au prix du devis.',
+    en: 'The workshop is a VAT-exempt dealer (עוסק פטור): it does not charge VAT, and no VAT is added to the quoted price.',
+    he: 'הסדנה היא עוסק פטור: היא אינה גובה מע״מ, ולא מתווסף מע״מ למחיר שבהצעת המחיר.',
+  },
+  registered: {
+    fr: `Le prix du devis comprend la TVA (${VAT_RATE_PERCENT} %).`,
+    en: `The quoted price includes VAT (${VAT_RATE_PERCENT}%).`,
+    he: `המחיר שבהצעת המחיר כולל מע״מ (${VAT_RATE_PERCENT}%).`,
+  },
+};
+
 export type BusinessField =
   | 'legalName'
   | 'registrationNumber'
@@ -29,6 +57,7 @@ export type BusinessField =
   | 'hostLogRetention'
   | 'payment'
   | 'delivery'
+  | 'vatNotice'
   | 'quoteValidity'
   | 'warranty'
   | 'cancellation';
@@ -67,6 +96,8 @@ export const BUSINESS: Record<BusinessField, BusinessValue> = {
   payment: null,
   /** Mode, délai et zone de livraison (Israël, France plus tard), retrait à l'atelier. */
   delivery: null,
+  /** Mention de TVA : découle de `vatStatus`, ne pas la saisir ici. */
+  vatNotice: VAT_NOTICE[vatStatus],
   /** Durée de validité d'un devis. */
   quoteValidity: null,
   /** Garantie : durée et couverture. */
@@ -100,6 +131,7 @@ export const BUSINESS_LABELS: Record<BusinessField, Record<Locale, string>> = {
   },
   payment: { fr: 'moyens et modalités de paiement', en: 'payment methods and terms', he: 'אמצעי התשלום ותנאיו' },
   delivery: { fr: 'mode et délai de livraison', en: 'delivery method and time', he: 'אופן המשלוח ומועדו' },
+  vatNotice: { fr: 'mention de TVA', en: 'VAT notice', he: 'ציון המע״מ' },
   quoteValidity: { fr: 'durée de validité d’un devis', en: 'how long a quote remains valid', he: 'תוקף הצעת המחיר' },
   warranty: { fr: 'garantie', en: 'warranty', he: 'אחריות' },
   cancellation: { fr: 'droit d’annulation, rédigé par l’avocat', en: 'cancellation rights, to be drafted by the lawyer', he: 'זכות הביטול, בנוסח עורך הדין' },

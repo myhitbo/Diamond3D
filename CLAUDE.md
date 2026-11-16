@@ -5,7 +5,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 
 ## Le projet en bref
 - Plateforme de joaillerie **JR Diamond** avec configurateur 3D. Atelier de **Yonathan Cohen** à la Bourse du diamant de Ramat Gan.
-- **Lancement en Israël d'abord** (décision du propriétaire, 4/11). Prix en ₪ TTC (TVA 18 %). Langues : français, hébreu, anglais. France ensuite.
+- **Lancement en Israël d'abord** (décision du propriétaire, 4/11). Prix en ₪, sur devis, fixés à la main par l'atelier. Pas de TVA : l'atelier est osek patour (עוסק פטור) ; passage en société prévu au-delà du plafond de chiffre d'affaires (réglage `vatStatus`, `src/config/business.ts`). Langues : français, hébreu, anglais. France ensuite.
 - Positionnement : « l'atelier en direct ». Ce que vous voyez existe (modèle issu du fichier de fabrication, pierre filmée). Le prix est expliqué. On voit naître son bijou (photos et vidéos de fabrication).
 
 ## Conventions

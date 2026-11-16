@@ -1,3 +1,4 @@
+import { VAT_NOTICE, vatStatus, type VatStatus } from '@/config/business';
 import type { Locale } from '@/lib/configurator/schema';
 
 /**
@@ -7,7 +8,7 @@ import type { Locale } from '@/lib/configurator/schema';
  * - `atelier` : donnée communiquée par l'atelier (date dans `basis`) ;
  * - `source`  : fait vérifié, sources affichées sous la réponse ;
  * - `toConfirm` : formulation provisoire, à valider par l'atelier (ou un juriste) avant publication.
- * Aucun montant de prix n'est donné ici tant que les règles de prix ne sont pas fixées.
+ * Aucun montant de prix : chaque prix est fixé à la main par l'atelier dans un devis (décision du 16/11).
  */
 
 type L = Record<Locale, string>;
@@ -23,6 +24,27 @@ export type FaqItem = {
   sources?: { label: string; url: string }[];
 };
 export type FaqCategory = { id: string; title: L; items: FaqItem[] };
+
+/**
+ * Réponse « Comment le prix est-il fixé ? » : la mention de TVA suit le statut de l'atelier (`vatStatus`,
+ * `src/config/business.ts`) ; osek patour au 16/11, TVA comprise après le passage en société.
+ */
+export function prixAnswer(status: VatStatus): Record<Locale, string[]> {
+  return {
+    fr: [
+      'Chaque prix est fixé par l’atelier pour la pièce, dans un devis. Il dépend du métal et de son poids, de la ou des pierres (nature, poids, qualité) et de la façon : le modèle 3D, la fonte, le polissage et le sertissage.',
+      `Nous vendons directement depuis l’atelier, sans intermédiaire. ${VAT_NOTICE[status].fr}`,
+    ],
+    en: [
+      'Each price is set by the workshop for the piece, in a quote. It depends on the metal and its weight, the stone or stones (type, weight, quality) and the workmanship: the 3D model, casting, polishing and setting.',
+      `We sell directly from the workshop, with no middleman. ${VAT_NOTICE[status].en}`,
+    ],
+    he: [
+      'כל מחיר נקבע על ידי הסדנה עבור התכשיט, בהצעת מחיר. הוא תלוי במתכת ובמשקלה, באבן או באבנים (סוג, משקל ואיכות) ובעבודה: הדגם התלת־ממדי, היציקה, הליטוש והשיבוץ.',
+      `אנחנו מוכרים ישירות מהסדנה, בלי מתווכים. ${VAT_NOTICE[status].he}`,
+    ],
+  };
+}
 
 const GIA_LGD = {
   label: 'GIA, simulants, moissanite and lab-grown diamonds',
@@ -512,26 +534,13 @@ export const FAQ: FaqCategory[] = [
       {
         id: 'prix',
         q: {
-          fr: 'Comment le prix est-il calculé ?',
-          en: 'How is the price calculated?',
+          fr: 'Comment le prix est-il fixé ?',
+          en: 'How is the price set?',
           he: 'איך נקבע המחיר?',
         },
-        a: {
-          fr: [
-            'Le prix se compose de trois parties : le métal, au poids et au cours du jour ; la ou les pierres, selon leur nature, leur poids et leur qualité ; la façon, c’est-à-dire le modèle 3D, la fonte, le polissage et le sertissage.',
-            'Nous vendons directement depuis l’atelier, sans intermédiaire. Le prix affiché est TTC.',
-          ],
-          en: [
-            'The price has three parts: the metal, by weight at the day’s rate; the stone or stones, by type, weight and quality; and the workmanship: the 3D model, casting, polishing and setting.',
-            'We sell directly from the workshop, with no middleman. Prices include VAT.',
-          ],
-          he: [
-            'המחיר מורכב משלושה חלקים: המתכת, לפי משקל ולפי שער היום; האבן או האבנים, לפי סוג, משקל ואיכות; והעבודה: הדגם התלת־ממדי, היציקה, הליטוש והשיבוץ.',
-            'אנחנו מוכרים ישירות מהסדנה, בלי מתווכים. המחירים כוללים מע״מ.',
-          ],
-        },
+        a: prixAnswer(vatStatus),
         status: 'atelier',
-        basis: 'structure de prix, atelier 3/11 ; TTC : décision lancement Israël (TVA 18 %)',
+        basis: 'atelier 16/11 : aucun prix automatique, chaque prix fixé à la main pour la pièce ; postes : atelier 3/11 ; TVA : `vatStatus` (osek patour, 16/11)',
       },
       {
         id: 'paiement',

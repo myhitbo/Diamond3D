@@ -1,5 +1,15 @@
 # Historique
 
+## 2026-11-16 — Étude de concurrence terminée, dépôt public (sans changement de code)
+
+- Fin de l'étude de concurrence fusionnée dans `main` : rapports de forums vérifiés, audits de sites (États-Unis, Israël, Europe, Australie), deux comparaisons avec le prototype et `docs/concurrence/SYNTHESE.md` (35 avantages de la concurrence classés, nos avantages, ce qu'il ne faut pas copier, décisions attendues).
+- Contrôle complet local sur `d85cc16` : tout vert ; CI GitHub bloquée par la facturation du compte.
+
+## 2026-11-15 — Dépôt public, étude de concurrence (sans changement de code)
+
+- Le dépôt GitHub est public (décision du propriétaire). Les fichiers CAO, les règles de prix et les dossiers de `docs/` sont lisibles par tous. Contrôle : aucun secret dans les fichiers suivis ni dans l'historique.
+- Étude de concurrence dans `docs/concurrence/` : exploration de quatre marchés, dix rapports de forums vérifiés, audits de sites en cours.
+
 ## 0.5.0 — 2026-11-15 — Accueil, pages légales, accessibilité, pierres de couleur, lancement préparé
 
 - **Page d'accueil** `/fr`, `/en`, `/he` (« l'atelier en direct ») limitée aux faits acquis, image du vrai rendu 3D légendée « rendu 3D, pas une photo ». « / » redirige vers `/fr`. Badge « Brouillon ».

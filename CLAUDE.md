@@ -10,7 +10,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 
 ## Conventions
 - Réponses à l'utilisateur en **français**, denses, avec la distinction vérifié / inféré / supposé. Faits vérifiés par recherche, sources citées.
-- Branche principale : **`main`** (branche par défaut, déployée en production sur Vercel). Les anciennes branches `ccr-297332c6-4qfws6`, `ccr-a0d79d3c-glq4h2`, `ccr-682a27e9-x5ccif` et `ccr-526f3452-aue11m` y sont fusionnées (les deux dernières le 15/11). Commit et push à chaque étape, **pas de PR** sauf demande.
+- Branche principale : **`main`** (branche par défaut, déployée en production sur Vercel). Les anciennes branches `ccr-297332c6-4qfws6`, `ccr-a0d79d3c-glq4h2`, `ccr-682a27e9-x5ccif` et `ccr-526f3452-aue11m` y sont fusionnées (`ccr-682a27e9-x5ccif` le 15/11, `ccr-526f3452-aue11m` en deux fois, le 15/11 puis le 16/11 pour la fin de l'étude de concurrence). Commit et push à chaque étape, **pas de PR** sauf demande.
 - Code : guillemets simples, largeur ~160. Il n'y a **pas** de configuration Prettier : ne pas lancer `npx prettier` sans `--single-quote --print-width 160`.
 - Libellés légaux : en français, « synthétique » (décret 2002-65 ; « de laboratoire » est interdit, comme « vrai » et « véritable » pour une pierre synthétique, article 4). Synthétique ≠ imitation.
 - Accessibilité (règle israélienne IS 5568, cible WCAG 2.1 AA) :
@@ -21,7 +21,8 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
   - après un changement d'interface, relancer `tests/e2e/accessibility.spec.ts` (axe-core 4.14.0, aucune exclusion sans justification écrite) et mettre à jour `src/content/legal/accessibility-status.ts` et `ACCESSIBILITY_UPDATED`.
 - La politique de confidentialité décrit le code : toute modification de ce que le site recueille ou transmet (champs, photos, envoi, adresse IP, WhatsApp, hébergement, Speed Insights, cookies, contenu tiers) se reporte dans `src/content/legal/privacy.ts`, dans les trois langues. `tests/e2e/legal.spec.ts` échoue si une requête part vers un autre domaine ou si un cookie est déposé.
 - Informations de l'entreprise (nom légal, numéro, adresse, contacts, conditions de vente…) : un seul objet, `src/config/business.ts` ; une valeur `null` s'affiche « [à compléter : …] ».
-- Les fichiers CAO de l'atelier **sont versionnés** dans ce dépôt privé (`cad/originals/`, décision du 4/11 au soir) ; le pipeline les lit sans les réécrire. `cad/intermediate/` reste ignoré. Si le dépôt devient public, ces fichiers le deviennent aussi.
+- Les fichiers CAO de l'atelier **sont versionnés** dans ce dépôt (`cad/originals/`, décision du 4/11 au soir) ; le pipeline les lit sans les réécrire. `cad/intermediate/` reste ignoré.
+- **Le dépôt est public depuis le 15/11** (décision du propriétaire : « publication voulue » ; vérifié auprès de GitHub). Tout ce qui est poussé est lisible par tous : fichiers CAO, prix et marges (`docs/PRICING_RULES.md`, `src/config/pricing.ts`), réponses de l'atelier, dossier pour l'avocat, étude de concurrence. Ne jamais y écrire de secret (clé, mot de passe, jeton) ni de donnée personnelle d'un client ; les valeurs réelles restent dans Vercel. Contrôle du 15/11 : aucun secret dans les fichiers suivis ni dans les 67 commits.
 
 ## Environnement (session cloud)
 - Chromium : `/opt/pw-browsers/chromium-1243/chrome-linux64/chrome`. Tests navigateur : `CHROMIUM_PATH=… npx playwright test`.
@@ -81,6 +82,16 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
   - `docs/QUESTIONS_ATELIER.md` ;
   - `docs/PROCEDURE_PHOTO_ATELIER.md` et sa version PDF `docs/atelier/Procedure_photo_video_atelier.pdf`, envoyée à Yonathan ;
   - vidéo de démonstration `docs/atelier/demo-site-2026-11-04.mp4`.
+
+## Étude de concurrence des 15 et 16/11 (synthèse livrée, audits partiels)
+- Dossier `docs/concurrence/`. Ordre des marchés voulu par le propriétaire : États-Unis, Israël, Europe, Australie.
+- **Exploration** (4 dossiers `2026-11-15_<marché>.md`, chacun ouvert par l'inventaire des sites).
+- **Forums** (`forums/`, 10 rapports, citations vérifiées une à une, section « Vérification » en fin de fichier). Constats communs : délai qui glisse sans prévenir ; bijou reçu différent de la CAO validée (cotes en mm, tolérance, photo ou vidéo avant l'envoi) ; méfiance sur les prix (même pierre, même certificat, prix très différents) ; peur de l'échange de la pierre au sertissage ; alliance de kiddouchin lisse, sans pierre, payée par le marié.
+- **Audits de sites** (`audit/<marché>/<territoire>/` : `INVENTAIRE.md`, un rapport par site, `SYNTHESE_<groupe>.md`). Chaque bouton et option est vérifié dans un navigateur, sur ordinateur et en affichage iPhone, jusqu'au panier, sans compte ni paiement. Au 16/11 : 24 sites audités (12 vendeurs nationaux américains, 6 sites israéliens, 3 français, 2 belges, 1 en Alabama) et 34 inventaires de territoires. Non audités : les États américains, le reste de l'Europe, l'Australie (seulement explorée).
+- **Comparaison avec le prototype** (16/11) : `SYNTHESE.md` (35 avantages classés, dont 23 à traiter avant le lancement en Israël), tirée de `2026-11-16_comparaison_produit.md` et `2026-11-16_comparaison_offre.md`, chacune contrôlée affirmation par affirmation dans le code et dans les rapports. Écart principal : le prix (affiché partout ailleurs, « Sur devis » chez nous). Seule action sans dépendance : mettre la configuration dans l'adresse et ajouter un bouton « partager ».
+- **Reste à faire** : la suite des audits attend une décision du propriétaire (modèle plus léger pour les auditeurs, ou périmètre réduit) ; la synthèse sera complétée ensuite.
+- **Règles de l'étude** : lecture seule, respect de `robots.txt` et des protections (un site qui bloque les robots est marqué « bloqué », jamais contourné), aucun pseudonyme recopié, extraits de 25 mots au plus. Trois écarts à `robots.txt` ont eu lieu (Hasolidit, Keyzar, panier d'Angara) : ils sont notés dans les rapports, et les constats concernés de Keyzar portent la marque `[P1]`. Depuis, un outil de contrôle des adresses est imposé aux auditeurs.
+- **Limite d'usage** : une fenêtre de 5 heures laisse passer environ 15 millions de jetons d'agents avec le modèle Opus, environ 5 millions avec Fable (mesuré le 15/11) ; quand elle est vidée, les agents en cours perdent leur travail. Lancer 2 enchaînements d'agents à la fois, pas plus.
 
 ## Réponses de l'atelier déjà acquises
 - **Métaux** : or 14 et 18 k (jaune, blanc, rose) et platine ; pas d'argent.

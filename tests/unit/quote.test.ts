@@ -96,6 +96,8 @@ describe('demande de devis : e-mail', () => {
     expect(text).toContain('Gravure « J & M »');
     expect(text).toContain('Métal : ');
     expect(text).toContain('https://jr.example/fr/configurateur/ring-001');
+    // Le lien de la page rouvre la configuration demandée (paramètres de l'adresse).
+    expect(text).toContain(`https://jr.example/fr/configurateur/ring-001?composition=${r.state.composition}&metal=${r.state.metal}&origin=${r.state.diamondOrigin}`);
     expect(text).toContain('main.jpg (2 Ko)');
     expect(text).toContain(JSON.stringify(r.state));
   });

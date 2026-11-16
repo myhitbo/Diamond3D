@@ -78,6 +78,7 @@
 - [ ] Paiement : ouvrir un compte Grow au nom de l'entreprise de l'atelier, demander des devis à PayPlus et Cardcom, puis développer le parcours devis → lien de paiement.
 - [ ] Juridique : compléter la partie 4 du dossier avec l'atelier et consulter un avocat israélien.
 - [ ] Devis : faire relire les textes hébreux du formulaire (traduction IA).
+- [x] Lien de partage (16/11) : configuration dans l'adresse, bouton « Partager cette configuration », lien complet dans l'e-mail du devis et dans WhatsApp. Reste : relecture native du texte hébreu du bouton et de ses messages.
 - [x] Adresses traduites (`/en/configurator/…`, `/he/configurator/…`, 14/11). Redirections passées en permanent au lancement par l'interrupteur `SITE_INDEXABLE` (voir « Lancement en Israël »).
 - [x] Tests Safari et Firefox automatisés (15/11) : WebKit iPhone et iPad, Firefox sans 3D (`npm run test:e2e:browsers`). Reste le test sur appareils réels (section « Bloquant »).
 - [ ] Calibrer les teintes des métaux sur des photos authentiques.

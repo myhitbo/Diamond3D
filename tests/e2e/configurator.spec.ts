@@ -243,3 +243,66 @@ test('page 404 pour un modèle inconnu', async ({ page }) => {
   const res = await page.goto('/fr/configurateur/inexistant');
   expect(res?.status()).toBe(404);
 });
+
+test.describe('lien partagé : la configuration dans l’adresse', () => {
+  test('une adresse avec configuration rouvre les mêmes choix ; une valeur inconnue est ignorée', async ({ page }) => {
+    await page.goto('/fr/configurateur/ring-001?debug=1&composition=solitaire&metal=platinum-950&origin=lab-grown&stone-center=inconnue');
+    await ready(page);
+    await expect(page.getByRole('radio', { name: 'Solitaire' })).toHaveAttribute('aria-checked', 'true');
+    await expect(page.getByRole('radio', { name: 'Platine', exact: true })).toHaveAttribute('aria-checked', 'true');
+    await expect(page.getByRole('radio', { name: 'Synthétique' })).toHaveAttribute('aria-checked', 'true');
+    await expect.poll(() => page.evaluate(() => window.__jr!.visibleNodes().every((n) => n.startsWith('A__')))).toBe(true);
+    // L'adresse est réécrite avec la variante valide, et garde `debug`.
+    await expect.poll(() => new globalThis.URL(page.url()).searchParams.get('stone-center')).toBe('marquise-6x3');
+    expect(new globalThis.URL(page.url()).searchParams.get('debug')).toBe('1');
+  });
+
+  test('l’adresse suit les choix, sans nouvelle entrée d’historique', async ({ page }) => {
+    await page.goto(URL);
+    await ready(page);
+    // Arrivée sans configuration : l'adresse reste nue.
+    expect(new globalThis.URL(page.url()).searchParams.has('metal')).toBe(false);
+    const historyLength = await page.evaluate(() => history.length);
+    await page.getByRole('radio', { name: 'Or rose', exact: true }).click();
+    await expect.poll(() => new globalThis.URL(page.url()).searchParams.get('metal')).toBe('rose-gold-18k');
+    await page.getByRole('radio', { name: 'Alliance' }).click();
+    await expect.poll(() => new globalThis.URL(page.url()).searchParams.get('composition')).toBe('band');
+    expect(await page.evaluate(() => history.length)).toBe(historyLength);
+    // Rechargement : mêmes choix.
+    await page.reload();
+    await ready(page);
+    await expect(page.getByRole('radio', { name: 'Alliance' })).toHaveAttribute('aria-checked', 'true');
+    await expect(page.getByRole('radio', { name: 'Or rose', exact: true })).toHaveAttribute('aria-checked', 'true');
+    // Réinitialiser remet aussi l'adresse aux choix par défaut.
+    await page.getByRole('button', { name: 'Réinitialiser' }).click();
+    await expect.poll(() => new globalThis.URL(page.url()).searchParams.get('composition')).toBe('set');
+  });
+
+  test('« Partager » copie un lien qui rouvre la configuration, sans les paramètres techniques', async ({ page, context, browserName }) => {
+    test.skip(browserName !== 'chromium', 'droits du presse-papiers accordés par Playwright dans Chromium seulement');
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    await page.addInitScript(() => Object.defineProperty(navigator, 'share', { value: undefined }));
+    await page.goto(URL);
+    await ready(page);
+    await page.getByRole('radio', { name: 'Platine', exact: true }).click();
+    await page.getByRole('button', { name: 'Partager cette configuration' }).click();
+    await expect(page.getByText('Lien copié. Il rouvre cette bague avec les mêmes choix.')).toBeVisible();
+    const link = new globalThis.URL(await page.evaluate(() => navigator.clipboard.readText()));
+    expect(link.pathname).toBe('/fr/configurateur/ring-001');
+    expect(link.searchParams.get('metal')).toBe('platinum-950');
+    expect(link.searchParams.has('debug')).toBe(false);
+  });
+
+  test('presse-papiers refusé : le lien s’affiche, sélectionné, pour une copie à la main', async ({ page }) => {
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, 'share', { value: undefined });
+      Object.defineProperty(navigator, 'clipboard', { value: { writeText: () => Promise.reject(new Error('refusé')) } });
+    });
+    await page.goto(URL);
+    await ready(page);
+    await page.getByRole('button', { name: 'Partager cette configuration' }).click();
+    const field = page.getByLabel('Copiez ce lien pour retrouver ou partager cette configuration :');
+    await expect(field).toBeFocused();
+    expect(new globalThis.URL(await field.inputValue()).searchParams.get('composition')).toBe('set');
+  });
+});

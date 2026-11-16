@@ -1,6 +1,13 @@
 # Historique
 
-## 2026-11-16 — Étude de concurrence terminée, dépôt public (sans changement de code)
+## 2026-11-16 — Lien de partage de la configuration
+
+- La configuration (composition, métal, origine, pierre) est dans l'adresse de la page : recharger, mettre en favori ou envoyer le lien rouvre la même bague. Valeurs inconnues ignorées une à une ; aucune nouvelle entrée d'historique.
+- Bouton « Partager cette configuration » (FR, EN, HE) : partage du système, sinon copie du lien, sinon lien affiché et sélectionné.
+- Le lien complet part dans l'e-mail du devis et dans le message WhatsApp (avant : page sans configuration).
+- Tests : 4 unitaires et 4 navigateur ajoutés.
+
+## 2026-11-16 — Étude de concurrence terminée, dépôt public
 
 - Fin de l'étude de concurrence fusionnée dans `main` : rapports de forums vérifiés, audits de sites (États-Unis, Israël, Europe, Australie), deux comparaisons avec le prototype et `docs/concurrence/SYNTHESE.md` (35 avantages de la concurrence classés, nos avantages, ce qu'il ne faut pas copier, décisions attendues).
 - Contrôle complet local sur `d85cc16` : tout vert ; CI GitHub bloquée par la facturation du compte.

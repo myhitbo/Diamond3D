@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { METALS } from '@/config/metals';
 import { DICTIONARIES, formatNumber } from '@/i18n/dictionaries';
-import { applyChange, defaultState, metalWeightEstimateG, stoneSummary } from '@/lib/configurator/logic';
+import { applyChange, configToParams, defaultState, metalWeightEstimateG, stoneSummary } from '@/lib/configurator/logic';
 import { configuratorPath } from '@/lib/routes';
 import { LOCALES, MetalId, type ConfigState, type Locale, type ModelDefinition } from '@/lib/configurator/schema';
 
@@ -160,7 +160,7 @@ export function buildQuoteEmail(
     '',
     '— Configuration —',
     ...configurationLines(model, state),
-    ...(siteUrl ? [`Page : ${siteUrl.replace(/\/$/, '')}${configuratorPath(f.locale, model.id)}`] : []),
+    ...(siteUrl ? [`Page : ${siteUrl.replace(/\/$/, '')}${configuratorPath(f.locale, model.id)}?${configToParams(model, state)}`] : []),
     `Configuration brute : ${JSON.stringify(state)}`,
     '',
     '— Message —',

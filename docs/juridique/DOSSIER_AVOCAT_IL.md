@@ -1,6 +1,6 @@
 # Dossier pour l'avocat israélien
 
-Préparé le 14 novembre 2026, complété le 15 novembre (sections H et I, questions 25 à 43). But : obtenir en une consultation les réponses qui conditionnent la vente en ligne en Israël. Ce document ne contient aucun avis juridique : il décrit l'activité, pose les questions et indique ce que nous avons lu, avec le niveau de fiabilité (**[V]** source officielle, **[S]** source secondaire, **[?]** inconnu).
+Préparé le 14 novembre 2026, complété le 15 novembre (sections H et I, questions 25 à 43) et le 16 novembre (section J, questions 44 à 47). But : obtenir en une consultation les réponses qui conditionnent la vente en ligne en Israël. Ce document ne contient aucun avis juridique : il décrit l'activité, pose les questions et indique ce que nous avons lu, avec le niveau de fiabilité (**[V]** source officielle, **[S]** source secondaire, **[?]** inconnu).
 
 ## 1. L'activité
 
@@ -117,6 +117,15 @@ Ce que nous avons fait : un brouillon de politique de confidentialité en trois 
 41. Durées minimales de conservation (fiscalité, litiges de consommation, contestations de paiement par carte) et durée raisonnable pour un devis sans suite, au regard de la revue annuelle du règlement de 2017 (article 2(ג)).
 42. Le droit israélien n'ouvre pas de droit général à l'effacement : est-il prudent de proposer la suppression sur simple demande ? Faut-il indiquer dans la politique la possibilité de saisir l'Autorité de protection de la vie privée ?
 43. France, plus tard : à partir de quand le RGPD s'applique-t-il (article 3, paragraphe 2) ? Faut-il un représentant dans l'Union (article 27) ? La mesure Speed Insights, qui lit des propriétés du navigateur sans rien y stocker, demande-t-elle un consentement au titre de la directive ePrivacy ? Mentions de l'article 1-1 de la LCEN.
+
+### J. Réponses de l'atelier du 16 novembre
+
+Source : `docs/REPONSES_ATELIER.md`, section « 16 novembre 2026 ». L'atelier est osek patour (עוסק פטור) : pas de TVA. Le passage en société est prévu au-delà du plafond de chiffre d'affaires.
+
+44. **Non-reprise du sur-mesure.** L'atelier veut écrire : « un bijou sur mesure n'est ni repris ni échangé, sauf défaut de fabrication ; la première mise à taille est offerte ». La FAQ le publie, marqué « À confirmer », en attendant votre avis. Une bague choisie dans un configurateur (modèle existant, métal, pierre et taille choisis par le client) relève-t-elle de l'exception des biens fabriqués spécialement pour le consommateur ? Si oui, quelle formulation exacte publier dans la FAQ et dans les conditions de vente ? Si non, quel délai et quels frais d'annulation peut-on appliquer ?
+45. **Clause de l'atelier pour la transformation d'un bijou de famille** : « le sertisseur décline toute responsabilité en cas de casse » (d'une pierre au dessertissage). **Elle n'est pas publiée.** Le site dit seulement qu'une pierre fêlée ou fragile peut se briser, et que l'atelier prévient avant d'y toucher. Une telle exclusion de responsabilité est-elle valable envers un consommateur, notamment comme clause d'un contrat d'adhésion ? Sous quelle forme est-elle opposable (accord écrit avant le dessertissage, après examen de la pierre) ?
+46. **Osek patour** : quelles mentions faut-il sur le site et sur les documents remis au client (prix sans TVA, mention « עוסק פטור », reçu plutôt que facture) ? Le numéro publié, 345837116, est en principe celui de la carte d'identité du titulaire (voir la question 40). Faut-il le publier, et sous quel nom légal (le titulaire, ou le nom commercial « Diamdor ») ?
+47. **Transport** (16/11) : si le client organise l'envoi de son bijou, l'assurance est à sa charge ; si l'atelier organise un envoi international, il l'assure. En Israël, la livraison se fait par coursier, frais fixés dans le devis. Qui porte le risque de perte pendant le transport vers le client, et que faut-il écrire dans les conditions de vente ?
 
 ## 3. Ce que nous attendons de la consultation
 

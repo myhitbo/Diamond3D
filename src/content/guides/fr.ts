@@ -246,8 +246,8 @@ export const GUIDES_FR: Guide[] = [
         title: 'Chez JR Diamond',
         list: [
           'À partir de 0,50 carat, la pierre est livrée avec son certificat : GIA pour un diamant naturel, IGI pour un diamant synthétique.',
-          'Sous 0,50 carat, comme la marquise d’environ 0,25 carat de notre premier modèle, il n’y a pas de certificat. L’atelier filme la pierre pour que vous la voyiez avant de la choisir.',
-          'Le configurateur affiche le poids estimé de la pierre. Couleur et pureté se choisissent avec l’atelier, dans le devis.',
+          'Sous 0,50 carat, comme la marquise d’environ 0,25 carat de notre premier modèle, il n’y a pas de certificat systématique. L’atelier filme la pierre pour que vous la voyiez avant de la choisir.',
+          'Le configurateur affiche le poids estimé de la pierre. Couleur et pureté se définissent avec vous, dans le devis.',
         ],
       },
     ],
@@ -302,14 +302,14 @@ export const GUIDES_FR: Guide[] = [
         title: 'Or blanc, or rose',
         paragraphs: [
           'L’or rose doit sa teinte au cuivre. L’or blanc est un alliage pâle, souvent recouvert de rhodium pour un blanc éclatant ; cette couche s’use et se refait.',
-          'Certains ors blancs contiennent du nickel, d’autres du palladium et pas de nickel. Si vous êtes allergique au nickel, dites-le dans votre demande : l’atelier vous indiquera l’alliage qu’il emploie.',
+          'Certains ors blancs contiennent du nickel, d’autres du palladium et pas de nickel. L’or blanc de l’atelier ne contient pas de nickel.',
         ],
       },
       {
         id: 'atelier',
         title: 'Chez JR Diamond',
         paragraphs: [
-          'L’atelier travaille l’or 14 et 18 carats, en jaune, blanc et rose, ainsi que le platine. Il ne travaille pas l’argent. Dans le configurateur, choisissez la couleur, puis le titre : le poids de métal estimé change avec lui.',
+          'L’atelier travaille l’or 14 et 18 carats, en jaune, blanc et rose, ainsi que le platine. Il ne travaille pas l’argent. Ses bagues sont poinçonnées 585 (14 carats) ou 750 (18 carats). Dans le configurateur, choisissez la couleur, puis le titre : le poids de métal estimé change avec lui.',
           'Notre conseil : prenez le 18 carats si vous voulez le jaune le plus riche et la plus grande part d’or. Prenez le 14 carats pour une bague plus légère et moins chère, avec la même allure.',
         ],
       },
@@ -332,15 +332,15 @@ export const GUIDES_FR: Guide[] = [
     id: 'taille',
     slug: 'taille-de-doigt',
     title: 'Taille de doigt : la trouver sans se tromper',
-    description: 'Une taille de bague, c’est un tour de doigt en millimètres. Comment la mesurer, les pièges à éviter, et la correspondance avec les tailles israéliennes et américaines.',
+    description: 'Une taille de bague, c’est un tour de doigt en millimètres. Comment la mesurer, les pièges à éviter, et la correspondance entre tailles européennes et américaines.',
     verified: '2026-11-14',
     sections: [
       {
         id: 'le-chiffre',
         title: 'Ce que veut dire le chiffre',
         paragraphs: [
-          'En France, la taille d’une bague est son tour intérieur en millimètres : une bague de taille 52 mesure 52 mm de tour, soit environ 16,6 mm de diamètre. C’est la règle de la norme internationale ISO 8653.',
-          'En Israël, les bijoutiers emploient souvent une taille plus courte de 40 : la taille israélienne 12 correspond au 52 français. Les États-Unis ont leur propre échelle. Le tableau plus bas fait la correspondance.',
+          'En France et en Europe, la taille d’une bague est son tour intérieur en millimètres : une bague de taille 52 mesure 52 mm de tour, soit environ 16,6 mm de diamètre. C’est la règle de la norme internationale ISO 8653. Ces tailles européennes sont aussi utilisées en Israël, et c’est le système de notre atelier.',
+          'Les États-Unis ont leur propre échelle ; le tableau plus bas fait la correspondance. On rencontre aussi en Israël une taille plus courte de 40 (12 pour 52), par exemple dans les tableaux de Gindi Gold et de B144 cités en sources : dans le doute, précisez le système, ou donnez les millimètres.',
         ],
       },
       {
@@ -367,11 +367,11 @@ export const GUIDES_FR: Guide[] = [
         id: 'correspondances',
         title: 'Tableau des correspondances',
         table: {
-          caption: 'Tailles françaises, diamètre intérieur, tailles israéliennes et américaines',
-          head: ['France (tour, mm)', 'Diamètre (mm)', 'Israël', 'États-Unis (env.)'],
+          caption: 'Tailles européennes, diamètre intérieur et équivalent américain',
+          head: ['Europe (tour, mm)', 'Diamètre (mm)', 'États-Unis (env.)'],
           rows: SIZE_RANGE.map((c) => {
             const r = ringSizeRow(c);
-            return [r.fr, r.diameterMm, r.il, r.us];
+            return [r.eu, r.diameterMm, r.us];
           }),
         },
         after: [
@@ -383,7 +383,7 @@ export const GUIDES_FR: Guide[] = [
         title: 'Chez JR Diamond',
         paragraphs: [
           'Notre premier modèle est dessiné en taille 51½, soit 16,4 mm de diamètre intérieur. L’atelier le fabrique à votre taille ; l’aperçu 3D, lui, reste à la taille dessinée.',
-          'Indiquez votre taille dans la demande de devis, dans le système que vous connaissez : 52, 12 en taille israélienne, 6 américain, ou « je ne sais pas ». La première mise à taille est offerte.',
+          'Indiquez votre taille européenne dans la demande de devis (52, par exemple), ou son équivalent américain (6), ou « je ne sais pas ». La première mise à taille est offerte.',
           'Une alliance sertie de pierres tout autour se remet difficilement à taille : pour celle-là, mesurez avec un soin particulier.',
         ],
       },

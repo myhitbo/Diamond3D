@@ -274,19 +274,22 @@ export const FAQ: FaqCategory[] = [
         a: {
           fr: [
             'Oui, à partir de 0,50 carat : GIA pour les diamants naturels, IGI pour les diamants synthétiques. Ce sont deux laboratoires indépendants reconnus dans le monde entier.',
+            'Sous 0,50 carat, il n’y a pas de certificat systématique : la couleur et la pureté de la pierre sont définies avec vous dans le devis.',
             'Le numéro du certificat est en général gravé au laser sur la tranche de la pierre, lisible à la loupe. Vous pouvez le vérifier sur le site du laboratoire.',
           ],
           en: [
             'Yes, from 0.50 carat: GIA for natural diamonds, IGI for lab-grown diamonds. Both are independent laboratories recognised worldwide.',
+            'Below 0.50 carat, a certificate is not automatic: the colour and clarity of the stone are agreed with you in the quote.',
             'The report number is usually laser-inscribed on the girdle of the stone, readable with a loupe. You can check it on the laboratory’s website.',
           ],
           he: [
             'כן, החל מ־0.50 קראט: GIA ליהלומים טבעיים, IGI ליהלומי מעבדה. שתיהן מעבדות עצמאיות המוכרות בכל העולם.',
+            'מתחת ל־0.50 קראט אין תעודה באופן קבוע: הצבע והניקיון של האבן נקבעים איתכם בהצעת המחיר.',
             'מספר התעודה בדרך כלל חרוט בלייזר על שפת האבן וניתן לקריאה בזכוכית מגדלת. אפשר לאמת אותו באתר המעבדה.',
           ],
         },
         status: 'source',
-        basis: 'atelier, 3/11 (seuil et laboratoires) ; inscription : IGI',
+        basis: 'atelier, 3/11 (seuil et laboratoires) ; sous 0,50 ct, pas de certificat systématique, couleur et pureté au devis : atelier 16/11 ; inscription : IGI',
         sources: [IGI_LGD],
       },
       {
@@ -347,15 +350,15 @@ export const FAQ: FaqCategory[] = [
         a: {
           fr: [
             'Le 18 carats contient 75 % d’or (poinçon 750), le 14 carats 58,5 % (poinçon 585). Le 18 carats a une couleur plus riche, il est plus lourd et plus cher. On dit souvent le 14 carats plus dur : en réalité, la dureté dépend surtout de la recette de l’alliage.',
-            'Les deux sont de l’or véritable, et tous deux conviennent à une bague portée tous les jours.',
+            'Les deux sont de l’or véritable, et tous deux conviennent à une bague portée tous les jours. Les bagues de l’atelier sont poinçonnées 585 ou 750.',
           ],
           en: [
             '18 karat is 75% gold (hallmark 750), 14 karat is 58.5% (hallmark 585). 18 karat has a richer colour, is heavier and costs more. 14 karat is often said to be harder: in fact, hardness depends mostly on the alloy recipe.',
-            'Both are real gold, and both suit a ring worn every day.',
+            'Both are real gold, and both suit a ring worn every day. The workshop’s rings are hallmarked 585 or 750.',
           ],
           he: [
             'ב־18 קראט יש 75% זהב (חותמת 750), ב־14 קראט 58.5% (חותמת 585). ל־18 קראט צבע עשיר יותר, והוא כבד ויקר יותר. נהוג לומר ש־14 קראט קשיח יותר; בפועל, הקשיות תלויה בעיקר בהרכב הסגסוגת.',
-            'שניהם זהב אמיתי, ושניהם מתאימים לטבעת שעונדים כל יום.',
+            'שניהם זהב אמיתי, ושניהם מתאימים לטבעת שעונדים כל יום. הטבעות של הסדנה מוטבעות בחותמת 585 או 750.',
           ],
         },
         status: 'source',
@@ -387,21 +390,21 @@ export const FAQ: FaqCategory[] = [
           fr: [
             'L’or blanc est un alliage légèrement teinté, recouvert d’une fine couche de rhodium qui lui donne son blanc éclatant. Avec le temps, cette couche s’use et une nuance chaude peut réapparaître.',
             'Il suffit de refaire le rhodiage quand la nuance réapparaît. Le rythme dépend du port : selon les joailliers, d’un à cinq ans pour une bague portée tous les jours. L’atelier s’en charge.',
-            'Le platine, lui, est naturellement blanc et n’a pas besoin de rhodiage.',
+            'L’or blanc de l’atelier ne contient pas de nickel. Le platine, lui, est naturellement blanc et n’a pas besoin de rhodiage.',
           ],
           en: [
             'White gold is a slightly tinted alloy covered with a thin layer of rhodium that gives it its bright white. Over time the layer wears and a warm tint can show through.',
             'It simply needs replating when the tint shows. How often depends on wear: jewellers suggest anywhere from one to five years for a ring worn daily. The workshop does it.',
-            'Platinum is naturally white and does not need rhodium plating.',
+            'The workshop’s white gold contains no nickel. Platinum is naturally white and does not need rhodium plating.',
           ],
           he: [
             'זהב לבן הוא סגסוגת בגוון עדין, המצופה בשכבה דקה של רודיום שמעניקה לו את הלובן הבוהק. עם הזמן השכבה נשחקת וגוון חם יותר עלול להופיע.',
             'מספיק לצפות מחדש ברודיום כשהגוון חוזר. התדירות תלויה בשימוש: לפי צורפים, בין שנה לחמש שנים לטבעת שעונדים כל יום. הסדנה עושה זאת.',
-            'פלטינה לבנה מטבעה ואינה צריכה ציפוי רודיום.',
+            'הזהב הלבן של הסדנה אינו מכיל ניקל. פלטינה לבנה מטבעה ואינה צריכה ציפוי רודיום.',
           ],
         },
         status: 'source',
-        basis: 'fréquence (revue le 15/11) : les sources divergent, The Knot (joailliers interrogés) ≈ 5 ans ou dès que la couleur change, With Clarity 1 à 3 ans ; l’ancienne réponse « 1 à 2 ans » ne correspondait pas à The Knot ; rhodiage par l’atelier : 3/11',
+        basis: 'fréquence (revue le 15/11) : les sources divergent, The Knot (joailliers interrogés) ≈ 5 ans ou dès que la couleur change, With Clarity 1 à 3 ans ; l’ancienne réponse « 1 à 2 ans » ne correspondait pas à The Knot ; rhodiage par l’atelier : 3/11 ; or blanc sans nickel : atelier 16/11',
         sources: [KNOT, WITH_CLARITY],
       },
       {
@@ -518,8 +521,8 @@ export const FAQ: FaqCategory[] = [
             'איננו מעתיקים עיצובים מוגנים של בתי תכשיטים גדולים, אבל נוכל ליצור תכשיט באותה רוח.',
           ],
         },
-        status: 'toConfirm',
-        basis: 'déduit (maquette 3D au tarif atelier) ; refus des copies : règle du projet (PIP-7)',
+        status: 'atelier',
+        basis: 'validée par l’atelier le 16/11 ; maquette 3D au tarif atelier : 3/11 ; refus des copies : règle du projet (PIP-7)',
       },
     ],
   },
@@ -551,17 +554,20 @@ export const FAQ: FaqCategory[] = [
         },
         a: {
           fr: [
-            'Sur le site, le bijou se paie intégralement à la commande. La fabrication démarre aussitôt, et le bijou est expédié une fois terminé.',
-            'Les moyens de paiement acceptés seront indiqués ici.',
+            'Une fois le devis accepté, le bijou se paie intégralement à la commande. La fabrication démarre aussitôt ; le bijou est livré, ou retiré à l’atelier, une fois terminé.',
+            'Moyens de paiement acceptés : carte bancaire en ligne et Bit.',
           ],
           en: [
-            'On the site, the piece is paid in full when you order. Production starts at once, and the piece ships when finished.',
-            'Accepted payment methods will be listed here.',
+            'Once you accept the quote, the piece is paid in full when you order. Production starts at once; the piece is delivered, or collected from the workshop, when finished.',
+            'Accepted payment methods: bank card online and Bit.',
           ],
-          he: ['באתר, התכשיט משולם במלואו בעת ההזמנה. הייצור מתחיל מיד, והתכשיט נשלח כשהוא מוכן.', 'אמצעי התשלום המקובלים יפורטו כאן.'],
+          he: [
+            'לאחר אישור הצעת המחיר, התכשיט משולם במלואו בעת ההזמנה. הייצור מתחיל מיד, והתכשיט נשלח או נאסף מהסדנה כשהוא מוכן.',
+            'אמצעי התשלום: כרטיס אשראי באתר ו־Bit.',
+          ],
         },
-        status: 'toConfirm',
-        basis: 'paiement intégral : atelier 3/11 ; moyens de paiement : non communiqués',
+        status: 'atelier',
+        basis: 'validée par l’atelier le 16/11 ; paiement intégral : 3/11 ; carte en ligne et Bit : 16/11 ; « une fois le devis accepté » : déduit de « pas de prix automatique » (16/11) ; paiement en plusieurs fois : sans réponse',
       },
       {
         id: 'annulation',
@@ -572,34 +578,41 @@ export const FAQ: FaqCategory[] = [
         },
         a: {
           fr: [
-            'Nos bijoux sont fabriqués pour vous, à votre configuration. Les conditions d’annulation et de retour seront précisées dans nos conditions de vente, conformément à la loi israélienne de protection du consommateur.',
+            'Nos bijoux sont fabriqués pour vous, à votre configuration : un bijou sur mesure n’est ni repris ni échangé, sauf défaut de fabrication. La première mise à taille est offerte.',
+            'Les conditions exactes d’annulation et de retour seront précisées dans nos conditions de vente, conformément à la loi israélienne de protection du consommateur.',
           ],
           en: [
-            'Our pieces are made for you, to your configuration. Cancellation and return terms will be set out in our terms of sale, in line with Israeli consumer protection law.',
+            'Our pieces are made for you, to your configuration: a made-to-order piece is not taken back or exchanged, except for a manufacturing defect. The first resizing is free.',
+            'The exact cancellation and return terms will be set out in our terms of sale, in line with Israeli consumer protection law.',
           ],
-          he: ['התכשיטים שלנו מיוצרים במיוחד עבורכם, לפי התצורה שבחרתם. תנאי הביטול וההחזרה יפורטו בתנאי המכירה, בהתאם לחוק הגנת הצרכן.'],
+          he: [
+            'התכשיטים שלנו מיוצרים במיוחד עבורכם, לפי התצורה שבחרתם: תכשיט בהזמנה אישית אינו מוחזר ואינו מוחלף, למעט פגם בייצור. התאמת המידה הראשונה חינם.',
+            'תנאי הביטול וההחזרה המדויקים יפורטו בתנאי המכירה, בהתאם לחוק הגנת הצרכן.',
+          ],
         },
         status: 'toConfirm',
-        basis: 'exception « fabriqué sur mesure » : non tranchée pour une bague configurée, à faire valider par un avocat (STRATEGIE.md §6)',
+        basis: 'validée par l’atelier le 16/11 (pas de retour sauf défaut, première mise à taille offerte) ; reste « À confirmer » jusqu’à l’avis de l’avocat sur l’exception « fabriqué sur mesure » (DOSSIER_AVOCAT_IL.md)',
       },
       {
         id: 'livraison',
         q: {
-          fr: 'Livrez-vous à l’étranger ?',
-          en: 'Do you ship abroad?',
-          he: 'האם אתם שולחים לחו״ל?',
+          fr: 'Comment se passe la livraison ?',
+          en: 'How does delivery work?',
+          he: 'איך מתבצע המשלוח?',
         },
         a: {
           fr: [
-            'Nous livrons d’abord en Israël. Pour la France et les autres pays, contactez-nous : l’envoi d’un bijou de valeur demande un transport assuré, et l’import peut entraîner des taxes.',
+            'Nous livrons en Israël, par coursier. Les frais dépendent de la ville, en général 150 à 200 ₪, et figurent dans le devis.',
+            'Vous pouvez aussi retirer votre bijou à l’atelier, à la Bourse du diamant de Ramat Gan.',
           ],
           en: [
-            'We ship within Israel first. For France and other countries, contact us: sending a valuable piece requires insured transport, and import taxes may apply.',
+            'We deliver in Israel, by courier. The fee depends on the city, usually ₪150 to ₪200, and is shown in the quote.',
+            'You can also collect your piece from the workshop at the Diamond Exchange in Ramat Gan.',
           ],
-          he: ['בשלב ראשון אנחנו שולחים בישראל. לצרפת ולמדינות אחרות, צרו איתנו קשר: משלוח של תכשיט יקר דורש הובלה מבוטחת, וייתכנו מסי יבוא.'],
+          he: ['אנחנו שולחים בישראל, באמצעות שליח. העלות תלויה בעיר, בדרך כלל 150 עד 200 ₪, ומופיעה בהצעת המחיר.', 'אפשר גם לאסוף את התכשיט מהסדנה, בבורסת היהלומים ברמת גן.'],
         },
-        status: 'toConfirm',
-        basis: 'décision lancement Israël (4/11) ; modalités d’expédition non définies',
+        status: 'atelier',
+        basis: 'atelier 16/11 (coursier, frais selon la ville, retrait à la Bourse) ; livraison à l’étranger retirée : non confirmée par l’atelier (question 12 du 14/11)',
       },
     ],
   },
@@ -620,20 +633,23 @@ export const FAQ: FaqCategory[] = [
         },
         a: {
           fr: [
+            'L’atelier travaille en tailles européennes : le tour du doigt en millimètres (50, 51, 52…), aussi utilisé en Israël. Donnez-nous cette taille, ou son équivalent américain.',
             'Le plus fiable : prenez une bague que vous portez au même doigt et mesurez son diamètre intérieur en millimètres. Faites la mesure en fin de journée, quand les doigts sont un peu plus gros.',
             'Pour une demande en mariage surprise, empruntez discrètement une de ses bagues. Pas de panique en cas d’erreur : la première mise à taille est offerte pendant la première année.',
           ],
           en: [
+            'The workshop works in European sizes: the finger’s circumference in millimetres (50, 51, 52…), also used in Israel. Give us that size, or its US equivalent.',
             'The most reliable way: take a ring worn on the same finger and measure its inner diameter in millimetres. Measure at the end of the day, when fingers are slightly larger.',
             'For a surprise proposal, discreetly borrow one of their rings. Don’t worry if it is off: the first resizing is free during the first year.',
           ],
           he: [
+            'הסדנה עובדת במידות אירופאיות: היקף האצבע במילימטרים (50, 51, 52…), שמקובלות גם בישראל. מסרו לנו את המידה הזו, או את המידה האמריקאית המקבילה.',
             'הדרך האמינה ביותר: קחו טבעת שאתם עונדים על אותה אצבע ומדדו את הקוטר הפנימי שלה במילימטרים. מדדו בסוף היום, כשהאצבעות מעט גדולות יותר.',
             'להצעת נישואין בהפתעה, שאלו בשקט אחת מהטבעות שלה. אל דאגה אם המידה לא מדויקת: התאמת המידה הראשונה חינם במהלך השנה הראשונה.',
           ],
         },
         status: 'atelier',
-        basis: 'première mise à taille offerte, payante après un an : atelier 3/11 (point de départ de l’année : question 81) ; méthode : pratique courante',
+        basis: 'première mise à taille offerte, payante après un an : atelier 3/11 (point de départ de l’année : question 81) ; tailles européennes, « aussi utilisées en Israël » : atelier 16/11 ; méthode : pratique courante',
       },
       {
         id: 'mise-a-taille',
@@ -680,8 +696,8 @@ export const FAQ: FaqCategory[] = [
             'בדקו את הציפורניים בערך פעם בשנה: ציפורן שחוקה עלולה לשחרר אבן. הסדנה מטפלת בתחזוקה ובתיקונים.',
           ],
         },
-        status: 'toConfirm',
-        basis: 'réparations et entretien par l’atelier : 3/11 ; conseils : pratique courante, à relire par l’atelier',
+        status: 'atelier',
+        basis: 'validée par l’atelier le 16/11 ; réparations et entretien par l’atelier : 3/11 ; conseils : pratique courante',
       },
     ],
   },

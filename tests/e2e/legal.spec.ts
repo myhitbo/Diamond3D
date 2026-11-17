@@ -108,8 +108,8 @@ test('déclaration : état de conformité daté ; formulaires : lien vers la pol
   const status = page.locator('section#etat');
   await expect(status.getByRole('heading', { level: 2 })).toHaveText('État de conformité');
   await expect(status).toContainText('Dernière vérification');
-  await expect(status).toContainText('16 novembre 2026');
-  // Vérification du 15/11, refaite le 16/11 : contrôles automatiques (axe-core et contrôles complémentaires), pas de lecteur d'écran.
+  await expect(status).toContainText('17 novembre 2026');
+  // Vérification du 15/11, refaite le 16/11 et le 17/11 : contrôles automatiques (axe-core et contrôles complémentaires), pas de lecteur d'écran.
   await expect(status).toContainText('Partielle au niveau AA');
   await expect(status).toContainText('axe-core 4.14.0');
   await expect(status.getByRole('heading', { level: 3, name: 'Lecteurs d’écran testés' })).toBeVisible();

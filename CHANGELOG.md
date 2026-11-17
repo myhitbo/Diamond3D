@@ -1,5 +1,13 @@
 # Historique
 
+## 2026-11-17 — Refonte visuelle « maison de joaillerie »
+
+- Palette noir, ivoire et champagne ; en-tête et pied de page noirs avec monogramme JR et filets dorés.
+- Accueil : premier écran noir en pleine largeur avec le rendu 3D sur fond noir, sections numérotées, bandeau « Métaux et pierres », liens fléchés. Textes inchangés.
+- Configurateur : scène 3D sur fond noir, vues et choix en cours restylés, bouton principal or au survol.
+- WhatsApp des devis actif en production ; inventaire des fichiers de l'atelier reçus par le Drive (`docs/atelier/2026-11-17_fichiers_drive.md`).
+- Tests : tout vert (Chromium 247 passés ; WebKit et Firefox 295 passés). Déclaration d'accessibilité datée du 17/11.
+
 ## 2026-11-16 — Lien de partage de la configuration
 
 - La configuration (composition, métal, origine, pierre) est dans l'adresse de la page : recharger, mettre en favori ou envoyer le lien rouvre la même bague. Valeurs inconnues ignorées une à une ; aucune nouvelle entrée d'historique.

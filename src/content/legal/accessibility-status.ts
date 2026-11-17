@@ -7,7 +7,7 @@
  * dit quelle solution de remplacement nous proposons. Chaque texte existe dans les trois langues.
  * Changer aussi `ACCESSIBILITY_UPDATED` (`accessibility.ts`), date de mise à jour de la déclaration.
  *
- * Vérification du 15 novembre 2026, refaite le 16 novembre après l'ajout du bouton « Partager cette configuration » (mêmes résultats) : `tests/e2e/accessibility.spec.ts` (axe-core et contrôles complémentaires), tout vert sur
+ * Vérification du 15 novembre 2026, refaite le 16 novembre après l'ajout du bouton « Partager cette configuration » et le 17 novembre après la refonte visuelle (bandeaux noirs, scène 3D sombre) ; mêmes résultats : `tests/e2e/accessibility.spec.ts` (axe-core et contrôles complémentaires), tout vert sur
  * Chromium (ordinateur et téléphone simulés), WebKit (iPhone et iPad simulés, sans le parcours complet à la touche Tab) et
  * Firefox (pages sans 3D). Les chiffres ci-dessous en viennent : à
  * recompter si la liste des pages du test change. Aucun test avec un vrai lecteur d'écran : ne rien écrire dans `screenReaders`
@@ -40,7 +40,7 @@ export const AXE_VERSION = '4.14.0';
 const dict = (l: (typeof LOCALES)[number]) => DICTIONARIES[l];
 
 export const ACCESSIBILITY_STATUS: AccessibilityStatus = {
-  checkedOn: '2026-11-16',
+  checkedOn: '2026-11-17',
   // Partielle : les contrôles automatiques ne trouvent plus de défaut, mais des limites restent (ci-dessous) et la vérification
   // n'est pas complète (ni audit manuel, ni lecteur d'écran). Ne passer à « full » qu'après ces deux vérifications.
   conformance: 'partial',

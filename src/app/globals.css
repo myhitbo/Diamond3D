@@ -274,6 +274,13 @@ html[lang='he'] body *:not(.wordmark):not(.footer-brand) {
   }
 }
 
+/* Très petits écrans (320 px) : l'en-tête tient sur une ligne sans le monogramme, qui reste dans le pied de page. */
+@media (max-width: 380px) {
+  .site-header .monogram {
+    display: none;
+  }
+}
+
 /* Pied de page commun : bandeau sombre, monogramme, liens, note. */
 .site-footer {
   position: relative;

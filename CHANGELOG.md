@@ -7,6 +7,7 @@
 - Configurateur : scène 3D sur fond noir, vues et choix en cours restylés, bouton principal or au survol.
 - WhatsApp des devis actif en production ; inventaire des fichiers de l'atelier reçus par le Drive (`docs/atelier/2026-11-17_fichiers_drive.md`).
 - Tests : tout vert (Chromium 247 passés ; WebKit et Firefox 295 passés). Déclaration d'accessibilité datée du 17/11.
+- Sécurité : Next.js 16.4.2 → 16.4.6 (GHSA-mfr8-8qww-v76h, GHSA-vc7v-qv4w-wrv8) ; 0 faille dans les dépendances de production ; suites complètes repassées, toutes vertes.
 
 ## 2026-11-16 — Lien de partage de la configuration
 

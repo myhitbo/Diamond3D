@@ -1,6 +1,6 @@
 # Mémoire du projet JR Diamond
 
-Mise à jour : 16 novembre 2026. Ce fichier résume l'état du projet pour reprendre le travail sans relire tout l'historique.
+Mise à jour : 17 novembre 2026. Ce fichier résume l'état du projet pour reprendre le travail sans relire tout l'historique.
 Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers de fond).
 
 ## Le projet en bref
@@ -113,7 +113,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 - Grille de prix des pierres.
 - Polissage final et rhodiage : un seul frais ou deux ?
 - Métal par défaut (14 k ou 18 k).
-- Moyens de paiement, annulation et retour, livraison (Israël et France), numéro WhatsApp.
+- Moyens de paiement, annulation et retour, livraison (Israël et France) (numéro WhatsApp reçu le 17/11).
 - Questions 67 à 84 de `docs/QUESTIONS_ATELIER.md` (15/11, pas encore envoyées) : informations légales et conditions de vente pour `src/config/business.ts`, contact accessibilité, accès au local, conservation des données, retrait de l'accord de publication, étapes faites par l'atelier, point de départ de l'année de mise à taille offerte, photos et vidéos de fabrication, pierre filmée, termes hébreux des pierres.
 - Relecture des 7 réponses « À confirmer » et des 3 déductions de la FAQ ; relecture des six guides (questions 61 à 66 : alliage de l'or blanc, poinçon, pierres sous 0,50 ct, tailles israéliennes).
 - Relecture des textes hébreux. Existe-t-il en Israël un terme imposé pour les diamants de synthèse, ou un poinçon obligatoire ?
@@ -122,7 +122,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 
 ### Développement possible sans attendre
 Au 14/11 au soir, plus rien ici ne se fait sans une action extérieure : les trois points restants sont prêts côté code et attendent le propriétaire, l'atelier ou la date de lancement.
-- **Envoi réel des devis : il manque seulement des valeurs à saisir dans Vercel** (vérifié le 16/11 : aucune variable d'environnement dans le projet `jr-diamond`). WhatsApp : renseigner `NEXT_PUBLIC_WHATSAPP_NUMBER` (numéro de l'atelier, format international) puis redéployer ; le bouton « Envoyer sur WhatsApp » apparaît (lien wa.me, message pré-rempli, photos à joindre à la main). E-mail : variables `QUOTE_TO`, `QUOTE_FROM`, `SMTP_*` ; sans elles, le bouton « Envoyer la demande » répond « indisponible ». La notification automatique par la WhatsApp Business Platform de Meta n'est pas faite (compte Meta, numéro dédié, coût par message).
+- **Envoi réel des devis.** WhatsApp **actif** : `NEXT_PUBLIC_WHATSAPP_NUMBER = +972552550455` (numéro donné par le propriétaire le 17/11) saisi dans Vercel pour la production et les prévisualisations ; vérifié le 17/11 dans le code servi en production (bouton « Envoyer sur WhatsApp », lien wa.me, message pré-rempli avec le lien de la configuration, photos à joindre à la main). E-mail, encore à saisir : variables `QUOTE_TO`, `QUOTE_FROM`, `SMTP_*` ; sans elles, le bouton « Envoyer la demande » répond « indisponible ». La notification automatique par la WhatsApp Business Platform de Meta n'est pas faite (compte Meta, numéro dédié, coût par message).
 - Page de l'alliance de kiddouchin : attend un modèle (atelier ou CGTrader). Un anneau généré par le code contredirait la promesse « ce que vous voyez existe ». Les guides de l'alliance, de l'or et de la taille sont prêts.
 - Jour du lancement : `SITE_INDEXABLE = true` dans `src/config/site.ts` (balise robots, plan du site, redirections permanentes ; pas avant, un navigateur garde une redirection permanente en mémoire). Retirer le « garde-fou avant le lancement » de `tests/unit/seo.test.ts`, renseigner `NEXT_PUBLIC_SITE_URL` si le domaine change, lever la protection Vercel (cookie `_vercel_jwt`), choisir la langue de la racine (`/` mène à `/fr`, alors que le lancement se fait en Israël), puis envoyer un lien sur WhatsApp pour vérifier l'aperçu.
 

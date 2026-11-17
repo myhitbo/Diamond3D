@@ -71,7 +71,8 @@
 - [x] Délai affiché : 14 jours ouvrés (4/11).
 - [ ] Paiement intégral sur le site.
 - [x] Phase 4, version légère (13/11) : formulaire de devis FR/EN/HE envoyé par e-mail (sans base de données), avec accord facultatif de publication des photos et vidéos de fabrication.
-- [ ] Devis en production (vérifié le 14/11 au soir : aucune variable saisie) : saisir dans Vercel `NEXT_PUBLIC_WHATSAPP_NUMBER` (bouton WhatsApp, prêt depuis le 14/11) et/ou `QUOTE_TO`, `QUOTE_FROM`, `SMTP_*` (e-mail), puis redéployer et tester une vraie demande.
+- [x] WhatsApp en production (17/11) : `NEXT_PUBLIC_WHATSAPP_NUMBER = +972552550455` dans Vercel, vérifié dans le code servi. Reste : envoyer une vraie demande depuis un téléphone pour contrôler le message reçu.
+- [ ] E-mail des devis : saisir dans Vercel `QUOTE_TO`, `QUOTE_FROM`, `SMTP_*`, puis redéployer et tester une vraie demande.
 - [x] Formes « sur demande » cliquables, en-tête mobile sur une ligne, actions GitHub en v7 (14/11).
 - [ ] Page d'accueil (`/fr`, `/en`, `/he`, contenu `src/content/home.ts`) : relecture par l'atelier, puis retrait du badge « Brouillon ». Points à confirmer (questions 80 à 82 de `docs/QUESTIONS_ATELIER.md`) : étapes confiées à d'autres (le site ne dit plus « sur place »), point de départ de l'année de mise à taille offerte, photos et vidéos de fabrication (intention, réponse de la FAQ marquée « À confirmer »). Formulations corrigées le 15/11 : un diamant synthétique n'est plus dit « vrai diamant » (décret 2002-65, article 4), ni sur l'accueil, ni dans la FAQ, ni dans le configurateur.
 - [x] Étude du paiement en Israël (`docs/PAIEMENT.md`) et dossier pour l'avocat (`docs/juridique/DOSSIER_AVOCAT_IL.md`) (14/11).

@@ -21,7 +21,8 @@
 - [ ] Poids réels des pierres, à la place des carats estimés. Marquise affichée « ≈ 0,25 ct, à confirmer » (tableau Stuller) ; passer `confirmedByWorkshop` à true avec le poids réel.
 - [ ] Choix du carat pour les solitaires (pierre + tête agrandies depuis l'ancrage, plage validée par l'atelier) : en attente d'un fichier de solitaire (CGTrader « solitaire ring » ou atelier).
 - [ ] Densités des alliages et taux de perte : indisponibles chez l'atelier (3/11). Poids affichés « ≈ … (± 5 %) » depuis le 4/11.
-- [ ] Recevoir les 3 modèles `.3dm` + STL + photos studio promis par l'atelier (3/11).
+- [x] Fichiers de l'atelier reçus le 17/11 par le Drive du propriétaire : 7 modèles (inventaire `docs/atelier/2026-11-17_fichiers_drive.md`). Prêts pour le pipeline : solitaire marquise et bague cœur. Deux `.3dm` sans maillage à faire réenregistrer.
+- [ ] Repasser en accès « Limité » les 7 fichiers du Drive ouverts par lien le 17/11 (propriétaire).
 - [x] Or 14 k (jaune, blanc, rose) au configurateur, choix couleur + titre ; « Synthétique » en français (4/11).
 - [x] Pierres de couleur au configurateur, « sur demande » (15/11) : diamant de couleur ; émeraude, saphir et rubis naturels. Boutons en pointillés sous la pierre centrale, comme les autres formes : ils ouvrent le devis avec un message pré-rempli (FR/EN/HE), la 3D reste la marquise, aucun prix. En origine « synthétique », le message précise que les autres pierres sont des diamants synthétiques (jamais « émeraude synthétique »).
 - [ ] Pierres de couleur, suite : rendu 3D (matériaux de l'émeraude, du saphir, du rubis et des diamants de couleur), prix (grille des pierres attendue de l'atelier). Origine naturelle / synthétique / imitation : libellés légaux par pays. Retirer l'argent s'il apparaît : non proposé par l'atelier. Certificat GIA / IGI dès 0,50 ct.

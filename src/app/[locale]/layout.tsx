@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return siteMetadata(localeOrDefault((await params).locale));
 }
 
-export const viewport: Viewport = { themeColor: '#f7f3ec', width: 'device-width', initialScale: 1 };
+export const viewport: Viewport = { themeColor: '#0c0b09', width: 'device-width', initialScale: 1 };
 
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));

@@ -12,6 +12,15 @@
   --gold-soft: #c9b38a;
   /* Indicateur de focus : 4,4:1 sur l'ivoire (seuil des éléments non textuels : 3:1). */
   --focus: #8a6d3b;
+  /* Bandeaux sombres (en-tête, premier écran, pied de page, scène 3D). Contrastes mesurés sur --noir (#0c0b09) :
+     --ivory 17,9:1 ; --on-noir-muted 7,6:1 ; --champagne 10,7:1 (texte et traits). */
+  --noir: #0c0b09;
+  --noir-soft: #17150f;
+  --line-noir: rgba(217, 192, 143, 0.22);
+  --on-noir-muted: #a9a194;
+  --champagne: #d9c08f;
+  /* Bouton d'appel sur fond sombre : texte --noir sur or, 9,6:1. */
+  --gold-fill: #c9a96e;
   --font-display: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
   --font-text: var(--font-jost), 'Helvetica Neue', Arial, sans-serif;
   color-scheme: light;
@@ -58,13 +67,31 @@ button {
 }
 
 .site-header {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 22px clamp(16px, 4vw, 48px);
-  border-bottom: 1px solid var(--line);
-  background: var(--ivory);
+  padding: 20px clamp(16px, 4vw, 56px);
+  background: var(--noir);
+  color: var(--ivory);
+}
+
+/* Filet doré sous l'en-tête, plus intense au centre. */
+.site-header::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-fill) 50%, transparent);
+  opacity: 0.55;
+}
+
+/* Bandeaux sombres : indicateur de focus clair (le --focus brun disparaîtrait sur le noir). */
+.site-header :focus-visible,
+.site-footer :focus-visible,
+.on-noir :focus-visible {
+  outline-color: var(--champagne);
 }
 
 /* Liens d'évitement (en-tête) : hors de la mise en page, cachés tant qu'ils n'ont pas le focus du clavier. */
@@ -97,7 +124,9 @@ button {
 
 .wordmark {
   /* Cible d'au moins 24 px de haut, même sur mobile (WCAG 2.5.8). */
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
   padding-block: 2px;
   font-family: var(--font-display);
   font-size: 22px;
@@ -105,15 +134,24 @@ button {
   letter-spacing: 0.32em;
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--ink);
+  color: var(--ivory);
   white-space: nowrap;
+}
+
+/* Monogramme : losange doré et initiales (décoratif, le nom du lien reste « JR Diamond »). */
+.monogram {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  color: var(--champagne);
 }
 
 .tagline {
   margin: 0;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  color: var(--muted);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--on-noir-muted);
   text-align: center;
 }
 
@@ -129,15 +167,15 @@ button {
   /* Cible d'au moins 24 × 24 px (WCAG 2.2, critère 2.5.8) : « FR » seul ne fait que 20 px de large. */
   display: inline-block;
   min-width: 24px;
-  color: var(--muted);
+  color: var(--on-noir-muted);
   text-align: center;
   text-decoration: none;
   padding: 5px 0;
 }
 
 .lang a[aria-current] {
-  color: var(--ink);
-  border-bottom: 1px solid var(--gold);
+  color: var(--champagne);
+  border-bottom: 1px solid var(--champagne);
 }
 
 @media (max-width: 720px) {
@@ -148,7 +186,12 @@ button {
     display: none;
   }
   .wordmark {
-    font-size: 18px;
+    font-size: 17px;
+    gap: 10px;
+  }
+  .monogram {
+    width: 28px;
+    height: 28px;
   }
 }
 
@@ -175,14 +218,19 @@ button {
 .site-nav > nav:first-child a {
   /* Cible d'au moins 24 px de haut (WCAG 2.5.8), sur une seule ligne. */
   display: inline-block;
-  color: var(--muted);
+  color: var(--ivory);
   text-decoration: none;
   padding: 5px 0;
 }
 
+.site-nav > nav:first-child a:hover,
+.lang a:hover {
+  color: var(--champagne);
+}
+
 .site-nav > nav:first-child a[aria-current='page'] {
-  color: var(--ink);
-  border-bottom: 1px solid var(--gold);
+  color: var(--champagne);
+  border-bottom: 1px solid var(--champagne);
 }
 
 /* Hébreu : polices dédiées ; pas d'espacement de lettres ni de capitales (sans effet en hébreu). */
@@ -191,13 +239,14 @@ html[lang='he'] {
   --font-text: var(--font-assistant), 'Assistant', Arial, sans-serif;
 }
 
-html[lang='he'] .wordmark {
+html[lang='he'] .wordmark,
+html[lang='he'] .footer-brand {
   /* Le nom de marque reste en lettres latines. */
   font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
 }
 
 /* L'espacement des lettres, élégant en latin, rend l'hébreu illisible. */
-html[lang='he'] body *:not(.wordmark) {
+html[lang='he'] body *:not(.wordmark):not(.footer-brand) {
   letter-spacing: 0 !important;
 }
 
@@ -225,38 +274,70 @@ html[lang='he'] body *:not(.wordmark) {
   }
 }
 
-/* Pied de page commun. */
+/* Pied de page commun : bandeau sombre, monogramme, liens, note. */
 .site-footer {
-  margin-top: 48px;
-  padding: 28px clamp(16px, 4vw, 48px) 36px;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
+  position: relative;
+  margin-top: 0;
+  padding: 56px clamp(16px, 4vw, 56px) 40px;
+  background: var(--noir);
+  color: var(--on-noir-muted);
   font-size: 13px;
   text-align: center;
+}
+
+.site-footer::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold-fill) 50%, transparent);
+  opacity: 0.55;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin: 0 0 30px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--ivory);
+}
+
+.footer-brand .monogram {
+  width: 44px;
+  height: 44px;
 }
 
 .site-footer nav {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px 26px;
-  margin-bottom: 14px;
-  font-size: 12px;
-  letter-spacing: 0.14em;
+  gap: 10px 30px;
+  margin: 0 auto 26px;
+  max-width: 960px;
+  padding-bottom: 26px;
+  border-bottom: 1px solid var(--line-noir);
+  font-size: 11px;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
 .site-footer a {
   display: inline-block;
-  color: var(--ink);
+  color: var(--ivory);
   text-decoration: none;
   padding: 6px 0;
 }
 
 .site-footer a:hover {
-  border-bottom: 1px solid var(--gold);
+  color: var(--champagne);
 }
 
 .site-footer p {
   margin: 0;
+  letter-spacing: 0.06em;
 }

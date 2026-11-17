@@ -13,7 +13,9 @@
   top: 0;
   height: calc(100svh - var(--header-h));
   min-height: 520px;
-  background: radial-gradient(ellipse at 50% 42%, var(--paper) 0%, var(--ivory) 55%, var(--cream) 100%);
+  /* Écrin sombre : le métal et les pierres ressortent ; même fond que le premier écran de l'accueil. */
+  background: radial-gradient(ellipse 70% 65% at 50% 44%, #29231a 0%, #14120e 55%, var(--noir) 100%);
+  color: var(--ivory);
   overflow: hidden;
   touch-action: none;
 }
@@ -25,7 +27,7 @@
 
 /* Vue 3D au clavier (flèches, + et −) : l'indicateur de focus est tracé à l'intérieur, la scène rognant ce qui dépasse. */
 .canvas:focus-visible {
-  outline: 2px solid var(--focus);
+  outline: 2px solid var(--champagne);
   outline-offset: -6px;
 }
 
@@ -44,9 +46,9 @@
   display: flex;
   gap: 4px;
   padding: 4px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-noir);
   border-radius: 999px;
-  background: rgba(251, 249, 245, 0.82);
+  background: rgba(23, 21, 15, 0.78);
   backdrop-filter: blur(6px);
   pointer-events: auto;
 }
@@ -58,21 +60,29 @@
   border-radius: 999px;
   font-size: 12px;
   letter-spacing: 0.08em;
-  color: var(--muted);
+  color: var(--on-noir-muted);
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+.viewButton:hover {
+  color: var(--ivory);
+}
+
+.viewButton:focus-visible {
+  outline-color: var(--champagne);
+}
+
 .viewButton[aria-pressed='true'] {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--gold-fill);
+  color: var(--noir);
 }
 
 .hint {
   margin: 0;
   font-size: 11px;
   letter-spacing: 0.1em;
-  color: var(--muted);
+  color: var(--on-noir-muted);
 }
 
 .loader {
@@ -90,20 +100,20 @@
   font-family: var(--font-display);
   font-size: 18px;
   font-style: italic;
-  color: var(--muted);
+  color: var(--on-noir-muted);
 }
 
 .loaderTrack {
   width: 140px;
   height: 1px;
-  background: var(--line);
+  background: var(--line-noir);
   overflow: hidden;
 }
 
 .loaderBar {
   display: block;
   height: 100%;
-  background: var(--gold);
+  background: var(--champagne);
   transform-origin: left center;
   transition: transform 0.3s ease;
 }
@@ -123,7 +133,7 @@
   margin: 0;
   padding: 24px;
   text-align: center;
-  color: var(--muted);
+  color: var(--on-noir-muted);
 }
 
 /* ---------- Panneau ---------- */
@@ -214,12 +224,15 @@
 }
 
 .choice:hover {
-  border-color: var(--gold-soft);
+  border-color: var(--gold);
 }
 
+/* Choix en cours : plein noir, filet doré dessous (texte --ivory sur --noir, 17,9:1). */
 .choice[aria-checked='true'] {
-  border-color: var(--ink);
-  background: var(--paper);
+  border-color: var(--noir);
+  background: var(--noir);
+  color: var(--ivory);
+  box-shadow: inset 0 -2px 0 var(--gold-fill);
 }
 
 /* Formes non modélisées : cliquables (ouvrent le devis), mais visiblement à part des choix réels. */
@@ -281,7 +294,7 @@
 }
 
 .swatch[aria-checked='true'] {
-  box-shadow: 0 0 0 3px var(--ivory), 0 0 0 4px var(--ink);
+  box-shadow: 0 0 0 3px var(--ivory), 0 0 0 4px var(--gold);
 }
 
 .note {
@@ -392,13 +405,19 @@
   width: 100%;
   min-height: 48px;
   margin-top: 18px;
-  border: 1px solid var(--ink);
-  background: var(--ink);
-  color: var(--paper);
+  border: 1px solid var(--noir);
+  background: var(--noir);
+  color: var(--ivory);
   font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+.primary:hover:not(:disabled) {
+  border-color: var(--gold-fill);
+  background: var(--gold-fill);
+  color: var(--noir);
 }
 
 .primary:disabled {

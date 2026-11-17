@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Monogram from './Monogram';
 import { DICTIONARIES } from '@/i18n/dictionaries';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
 import { accessibilityPath, homePath, localizedPath } from '@/lib/routes';
@@ -36,6 +37,7 @@ export default function SiteHeader({
       </div>
       {/* Le mot-symbole mène à l'accueil de la langue courante. */}
       <Link href={homePath(locale)} className="wordmark" aria-current={path === '/' ? 'page' : undefined}>
+        <Monogram />
         JR Diamond
       </Link>
       <p className="tagline">{t.brandTagline}</p>

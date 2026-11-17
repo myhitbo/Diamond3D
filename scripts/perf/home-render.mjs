@@ -1,10 +1,12 @@
 // Image de la page d'accueil : capture du vrai rendu 3D de ring-001 (vue 3/4, réglages par défaut), recadrée, en WebP.
-// Usage : CHROMIUM_PATH=… scripts/perf/serve-and-run.sh scripts/perf/home-render.mjs public/images/ring-001-rendu-3d.webp
+// Usage : CHROMIUM_PATH=… scripts/perf/serve-and-run.sh scripts/perf/home-render.mjs public/images/ring-001-rendu-3d.webp [--nuit]
+// `--nuit` : scène sur le fond noir du site (premier écran de l'accueil), au lieu du dégradé ivoire.
 // À refaire quand le modèle ou le rendu change. Rendu logiciel (SwiftShader) : on capture avant toute bascule en rendu simplifié.
 import { chromium } from '@playwright/test';
 import sharp from 'sharp';
 
 const out = process.argv[2];
+const night = process.argv.includes('--nuit');
 if (!out) throw new Error('Chemin de sortie manquant (ex. public/images/ring-001-rendu-3d.webp)');
 
 const b = await chromium.launch({
@@ -17,11 +19,13 @@ await p.goto('http://localhost:3100/fr/configurateur/ring-001?debug=1');
 await p.waitForFunction(() => window.__jr?.ready, null, { timeout: 120000 });
 // Barre des vues et consigne masquées : seule la scène est capturée.
 await p.addStyleTag({ content: '[class*="stageBar"], [class*="hint"] { visibility: hidden !important; }' });
+if (night) await p.addStyleTag({ content: '[class*="stage"] { background: radial-gradient(ellipse at 50% 42%, #24201a 0%, #0c0b09 70%) !important; }' });
 await p.waitForTimeout(1500);
 const state = await p.evaluate(() => ({ quality: window.__jr.quality, color: window.__jr.metalColor() }));
 console.log('rendu :', JSON.stringify(state));
 if (state.quality !== 'high') throw new Error('Rendu simplifié actif : capture refusée (relancer).');
-const png = await p.locator('canvas').first().screenshot();
+// Fond de la scène compris (le canevas est transparent) : capture de la scène, pas du seul canevas.
+const png = await p.locator('canvas').first().locator('xpath=ancestor::section[1]').screenshot();
 await b.close();
 
 // Recadrage 4:3 autour de la bague. Le fond (dégradé ivoire) est clair et peu saturé : tout pixel saturé (or) ou plus sombre
@@ -34,7 +38,8 @@ for (let y = 0; y < height; y++)
     const i = (y * width + x) * 3;
     const max = Math.max(data[i], data[i + 1], data[i + 2]);
     const min = Math.min(data[i], data[i + 1], data[i + 2]);
-    if (max - min > 45 || max < 190) [x0, y0, x1, y1] = [Math.min(x0, x), Math.min(y0, y), Math.max(x1, x), Math.max(y1, y)];
+    const jewel = night ? max - min > 45 || max > 110 : max - min > 45 || max < 190;
+    if (jewel) [x0, y0, x1, y1] = [Math.min(x0, x), Math.min(y0, y), Math.max(x1, x), Math.max(y1, y)];
   }
 if (x1 <= x0 || y1 <= y0) throw new Error('Bague introuvable dans la capture.');
 // Marge de 14 % autour de la bague, puis élargissement au format 4:3, dans les limites de la scène.

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Monogram from './Monogram';
 import { DICTIONARIES } from '@/i18n/dictionaries';
 import type { Locale } from '@/lib/configurator/schema';
 import { isGuideLocale } from '@/content/guides/types';
@@ -13,6 +14,10 @@ export default function SiteFooter({ locale }: { locale: Locale }) {
   const t = DICTIONARIES[locale];
   return (
     <footer className="site-footer">
+      <p className="footer-brand">
+        <Monogram />
+        JR Diamond
+      </p>
       <nav aria-label={t.footerLabel}>
         <Link href={configuratorPath(locale)}>{t.navConfigurator}</Link>
         <Link href={`/${locale}/transformation`}>{t.navTransformation}</Link>

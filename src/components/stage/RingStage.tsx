@@ -334,9 +334,19 @@ function Scene({
   const invalidate = useThree((s) => s.invalidate);
   const size = useThree((s) => s.size);
   const studio = useMemo(() => ({ metal: createStudioEnvironment(1024, 'metal', tone), gem: createStudioEnvironment(512, 'gem', tone) }), [tone]);
+  // Rendu simplifié des pierres (appareils lents) : miroir à facettes. Sur une page claire, il reflète le studio sombre à bandes :
+  // dans le studio clair, toutes les facettes seraient blanches et la pierre perdrait son relief.
   const gemFallback = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: '#ffffff', metalness: 1, roughness: 0.02, envMap: studio.gem, envMapIntensity: 1.25, flatShading: true }),
-    [studio.gem],
+    () =>
+      new THREE.MeshStandardMaterial({
+        color: '#ffffff',
+        metalness: 1,
+        roughness: 0.02,
+        envMap: tone === 'light' ? createStudioEnvironment(256, 'gem', 'dark') : studio.gem,
+        envMapIntensity: 1.25,
+        flatShading: true,
+      }),
+    [studio.gem, tone],
   );
   const ready = useRef(false);
   useEffect(() => invalidate(), [size, lowQuality, invalidate]);
@@ -393,7 +403,9 @@ export default function RingStage({
   // Inconnu au rendu du serveur (null), puis détecté une fois dans le navigateur.
   const webgl = useSyncExternalStore<boolean | null>(noSubscription, hasWebgl, () => null);
   const [ready, setReady] = useState(false);
-  const [lowQuality, setLowQuality] = useState(false);
+  // `?quality=low` force le rendu simplifié, `?quality=high` l'interdit (essais et captures), comme au configurateur.
+  const forced = useMemo(() => (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('quality') : null), []);
+  const [lowQuality, setLowQuality] = useState(forced === 'low');
   const reduced = useMemo(() => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches, []);
   const cast = useMemo<StageActor[]>(() => actors ?? [{ id: 'bijou', keys: keys ?? [] }], [actors, keys]);
   const invalidateRef = useRef<() => void>(() => {});
@@ -433,7 +445,7 @@ export default function RingStage({
           invalidateRef.current = () => state.invalidate();
         }}
       >
-        <PerformanceMonitor bounds={() => [24, 50]} iterations={8} threshold={0.8} onDecline={() => setLowQuality(true)} />
+        <PerformanceMonitor bounds={() => [24, 50]} iterations={8} threshold={0.8} onDecline={() => forced !== 'high' && setLowQuality(true)} />
         <Suspense fallback={null}>
           <Scene url={url} actors={cast} targets={targets} pointer={pointer} reduced={reduced} lowQuality={lowQuality} tone={studio} onReady={() => setReady(true)} />
         </Suspense>

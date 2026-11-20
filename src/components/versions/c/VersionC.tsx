@@ -24,27 +24,39 @@ const FALLBACK: Record<Family, string> = {
 /** Sections repérées par les points de navigation, dans l'ordre de la page. */
 const SECTIONS = ['c-hero', 'c-methode', 'c-atelier', 'c-faits', 'c-fin'] as const;
 
+/** Métal montré à chacune des trois premières étapes ; la quatrième porte déjà le métal choisi dans la page. */
+const STEP_METALS: Family[] = ['white', 'rose', 'platinum'];
+
 /**
  * Trajet de la bague. Elle ouvre la page en très gros plan, puis traverse l'écran d'un côté à l'autre en changeant de métal à
- * chaque étape (jaune, blanc, rose, platine) : on voit les quatre métaux sans rien toucher. À l'atelier, elle prend le métal et la
- * composition choisis, puis revient en grand sous l'appel final.
+ * chaque étape (blanc, rose, platine, puis le métal choisi) : on voit les quatre métaux sans rien toucher. Les pierres restent
+ * tournées vers l'objectif (tangage de 50 à 76 degrés) : de profil, on ne verrait que les griffes et le jonc. À l'atelier, elle
+ * prend le métal et la composition choisis et tient en place pendant que la section est tenue à l'écran ; elle sort par le haut,
+ * passe sous l'écran sans être vue (taille presque nulle) et remonte en grand sous l'appel final.
  */
 function keysFor(metals: VersionCopy['metals'], selected: number, composition: string): StageKey[] {
   const id = (family: Family) => metals.find((m) => m.family === family)!.id;
   const chosen = metals[selected].id;
   const pieces = { a: composition === 'band' ? 0 : 1, b: composition === 'solitaire' ? 0 : 1 };
   const k = (anchor: string, pose: StagePose, narrow?: Partial<StagePose>): StageKey => ({ anchor, pose, narrow });
+  const atelier: StagePose = { x: 0, y: 0.34, size: 0.8, rot: [58, -18, 0], metal: chosen, ...pieces };
+  const final: StagePose = { x: 0, y: -0.74, size: 1.45, rot: [64, 0, 0], metal: chosen, ...pieces };
   return [
-    k('c-hero', { x: -0.53, y: -0.08, size: 1.3, rot: [60, 26, -16], metal: id('yellow') }, { x: 0, y: 0.4, size: 1.1 }),
-    k('c-m1', { x: 0.46, y: -0.02, size: 1.5, rot: [72, -14, 6], metal: id('white') }, { x: 0, y: 0.42, size: 1.15 }),
-    k('c-m2', { x: 0.44, y: 0, size: 1.2, rot: [22, 44, -8], metal: id('rose') }, { x: 0, y: 0.44, size: 0.8 }),
-    k('c-m3', { x: -0.44, y: 0, size: 1.12, rot: [10, -72, 6], metal: id('rose') }, { x: 0, y: 0.44, size: 0.76 }),
-    k('c-m4', { x: -0.44, y: 0, size: 1.0, rot: [4, -8, 0], metal: id('platinum') }, { x: 0, y: 0.44, size: 0.72 }),
-    k('c-atelier-scene', { x: 0, y: 0.1, size: 0.74, rot: [20, -32, 0], metal: chosen, ...pieces }, { size: 0.74 }),
-    // Elle descend sous l'écran pendant les textes, puis remonte : seul le haut de la bague dépasse sous l'appel final.
-    k('c-faits', { x: 0, y: -2.5, size: 1.25, rot: [64, 0, 0], metal: chosen, ...pieces }),
-    // Appel final au milieu de l'écran : la bague occupe la moitié basse, sous le bouton.
-    k('c-fin', { x: 0, y: -0.56, size: 1.1, rot: [64, 0, 0], metal: chosen, ...pieces }, { size: 1.3, y: -0.5 }),
+    k('c-hero', { x: -0.53, y: -0.08, size: 1.3, rot: [60, 26, -16], metal: id('yellow') }, { x: 0, y: 0.35, size: 1.22 }),
+    k('c-m1', { x: 0.63, y: -0.04, size: 1.42, rot: [72, -14, 6], metal: id('white') }, { x: 0, y: 0.4, size: 1.35 }),
+    k('c-m2', { x: 0.6, y: -0.06, size: 1.3, rot: [54, 34, -12], metal: id('rose') }, { x: 0, y: 0.4, size: 1.3 }),
+    // Très gros plan de la page : les pierres, coupées par le bord de l'écran.
+    k('c-m3', { x: -0.75, y: -0.1, size: 1.7, rot: [76, 22, 14], metal: id('platinum') }, { x: 0, y: 0.35, size: 1.5 }),
+    k('c-m4', { x: -0.54, y: -0.02, size: 1.2, rot: [50, -36, 8], metal: chosen }, { x: 0, y: 0.4, size: 1.2 }),
+    k('c-atelier-pose', atelier, { y: 0.4, size: 1.2 }),
+    k('c-atelier-stay', atelier, { y: 0.4, size: 1.2 }),
+    k('c-atelier-exit', { ...atelier, y: 1.9 }, { size: 1.2 }),
+    k('c-faits-a', { ...atelier, y: 1.9, size: 0.001 }),
+    k('c-faits-b', { ...final, y: -1.9, size: 0.001 }),
+    k('c-faits-c', { ...final, y: -1.9 }),
+    // Appel final : la bague monte après le titre et le bouton, et reste coupée par le bas de l'écran.
+    k('c-fin-scene', final, { y: -0.34 }),
+    k('c-fin-end', final, { y: -0.72 }),
   ];
 }
 
@@ -70,7 +82,7 @@ export default function VersionC({ copy, rtl }: { copy: VersionCopy; rtl: boolea
     return () => observer.disconnect();
   }, []);
 
-  const dots = [copy.eyebrow, copy.pointsTitle, copy.metalsTitle, copy.materials[0].term, copy.finalTitle];
+  const dots = [copy.eyebrow, copy.pointsTitle, copy.metalsTitle, copy.materialsTitle, copy.finalTitle];
 
   return (
     <div className={styles.root}>
@@ -105,7 +117,7 @@ export default function VersionC({ copy, rtl }: { copy: VersionCopy; rtl: boolea
       <nav className={styles.dots} aria-label={copy.sectionsLabel}>
         {SECTIONS.map((s, i) => (
           <a key={s} href={`#${s}`} aria-current={i === section ? 'true' : undefined}>
-            <span className="visually-hidden">{dots[i]}</span>
+            <span className={styles.dotLabel}>{dots[i]}</span>
           </a>
         ))}
       </nav>
@@ -126,100 +138,127 @@ export default function VersionC({ copy, rtl }: { copy: VersionCopy; rtl: boolea
           />
         </div>
 
-        {/* ---------- 1. Ouverture : la bague en très gros plan ---------- */}
-        <section id="c-hero" className={`${styles.panel} ${styles.end}`} aria-labelledby="c-title">
-          <div className={styles.text}>
-            <p className={styles.eyebrow}>{copy.eyebrow}</p>
-            <h1 id="c-title" className={styles.title}>
-              {copy.title}
-            </h1>
-            <p className={styles.body}>{copy.lede}</p>
-            <p className={styles.action}>
-              <Link href={configure} className={styles.cta}>
-                <span>{copy.cta}</span>
-                <span className={styles.ctaArrow} aria-hidden="true" />
-              </Link>
-            </p>
-            <p className={styles.note}>{copy.ctaNote}</p>
-            <p className={styles.badge}>{copy.draft}</p>
-          </div>
-          <p className={styles.scrollHint}>{copy.scrollHint}</p>
-        </section>
+        {/* Les trois premières sections. Sur téléphone, un seul bandeau opaque reste en haut de l'écran pour la bague et les textes
+            défilent dessous (ce bloc ne doit créer aucun plan : ses enfants se rangent par rapport à la scène). */}
+        <div className={styles.story}>
+          <div className={styles.band} aria-hidden="true" />
 
-        {/* ---------- 2. Comment nous travaillons : quatre étapes, la bague passe d'un côté à l'autre ---------- */}
-        <section id="c-methode" className={styles.method} aria-labelledby="c-method-title">
-          <h2 id="c-method-title" className="visually-hidden">
-            {copy.pointsTitle}
-          </h2>
-          {copy.points.map((p, i) => (
-            <article key={p.title} id={`c-m${i + 1}`} className={`${styles.panel} ${i < 2 ? styles.start : styles.end}`}>
-              {/* Mot de fond, décoratif : le même libellé est lu dans l'étiquette du bloc. */}
-              <span className={styles.ghost} aria-hidden="true">
-                {p.kicker}
-              </span>
-              <div className={styles.text}>
-                <p className={styles.kicker}>
-                  <span aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
-                  {p.kicker}
-                </p>
-                <h3 className={styles.h3}>{p.title}</h3>
-                <p className={styles.body}>{p.text}</p>
-              </div>
-            </article>
-          ))}
-        </section>
-
-        {/* ---------- 3. L'atelier : choisir le métal et la composition, la bague suit ---------- */}
-        <section id="c-atelier" className={styles.atelier} aria-labelledby="c-atelier-title">
-          <h2 id="c-atelier-title" className={`${styles.h2} ${styles.centered}`}>
-            {copy.metalsTitle}
-          </h2>
-          <div id="c-atelier-scene" className={styles.atelierScene} aria-hidden="true" />
-          <div className={styles.controls}>
-            <fieldset className={styles.choice}>
-              <legend>{copy.metalLabel}</legend>
-              <div className={styles.swatches}>
-                {copy.metals.map((m, i) => (
-                  <label key={m.family} className={styles.swatch} data-metal={m.family}>
-                    {/* Un seul arrêt de tabulation par groupe (le choix en cours) ; les flèches passent d'un choix à l'autre. */}
-                    <input type="radio" name="c-metal" checked={i === selected} tabIndex={i === selected ? 0 : -1} onChange={() => setSelected(i)} />
-                    <span className={styles.swatchDot} aria-hidden="true" />
-                    <span>{m.name}</span>
-                  </label>
-                ))}
-              </div>
-            </fieldset>
-            <fieldset className={styles.choice}>
-              <legend>{copy.compositionLabel}</legend>
-              <div className={styles.options}>
-                {copy.compositions.map((c) => (
-                  <label key={c.id} className={styles.option}>
-                    <input type="radio" name="c-composition" checked={c.id === composition} tabIndex={c.id === composition ? 0 : -1} onChange={() => setComposition(c.id)} />
-                    <span>{c.name}</span>
-                  </label>
-                ))}
-              </div>
-              {/* Description de la composition choisie : annoncée quand elle change. */}
-              <p className={styles.choiceNote} aria-live="polite">
-                {copy.compositions.find((c) => c.id === composition)?.description}
+          {/* ---------- 1. Ouverture : la bague en très gros plan ---------- */}
+          <section id="c-hero" className={`${styles.panel} ${styles.end}`} aria-labelledby="c-title">
+            <div className={styles.text}>
+              <p className={styles.eyebrow}>{copy.eyebrow}</p>
+              <h1 id="c-title" className={styles.title}>
+                {copy.titleParts[0]}
+                <em className={styles.titleEm}>{copy.titleParts[1]}</em>
+                {copy.titleParts[2]}
+              </h1>
+              <p className={styles.body}>{copy.lede}</p>
+              <p className={styles.action}>
+                <Link href={configure} className={styles.cta}>
+                  <span>{copy.cta}</span>
+                  <span className={styles.ctaArrow} aria-hidden="true" />
+                </Link>
               </p>
-            </fieldset>
-            <p className={styles.action}>
-              <Link href={configure} className={styles.cta}>
-                <span>{copy.cta}</span>
-                <span className={styles.ctaArrow} aria-hidden="true" />
-              </Link>
-            </p>
-            <p className={styles.note}>{copy.liveNote}</p>
-          </div>
-        </section>
+              <p className={styles.note}>{copy.ctaNote}</p>
+              <p className={styles.badge}>{copy.draft}</p>
+            </div>
+            <p className={styles.scrollHint}>{copy.scrollHint}</p>
+          </section>
+
+          {/* ---------- 2. Comment nous travaillons : quatre étapes tenues à l'écran, la bague passe d'un côté à l'autre ---------- */}
+          <section id="c-methode" className={styles.method} aria-labelledby="c-method-title">
+            <h2 id="c-method-title" className="visually-hidden">
+              {copy.pointsTitle}
+            </h2>
+            {copy.points.map((p, i) => {
+              const shown = i < STEP_METALS.length ? copy.metals.find((m) => m.family === STEP_METALS[i])! : metal;
+              return (
+                <article key={p.title} className={`${styles.panel} ${styles.step} ${i < 2 ? styles.start : styles.end}`}>
+                  {/* Repère de la pose (un élément tenu à l'écran ne peut pas servir d'ancre : il suit l'écran). */}
+                  <span id={`c-m${i + 1}`} className={styles.anchor} aria-hidden="true" />
+                  {/* Mot de fond, décoratif, sous la bague : le même libellé est lu dans le titre de l'étape. */}
+                  <div className={styles.ghostPin} aria-hidden="true">
+                    <span className={styles.ghost}>{p.kicker}</span>
+                  </div>
+                  <div className={styles.pin}>
+                    <div className={styles.text}>
+                      <p className={styles.kicker} aria-hidden="true">
+                        <span>{String(i + 1).padStart(2, '0')}</span>
+                      </p>
+                      <h3 className={styles.h3}>
+                        <span className={styles.display}>{p.kicker}</span>
+                        <span className="visually-hidden">: </span>
+                        <span className={styles.lead}>{p.title}</span>
+                      </h3>
+                      <p className={styles.body}>{p.text}</p>
+                      {/* Le changement de couleur de la bague est un changement de métal : on le nomme. */}
+                      <p className={styles.tag}>
+                        {copy.metalLabel} · {shown.name}
+                      </p>
+                    </div>
+                  </div>
+                </article>
+              );
+            })}
+          </section>
+
+          {/* ---------- 3. L'atelier : choisir le métal et la composition, la bague suit ---------- */}
+          <section id="c-atelier" className={styles.atelier} aria-labelledby="c-atelier-title">
+            <span id="c-atelier-pose" className={styles.atelierPose} aria-hidden="true" />
+            <span id="c-atelier-stay" className={styles.atelierStay} aria-hidden="true" />
+            <span id="c-atelier-exit" className={styles.atelierExit} aria-hidden="true" />
+            <div className={styles.atelierPin}>
+              <div className={styles.atelierScene} aria-hidden="true" />
+              <h2 id="c-atelier-title" className={`${styles.h2} ${styles.centered}`}>
+                {copy.metalsTitle}
+              </h2>
+              <div className={styles.controls}>
+                <fieldset className={styles.choice}>
+                  <legend>{copy.metalLabel}</legend>
+                  <div className={styles.swatches}>
+                    {copy.metals.map((m, i) => (
+                      <label key={m.family} className={styles.swatch} data-metal={m.family}>
+                        {/* Un seul arrêt de tabulation par groupe (le choix en cours) ; les flèches passent d'un choix à l'autre. */}
+                        <input type="radio" name="c-metal" checked={i === selected} tabIndex={i === selected ? 0 : -1} onChange={() => setSelected(i)} />
+                        <span className={styles.swatchDot} aria-hidden="true" />
+                        <span>{m.name}</span>
+                      </label>
+                    ))}
+                  </div>
+                </fieldset>
+                <fieldset className={styles.choice}>
+                  <legend>{copy.compositionLabel}</legend>
+                  <div className={styles.options}>
+                    {copy.compositions.map((c) => (
+                      <label key={c.id} className={styles.option}>
+                        <input type="radio" name="c-composition" checked={c.id === composition} tabIndex={c.id === composition ? 0 : -1} onChange={() => setComposition(c.id)} />
+                        <span>{c.name}</span>
+                      </label>
+                    ))}
+                  </div>
+                  {/* Description de la composition choisie : annoncée quand elle change. */}
+                  <p className={styles.choiceNote} aria-live="polite">
+                    {copy.compositions.find((c) => c.id === composition)?.description}
+                  </p>
+                </fieldset>
+                <p className={styles.note}>{copy.liveNote}</p>
+                <p className={styles.action}>
+                  <Link href={configure} className={styles.cta}>
+                    <span>{copy.cta}</span>
+                    <span className={styles.ctaArrow} aria-hidden="true" />
+                  </Link>
+                </p>
+              </div>
+            </div>
+          </section>
+        </div>
 
         {/* ---------- 4. Métaux et pierres, puis la fabrication en images (une intention) ---------- */}
         <section id="c-faits" className={styles.facts} aria-labelledby="c-facts-title">
-          <h2 id="c-facts-title" className="visually-hidden">
-            {copy.materials.map((m) => m.term).join(', ')}
+          <h2 id="c-facts-title" className={`${styles.h2} ${styles.factsTitle}`}>
+            {copy.materialsTitle}
           </h2>
-          <dl className={styles.materials}>
+          <dl id="c-faits-a" className={styles.materials}>
             {copy.materials.map((m) => (
               <div key={m.term}>
                 <dt>{m.term}</dt>
@@ -227,31 +266,35 @@ export default function VersionC({ copy, rtl }: { copy: VersionCopy; rtl: boolea
               </div>
             ))}
           </dl>
-          <p className={styles.quote}>{copy.making}</p>
-          <ul className={styles.cards} aria-label={copy.moreTitle}>
+          <p id="c-faits-b" className={styles.quote}>
+            {copy.making}
+          </p>
+          <ul id="c-faits-c" className={styles.cards} aria-label={copy.moreTitle}>
             {copy.more.map((c) => (
               <li key={c.href}>
                 <Link href={c.href} className={styles.card}>
                   <span className={styles.cardTitle}>{c.title}</span>
                   <span className={styles.cardText}>{c.text}</span>
+                  <span className={styles.ctaArrow} aria-hidden="true" />
                 </Link>
               </li>
             ))}
           </ul>
         </section>
 
-        {/* ---------- 5. Appel final : la bague revient en grand ---------- */}
+        {/* ---------- 5. Appel final : la bague revient en grand, coupée par le bas de l'écran ---------- */}
         <section id="c-fin" className={styles.final} aria-labelledby="c-final-title">
           <h2 id="c-final-title" className={styles.finalTitle}>
             {copy.finalTitle}
           </h2>
           <p className={styles.action}>
-            <Link href={configure} className={styles.cta}>
+            <Link href={configure} className={`${styles.cta} ${styles.ctaSolid}`}>
               <span>{copy.cta}</span>
               <span className={styles.ctaArrow} aria-hidden="true" />
             </Link>
           </p>
-          <div className={styles.finalScene} aria-hidden="true" />
+          <div id="c-fin-scene" className={styles.finalScene} aria-hidden="true" />
+          <span id="c-fin-end" className={styles.finalEnd} aria-hidden="true" />
         </section>
       </main>
     </div>

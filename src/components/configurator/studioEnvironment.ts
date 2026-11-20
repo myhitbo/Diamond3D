@@ -54,15 +54,16 @@ const smoothstep = (e0: number, e1: number, x: number) => {
 
 /**
  * Studio clair (pages à fond clair) : une tente de lumière, donc un fond lumineux, les mêmes grandes boîtes, et des « drapeaux »
- * noirs (les cartons noirs des photographes) qui dessinent les bords du métal. Sans eux, un métal poli dans une tente blanche
- * est uniformément clair et perd son volume.
+ * sombres (les cartons noirs des photographes) qui dessinent les bords du métal. Sans eux, un métal poli dans une tente blanche
+ * est uniformément clair et perd son volume. Ils assombrissent sans aller au noir : sur une page crème, un reflet noir à
+ * l'intérieur du jonc se lit comme une brûlure.
  */
 const FLAGS: { lon: number; lat: number; w: number; h: number; strength: number }[] = [
-  { lon: -105, lat: 5, w: 30, h: 130, strength: 0.92 },
-  { lon: 165, lat: 0, w: 40, h: 120, strength: 0.9 },
-  { lon: 95, lat: -30, w: 70, h: 36, strength: 0.8 },
-  { lon: 0, lat: 28, w: 16, h: 70, strength: 0.75 },
-  { lon: -40, lat: -40, w: 60, h: 30, strength: 0.7 },
+  { lon: -105, lat: 5, w: 30, h: 130, strength: 0.7 },
+  { lon: 165, lat: 0, w: 40, h: 120, strength: 0.68 },
+  { lon: 95, lat: -30, w: 70, h: 36, strength: 0.55 },
+  { lon: 0, lat: 28, w: 16, h: 70, strength: 0.5 },
+  { lon: -40, lat: -40, w: 60, h: 30, strength: 0.45 },
 ];
 
 export function createStudioEnvironment(width = 1024, variant: 'metal' | 'gem' = 'metal', tone: 'dark' | 'light' = 'dark'): THREE.DataTexture {
@@ -80,10 +81,10 @@ export function createStudioEnvironment(width = 1024, variant: 'metal' | 'gem' =
     const floor = lat < 0 ? 0.16 * smoothstep(0, -40, lat) : 0;
     const horizon = 0.12 * Math.exp(-((lat / 5) ** 2));
     const sinLat = Math.sin((lat * Math.PI) / 180);
-    // Tente claire : lumineuse au zénith, nettement plus sombre sous l'horizon (le métal garde des ombres).
+    // Tente claire : lumineuse au zénith, plus sombre sous l'horizon (le métal garde des ombres, sans noir).
     // Pierres sur page claire : un fond de studio gris clair au lieu du noir (elles restent contrastées par les bandes).
     const gemLift = tone === 'light' && variant === 'gem' ? 0.3 + 0.2 * Math.max(sinLat, 0) : 0;
-    const base = light ? 0.62 + 0.5 * Math.max(sinLat, 0) - 0.42 * Math.max(-sinLat, 0) : 0.05 + floor + horizon + gemLift;
+    const base = light ? 0.62 + 0.5 * Math.max(sinLat, 0) - 0.24 * Math.max(-sinLat, 0) : 0.05 + floor + horizon + gemLift;
     for (let x = 0; x < width; x++) {
       const lon = (x / width) * 360 - 180;
       let r = base;

@@ -25,6 +25,8 @@ export type VersionCopy = {
   languages: { code: string; label: string; href: string; current: boolean }[];
   eyebrow: string;
   title: string;
+  /** Le titre en trois morceaux : celui du milieu est mis en valeur. */
+  titleParts: string[];
   lede: string;
   cta: string;
   ctaNote: string;
@@ -41,6 +43,7 @@ export type VersionCopy = {
   statement: string;
   making: string;
   metalsTitle: string;
+  materialsTitle: string;
   materials: { term: string; text: string }[];
   compositionsTitle: string;
   compositionLabel: string;
@@ -51,7 +54,6 @@ export type VersionCopy = {
   finalTitle: string;
   fallbackAlt: string;
 };
-
 
 export function versionCopy(locale: Locale, id: VersionId): VersionCopy {
   const home = HOME[locale];
@@ -74,6 +76,7 @@ export function versionCopy(locale: Locale, id: VersionId): VersionCopy {
     languages: LOCALES.map((l) => ({ code: l, label: { fr: 'FR', en: 'EN', he: 'עב' }[l], href: `/${l}/versions/${id}`, current: l === locale })),
     eyebrow: home.eyebrow,
     title: home.title.join(''),
+    titleParts: home.title,
     lede: home.lede,
     cta: home.cta,
     ctaNote: home.ctaNote,
@@ -95,6 +98,7 @@ export function versionCopy(locale: Locale, id: VersionId): VersionCopy {
     statement: home.eyebrow,
     making: home.making,
     metalsTitle: home.metalsTitle,
+    materialsTitle: home.materialsTitle,
     materials: home.materials,
     compositionsTitle: story.compositionsTitle,
     compositionLabel: t.composition,

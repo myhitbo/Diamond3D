@@ -1,7 +1,8 @@
 /*
  * Version C « Lumière ». Page claire, bague en très gros plan sous un éclairage de studio clair ; elle traverse la page en
  * changeant de métal, puis se compose dans la page. Plans : fond (0) < mots de fond décoratifs (0) < scène 3D (1) < textes (2)
- * < en-tête et points de navigation (20).
+ * < en-tête et points de navigation (20). Les étapes et l'atelier sont « tenus » à l'écran (position collante) : le texte se pose,
+ * la bague finit son mouvement, puis la page repart. Le défilement reste celui du navigateur.
  * Contrastes sur le fond le plus sombre de la page (#ecdccf) : --c-ink 13,6:1 ; --c-body 8,6:1 ; --c-muted 5,3:1 ;
  * --c-accent 4,8:1. Les mots de fond (--c-ghost) sont décoratifs et doublés par un texte lisible.
  */
@@ -34,9 +35,9 @@
   gap: 16px;
   height: var(--c-header);
   padding: 0 clamp(16px, 4vw, 56px);
-  background: color-mix(in srgb, var(--c-bg) 90%, transparent);
+  /* Opaque : ce qui passe dessous disparaît net, sans fantôme flou. */
+  background: var(--c-bg);
   border-bottom: 1px solid var(--c-line);
-  backdrop-filter: blur(10px);
 }
 
 .brand {
@@ -126,11 +127,18 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  padding: 6px 2px;
+  border-radius: 999px;
+  /* Capsule : les points restent lisibles quand la bague passe derrière. */
+  background: color-mix(in srgb, var(--c-bg-light) 80%, transparent);
+  box-shadow: 0 0 0 1px var(--c-line);
+  backdrop-filter: blur(8px);
   transform: translateY(-50%);
 }
 
 .dots a {
   /* Cible de 24 × 24 px (WCAG 2.5.8) autour d'un point de 8 px. */
+  position: relative;
   display: grid;
   place-items: center;
   width: 24px;
@@ -155,6 +163,31 @@
 .dots a[aria-current]::before {
   background: var(--c-ink);
   transform: scale(1.5);
+}
+
+/* Nom de la section : toujours lu par les lecteurs d'écran, affiché au survol et au focus (masqué par découpe, pas par l'opacité). */
+.dotLabel {
+  position: absolute;
+  inset-inline-end: 34px;
+  padding: 4px 10px;
+  white-space: nowrap;
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--c-ink);
+  background: var(--c-bg-light);
+  border: 1px solid var(--c-line);
+  clip-path: inset(0 0 0 100%);
+  pointer-events: none;
+  transition: clip-path 0.25s ease;
+}
+
+:global(html[dir='rtl']) .dotLabel {
+  clip-path: inset(0 100% 0 0);
+}
+
+.dots a:is(:hover, :focus-visible) .dotLabel {
+  clip-path: inset(0);
 }
 
 /* ---------- Scène 3D ---------- */
@@ -189,6 +222,11 @@
   position: relative;
 }
 
+/* Bandeau de la bague (téléphone seulement). */
+.band {
+  display: none;
+}
+
 /* ---------- Sections à texte : le texte d'un côté, la bague de l'autre ---------- */
 .panel {
   position: relative;
@@ -213,6 +251,10 @@
   max-width: 540px;
 }
 
+.method .text {
+  max-width: 600px;
+}
+
 .eyebrow,
 .kicker {
   display: flex;
@@ -225,7 +267,8 @@
   color: var(--c-accent);
 }
 
-.eyebrow::before {
+.eyebrow::before,
+.kicker::after {
   content: '';
   width: 44px;
   height: 1px;
@@ -249,6 +292,14 @@
   text-transform: uppercase;
 }
 
+/* Le morceau du titre mis en valeur : italique en bas de casse, couleur d'accent (grand texte, 4,8:1). */
+.titleEm {
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--c-accent);
+}
+
 .h2,
 .h3 {
   margin: 0 0 24px;
@@ -263,8 +314,30 @@
   font-size: clamp(34px, 4.4vw, 68px);
 }
 
+/* Titre d'une étape : le libellé court en très grand, la phrase en italique dessous. */
 .h3 {
-  font-size: clamp(30px, 3.4vw, 54px);
+  margin: 0 0 22px;
+  font-size: inherit;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.display {
+  display: block;
+  font-size: clamp(38px, 5.2vw, 84px);
+  line-height: 0.98;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.lead {
+  display: block;
+  margin-top: 18px;
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(20px, 1.9vw, 28px);
+  line-height: 1.25;
 }
 
 .centered {
@@ -283,6 +356,25 @@
   font-size: 13px;
   line-height: 1.6;
   color: var(--c-muted);
+}
+
+/* Métal montré à l'étape. */
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 28px 0 0;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--c-muted);
+}
+
+.tag::before {
+  content: '';
+  width: 44px;
+  height: 1px;
+  background: var(--c-muted);
 }
 
 .badge {
@@ -319,6 +411,15 @@
     color 0.3s ease;
 }
 
+:global(html[dir='rtl']) .cta {
+  padding: 8px 28px 8px 8px;
+}
+
+/* Pilule pleine : quand la bague peut passer derrière le bouton. */
+.ctaSolid {
+  background: var(--c-bg-light);
+}
+
 .ctaArrow {
   position: relative;
   flex: none;
@@ -349,32 +450,104 @@
   color: var(--c-bg-light);
 }
 
+/* Invitation à défiler, sous la colonne de texte ; elle s'efface (par découpe) dès que la page bouge. */
 .scrollHint {
   position: absolute;
-  inset: auto auto 28px clamp(16px, 8vw, 140px);
+  inset-block-end: 26px;
+  inset-inline-end: clamp(16px, 8vw, 140px);
   z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 14px;
   margin: 0;
   font-size: 11px;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--c-body);
+  pointer-events: none;
 }
 
-:global(html[dir='rtl']) .scrollHint {
-  inset: auto clamp(16px, 8vw, 140px) 28px auto;
+.scrollHint::after {
+  content: '';
+  width: 1px;
+  height: 28px;
+  background: var(--c-ink);
 }
 
-/* Mot de fond décoratif, ton sur ton, derrière la bague. */
+@supports (animation-timeline: scroll()) {
+  .scrollHint {
+    animation: hint-out linear both;
+    animation-timeline: scroll(root block);
+    animation-range: 0px 22svh;
+  }
+}
+
+@keyframes hint-out {
+  to {
+    transform: translateY(12px);
+    clip-path: inset(0 0 100% 0);
+  }
+}
+
+/* ---------- 2. Étapes tenues à l'écran ---------- */
+/* Chaque étape dure un écran et demi : le texte et le mot de fond restent en place (collants) pendant un demi-écran, le temps que
+   la bague finisse son trajet et se pose (le moteur tient chaque pose sur 2 × 18 % de la distance entre deux repères, soit 54svh).
+   Deux couches collantes, parce qu'un bloc collant crée un plan : le mot de fond reste sous la scène, le texte au-dessus. */
+.step {
+  display: block;
+  min-height: 150svh;
+  padding: 0;
+  view-timeline: --c-step block;
+}
+
+.anchor {
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.ghostPin,
+.pin {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+}
+
+.ghostPin {
+  z-index: 0;
+  margin-bottom: -100svh;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.pin {
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--c-header) + 24px) clamp(16px, 8vw, 140px) 48px;
+}
+
+.start .pin {
+  justify-content: flex-start;
+}
+
+.end .pin {
+  justify-content: flex-end;
+}
+
+/* Mot de fond décoratif, ton sur ton : il part du bord du texte et file sous la bague. */
 .ghost {
   position: absolute;
-  top: 50%;
-  inset-inline: 0;
+  /* Au-dessus du bloc de texte (centré dans l'écran), sous l'en-tête. */
+  top: 22%;
   z-index: 0;
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(80px, 15vw, 270px);
+  font-size: clamp(96px, 13vw, 220px);
   line-height: 1;
-  text-align: center;
   white-space: nowrap;
   color: var(--c-ghost);
   transform: translateY(-50%);
@@ -382,28 +555,28 @@
   user-select: none;
 }
 
-/* Le texte monte dans son cadre puis en sort, masqué par le haut et le bas (jamais par l'opacité). Pas d'effet quand un lien du
-   bloc a le focus : il doit rester visible en entier. */
-@supports (animation-timeline: view()) {
-  .text:not(:focus-within) {
-    animation:
-      enter linear both,
-      leave linear both;
-    animation-timeline: view(), view();
-    animation-range:
-      entry 15% cover 38%,
-      cover 66% exit 88%;
-  }
+.start .ghost {
+  inset-inline-start: clamp(0px, 3vw, 48px);
 }
 
-@keyframes enter {
-  from {
-    transform: translateY(64px);
-    clip-path: inset(0 0 100% 0);
+.end .ghost {
+  inset-inline-end: clamp(0px, 3vw, 48px);
+}
+
+/* Le texte se découvre puis se masque par découpe (jamais par l'opacité). Pas d'effet quand un lien du bloc a le focus : il doit
+   rester visible en entier. Ouverture : le texte est là au chargement, le masque devance l'en-tête quand la page part. Étapes : le
+   texte se découvre pendant que l'étape arrive, reste entier tant qu'elle est tenue, et se masque avant d'atteindre l'en-tête.
+   Une seule animation par bloc : deux animations sur les mêmes propriétés s'annulent (la seconde l'emporte). */
+@supports (animation-timeline: view()) {
+  .text:not(:focus-within) {
+    animation: leave linear both;
+    animation-timeline: view();
+    animation-range: cover 54% cover 74%;
   }
-  to {
-    transform: none;
-    clip-path: inset(-20% -20% -20% -20%);
+  .step .text:not(:focus-within) {
+    animation: settle linear both;
+    animation-timeline: --c-step;
+    animation-range: cover 30% cover 68%;
   }
 }
 
@@ -418,40 +591,96 @@
   }
 }
 
-/* ---------- 3. L'atelier : choix du métal et de la composition ---------- */
+/* De 30 à 40 % du passage de l'étape : le texte monte et se découvre ; de 40 à 60 % (étape tenue) : entier ; de 60 à 68 % : masqué. */
+@keyframes settle {
+  0% {
+    transform: translateY(64px);
+    clip-path: inset(0 0 100% 0);
+  }
+  26%,
+  79% {
+    transform: none;
+    clip-path: inset(-20% -20% -20% -20%);
+  }
+  100% {
+    transform: translateY(-64px);
+    clip-path: inset(100% 0 0 0);
+  }
+}
+
+/* ---------- 3. L'atelier : un seul écran tenu, la bague au-dessus, les choix dessous ---------- */
 .atelier {
   position: relative;
-  padding: calc(var(--c-header) + 6svh) clamp(16px, 5vw, 72px) 10svh;
+  min-height: 150svh;
+}
+
+.atelierPin {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100svh;
+  padding: 0 clamp(16px, 5vw, 72px) 3svh;
+}
+
+/* Place de la bague, entre l'en-tête et le titre. */
+.atelierScene {
+  flex: 0 0 58svh;
 }
 
 .atelier .h2 {
-  position: relative;
-  z-index: 2;
+  margin: 0 0 2.4svh;
+  font-size: clamp(30px, 3.6vw, 56px);
 }
 
-.atelierScene {
-  height: 58svh;
+/* Repères des poses de la bague : elle arrive, tient en place, puis sort par le haut avec la section. */
+.atelierPose,
+.atelierStay,
+.atelierExit {
+  position: absolute;
+  inset-inline-start: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.atelierPose {
+  inset-block-start: calc(50% - 10svh);
+}
+
+.atelierStay {
+  inset-block-start: 50%;
+}
+
+.atelierExit {
+  inset-block-start: calc(50% + 100svh);
 }
 
 .controls {
-  position: relative;
-  z-index: 2;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 28px clamp(24px, 5vw, 72px);
-  max-width: 980px;
-  margin: 0 auto;
-  padding: clamp(24px, 3vw, 40px);
+  grid-template-columns: 1.2fr 1fr;
+  gap: 16px clamp(24px, 5vw, 72px);
+  width: 100%;
+  max-width: 1120px;
+  padding: 20px clamp(20px, 3vw, 40px);
   border: 1px solid var(--c-line);
-  background: color-mix(in srgb, var(--c-bg-light) 82%, transparent);
-  backdrop-filter: blur(6px);
+  background: var(--c-bg-light);
 }
 
-.controls > .action,
 .controls > .note {
-  grid-column: 1 / -1;
+  grid-column: 1;
+  grid-row: 2;
+  align-self: center;
   margin: 0;
-  text-align: center;
+}
+
+.controls > .action {
+  grid-column: 2;
+  grid-row: 2;
+  justify-self: end;
+  margin: 0;
 }
 
 .choice {
@@ -462,7 +691,7 @@
 }
 
 .choice legend {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   padding: 0;
   font-size: 12px;
   letter-spacing: 0.3em;
@@ -470,11 +699,16 @@
   color: var(--c-accent);
 }
 
-.swatches,
+.swatches {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
 .options {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px 18px;
+  gap: 10px;
 }
 
 .swatch,
@@ -487,6 +721,15 @@
   font-size: 15px;
   color: var(--c-ink);
   cursor: pointer;
+}
+
+.swatch {
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  min-height: 64px;
+  font-size: 13px;
+  text-align: center;
 }
 
 /* Bouton radio natif, invisible mais atteignable au clavier ; l'état se lit sur la pastille ou la pilule. */
@@ -561,8 +804,8 @@
 }
 
 .choiceNote {
-  min-height: 3.2em;
-  margin: 14px 0 0;
+  min-height: 1.6em;
+  margin: 8px 0 0;
   font-size: 14px;
   line-height: 1.6;
   color: var(--c-muted);
@@ -572,20 +815,34 @@
 .facts {
   position: relative;
   z-index: 2;
-  padding: 12svh clamp(16px, 5vw, 72px);
+  padding: 10svh clamp(16px, 5vw, 72px) 12svh;
+}
+
+.factsTitle {
+  max-width: 1320px;
+  margin: 0 auto 40px;
+  font-size: clamp(30px, 3.6vw, 56px);
 }
 
 .materials {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 1fr 1.7fr 1fr 1.25fr;
   gap: 0;
   max-width: 1320px;
   margin: 0 auto;
+  border-top: 1px solid var(--c-ink);
+  counter-reset: fact;
 }
 
 .materials > div {
-  padding: 26px clamp(12px, 2vw, 32px);
+  padding: 22px clamp(12px, 2vw, 32px) 8px;
   border-inline-start: 1px solid var(--c-line);
+  counter-increment: fact;
+}
+
+.materials > div:first-child {
+  padding-inline-start: 0;
+  border-inline-start: 0;
 }
 
 .materials dt {
@@ -596,21 +853,43 @@
   color: var(--c-accent);
 }
 
+/* Numéro de la colonne (décoratif). */
+.materials dt::before {
+  content: counter(fact, decimal-leading-zero);
+  display: block;
+  margin-bottom: 18px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 22px;
+  letter-spacing: 0;
+}
+
 .materials dd {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 20px;
-  line-height: 1.5;
+  font-size: clamp(18px, 1.45vw, 21px);
+  line-height: 1.45;
+  text-wrap: pretty;
 }
 
 .quote {
   max-width: 20em;
-  margin: 16svh auto;
+  margin: 14svh auto;
   font-family: var(--font-display);
   font-style: italic;
   font-size: clamp(28px, 3.6vw, 52px);
   line-height: 1.25;
   text-align: center;
+  text-wrap: balance;
+}
+
+.quote::before {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 1px;
+  margin: 0 auto 32px;
+  background: var(--c-accent);
 }
 
 .cards {
@@ -627,9 +906,9 @@
 .card {
   display: block;
   height: 100%;
-  padding: 30px 28px 34px;
+  padding: 30px 28px 28px;
   border: 1px solid var(--c-line);
-  background: color-mix(in srgb, var(--c-bg-light) 80%, transparent);
+  background: var(--c-bg-light);
   color: var(--c-ink);
   text-decoration: none;
   transition:
@@ -662,13 +941,22 @@
   color: var(--c-bg-deep);
 }
 
-/* ---------- 5. Appel final ---------- */
+/* La même flèche cerclée que le bouton. */
+.card .ctaArrow {
+  display: block;
+  width: 34px;
+  height: 34px;
+  margin-top: 22px;
+}
+
+/* ---------- 5. Appel final : le titre en haut, le bouton, la bague en grand coupée par le bas de l'écran ---------- */
 .final {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 14svh clamp(16px, 5vw, 72px) 0;
+  min-height: 100svh;
+  padding: calc(var(--c-header) + 5svh) clamp(16px, 5vw, 72px) 0;
   text-align: center;
   overflow: clip;
 }
@@ -679,7 +967,7 @@
   margin: 0;
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(46px, 8.4vw, 150px);
+  font-size: clamp(46px, min(8.4vw, 13svh), 150px);
   line-height: 0.98;
   letter-spacing: 0.01em;
   text-transform: uppercase;
@@ -690,8 +978,50 @@
   z-index: 2;
 }
 
+/* Place de la bague : la pose est accrochée à cet espace, pas à la section, pour que la bague monte après le titre. */
 .finalScene {
-  height: 52svh;
+  flex: 1 0 46svh;
+  align-self: stretch;
+}
+
+.finalEnd {
+  display: block;
+  height: 0;
+}
+
+/* ---------- Écrans larges mais bas : rien n'est tenu à l'écran (le contenu d'un bloc tenu doit tenir dans la hauteur) ---------- */
+@media (min-width: 821px) and (max-height: 600px) {
+  .step {
+    min-height: 100svh;
+  }
+  .ghostPin {
+    display: none;
+  }
+  .pin,
+  .atelierPin {
+    position: relative;
+    height: auto;
+    min-height: 100svh;
+  }
+  .step .text:not(:focus-within) {
+    animation: none;
+  }
+  .atelier {
+    min-height: 0;
+  }
+  .atelierScene {
+    flex-basis: 70svh;
+  }
+}
+
+@media (min-width: 821px) and (max-height: 760px) {
+  .atelierScene {
+    flex-basis: 52svh;
+  }
+  .atelier .h2 {
+    margin-bottom: 12px;
+    font-size: 30px;
+  }
 }
 
 /* ---------- Écrans étroits : la bague en haut, le texte en bas ---------- */
@@ -716,45 +1046,112 @@
   .dots {
     display: none;
   }
-  /* La moitié haute de l'écran est un bandeau opaque réservé à la bague : le texte défile dessous sans passer derrière elle.
-     Plans : texte (0) < bandeau et mot de fond (1) < scène 3D (2). */
+  /* Le haut de l'écran est un bandeau opaque réservé à la bague, le même pour les trois premières sections : les textes défilent
+     dessous, l'un après l'autre, sans passer derrière elle. Plans : texte (0) < bandeau (1) < scène 3D (2). Le bandeau garde ses
+     clics : il empêche de toucher un contenu qu'il cache. */
   .stage {
     z-index: 2;
   }
-  .panel {
-    display: block;
-    min-height: 112svh;
-    padding: 0;
-  }
-  .panel::before {
-    content: '';
+  .band {
     position: sticky;
     top: 0;
     z-index: 1;
     display: block;
     height: 54svh;
-    background: linear-gradient(180deg, var(--c-bg) 0%, var(--c-bg) 88%, transparent 100%);
+    margin-bottom: -54svh;
+    background: var(--c-bg);
+    border-bottom: 1px solid var(--c-line);
+  }
+  .panel {
+    display: block;
+    min-height: 0;
+    padding: 0;
+  }
+  .step {
+    min-height: 0;
+  }
+  .ghostPin {
+    display: none;
+  }
+  .pin {
+    position: static;
+    display: block;
+    height: auto;
+    padding: 0;
   }
   .panel .text {
     z-index: 0;
     max-width: none;
-    padding: 4px 16px 12svh;
+    padding: 9svh 16px;
+  }
+  /* Pas de masque sur téléphone : le bandeau cache déjà le texte qui monte. (Même poids que la règle des étapes, placée avant.) */
+  .panel .text:not(:focus-within),
+  .step .text:not(:focus-within) {
     animation: none;
+  }
+  :global(#c-hero) .text {
+    padding-top: calc(54svh + 28px);
+  }
+  /* Un lien ou un choix atteint au clavier se place sous le bandeau, pas derrière. */
+  .panel .text a,
+  .controls :is(input, a) {
+    scroll-margin-top: calc(54svh + 16px);
+  }
+  /* La pose est atteinte quand le texte est au milieu de la fenêtre de lecture (sous le bandeau), pas au milieu de l'écran. */
+  .anchor {
+    inset-block-start: calc(50% - 27svh);
+  }
+  .display {
+    font-size: clamp(32px, 9vw, 54px);
   }
   .scrollHint {
     display: none;
   }
-  .ghost {
-    display: none;
+  /* Atelier : la bague reste dans le bandeau, les choix défilent dessous. */
+  .atelier {
+    min-height: 0;
+    padding: 9svh 16px 24svh;
+  }
+  .atelierPin {
+    position: static;
+    display: block;
+    height: auto;
+    padding: 0;
   }
   .atelierScene {
-    height: 46svh;
+    display: none;
+  }
+  .atelier .h2 {
+    margin-bottom: 24px;
   }
   .controls {
     grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  .controls > .note,
+  .controls > .action {
+    grid-column: 1;
+    grid-row: auto;
+    justify-self: center;
+    text-align: center;
+  }
+  .atelierPose {
+    inset-block-start: -13svh;
+  }
+  .atelierStay {
+    inset-block-start: auto;
+    inset-block-end: 42svh;
+  }
+  .atelierExit {
+    inset-block-start: auto;
+    inset-block-end: 8svh;
   }
   .materials {
     grid-template-columns: 1fr 1fr;
+  }
+  .materials > div:nth-child(odd) {
+    padding-inline-start: 0;
+    border-inline-start: 0;
   }
   .cards {
     grid-auto-flow: row;
@@ -768,11 +1165,21 @@
   .materials {
     grid-template-columns: 1fr;
   }
+  .materials > div {
+    padding-inline-start: 0;
+    border-inline-start: 0;
+  }
+  .swatches {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 /* Hébreu : pas d'italique (les polices hébraïques n'en ont pas). */
 :global(html[lang='he']) .kicker span,
 :global(html[lang='he']) .ghost,
-:global(html[lang='he']) .quote {
+:global(html[lang='he']) .quote,
+:global(html[lang='he']) .lead,
+:global(html[lang='he']) .titleEm,
+:global(html[lang='he']) .materials dt::before {
   font-style: normal;
 }

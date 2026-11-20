@@ -38,7 +38,7 @@ SHOTS = {
     'or-rose': dict(composition='ensemble', metal='rose-18k', dir=(0.62, 0.5, 0.6), lens=105, size=(1200, 1500), zoom=1.4),
     'platine': dict(composition='ensemble', metal='platinum', dir=(0.62, 0.5, 0.6), lens=105, size=(1200, 1500), zoom=1.4),
     'marquise-detail': dict(composition='solitaire', metal='yellow-18k', dir=(0.0, 1.0, 0.18), lens=105, size=(1800, 1300), zoom=2.4),
-    'solitaire': dict(composition='solitaire', metal='yellow-18k', dir=(0.75, 0.35, 0.56), lens=105, size=(1500, 1500), zoom=1.3),
+    'solitaire': dict(composition='solitaire', metal='yellow-18k', dir=(0.52, 0.76, 0.40), lens=105, size=(1500, 1500), zoom=1.3),
 }
 
 PIECES = {'ensemble': ('A__', 'B__'), 'solitaire': ('A__',), 'alliance': ('B__',)}

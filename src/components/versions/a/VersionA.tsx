@@ -8,48 +8,10 @@ import HeaderMenu from '@/components/site/HeaderMenu';
 import Monogram from '@/components/site/Monogram';
 import { MAIN_ID } from '@/components/site/SiteHeader';
 import type { StageActor, StageKey, StagePose } from '@/components/stage/RingStage';
-import type { MetalId } from '@/lib/configurator/schema';
+import type { Family, VersionCopy } from '../copy';
 import styles from './a.module.css';
 
 const RingStage = dynamic(() => import('@/components/stage/RingStage'), { ssr: false });
-
-type Family = 'yellow' | 'white' | 'rose' | 'platinum';
-
-export type CopyA = {
-  skip: string;
-  accessibility: { label: string; href: string };
-  home: string;
-  configurator: string;
-  navLabel: string;
-  menu: string;
-  nav: { label: string; href: string }[];
-  languages: { code: string; label: string; href: string; current: boolean }[];
-  eyebrow: string;
-  title: string;
-  lede: string;
-  cta: string;
-  ctaNote: string;
-  draft: string;
-  metalLabel: string;
-  metals: { family: Family; id: MetalId; name: string }[];
-  prevMetal: string;
-  nextMetal: string;
-  scrollHint: string;
-  liveNote: string;
-  model: { name: string; description: string };
-  pointsTitle: string;
-  points: { kicker: string; title: string; text: string }[];
-  statement: string;
-  making: string;
-  metalsTitle: string;
-  materials: { term: string; text: string }[];
-  compositionsTitle: string;
-  compositions: { name: string; description: string }[];
-  moreTitle: string;
-  more: { href: string; title: string; text: string }[];
-  finalTitle: string;
-  fallbackAlt: string;
-};
 
 /** Rendus fixes (Cycles) affichés à la place de la scène quand WebGL manque. */
 const FALLBACK: Record<Family, string> = {
@@ -68,7 +30,7 @@ const LINE_NARROW = [-0.72, -0.24, 0.24, 0.72];
  * grand mot, rangée, puis séparation en solitaire et alliance. Les trois autres quittent l'écran après le carrousel et ne
  * reviennent que pour la rangée.
  */
-function actorsFor(metals: CopyA['metals'], selected: number): StageActor[] {
+function actorsFor(metals: VersionCopy['metals'], selected: number): StageActor[] {
   return metals.map((m, k) => {
     const o = k - selected;
     const metal = m.id;
@@ -105,7 +67,7 @@ function actorsFor(metals: CopyA['metals'], selected: number): StageActor[] {
   });
 }
 
-export default function VersionA({ copy, rtl }: { copy: CopyA; rtl: boolean }) {
+export default function VersionA({ copy, rtl }: { copy: VersionCopy; rtl: boolean }) {
   const [selected, setSelected] = useState(0);
   const [step, setStep] = useState(0);
   const metal = copy.metals[selected];

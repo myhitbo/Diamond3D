@@ -58,9 +58,11 @@ const smoothstep = (e0: number, e1: number, x: number) => {
  * est uniformément clair et perd son volume.
  */
 const FLAGS: { lon: number; lat: number; w: number; h: number; strength: number }[] = [
-  { lon: -105, lat: 5, w: 26, h: 120, strength: 0.9 },
-  { lon: 165, lat: 0, w: 34, h: 110, strength: 0.85 },
-  { lon: 85, lat: -35, w: 60, h: 30, strength: 0.7 },
+  { lon: -105, lat: 5, w: 30, h: 130, strength: 0.92 },
+  { lon: 165, lat: 0, w: 40, h: 120, strength: 0.9 },
+  { lon: 95, lat: -30, w: 70, h: 36, strength: 0.8 },
+  { lon: 0, lat: 28, w: 16, h: 70, strength: 0.75 },
+  { lon: -40, lat: -40, w: 60, h: 30, strength: 0.7 },
 ];
 
 export function createStudioEnvironment(width = 1024, variant: 'metal' | 'gem' = 'metal', tone: 'dark' | 'light' = 'dark'): THREE.DataTexture {
@@ -78,7 +80,10 @@ export function createStudioEnvironment(width = 1024, variant: 'metal' | 'gem' =
     const floor = lat < 0 ? 0.16 * smoothstep(0, -40, lat) : 0;
     const horizon = 0.12 * Math.exp(-((lat / 5) ** 2));
     const sinLat = Math.sin((lat * Math.PI) / 180);
-    const base = light ? 0.95 + 0.45 * Math.max(sinLat, 0) - 0.35 * Math.max(-sinLat, 0) : 0.05 + floor + horizon;
+    // Tente claire : lumineuse au zénith, nettement plus sombre sous l'horizon (le métal garde des ombres).
+    // Pierres sur page claire : un fond de studio gris clair au lieu du noir (elles restent contrastées par les bandes).
+    const gemLift = tone === 'light' && variant === 'gem' ? 0.3 + 0.2 * Math.max(sinLat, 0) : 0;
+    const base = light ? 0.62 + 0.5 * Math.max(sinLat, 0) - 0.42 * Math.max(-sinLat, 0) : 0.05 + floor + horizon + gemLift;
     for (let x = 0; x < width; x++) {
       const lon = (x / width) * 360 - 180;
       let r = base;

@@ -317,7 +317,7 @@ function Scene({
   const { parts, radius } = useRingParts(url);
   const invalidate = useThree((s) => s.invalidate);
   const size = useThree((s) => s.size);
-  const studio = useMemo(() => ({ metal: createStudioEnvironment(1024, 'metal', tone), gem: createStudioEnvironment(512, 'gem') }), [tone]);
+  const studio = useMemo(() => ({ metal: createStudioEnvironment(1024, 'metal', tone), gem: createStudioEnvironment(512, 'gem', tone) }), [tone]);
   const gemFallback = useMemo(
     () => new THREE.MeshStandardMaterial({ color: '#ffffff', metalness: 1, roughness: 0.02, envMap: studio.gem, envMapIntensity: 1.25, flatShading: true }),
     [studio.gem],

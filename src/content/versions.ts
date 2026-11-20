@@ -28,11 +28,11 @@ export const VERSIONS: Record<VersionId, { name: Trilingual; summary: Trilingual
     },
   },
   c: {
-    name: { fr: 'Version C · Atelier', en: 'Version C · Workshop', he: 'גרסה ג · סדנה' },
+    name: { fr: 'Version C · Lumière', en: 'Version C · Light', he: 'גרסה ג · אור' },
     summary: {
-      fr: 'Une page claire et éditoriale : grande typographie, la bague posée entre les lignes.',
-      en: 'A light, editorial page: large type, the ring set between the lines.',
-      he: 'דף בהיר ועריכתי: טיפוגרפיה גדולה, והטבעת מונחת בין השורות.',
+      fr: 'Une page claire : la bague en très gros plan change de métal en traversant la page, et se compose dans la page.',
+      en: 'A light page: the ring in extreme close-up changes metal as it crosses the page, and can be composed in the page.',
+      he: 'דף בהיר: הטבעת בתקריב גדול מחליפה מתכת לאורך הדף, ואפשר להרכיב אותה בתוך הדף.',
     },
   },
 };

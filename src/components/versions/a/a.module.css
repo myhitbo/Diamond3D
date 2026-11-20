@@ -946,13 +946,33 @@
     width: 44px;
     height: 44px;
   }
-  /* La moitié haute de l'écran est laissée à la bague : le texte commence dessous. */
+  /* La moitié haute de l'écran est un bandeau opaque réservé à la bague : le texte défile dessous sans passer derrière elle.
+     Plans : texte (0) < bandeau (1) < scène 3D (2). */
+  .stage {
+    z-index: 2;
+  }
   .panel,
   .point {
-    align-items: flex-start;
+    display: block;
     min-height: 112svh;
-    padding-top: 54svh;
-    padding-bottom: 10svh;
+    padding: 0;
+  }
+  .panel::before,
+  .point::before {
+    content: '';
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: block;
+    height: 54svh;
+    background: linear-gradient(180deg, var(--a-deep) 0%, var(--a-deep) 88%, transparent 100%);
+  }
+  .panel .text,
+  .point .text {
+    z-index: 0;
+    max-width: none;
+    padding: 4px 16px 12svh;
+    animation: none;
   }
   .rangeStage {
     height: 30svh;

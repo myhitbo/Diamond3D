@@ -272,7 +272,7 @@ function Actor({
     for (const m of metals.current) {
       m.color.copy(c.color);
       m.roughness = c.roughness;
-      m.envMapIntensity = 1.15 * lit;
+      m.envMapIntensity = lit;
     }
     for (const mesh of gems.current) (mesh.material as THREE.Material & { color?: THREE.Color }).color?.setScalar(lit);
     const moving =
@@ -291,7 +291,8 @@ function Actor({
       .map((p) =>
         !p.gem ? (
           <mesh key={p.name} geometry={p.geometry}>
-            <meshPhysicalMaterial ref={collect} metalness={1} roughness={0.08} envMapIntensity={1.15} />
+            {/* Environnement donné au matériau lui-même : son intensité se règle alors par bijou (celle de la scène est commune). */}
+            <meshPhysicalMaterial ref={collect} metalness={1} roughness={0.08} envMap={studio.metal} />
           </mesh>
         ) : lowQuality ? (
           <mesh key={p.name} geometry={p.geometry} material={gemFallback} />

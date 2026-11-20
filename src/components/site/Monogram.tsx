@@ -13,7 +13,7 @@ export default function Monogram() {
         dy="0.36em"
         textAnchor="middle"
         fill="currentColor"
-        style={{ fontFamily: 'var(--font-cormorant), Georgia, serif', fontSize: 15, letterSpacing: '0.04em' }}
+        style={{ fontFamily: 'var(--font-bodoni), Georgia, serif', fontSize: 15, letterSpacing: '0.04em' }}
       >
         JR
       </text>

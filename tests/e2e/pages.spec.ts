@@ -29,7 +29,13 @@ test('accueil : « / » mène à /fr, appel vers le configurateur, retour par le
   await expect(main.getByRole('link', { name: /^Questions fréquentes/ })).toHaveAttribute('href', '/fr/faq');
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
 
-  await main.getByRole('link', { name: 'Configurer une bague' }).click();
+  // Deux appels vers le configurateur : premier écran et bas de page.
+  const ctas = main.getByRole('link', { name: 'Configurer une bague' });
+  await expect(ctas).toHaveCount(2);
+  for (const href of await ctas.evaluateAll((els) => els.map((e) => e.getAttribute('href')))) expect(href).toBe('/fr/configurateur/ring-001');
+  // Galerie des quatre métaux : rendus 3D de l'ensemble, nommés par leur métal.
+  await expect(main.getByRole('img', { name: /^Ensemble marquise, / })).toHaveCount(4);
+  await ctas.first().click();
   await expect(page).toHaveURL(/\/fr\/configurateur\/ring-001$/);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Ensemble marquise');
   await page.getByRole('link', { name: 'JR Diamond' }).click();
@@ -39,7 +45,7 @@ test('accueil : « / » mène à /fr, appel vers le configurateur, retour par le
 test('accueil en anglais et en hébreu : traduit, sens droite-à-gauche, pas de guides en hébreu', async ({ page }) => {
   await page.goto('/en');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Your ring, seen in 3D, made in Ramat Gan');
-  await expect(page.getByRole('main').getByRole('link', { name: 'Configure a ring' })).toHaveAttribute('href', '/en/configurator/ring-001');
+  await expect(page.getByRole('main').getByRole('link', { name: 'Configure a ring' }).first()).toHaveAttribute('href', '/en/configurator/ring-001');
   await expect(page.getByRole('main').getByRole('link', { name: /^Guides/ })).toHaveAttribute('href', '/en/guides');
 
   await page.getByRole('navigation', { name: 'Langue / Language' }).getByRole('link', { name: 'עב', exact: true }).click();
@@ -48,7 +54,7 @@ test('accueil en anglais et en hébreu : traduit, sens droite-à-gauche, pas de 
   await expect(page.locator('html')).toHaveAttribute('lang', 'he');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('הטבעת שלכם, בתלת־ממד, מיוצרת ברמת גן');
   await expect(page.getByText('טיוטה · העמוד ממתין לאישור הסדנה · תרגום ממתין להגהה')).toBeVisible();
-  await expect(page.getByRole('main').getByRole('link', { name: 'עיצוב טבעת' })).toHaveAttribute('href', '/he/configurator/ring-001');
+  await expect(page.getByRole('main').getByRole('link', { name: 'עיצוב טבעת' }).first()).toHaveAttribute('href', '/he/configurator/ring-001');
   await expect(page.getByRole('main').getByRole('link', { name: /חיים חדשים לתכשיט משפחתי/ })).toHaveAttribute('href', '/he/transformation');
   await expect(page.locator('a[href*="/guides"]')).toHaveCount(0);
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);

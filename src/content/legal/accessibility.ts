@@ -14,7 +14,7 @@ import type { Conformance } from './accessibility-status';
 import type { LegalLink, LegalPage } from './types';
 
 /** Date de mise à jour de la déclaration, AAAA-MM-JJ : à changer à chaque modification de la page ou de l'état de conformité. */
-export const ACCESSIBILITY_UPDATED = '2026-11-17';
+export const ACCESSIBILITY_UPDATED = '2026-11-20';
 
 const STANDARD_PDF = 'https://www.gov.il/BlobFolder/legalinfo/israeli_accessibility_standards_pdf/he/sitedocs_si-5568-1-september-2023.pdf';
 const links = (standard: string): LegalLink[] => [

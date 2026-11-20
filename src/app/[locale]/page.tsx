@@ -3,10 +3,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import SiteHeader, { MAIN_ID } from '@/components/site/SiteHeader';
+import { METALS } from '@/config/metals';
 import { SITE_NAME } from '@/config/site';
 import { isGuideLocale } from '@/content/guides/types';
 import { HOME, type HomeCard } from '@/content/home';
-import { LOCALES, type Locale } from '@/lib/configurator/schema';
+import { LOCALES, type Locale, type MetalId } from '@/lib/configurator/schema';
 import { notFoundMetadata, pageMetadata } from '@/lib/metadata';
 import { configuratorPath, homePath, languageAlternates, localizedPath } from '@/lib/routes';
 import styles from './home.module.css';
@@ -14,11 +15,17 @@ import styles from './home.module.css';
 type Params = Promise<{ locale: string }>;
 
 /**
- * Capture du vrai rendu 3D de ring-001 (configurateur, vue 3/4, réglages par défaut : or jaune), sur le fond noir du premier écran,
- * recadrée et convertie en WebP. Pas une photo : la légende le dit. À refaire si le modèle ou le rendu change :
- * `scripts/perf/home-render.mjs <sortie> --nuit`.
+ * Images : captures du vrai rendu 3D de ring-001 (configurateur), sur fond transparent, recadrées. Pas des photos : les légendes
+ * le disent. À refaire si le modèle ou le rendu change : `scripts/perf/gallery-render.mjs public/images/rendus`.
  */
-const RENDER = { src: '/images/ring-001-rendu-3d-nuit.webp', width: 1400, height: 1050 };
+const HERO = { src: '/images/rendus/ring-001-hero.webp', width: 1800, height: 1500 };
+const DETAIL = { src: '/images/rendus/ring-001-marquise-detail.webp', width: 1400, height: 1000 };
+const METAL_RENDERS: { metal: MetalId; src: string }[] = [
+  { metal: 'yellow-gold-18k', src: '/images/rendus/ring-001-or-jaune.webp' },
+  { metal: 'white-gold-18k', src: '/images/rendus/ring-001-or-blanc.webp' },
+  { metal: 'rose-gold-18k', src: '/images/rendus/ring-001-or-rose.webp' },
+  { metal: 'platinum-950', src: '/images/rendus/ring-001-platine.webp' },
+];
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale } = await params;
@@ -36,10 +43,13 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
   });
 }
 
-function Card({ href, card }: { href: string; card: HomeCard }) {
+function Card({ href, card, index }: { href: string; card: HomeCard; index: number }) {
   return (
     <li>
       <Link href={href} className={styles.card}>
+        <span className={styles.cardNum} aria-hidden="true">
+          {String(index).padStart(2, '0')}
+        </span>
         <span className={styles.cardTitle}>{card.title}</span>
         <span className={styles.cardText}>{card.text}</span>
       </Link>
@@ -47,10 +57,10 @@ function Card({ href, card }: { href: string; card: HomeCard }) {
   );
 }
 
-/** Titre de section : filets dorés et losange de part et d'autre (décoratifs). */
-function SectionTitle({ id, children, dark = false }: { id: string; children: React.ReactNode; dark?: boolean }) {
+/** Titre de section : surtitre décoratif (losange entre deux filets) puis titre. */
+function SectionTitle({ id, children, align = 'center' }: { id: string; children: React.ReactNode; align?: 'center' | 'start' }) {
   return (
-    <div className={dark ? `${styles.sectionHead} ${styles.sectionHeadDark}` : styles.sectionHead}>
+    <div className={align === 'start' ? `${styles.sectionHead} ${styles.sectionHeadStart}` : styles.sectionHead}>
       <span className={styles.ornament} aria-hidden="true" />
       <h2 id={id} className={styles.h2}>
         {children}
@@ -64,15 +74,30 @@ export default async function HomePage({ params }: { params: Params }) {
   if (!LOCALES.includes(raw as Locale)) notFound();
   const locale = raw as Locale;
   const c = HOME[locale];
+  const cards = [
+    { href: localizedPath(locale, '/transformation'), card: c.more.transformation },
+    // Les guides n'existent qu'en français et en anglais.
+    ...(isGuideLocale(locale) && c.more.guides ? [{ href: localizedPath(locale, '/guides'), card: c.more.guides }] : []),
+    { href: localizedPath(locale, '/faq'), card: c.more.faq },
+  ];
   return (
     <>
       <SiteHeader locale={locale} path="/" />
       <main id={MAIN_ID} className={styles.home}>
+        {/* ---------- Premier écran ---------- */}
         <section className={`${styles.hero} on-noir`} aria-labelledby="home-title">
           <div className={styles.heroText}>
             <p className={styles.eyebrow}>{c.eyebrow}</p>
             <h1 id="home-title" className={styles.title}>
-              {c.title}
+              {c.title.map((part, i) =>
+                i % 2 ? (
+                  <em key={i} className="foil">
+                    {part}
+                  </em>
+                ) : (
+                  part
+                ),
+              )}
             </h1>
             <p className={styles.lede}>{c.lede}</p>
             <div className={styles.action}>
@@ -84,31 +109,65 @@ export default async function HomePage({ params }: { params: Params }) {
             <p className={styles.badge}>{c.draft}</p>
           </div>
           <figure className={styles.heroFigure}>
-            <Image src={RENDER.src} width={RENDER.width} height={RENDER.height} alt={c.image.alt} sizes="(max-width: 900px) 100vw, 56vw" priority />
+            <span className={styles.halo} aria-hidden="true" />
+            <Image src={HERO.src} width={HERO.width} height={HERO.height} alt={c.image.alt} sizes="(max-width: 900px) 100vw, 55vw" priority />
             <figcaption>{c.image.caption}</figcaption>
           </figure>
-        </section>
-
-        <section className={styles.section} aria-labelledby="home-points">
-          <SectionTitle id="home-points">{c.pointsTitle}</SectionTitle>
-          <ul className={styles.points}>
-            {c.points.map((p, i) => (
-              <li key={p.title}>
-                <span className={styles.num} aria-hidden="true">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <strong>{p.title}</strong>
-                <span>{p.text}</span>
-              </li>
+          <ul className={styles.facts}>
+            {c.heroFacts.map((f) => (
+              <li key={f}>{f}</li>
             ))}
           </ul>
-          <p className={styles.making}>{c.making}</p>
         </section>
 
+        {/* ---------- Comment nous travaillons : gros plan à gauche, étapes à droite ---------- */}
+        <section className={styles.method} aria-labelledby="home-points">
+          <figure className={`${styles.detail} on-noir`}>
+            <Image src={DETAIL.src} width={DETAIL.width} height={DETAIL.height} alt={c.detail.alt} sizes="(max-width: 1000px) 100vw, 50vw" />
+            <figcaption>{c.detail.caption}</figcaption>
+          </figure>
+          <div className={styles.methodText}>
+            <SectionTitle id="home-points" align="start">
+              {c.pointsTitle}
+            </SectionTitle>
+            <ol className={styles.points}>
+              {c.points.map((p, i) => (
+                <li key={p.title}>
+                  <span className={styles.num} aria-hidden="true">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <div>
+                    <strong>{p.title}</strong>
+                    <span>{p.text}</span>
+                  </div>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* ---------- Un modèle, quatre métaux ---------- */}
+        <section className={`${styles.metals} on-noir`} aria-labelledby="home-metals">
+          <SectionTitle id="home-metals">{c.metalsTitle}</SectionTitle>
+          <p className={styles.metalsText}>{c.metalsText}</p>
+          <ul className={styles.gallery}>
+            {METAL_RENDERS.map(({ metal, src }) => {
+              const name = METALS[metal].name[locale];
+              return (
+                <li key={metal}>
+                  <figure>
+                    <Image src={src} width={1000} height={1250} alt={`${c.setName}, ${name}`} sizes="(max-width: 640px) 50vw, 25vw" />
+                    <figcaption>{name}</figcaption>
+                  </figure>
+                </li>
+              );
+            })}
+          </ul>
+        </section>
+
+        {/* ---------- Métaux et pierres (bandeau émeraude) ---------- */}
         <section className={`${styles.band} on-noir`} aria-labelledby="home-materials">
-          <SectionTitle id="home-materials" dark>
-            {c.materialsTitle}
-          </SectionTitle>
+          <SectionTitle id="home-materials">{c.materialsTitle}</SectionTitle>
           <dl className={styles.materials}>
             {c.materials.map((m) => (
               <div key={m.term}>
@@ -119,14 +178,30 @@ export default async function HomePage({ params }: { params: Params }) {
           </dl>
         </section>
 
+        {/* ---------- Fabrication en images : une intention, pas un engagement ---------- */}
+        <div className={styles.quote}>
+          <span className={styles.ornament} aria-hidden="true" />
+          <p>{c.making}</p>
+        </div>
+
+        {/* ---------- Aussi sur le site ---------- */}
         <section className={styles.section} aria-labelledby="home-more">
           <SectionTitle id="home-more">{c.moreTitle}</SectionTitle>
           <ul className={styles.cards}>
-            <Card href={localizedPath(locale, '/transformation')} card={c.more.transformation} />
-            {/* Les guides n'existent qu'en français et en anglais. */}
-            {isGuideLocale(locale) && c.more.guides && <Card href={localizedPath(locale, '/guides')} card={c.more.guides} />}
-            <Card href={localizedPath(locale, '/faq')} card={c.more.faq} />
+            {cards.map((x, i) => (
+              <Card key={x.href} href={x.href} card={x.card} index={i + 1} />
+            ))}
           </ul>
+        </section>
+
+        {/* ---------- Appel final ---------- */}
+        <section className={`${styles.final} on-noir`} aria-labelledby="home-final">
+          <h2 id="home-final" className={`${styles.finalTitle} foil`}>
+            {c.finalTitle}
+          </h2>
+          <Link href={configuratorPath(locale)} className={styles.cta}>
+            {c.cta}
+          </Link>
         </section>
       </main>
     </>

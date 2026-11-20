@@ -1,5 +1,13 @@
 # Historique
 
+## 2026-11-20 — Refonte visuelle, seconde version
+
+- Demande du propriétaire : la première refonte était « simple et fade, aucun sentiment de luxe ».
+- Titres en Bodoni Moda, or « feuille » en dégradé, vert émeraude, grain sur les fonds sombres.
+- Accueil reconstruit : premier écran plein cadre, gros plan de la marquise, galerie des quatre métaux, bandeau émeraude, citation, appel final. Textes existants conservés ; ajouts : trois repères, titre et texte de la galerie, appel final.
+- Six rendus 3D réels de ring-001 sur fond transparent (`public/images/rendus/`, `scripts/perf/gallery-render.mjs`).
+- Configurateur, FAQ, guides et pages légales : titres plus grands, filet or.
+
 ## 2026-11-17 — Refonte visuelle « maison de joaillerie »
 
 - Palette noir, ivoire et champagne ; en-tête et pied de page noirs avec monogramme JR et filets dorés.

@@ -110,21 +110,22 @@ export default function VersionC({ copy, rtl }: { copy: VersionCopy; rtl: boolea
         ))}
       </nav>
 
-      <div className={styles.stage}>
-        <RingStage
-          keys={keys}
-          studio="light"
-          tilt={6}
-          mirror={rtl}
-          fallback={
-            <div className={styles.fallback}>
-              <Image src={FALLBACK[metal.family]} width={900} height={1125} alt={copy.fallbackAlt} sizes="(max-width: 820px) 80vw, 40vw" />
-            </div>
-          }
-        />
-      </div>
-
       <main id={MAIN_ID} className={styles.main}>
+        {/* Scène 3D, dans le contenu principal : sans WebGL, l'image de repli appartient à la page (aucun contenu hors des régions). */}
+        <div className={styles.stage}>
+          <RingStage
+            keys={keys}
+            studio="light"
+            tilt={6}
+            mirror={rtl}
+            fallback={
+              <div className={styles.fallback}>
+                <Image src={FALLBACK[metal.family]} width={900} height={1125} alt={copy.fallbackAlt} sizes="(max-width: 820px) 80vw, 40vw" />
+              </div>
+            }
+          />
+        </div>
+
         {/* ---------- 1. Ouverture : la bague en très gros plan ---------- */}
         <section id="c-hero" className={`${styles.panel} ${styles.end}`} aria-labelledby="c-title">
           <div className={styles.text}>

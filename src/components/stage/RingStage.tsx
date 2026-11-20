@@ -1,6 +1,6 @@
 'use client';
 
-import { Suspense, useEffect, useMemo, useRef, useState, type MutableRefObject, type ReactNode } from 'react';
+import { Suspense, useEffect, useMemo, useRef, useState, useSyncExternalStore, type MutableRefObject, type ReactNode } from 'react';
 import * as THREE from 'three';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { Environment, MeshRefractionMaterial, PerformanceMonitor, useGLTF } from '@react-three/drei';
@@ -45,6 +45,9 @@ export type StageKey = {
   narrow?: Partial<StagePose>;
 };
 
+/** Un bijou de la scène et ses poses. Plusieurs acteurs = plusieurs exemplaires du modèle (une rangée de quatre métaux…). */
+export type StageActor = { id: string; keys: StageKey[] };
+
 type Resolved = Required<Omit<StagePose, 'metal'>> & { color: THREE.Color; roughness: number };
 
 const DEFAULT_METAL: MetalId = 'yellow-gold-18k';
@@ -75,33 +78,42 @@ function mix(a: Resolved, b: Resolved, t: number, out: Resolved) {
   out.roughness = lerp(a.roughness, b.roughness, t);
 }
 
-/** Pose visée d'après la position de défilement ; mise à jour à chaque défilement ou redimensionnement. */
-function useScrollTarget(keys: StageKey[], reduced: boolean, onChange: () => void): MutableRefObject<Resolved> {
-  const target = useRef<Resolved>(resolve(keys[0], false));
+const clonePose = (p: Resolved): Resolved => ({ ...p, rot: [...p.rot], color: p.color.clone() });
+
+/** Pose visée de chaque acteur d'après la position de défilement ; mise à jour à chaque défilement ou redimensionnement. */
+function useScrollTargets(actors: StageActor[], reduced: boolean, onChange: () => void): MutableRefObject<Resolved[]> {
+  const targets = useRef<Resolved[]>(actors.map((a) => resolve(a.keys[0], false)));
   useEffect(() => {
     let frame = 0;
     const update = () => {
       frame = 0;
       const narrow = window.innerWidth < NARROW;
       const centre = window.scrollY + window.innerHeight / 2;
-      const stops = keys
-        .map((k) => {
-          const el = document.getElementById(k.anchor);
-          if (!el) return null;
-          const r = el.getBoundingClientRect();
-          return { y: r.top + window.scrollY + r.height / 2, pose: resolve(k, narrow) };
-        })
-        .filter((s): s is { y: number; pose: Resolved } => s !== null)
-        .sort((s1, s2) => s1.y - s2.y);
-      if (!stops.length) return;
-      let i = 0;
-      while (i < stops.length - 1 && centre > stops[i + 1].y) i++;
-      const from = stops[i];
-      const to = stops[Math.min(i + 1, stops.length - 1)];
-      let t = to.y > from.y ? Math.min(Math.max((centre - from.y) / (to.y - from.y), 0), 1) : 0;
-      // Réduction des animations : pas de glissement, la pose de la section la plus proche.
-      t = reduced ? (t < 0.5 ? 0 : 1) : smooth(Math.min(Math.max((t - HOLD) / (1 - 2 * HOLD), 0), 1));
-      mix(from.pose, to.pose, t, target.current);
+      const centres = new Map<string, number | null>();
+      const centreOf = (id: string) => {
+        if (!centres.has(id)) {
+          const el = document.getElementById(id);
+          const r = el?.getBoundingClientRect();
+          centres.set(id, r ? r.top + window.scrollY + r.height / 2 : null);
+        }
+        return centres.get(id)!;
+      };
+      actors.forEach((actor, n) => {
+        const stops = actor.keys
+          .map((k) => ({ y: centreOf(k.anchor), key: k }))
+          .filter((s): s is { y: number; key: StageKey } => s.y !== null)
+          .sort((s1, s2) => s1.y - s2.y);
+        if (!stops.length) return;
+        let i = 0;
+        while (i < stops.length - 1 && centre > stops[i + 1].y) i++;
+        const from = stops[i];
+        const to = stops[Math.min(i + 1, stops.length - 1)];
+        let t = to.y > from.y ? Math.min(Math.max((centre - from.y) / (to.y - from.y), 0), 1) : 0;
+        // Réduction des animations : pas de glissement, la pose de la section la plus proche.
+        t = reduced ? (t < 0.5 ? 0 : 1) : smooth(Math.min(Math.max((t - HOLD) / (1 - 2 * HOLD), 0), 1));
+        if (!targets.current[n]) targets.current[n] = resolve(actor.keys[0], narrow);
+        mix(resolve(from.key, narrow), resolve(to.key, narrow), t, targets.current[n]);
+      });
       onChange();
     };
     const schedule = () => {
@@ -119,8 +131,8 @@ function useScrollTarget(keys: StageKey[], reduced: boolean, onChange: () => voi
       window.removeEventListener('resize', schedule);
       observer.disconnect();
     };
-  }, [keys, reduced, onChange, target]);
-  return target;
+  }, [actors, reduced, onChange, targets]);
+  return targets;
 }
 
 function bakeToFloat(src: THREE.BufferGeometry, m: THREE.Matrix4): THREE.BufferGeometry {
@@ -145,19 +157,10 @@ function bakeToFloat(src: THREE.BufferGeometry, m: THREE.Matrix4): THREE.BufferG
 
 type Part = { name: string; piece: 'A' | 'B'; gem: boolean; geometry: THREE.BufferGeometry };
 
-function Ring({ url, target, reduced, lowQuality, onReady }: { url: string; target: MutableRefObject<Resolved>; reduced: boolean; lowQuality: boolean; onReady: () => void }) {
+/** Charge le modèle une fois : géométries en millimètres, centrées sur l'ensemble ; rayon de l'ensemble pour la taille à l'écran. */
+function useRingParts(url: string) {
   const gltf = useGLTF(url);
-  const invalidate = useThree((s) => s.invalidate);
-  const size = useThree((s) => s.size);
-  const env = useMemo(() => ({ metal: createStudioEnvironment(1024, 'metal'), gem: createStudioEnvironment(512, 'gem') }), []);
-  const metalMat = useMemo(() => new THREE.MeshPhysicalMaterial({ metalness: 1, roughness: 0.08, envMapIntensity: 1.15 }), []);
-  const gemFallback = useMemo(
-    () => new THREE.MeshStandardMaterial({ color: '#ffffff', metalness: 1, roughness: 0.02, envMap: env.gem, envMapIntensity: 1.25, flatShading: true }),
-    [env.gem],
-  );
-
-  // Géométries en millimètres, centrées sur l'ensemble ; rayon de l'ensemble pour la taille à l'écran.
-  const { parts, radius } = useMemo(() => {
+  return useMemo(() => {
     gltf.scene.updateMatrixWorld(true);
     const toMm = new THREE.Matrix4().makeScale(1000, 1000, 1000);
     const raw: Part[] = [];
@@ -173,30 +176,64 @@ function Ring({ url, target, reduced, lowQuality, onReady }: { url: string; targ
     for (const p of raw) p.geometry.translate(-centre.x, -centre.y, -centre.z);
     return { parts: raw, radius: box.getSize(new THREE.Vector3()).length() / 2 };
   }, [gltf.scene]);
+}
 
+type Studio = { metal: THREE.Texture; gem: THREE.Texture };
+
+function Actor({
+  index,
+  parts,
+  radius,
+  targets,
+  pointer,
+  reduced,
+  lowQuality,
+  studio,
+  gemFallback,
+}: {
+  index: number;
+  parts: Part[];
+  radius: number;
+  targets: MutableRefObject<Resolved[]>;
+  pointer: MutableRefObject<{ x: number; y: number; tilt: number }>;
+  reduced: boolean;
+  lowQuality: boolean;
+  studio: Studio;
+  gemFallback: THREE.Material;
+}) {
+  const invalidate = useThree((s) => s.invalidate);
+  // Matériaux du métal de cet acteur, recueillis à leur création : leur couleur suit la pose à chaque image.
+  const metals = useRef(new Set<THREE.MeshPhysicalMaterial>());
+  const collect = (m: THREE.MeshPhysicalMaterial | null) => {
+    if (m) metals.current.add(m);
+  };
   const root = useRef<THREE.Group>(null);
   const pieceA = useRef<THREE.Group>(null);
   const pieceB = useRef<THREE.Group>(null);
   const current = useRef<Resolved | null>(null);
-  const ready = useRef(false);
-
-  useEffect(() => invalidate(), [size, lowQuality, invalidate]);
+  const tilt = useRef({ x: 0, y: 0 });
 
   useFrame((state, delta) => {
-    const t = target.current;
-    if (!current.current) current.current = { ...t, rot: [...t.rot], color: t.color.clone() };
+    const t = targets.current[index];
+    if (!t) return;
+    if (!current.current) current.current = clonePose(t);
     const c = current.current;
     // Amortissement : la bague suit la page avec un léger retard, puis s'arrête. Sans amortissement en animations réduites.
     const k = reduced ? 1 : 1 - Math.exp(-delta * 7);
     mix(c, t, k, c);
+    // Inclinaison vers le pointeur (souris seulement) : la bague « regarde » le curseur, de quelques degrés.
+    const p = pointer.current;
+    tilt.current.x = lerp(tilt.current.x, p.y * p.tilt, k);
+    tilt.current.y = lerp(tilt.current.y, p.x * p.tilt, k);
     const camera = state.camera as THREE.PerspectiveCamera;
     const halfH = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * DISTANCE;
     const halfW = halfH * camera.aspect;
     const g = root.current;
     if (g) {
       g.position.set(c.x * halfW, c.y * halfH, 0);
-      g.scale.setScalar((c.size * Math.min(halfW, halfH)) / radius);
-      g.rotation.set(THREE.MathUtils.degToRad(c.rot[0]), THREE.MathUtils.degToRad(c.rot[1]), THREE.MathUtils.degToRad(c.rot[2]), 'YXZ');
+      g.scale.setScalar(Math.max((c.size * Math.min(halfW, halfH)) / radius, 0.00001));
+      g.visible = c.size > 0.005;
+      g.rotation.set(THREE.MathUtils.degToRad(c.rot[0] - tilt.current.x), THREE.MathUtils.degToRad(c.rot[1] + tilt.current.y), THREE.MathUtils.degToRad(c.rot[2]), 'YXZ');
     }
     // Axe du doigt : Z (repère glTF du modèle). Le solitaire recule, l'alliance avance.
     if (pieceA.current) {
@@ -209,17 +246,16 @@ function Ring({ url, target, reduced, lowQuality, onReady }: { url: string; targ
       pieceB.current.scale.setScalar(Math.max(c.b, 0.0001));
       pieceB.current.visible = c.b > 0.01;
     }
-    metalMat.color.copy(c.color);
-    metalMat.roughness = c.roughness;
+    for (const m of metals.current) {
+      m.color.copy(c.color);
+      m.roughness = c.roughness;
+    }
     const moving =
       Math.abs(c.x - t.x) + Math.abs(c.y - t.y) + Math.abs(c.size - t.size) + Math.abs(c.split - t.split) / 20 + Math.abs(c.a - t.a) + Math.abs(c.b - t.b) > 0.0005 ||
       Math.abs(c.rot[0] - t.rot[0]) + Math.abs(c.rot[1] - t.rot[1]) + Math.abs(c.rot[2] - t.rot[2]) > 0.05 ||
+      Math.abs(tilt.current.x - p.y * p.tilt) + Math.abs(tilt.current.y - p.x * p.tilt) > 0.02 ||
       !c.color.equals(t.color);
     if (moving) invalidate();
-    if (!ready.current) {
-      ready.current = true;
-      onReady();
-    }
   });
 
   const piece = (id: 'A' | 'B') =>
@@ -227,52 +263,119 @@ function Ring({ url, target, reduced, lowQuality, onReady }: { url: string; targ
       .filter((p) => p.piece === id)
       .map((p) =>
         !p.gem ? (
-          <mesh key={p.name} geometry={p.geometry} material={metalMat} />
+          <mesh key={p.name} geometry={p.geometry}>
+            <meshPhysicalMaterial ref={collect} metalness={1} roughness={0.08} envMapIntensity={1.15} />
+          </mesh>
         ) : lowQuality ? (
           <mesh key={p.name} geometry={p.geometry} material={gemFallback} />
         ) : (
           <mesh key={p.name} geometry={p.geometry}>
-            <MeshRefractionMaterial envMap={env.gem} bounces={3} ior={2.42} fresnel={0.9} aberrationStrength={0.012} fastChroma toneMapped={false} />
+            <MeshRefractionMaterial envMap={studio.gem} bounces={3} ior={2.42} fresnel={0.9} aberrationStrength={0.012} fastChroma toneMapped={false} />
           </mesh>
         ),
       );
 
   return (
+    <group ref={root}>
+      <group ref={pieceA}>{piece('A')}</group>
+      <group ref={pieceB}>{piece('B')}</group>
+    </group>
+  );
+}
+
+function Scene({
+  url,
+  actors,
+  targets,
+  pointer,
+  reduced,
+  lowQuality,
+  onReady,
+}: {
+  url: string;
+  actors: StageActor[];
+  targets: MutableRefObject<Resolved[]>;
+  pointer: MutableRefObject<{ x: number; y: number; tilt: number }>;
+  reduced: boolean;
+  lowQuality: boolean;
+  onReady: () => void;
+}) {
+  const { parts, radius } = useRingParts(url);
+  const invalidate = useThree((s) => s.invalidate);
+  const size = useThree((s) => s.size);
+  const studio = useMemo(() => ({ metal: createStudioEnvironment(1024, 'metal'), gem: createStudioEnvironment(512, 'gem') }), []);
+  const gemFallback = useMemo(
+    () => new THREE.MeshStandardMaterial({ color: '#ffffff', metalness: 1, roughness: 0.02, envMap: studio.gem, envMapIntensity: 1.25, flatShading: true }),
+    [studio.gem],
+  );
+  const ready = useRef(false);
+  useEffect(() => invalidate(), [size, lowQuality, invalidate]);
+  useFrame(() => {
+    if (ready.current) return;
+    ready.current = true;
+    onReady();
+  });
+  return (
     <>
-      <Environment map={env.metal} environmentIntensity={1} />
-      <group ref={root}>
-        <group ref={pieceA}>{piece('A')}</group>
-        <group ref={pieceB}>{piece('B')}</group>
-      </group>
+      <Environment map={studio.metal} environmentIntensity={1} />
+      {actors.map((a, i) => (
+        <Actor key={a.id} index={i} parts={parts} radius={radius} targets={targets} pointer={pointer} reduced={reduced} lowQuality={lowQuality} studio={studio} gemFallback={gemFallback} />
+      ))}
     </>
   );
 }
 
+let webglSupport: boolean | undefined;
+function hasWebgl(): boolean {
+  if (webglSupport === undefined) {
+    const canvas = document.createElement('canvas');
+    webglSupport = !!(canvas.getContext('webgl2') ?? canvas.getContext('webgl'));
+  }
+  return webglSupport;
+}
+const noSubscription = () => () => {};
+
 export default function RingStage({
   url = '/models/ring-001/ring-001.glb',
   keys,
+  actors,
+  tilt = 0,
   className,
   fallback = null,
 }: {
   url?: string;
-  /** Poses dans l'ordre de la page ; au moins une. */
-  keys: StageKey[];
+  /** Un seul bijou : ses poses dans l'ordre de la page. */
+  keys?: StageKey[];
+  /** Plusieurs exemplaires du bijou, chacun avec ses poses (remplace `keys`). */
+  actors?: StageActor[];
+  /** Inclinaison maximale vers le pointeur de la souris, en degrés (0 : aucune). Ignorée sur écran tactile et en animations réduites. */
+  tilt?: number;
   className?: string;
   /** Affiché à la place de la scène quand WebGL n'est pas disponible. */
   fallback?: ReactNode;
 }) {
-  const [webgl, setWebgl] = useState<boolean | null>(null);
+  // Inconnu au rendu du serveur (null), puis détecté une fois dans le navigateur.
+  const webgl = useSyncExternalStore<boolean | null>(noSubscription, hasWebgl, () => null);
   const [ready, setReady] = useState(false);
   const [lowQuality, setLowQuality] = useState(false);
   const reduced = useMemo(() => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches, []);
+  const cast = useMemo<StageActor[]>(() => actors ?? [{ id: 'bijou', keys: keys ?? [] }], [actors, keys]);
   const invalidateRef = useRef<() => void>(() => {});
   const onChange = useMemo(() => () => invalidateRef.current(), []);
-  const target = useScrollTarget(keys, reduced, onChange);
+  const targets = useScrollTargets(cast, reduced, onChange);
+  const pointer = useRef({ x: 0, y: 0, tilt: 0 });
 
   useEffect(() => {
-    const canvas = document.createElement('canvas');
-    setWebgl(!!(canvas.getContext('webgl2') ?? canvas.getContext('webgl')));
-  }, []);
+    if (!tilt || reduced || !window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+    pointer.current.tilt = tilt;
+    const move = (e: PointerEvent) => {
+      pointer.current.x = (e.clientX / window.innerWidth) * 2 - 1;
+      pointer.current.y = (e.clientY / window.innerHeight) * 2 - 1;
+      invalidateRef.current();
+    };
+    window.addEventListener('pointermove', move, { passive: true });
+    return () => window.removeEventListener('pointermove', move);
+  }, [tilt, reduced]);
 
   // La scène remplit son conteneur (la page lui donne sa place : en général un bloc collant de la hauteur de l'écran).
   const fill = { width: '100%', height: '100%' } as const;
@@ -296,7 +399,7 @@ export default function RingStage({
       >
         <PerformanceMonitor bounds={() => [24, 50]} iterations={8} threshold={0.8} onDecline={() => setLowQuality(true)} />
         <Suspense fallback={null}>
-          <Ring url={url} target={target} reduced={reduced} lowQuality={lowQuality} onReady={() => setReady(true)} />
+          <Scene url={url} actors={cast} targets={targets} pointer={pointer} reduced={reduced} lowQuality={lowQuality} onReady={() => setReady(true)} />
         </Suspense>
       </Canvas>
     </div>

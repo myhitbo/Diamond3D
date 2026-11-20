@@ -23,53 +23,74 @@ const FALLBACK: Record<Family, string> = {
   platinum: '/images/rendus/ring-001-platine-cycles.webp',
 };
 
-/** Les quatre métaux sur une orbite : place (fraction de la demi-largeur), hauteur et taille de chaque bague. */
+/** Les quatre métaux sur une orbite : place (fractions de la demi-largeur et de la demi-hauteur) et taille de chaque bague. */
 const ORBIT = [
-  { x: -0.66, y: 0.16, size: 0.3 },
-  { x: -0.22, y: 0, size: 0.4 },
-  { x: 0.22, y: 0, size: 0.4 },
-  { x: 0.66, y: 0.16, size: 0.3 },
+  { x: -0.63, y: -0.09, size: 0.32 },
+  { x: -0.21, y: -0.19, size: 0.4 },
+  { x: 0.21, y: -0.19, size: 0.4 },
+  { x: 0.63, y: -0.09, size: 0.32 },
 ];
-const ORBIT_NARROW = [-0.72, -0.24, 0.24, 0.72];
+/** Sur téléphone : deux rangs de deux. */
+const ORBIT_NARROW = [
+  { x: -0.46, y: 0.25, size: 0.46 },
+  { x: 0.46, y: 0.25, size: 0.46 },
+  { x: -0.46, y: -0.37, size: 0.46 },
+  { x: 0.46, y: -0.37, size: 0.46 },
+];
 
 /**
- * Trajet. La bague est d'abord absente : seule la constellation des pierres est dessinée. Au défilement, la constellation
- * s'efface et la bague grandit au même endroit, vue de dessus, puis s'approche. Elle passe ensuite par quatre vues (les quatre
- * « étoiles » de la méthode), rejoint les trois autres métaux sur une orbite, s'éloigne comme une étoile pendant le manifeste et
- * revient au-dessus de l'horizon pour l'appel final.
+ * Trajet. En haut de page, la bague est déjà sous la constellation, vue de dessus, à l'échelle où ses dix-sept pierres tombent
+ * sur les dix-sept points ; la scène est transparente, puis apparaît pendant que les traits s'effacent (feuille de style). La
+ * bague se redresse ensuite vers la première fiche, passe par quatre vues, redevient un point, et les quatre métaux naissent de
+ * quatre étoiles sur une orbite. Elle revient au-dessus de l'horizon pour l'appel final.
+ *
+ * Les scènes tenues à l'écran (orbite, appel final) sont collantes : leurs poses sont accrochées à des repères d'un pixel placés
+ * dans la section, pas à la scène elle-même, dont la position suit l'écran.
  */
 function actorsFor(metals: VersionCopy['metals'], selected: number): StageActor[] {
   return metals.map((m, k) => {
     const metal = m.id;
     const pose = (p: Omit<StagePose, 'metal'>): StagePose => ({ ...p, metal });
-    const orbit: StageKey = {
-      anchor: 'b-orbite',
-      pose: pose({ x: ORBIT[k].x, y: ORBIT[k].y, size: ORBIT[k].size, rot: [24, -30 + (k - 1.5) * 14, 0] }),
-      narrow: { x: ORBIT_NARROW[k], y: ORBIT[k].y * 0.6, size: 0.2 },
-    };
-    if (k !== selected) {
-      const away = (anchor: string): StageKey => ({ anchor, pose: pose({ x: ORBIT[k].x * 2.6, y: 0.7, size: 0, rot: [24, -30, 0] }) });
-      return { id: m.family, keys: [away('b-etoile-4'), orbit, away('b-manifeste')] };
-    }
+    const key = (anchor: string, p: Omit<StagePose, 'metal'>, narrow?: Partial<StagePose>): StageKey => ({ anchor, pose: pose(p), narrow });
+    // Orbite : une étoile (taille 0) qui devient une bague, tenue, puis redevient une étoile. Le métal choisi est un peu plus grand.
+    const big = k === selected ? 1.1 : 1;
+    const slot = (anchor: string, scale: number) =>
+      key(
+        anchor,
+        { x: ORBIT[k].x, y: ORBIT[k].y, size: ORBIT[k].size * scale * big, rot: [24, -30 + (k - 1.5) * 14, 0] },
+        { x: ORBIT_NARROW[k].x, y: ORBIT_NARROW[k].y, size: ORBIT_NARROW[k].size * scale * big },
+      );
+    const orbit = [slot('b-orbite-debut', 0), slot('b-orbite', 1), slot('b-orbite-fin', 1), slot('b-orbite-sortie', 0)];
+    if (k !== selected) return { id: m.family, keys: orbit };
+    // Vue de dessus, à l'échelle de la constellation (voir `.constellation` : largeur en vmin / 63, ou / 61,5 sur téléphone).
+    const plan = { x: 0, y: 0, size: 1.09, rot: [90, 0, 0] as [number, number, number] };
     return {
       id: m.family,
       keys: [
-        { anchor: 'b-ciel', pose: pose({ x: 0, y: 0, size: 0, rot: [78, 0, 0] }) },
-        { anchor: 'b-approche', pose: pose({ x: 0.24, y: 0.04, size: 0.95, rot: [62, -18, 0] }), narrow: { x: 0, size: 0.95, y: 0.3 } },
-        { anchor: 'b-etoile-1', pose: pose({ x: -0.44, y: -0.02, size: 1.4, rot: [76, 12, 0] }), narrow: { x: 0, y: 0.42, size: 1.2 } },
-        { anchor: 'b-etoile-2', pose: pose({ x: -0.44, y: 0, size: 1.1, rot: [22, -42, 8] }), narrow: { x: 0, y: 0.44, size: 0.8 } },
-        { anchor: 'b-etoile-3', pose: pose({ x: -0.44, y: 0, size: 1.0, rot: [8, -88, 0] }), narrow: { x: 0, y: 0.44, size: 0.74 } },
-        { anchor: 'b-etoile-4', pose: pose({ x: -0.44, y: 0, size: 0.96, rot: [4, -6, 0] }), narrow: { x: 0, y: 0.44, size: 0.7 } },
-        orbit,
-        // Pendant le manifeste, la bague est hors de l'écran (elle ne croise pas le texte) ; elle revient pour l'appel final.
-        { anchor: 'b-manifeste', pose: pose({ x: 0.9, y: 1.6, size: 0.3, rot: [70, 30, 0] }) },
-        { anchor: 'b-fin-scene', pose: pose({ x: 0, y: 0.3, size: 0.6, rot: [22, -32, 0] }), narrow: { size: 0.7, y: 0.36 } },
+        key('b-ciel', plan, { size: 1.3 }),
+        key('b-ciel-fin', plan, { size: 1.3 }),
+        key('b-approche', { x: 0.24, y: 0.04, size: 0.95, rot: [62, -18, 0] }, { x: 0, y: 0.3, size: 0.95 }),
+        // Quatre vues : la marquise de dessus, le trois-quarts, le profil, l'anneau de face.
+        key('b-vue-1', { x: -0.44, y: -0.02, size: 1.4, rot: [76, 12, 0] }, { x: 0, y: 0.42, size: 1.2 }),
+        key('b-vue-2', { x: -0.44, y: -0.05, size: 1.02, rot: [22, -42, 8] }, { x: 0, y: 0.44, size: 0.8 }),
+        key('b-vue-3', { x: -0.44, y: 0, size: 1.0, rot: [8, -88, 0] }, { x: 0, y: 0.44, size: 0.74 }),
+        key('b-vue-4', { x: -0.44, y: 0, size: 0.96, rot: [4, -6, 0] }, { x: 0, y: 0.44, size: 0.7 }),
+        // Elle redevient un point là où elle se trouve, avant que le titre de l'orbite n'arrive.
+        key('b-orbite-seuil', { x: -0.44, y: 0, size: 0, rot: [4, -6, 0] }, { x: 0, y: 0.44, size: 0 }),
+        ...orbit,
+        // Appel final : elle grandit comme une étoile au-dessus de l'horizon pendant que la scène monte.
+        key('b-fin-seuil', { x: 0, y: 0.38, size: 0, rot: [22, -32, 0] }, { y: 0.36, size: 0 }),
+        key('b-fin-scene', { x: 0, y: 0.38, size: 0.6, rot: [22, -32, 0] }, { y: 0.36, size: 0.74 }),
       ],
     };
   });
 }
 
-/** Constellation : les pierres vues de dessus, reliées par pièce (l'alliance d'un bout à l'autre, le solitaire autour de la marquise). */
+/**
+ * Constellation : les pierres vues de dessus, reliées par pièce (l'alliance d'un bout à l'autre, le solitaire autour de la marquise).
+ * Le cadre est centré sur le centre du modèle (Y = −0,876 mm), que la scène 3D place au milieu de l'écran : chaque point tombe
+ * sur sa pierre.
+ */
 function Constellation({ stars }: { stars: Star[] }) {
   const lines = useMemo(() => {
     const chain = (list: Star[]) => [...list].sort((s1, s2) => s1.x - s2.x).map((s) => `${s.x},${-s.y}`);
@@ -80,7 +101,7 @@ function Constellation({ stars }: { stars: Star[] }) {
     return [chain(a), chain(left), chain(right)].filter((pts) => pts.length > 1).map((pts) => pts.join(' '));
   }, [stars]);
   return (
-    <svg className={styles.constellation} viewBox="-9 -4 18 10" aria-hidden="true" focusable="false">
+    <svg className={styles.constellation} viewBox="-9 -4.124 18 10" aria-hidden="true" focusable="false">
       {lines.map((points) => (
         <polyline key={points} points={points} pathLength={1} />
       ))}
@@ -154,7 +175,7 @@ export default function VersionB({ copy, rtl, stars }: { copy: VersionCopy; rtl:
         <div className={styles.stage}>
           <RingStage
             actors={actors}
-            tilt={5}
+            tilt={3}
             mirror={rtl}
             fallback={
               <div className={styles.fallback}>
@@ -166,8 +187,9 @@ export default function VersionB({ copy, rtl, stars }: { copy: VersionCopy; rtl:
 
         {/* ---------- 1. Le ciel : la constellation des dix-sept pierres ---------- */}
         <section className={styles.intro} aria-labelledby="b-title">
-          {/* Départ du trajet de la bague : le milieu du premier écran. */}
+          {/* Repères du trajet : le milieu du premier écran, puis la fin du fondu entre la constellation et la bague. */}
           <span id="b-ciel" className={styles.marker} aria-hidden="true" />
+          <span id="b-ciel-fin" className={styles.gate} style={{ top: '98svh' }} aria-hidden="true" />
           <div className={styles.introView}>
             <span className={styles.horizon} aria-hidden="true" />
             <Constellation stars={stars} />
@@ -183,17 +205,17 @@ export default function VersionB({ copy, rtl, stars }: { copy: VersionCopy; rtl:
           </div>
         </section>
 
-        {/* ---------- 2. L'approche : la constellation devient la bague ---------- */}
-        <section id="b-approche" className={styles.approach} aria-labelledby="b-model">
+        {/* ---------- 2. L'approche : la bague se redresse, la fiche du modèle se pose à côté ---------- */}
+        <section className={styles.approach} aria-labelledby="b-model">
+          <span id="b-approche" className={styles.vue} aria-hidden="true" />
           <div className={styles.card}>
             <p className={styles.kicker}>{copy.eyebrow}</p>
-            <h2 id="b-model" className={styles.h2}>
+            <h2 id="b-model" className={styles.h3}>
               {copy.model.name}
             </h2>
             <p className={styles.body}>{copy.model.description}</p>
             <p className={styles.body}>{copy.lede}</p>
-            <p className={styles.note}>{copy.ctaNote}</p>
-            <p className={styles.note}>{copy.liveNote}</p>
+            <p className={`${styles.note} ${styles.smallPrint}`}>{copy.liveNote}</p>
             <p className={styles.badge}>{copy.draft}</p>
           </div>
         </section>
@@ -212,6 +234,7 @@ export default function VersionB({ copy, rtl, stars }: { copy: VersionCopy; rtl:
           </nav>
           {copy.points.map((p, i) => (
             <article key={p.title} id={`b-etoile-${i + 1}`} className={styles.story}>
+              <span id={`b-vue-${i + 1}`} className={styles.vue} aria-hidden="true" />
               <div className={styles.card}>
                 <p className={styles.kicker}>
                   <span aria-hidden="true">{String(i + 1).padStart(2, '0')} / 04</span>
@@ -224,27 +247,34 @@ export default function VersionB({ copy, rtl, stars }: { copy: VersionCopy; rtl:
           ))}
         </section>
 
-        {/* ---------- 4. L'orbite : les quatre métaux ---------- */}
+        {/* ---------- 4. L'orbite : quatre étoiles deviennent les quatre métaux (scène tenue à l'écran) ---------- */}
         <section className={styles.orbit} aria-labelledby="b-orbit-title">
-          <h2 id="b-orbit-title" className={`${styles.h2} ${styles.centered}`}>
-            {copy.metalsTitle}
-          </h2>
-          <div id="b-orbite" className={styles.orbitScene} aria-hidden="true">
-            <span />
+          <span id="b-orbite-seuil" className={styles.gate} style={{ top: 0 }} aria-hidden="true" />
+          <span id="b-orbite-debut" className={styles.gate} style={{ top: '50svh' }} aria-hidden="true" />
+          <span id="b-orbite" className={styles.gate} style={{ top: '78svh' }} aria-hidden="true" />
+          <span id="b-orbite-fin" className={styles.gate} style={{ top: '125svh' }} aria-hidden="true" />
+          <span id="b-orbite-sortie" className={styles.gate} style={{ top: '150svh' }} aria-hidden="true" />
+          <div className={styles.orbitView}>
+            <span className={styles.orbitPath} aria-hidden="true" />
+            {/* Réticule sur le métal choisi (décoratif : le choix est porté par les boutons). */}
+            <span className={styles.reticle} data-slot={selected} aria-hidden="true" />
+            <h2 id="b-orbit-title" className={styles.orbitTitle}>
+              {copy.metalsTitle}
+            </h2>
+            <ul className={styles.orbitNames} aria-label={copy.metalLabel}>
+              {copy.metals.map((m, i) => (
+                <li key={m.family}>
+                  <button type="button" onClick={() => setSelected(i)} aria-pressed={i === selected}>
+                    {m.name}
+                  </button>
+                </li>
+              ))}
+            </ul>
           </div>
-          <ul className={styles.orbitNames}>
-            {copy.metals.map((m, i) => (
-              <li key={m.family}>
-                <button type="button" onClick={() => setSelected(i)} aria-pressed={i === selected}>
-                  {m.name}
-                </button>
-              </li>
-            ))}
-          </ul>
         </section>
 
-        {/* ---------- 5. Le manifeste : métaux, pierres, fabrication en images ---------- */}
-        <section id="b-manifeste" className={styles.manifesto} aria-labelledby="b-manifesto-title">
+        {/* ---------- 5. Le manifeste : fabrication en images (une intention), métaux et pierres, autres pages ---------- */}
+        <section className={styles.manifesto} aria-labelledby="b-manifesto-title">
           <h2 id="b-manifesto-title" className={styles.statement}>
             {copy.making}
           </h2>
@@ -268,17 +298,21 @@ export default function VersionB({ copy, rtl, stars }: { copy: VersionCopy; rtl:
           </ul>
         </section>
 
-        {/* ---------- 6. Le lever : appel final ---------- */}
+        {/* ---------- 6. Le lever : appel final, scène tenue à l'écran ---------- */}
         <section className={styles.final} aria-labelledby="b-final-title">
-          <div id="b-fin-scene" className={styles.finalScene} aria-hidden="true" />
-          <span className={styles.horizon} aria-hidden="true" />
-          <div className={styles.finalText}>
-            <h2 id="b-final-title" className={styles.finalTitle}>
-              {copy.finalTitle}
-            </h2>
-            <Link href={configure} className={styles.cta}>
-              {copy.cta}
-            </Link>
+          <span id="b-fin-seuil" className={styles.gate} style={{ top: '10svh' }} aria-hidden="true" />
+          <span id="b-fin-scene" className={styles.marker} aria-hidden="true" />
+          <div className={styles.finalView}>
+            <span className={styles.horizon} aria-hidden="true" />
+            <div className={styles.finalText}>
+              <h2 id="b-final-title" className={styles.finalTitle}>
+                {copy.finalTitle}
+              </h2>
+              <Link href={configure} className={styles.cta}>
+                {copy.cta}
+              </Link>
+              <p className={styles.finalNote}>{copy.ctaNote}</p>
+            </div>
           </div>
         </section>
       </main>

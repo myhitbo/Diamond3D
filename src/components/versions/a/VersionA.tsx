@@ -37,7 +37,8 @@ function actorsFor(metals: VersionCopy['metals'], selected: number): StageActor[
     const pose = (p: Omit<StagePose, 'metal'>): StagePose => ({ ...p, metal });
     const carousel: StageKey = {
       anchor: 'a-gamme',
-      pose: pose({ x: o * 0.64, y: 0.1 - Math.abs(o) * 0.03, size: o === 0 ? 0.66 : 0.3, rot: [20, -32 + o * 16, o * 5] }),
+      // Les voisines sont des silhouettes : seule la bague du milieu est en pleine lumière.
+      pose: pose({ x: o * 0.64, y: 0.1 - Math.abs(o) * 0.03, size: o === 0 ? 0.66 : 0.3, rot: [20, -32 + o * 16, o * 5], light: o === 0 ? 1 : 0.22 }),
       narrow: { x: o * 0.74, y: 0.16, size: o === 0 ? 0.62 : 0.3 },
     };
     const line: StageKey = {

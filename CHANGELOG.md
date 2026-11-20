@@ -1,5 +1,13 @@
 # Historique
 
+## 2026-11-20 — Trois versions de l'accueil, bague pilotée par le défilement
+
+- Demande du propriétaire : reprendre le système de quatre sites primés (Ciao Energy, Unique Jewelry, Maserati Trident Stars, Seed Jewelry) avec la bague, en trois versions.
+- Moteur commun : le modèle 3D réel suit le défilement (place, taille, rotation, métal, séparation du solitaire et de l'alliance), en gardant le défilement du navigateur.
+- Version A « Écrin », version B « Constellation », version C « Lumière » : `/fr/versions`.
+- Reflets adoucis (choix « doux » du propriétaire) dans le configurateur et dans les sept rendus Cycles.
+- Étude des sites de référence : `docs/versions/ETUDE_REFERENCES.md`.
+
 ## 2026-11-20 — Réalisme de la 3D et images photoréalistes
 
 - Demande du propriétaire : « la 3D fait trop fausse, trop cylindrique, trop carrée, pas de rondeur ni de reflets ».

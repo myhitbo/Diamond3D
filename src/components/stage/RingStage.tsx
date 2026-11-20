@@ -35,6 +35,8 @@ export type StagePose = {
   a?: number;
   b?: number;
   metal?: MetalId;
+  /** Éclairage du bijou : 1 = pleine lumière (par défaut), 0 = silhouette (reflets presque éteints). */
+  light?: number;
 };
 
 export type StageKey = {
@@ -73,6 +75,7 @@ function resolve(key: StageKey, narrow: boolean, mirror: boolean): Resolved {
     split: p.split ?? 0,
     a: p.a ?? 1,
     b: p.b ?? 1,
+    light: p.light ?? 1,
     color: new THREE.Color(metal.color),
     roughness: metal.roughness,
   };
@@ -86,6 +89,7 @@ function mix(a: Resolved, b: Resolved, t: number, out: Resolved) {
   out.split = lerp(a.split, b.split, t);
   out.a = lerp(a.a, b.a, t);
   out.b = lerp(a.b, b.b, t);
+  out.light = lerp(a.light, b.light, t);
   out.color.lerpColors(a.color, b.color, t);
   out.roughness = lerp(a.roughness, b.roughness, t);
 }
@@ -219,6 +223,12 @@ function Actor({
   const collect = (m: THREE.MeshPhysicalMaterial | null) => {
     if (m) metals.current.add(m);
   };
+  // Matériaux des pierres (réfraction) : leur teinte suit l'éclairage de la pose.
+  const gems = useRef(new Set<{ color: THREE.Color }>());
+  const collectGem = (m: unknown) => {
+    const material = m as { color?: THREE.Color } | null;
+    if (material?.color) gems.current.add(material as { color: THREE.Color });
+  };
   const root = useRef<THREE.Group>(null);
   const pieceA = useRef<THREE.Group>(null);
   const pieceB = useRef<THREE.Group>(null);
@@ -258,12 +268,15 @@ function Actor({
       pieceB.current.scale.setScalar(Math.max(c.b, 0.0001));
       pieceB.current.visible = c.b > 0.01;
     }
+    const lit = 0.1 + 0.9 * c.light;
     for (const m of metals.current) {
       m.color.copy(c.color);
       m.roughness = c.roughness;
+      m.envMapIntensity = 1.15 * lit;
     }
+    for (const m of gems.current) m.color.setScalar(lit);
     const moving =
-      Math.abs(c.x - t.x) + Math.abs(c.y - t.y) + Math.abs(c.size - t.size) + Math.abs(c.split - t.split) / 20 + Math.abs(c.a - t.a) + Math.abs(c.b - t.b) > 0.0005 ||
+      Math.abs(c.x - t.x) + Math.abs(c.y - t.y) + Math.abs(c.size - t.size) + Math.abs(c.split - t.split) / 20 + Math.abs(c.a - t.a) + Math.abs(c.b - t.b) + Math.abs(c.light - t.light) > 0.0005 ||
       Math.abs(c.rot[0] - t.rot[0]) + Math.abs(c.rot[1] - t.rot[1]) + Math.abs(c.rot[2] - t.rot[2]) > 0.05 ||
       Math.abs(tilt.current.x - p.y * p.tilt) + Math.abs(tilt.current.y - p.x * p.tilt) > 0.02 ||
       Math.abs(c.color.r - t.color.r) + Math.abs(c.color.g - t.color.g) + Math.abs(c.color.b - t.color.b) > 0.002;
@@ -284,7 +297,7 @@ function Actor({
           <mesh key={p.name} geometry={p.geometry} material={gemFallback} />
         ) : (
           <mesh key={p.name} geometry={p.geometry}>
-            <MeshRefractionMaterial envMap={studio.gem} bounces={3} ior={2.42} fresnel={0.9} aberrationStrength={0.012} fastChroma toneMapped={false} />
+            <MeshRefractionMaterial ref={collectGem} envMap={studio.gem} bounces={3} ior={2.42} fresnel={0.9} aberrationStrength={0.012} fastChroma toneMapped={false} />
           </mesh>
         ),
       );

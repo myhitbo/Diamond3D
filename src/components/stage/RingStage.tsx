@@ -223,11 +223,11 @@ function Actor({
   const collect = (m: THREE.MeshPhysicalMaterial | null) => {
     if (m) metals.current.add(m);
   };
-  // Matériaux des pierres (réfraction) : leur teinte suit l'éclairage de la pose.
-  const gems = useRef(new Set<{ color: THREE.Color }>());
-  const collectGem = (m: unknown) => {
-    const material = m as { color?: THREE.Color } | null;
-    if (material?.color) gems.current.add(material as { color: THREE.Color });
+  // Pierres : leur teinte suit l'éclairage de la pose. On garde les objets, pas les matériaux : le matériau de réfraction tient sa
+  // propre référence (lui en passer une autre l'empêche de fonctionner).
+  const gems = useRef(new Set<THREE.Mesh>());
+  const collectGem = (mesh: THREE.Mesh | null) => {
+    if (mesh) gems.current.add(mesh);
   };
   const root = useRef<THREE.Group>(null);
   const pieceA = useRef<THREE.Group>(null);
@@ -274,7 +274,7 @@ function Actor({
       m.roughness = c.roughness;
       m.envMapIntensity = 1.15 * lit;
     }
-    for (const m of gems.current) m.color.setScalar(lit);
+    for (const mesh of gems.current) (mesh.material as THREE.Material & { color?: THREE.Color }).color?.setScalar(lit);
     const moving =
       Math.abs(c.x - t.x) + Math.abs(c.y - t.y) + Math.abs(c.size - t.size) + Math.abs(c.split - t.split) / 20 + Math.abs(c.a - t.a) + Math.abs(c.b - t.b) + Math.abs(c.light - t.light) > 0.0005 ||
       Math.abs(c.rot[0] - t.rot[0]) + Math.abs(c.rot[1] - t.rot[1]) + Math.abs(c.rot[2] - t.rot[2]) > 0.05 ||
@@ -296,8 +296,8 @@ function Actor({
         ) : lowQuality ? (
           <mesh key={p.name} geometry={p.geometry} material={gemFallback} />
         ) : (
-          <mesh key={p.name} geometry={p.geometry}>
-            <MeshRefractionMaterial ref={collectGem} envMap={studio.gem} bounces={3} ior={2.42} fresnel={0.9} aberrationStrength={0.012} fastChroma toneMapped={false} />
+          <mesh key={p.name} ref={collectGem} geometry={p.geometry}>
+            <MeshRefractionMaterial envMap={studio.gem} bounces={3} ior={2.42} fresnel={0.9} aberrationStrength={0.012} fastChroma toneMapped={false} />
           </mesh>
         ),
       );

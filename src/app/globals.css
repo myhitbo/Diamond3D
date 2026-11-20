@@ -325,8 +325,8 @@ button {
   padding: 8px 0;
 }
 
-/* Tablette et téléphone : menu repliable, nom plus petit, langues compactes. */
-@media (max-width: 1080px) {
+/* Tablette et petit ordinateur : menu repliable (en dessous de 1 140 px, le menu en ligne déborderait sur le nom). */
+@media (max-width: 1140px) {
   .site-nav {
     display: none;
   }
@@ -360,6 +360,21 @@ button {
   .menu-label {
     /* Libellé « Menu » masqué sur téléphone : l'icône reste, le nom accessible aussi (aria-label du résumé). */
     display: none;
+  }
+  /* Colonnes à la taille de leur contenu sur les côtés : le nom se centre dans l'espace restant sans toucher aux langues. */
+  .header-row {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+  .wordmark {
+    justify-self: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .wordmark {
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    margin-right: -0.18em;
   }
 }
 

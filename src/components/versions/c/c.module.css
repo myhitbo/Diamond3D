@@ -693,6 +693,8 @@
 @media (max-width: 820px) {
   .root {
     --c-header: 64px;
+    /* Fond uni sur petit écran : le bandeau de la bague a exactement la couleur de la page (aucune couture). */
+    background: var(--c-bg);
   }
   .brand {
     font-size: 15px;
@@ -726,7 +728,7 @@
     z-index: 1;
     display: block;
     height: 54svh;
-    background: linear-gradient(180deg, var(--c-bg-light) 0%, var(--c-bg) 88%, transparent 100%);
+    background: linear-gradient(180deg, var(--c-bg) 0%, var(--c-bg) 88%, transparent 100%);
   }
   .panel .text {
     z-index: 0;

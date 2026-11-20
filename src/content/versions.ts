@@ -63,3 +63,53 @@ export const VERSIONS_UI: Record<Locale, { title: string; intro: string; open: s
     draft: 'טיוטה · גרסאות להשוואה, לא פורסמו · תרגום ממתין להגהה',
   },
 };
+
+/**
+ * Libellés communs aux versions, en plus des textes de l'accueil (`HOME`), du modèle (compositions) et du dictionnaire (métaux).
+ * Rien de nouveau n'est affirmé : `kickers` résume en deux ou trois mots chacun des quatre points de `HOME.points`, dans le même
+ * ordre (fichier de fabrication, délai, devis, mise à taille).
+ */
+export const STORY: Record<
+  Locale,
+  {
+    prevMetal: string;
+    nextMetal: string;
+    scrollHint: string;
+    kickers: [string, string, string, string];
+    compositionsTitle: string;
+    liveNote: string;
+    menu: string;
+    progress: string;
+  }
+> = {
+  fr: {
+    prevMetal: 'Métal précédent',
+    nextMetal: 'Métal suivant',
+    scrollHint: 'Faites défiler pour découvrir',
+    kickers: ['Fichier de fabrication', '14 jours ouvrés', 'Sur devis', 'Première année'],
+    compositionsTitle: 'Solitaire, alliance, ou les deux',
+    liveNote: 'Bague affichée en 3D en temps réel, à partir du fichier de fabrication. Les couleurs sont celles d’un écran.',
+    menu: 'Menu',
+    progress: 'Avancement dans la page',
+  },
+  en: {
+    prevMetal: 'Previous metal',
+    nextMetal: 'Next metal',
+    scrollHint: 'Scroll to discover',
+    kickers: ['Production file', '14 working days', 'On quote', 'First year'],
+    compositionsTitle: 'Solitaire, band, or both',
+    liveNote: 'Ring shown in real-time 3D, from the production file. Colours are those of a screen.',
+    menu: 'Menu',
+    progress: 'Progress through the page',
+  },
+  he: {
+    prevMetal: 'המתכת הקודמת',
+    nextMetal: 'המתכת הבאה',
+    scrollHint: 'גללו כדי לגלות',
+    kickers: ['קובץ הייצור', '14 ימי עבודה', 'הצעת מחיר', 'השנה הראשונה'],
+    compositionsTitle: 'סוליטר, טבעת נישואין, או שתיהן',
+    liveNote: 'הטבעת מוצגת בתלת־ממד בזמן אמת, מקובץ הייצור. הצבעים הם צבעי מסך.',
+    menu: 'תפריט',
+    progress: 'התקדמות בדף',
+  },
+};

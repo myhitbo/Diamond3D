@@ -60,10 +60,22 @@ const HOLD = 0.18;
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const smooth = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
 
-function resolve(key: StageKey, narrow: boolean): Resolved {
+/** `mirror` : mise en page de droite à gauche (hébreu) ; la scène est retournée horizontalement (place, lacet et roulis). */
+function resolve(key: StageKey, narrow: boolean, mirror: boolean): Resolved {
   const p = { ...key.pose, ...(narrow ? key.narrow : null) };
   const metal = METALS[p.metal ?? DEFAULT_METAL].render;
-  return { x: p.x, y: p.y, size: p.size, rot: p.rot, split: p.split ?? 0, a: p.a ?? 1, b: p.b ?? 1, color: new THREE.Color(metal.color), roughness: metal.roughness };
+  const m = mirror ? -1 : 1;
+  return {
+    x: p.x * m,
+    y: p.y,
+    size: p.size,
+    rot: [p.rot[0], p.rot[1] * m, p.rot[2] * m],
+    split: p.split ?? 0,
+    a: p.a ?? 1,
+    b: p.b ?? 1,
+    color: new THREE.Color(metal.color),
+    roughness: metal.roughness,
+  };
 }
 
 function mix(a: Resolved, b: Resolved, t: number, out: Resolved) {
@@ -81,8 +93,8 @@ function mix(a: Resolved, b: Resolved, t: number, out: Resolved) {
 const clonePose = (p: Resolved): Resolved => ({ ...p, rot: [...p.rot], color: p.color.clone() });
 
 /** Pose visée de chaque acteur d'après la position de défilement ; mise à jour à chaque défilement ou redimensionnement. */
-function useScrollTargets(actors: StageActor[], reduced: boolean, onChange: () => void): MutableRefObject<Resolved[]> {
-  const targets = useRef<Resolved[]>(actors.map((a) => resolve(a.keys[0], false)));
+function useScrollTargets(actors: StageActor[], mirror: boolean, reduced: boolean, onChange: () => void): MutableRefObject<Resolved[]> {
+  const targets = useRef<Resolved[]>(actors.map((a) => resolve(a.keys[0], false, mirror)));
   useEffect(() => {
     let frame = 0;
     const update = () => {
@@ -111,8 +123,8 @@ function useScrollTargets(actors: StageActor[], reduced: boolean, onChange: () =
         let t = to.y > from.y ? Math.min(Math.max((centre - from.y) / (to.y - from.y), 0), 1) : 0;
         // Réduction des animations : pas de glissement, la pose de la section la plus proche.
         t = reduced ? (t < 0.5 ? 0 : 1) : smooth(Math.min(Math.max((t - HOLD) / (1 - 2 * HOLD), 0), 1));
-        if (!targets.current[n]) targets.current[n] = resolve(actor.keys[0], narrow);
-        mix(resolve(from.key, narrow), resolve(to.key, narrow), t, targets.current[n]);
+        if (!targets.current[n]) targets.current[n] = resolve(actor.keys[0], narrow, mirror);
+        mix(resolve(from.key, narrow, mirror), resolve(to.key, narrow, mirror), t, targets.current[n]);
       });
       onChange();
     };
@@ -131,7 +143,7 @@ function useScrollTargets(actors: StageActor[], reduced: boolean, onChange: () =
       window.removeEventListener('resize', schedule);
       observer.disconnect();
     };
-  }, [actors, reduced, onChange, targets]);
+  }, [actors, mirror, reduced, onChange, targets]);
   return targets;
 }
 
@@ -343,6 +355,7 @@ export default function RingStage({
   actors,
   tilt = 0,
   studio = 'dark',
+  mirror = false,
   className,
   fallback = null,
 }: {
@@ -353,6 +366,8 @@ export default function RingStage({
   actors?: StageActor[];
   /** Studio d'éclairage : sombre (fonds noirs, par défaut) ou clair (tente de lumière, pour les pages à fond clair). */
   studio?: 'dark' | 'light';
+  /** Retourne la scène horizontalement (pages de droite à gauche). */
+  mirror?: boolean;
   /** Inclinaison maximale vers le pointeur de la souris, en degrés (0 : aucune). Ignorée sur écran tactile et en animations réduites. */
   tilt?: number;
   className?: string;
@@ -367,7 +382,7 @@ export default function RingStage({
   const cast = useMemo<StageActor[]>(() => actors ?? [{ id: 'bijou', keys: keys ?? [] }], [actors, keys]);
   const invalidateRef = useRef<() => void>(() => {});
   const onChange = useMemo(() => () => invalidateRef.current(), []);
-  const targets = useScrollTargets(cast, reduced, onChange);
+  const targets = useScrollTargets(cast, mirror, reduced, onChange);
   const pointer = useRef({ x: 0, y: 0, tilt: 0 });
 
   useEffect(() => {

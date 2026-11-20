@@ -61,7 +61,10 @@ Pièges rencontrés (à ne pas refaire) :
   sans hauteur à la fin de la liste.
 - Les tests unitaires (`npm test`) doivent être relancés après l'ajout de pages : deux étaient cassés depuis l'ajout des versions.
 
+Tests sur le commit final (20/11, 21 h UTC) : 116 unitaires ; Chromium 296 passés, 3 ignorés, 1 échec de délai sous charge
+(le diagnostic ; il passe seul) ; WebKit iPhone, iPad et Firefox : 362 passés, 55 ignorés, aucun échec. Les versions sont aussi
+jouées dans Firefox (sans WebGL : image fixe au premier écran seulement).
+
 Reste :
-1. Suites complètes de tests (Chromium, puis WebKit et Firefox) sur le dernier commit.
-2. Pousser sur `main` (toute autorisation donnée par le propriétaire), vérifier le déploiement Vercel et les trois adresses.
-3. Message au propriétaire : trois liens, captures, ce qui reste perfectible ; désactiver la tâche planifiée « Reprise automatique JR Diamond ».
+1. Pousser sur `main` (toute autorisation donnée par le propriétaire), vérifier le déploiement Vercel et les trois adresses.
+2. Message au propriétaire : trois liens, captures, ce qui reste perfectible ; désactiver la tâche planifiée « Reprise automatique JR Diamond ».

@@ -290,9 +290,11 @@ function Scene({
   pointer,
   reduced,
   lowQuality,
+  tone,
   onReady,
 }: {
   url: string;
+  tone: 'dark' | 'light';
   actors: StageActor[];
   targets: MutableRefObject<Resolved[]>;
   pointer: MutableRefObject<{ x: number; y: number; tilt: number }>;
@@ -303,7 +305,7 @@ function Scene({
   const { parts, radius } = useRingParts(url);
   const invalidate = useThree((s) => s.invalidate);
   const size = useThree((s) => s.size);
-  const studio = useMemo(() => ({ metal: createStudioEnvironment(1024, 'metal'), gem: createStudioEnvironment(512, 'gem') }), []);
+  const studio = useMemo(() => ({ metal: createStudioEnvironment(1024, 'metal', tone), gem: createStudioEnvironment(512, 'gem') }), [tone]);
   const gemFallback = useMemo(
     () => new THREE.MeshStandardMaterial({ color: '#ffffff', metalness: 1, roughness: 0.02, envMap: studio.gem, envMapIntensity: 1.25, flatShading: true }),
     [studio.gem],
@@ -340,6 +342,7 @@ export default function RingStage({
   keys,
   actors,
   tilt = 0,
+  studio = 'dark',
   className,
   fallback = null,
 }: {
@@ -348,6 +351,8 @@ export default function RingStage({
   keys?: StageKey[];
   /** Plusieurs exemplaires du bijou, chacun avec ses poses (remplace `keys`). */
   actors?: StageActor[];
+  /** Studio d'éclairage : sombre (fonds noirs, par défaut) ou clair (tente de lumière, pour les pages à fond clair). */
+  studio?: 'dark' | 'light';
   /** Inclinaison maximale vers le pointeur de la souris, en degrés (0 : aucune). Ignorée sur écran tactile et en animations réduites. */
   tilt?: number;
   className?: string;
@@ -399,7 +404,7 @@ export default function RingStage({
       >
         <PerformanceMonitor bounds={() => [24, 50]} iterations={8} threshold={0.8} onDecline={() => setLowQuality(true)} />
         <Suspense fallback={null}>
-          <Scene url={url} actors={cast} targets={targets} pointer={pointer} reduced={reduced} lowQuality={lowQuality} onReady={() => setReady(true)} />
+          <Scene url={url} actors={cast} targets={targets} pointer={pointer} reduced={reduced} lowQuality={lowQuality} tone={studio} onReady={() => setReady(true)} />
         </Suspense>
       </Canvas>
     </div>

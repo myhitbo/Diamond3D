@@ -52,8 +52,21 @@ const smoothstep = (e0: number, e1: number, x: number) => {
   return t * t * (3 - 2 * t);
 };
 
-export function createStudioEnvironment(width = 1024, variant: 'metal' | 'gem' = 'metal'): THREE.DataTexture {
+/**
+ * Studio clair (pages à fond clair) : une tente de lumière, donc un fond lumineux, les mêmes grandes boîtes, et des « drapeaux »
+ * noirs (les cartons noirs des photographes) qui dessinent les bords du métal. Sans eux, un métal poli dans une tente blanche
+ * est uniformément clair et perd son volume.
+ */
+const FLAGS: { lon: number; lat: number; w: number; h: number; strength: number }[] = [
+  { lon: -105, lat: 5, w: 26, h: 120, strength: 0.9 },
+  { lon: 165, lat: 0, w: 34, h: 110, strength: 0.85 },
+  { lon: 85, lat: -35, w: 60, h: 30, strength: 0.7 },
+];
+
+export function createStudioEnvironment(width = 1024, variant: 'metal' | 'gem' = 'metal', tone: 'dark' | 'light' = 'dark'): THREE.DataTexture {
   const lights = variant === 'gem' ? [...STUDIO, ...GEM_STRIPS] : STUDIO;
+  // Les pierres gardent le studio sombre à bandes dans les deux cas : c'est le contraste qui les fait briller.
+  const light = tone === 'light' && variant === 'metal';
   const height = width / 2;
   // Demi-flottants : filtrage linéaire garanti en WebGL2, y compris sur iOS (le Float32 ne l'est pas).
   const data = new Uint16Array(width * height * 4);
@@ -64,7 +77,8 @@ export function createStudioEnvironment(width = 1024, variant: 'metal' | 'gem' =
     // Fond presque noir, sol à peine plus clair (le bijou s'y reflète par-dessous) et fine ligne d'horizon.
     const floor = lat < 0 ? 0.16 * smoothstep(0, -40, lat) : 0;
     const horizon = 0.12 * Math.exp(-((lat / 5) ** 2));
-    const base = 0.05 + floor + horizon;
+    const sinLat = Math.sin((lat * Math.PI) / 180);
+    const base = light ? 0.95 + 0.45 * Math.max(sinLat, 0) - 0.35 * Math.max(-sinLat, 0) : 0.05 + floor + horizon;
     for (let x = 0; x < width; x++) {
       const lon = (x / width) * 360 - 180;
       let r = base;
@@ -81,6 +95,20 @@ export function createStudioEnvironment(width = 1024, variant: 'metal' | 'gem' =
         r += k;
         g += k * (s.warm ? 0.88 : 0.985);
         b += k * (s.warm ? 0.72 : 0.96);
+      }
+      if (light) {
+        let keep = 1;
+        for (const f of FLAGS) {
+          let dl = Math.abs(lon - f.lon);
+          if (dl > 180) dl = 360 - dl;
+          const ax = dl / (f.w / 2);
+          const ay = Math.abs(lat - f.lat) / (f.h / 2);
+          if (ax >= 1 || ay >= 1) continue;
+          keep *= 1 - f.strength * smoothstep(1, 0.55, ax) * smoothstep(1, 0.55, ay);
+        }
+        r *= keep;
+        g *= keep;
+        b *= keep;
       }
       if (variant === 'gem' && lat > 50) {
         // Couronne segmentée au zénith (comme un éclairage annulaire) : vue de dessus, la pierre renvoie surtout la lumière

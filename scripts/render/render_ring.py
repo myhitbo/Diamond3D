@@ -1,18 +1,21 @@
 """Rendus photoréalistes (Blender Cycles) du modèle réel, pour les images du site.
 
-Le modèle est celui du configurateur avant simplification : maillage de rendu du fichier de fabrication (Ring.3dm), avec les
-retouches web demandées par l'atelier (griffes rabattues, « 8 » supprimés). Aucune pièce n'est ajoutée ni redessinée. Comme
-dans KeyShot ou Matrix, les arêtes vives de la CAO sont adoucies au rendu seulement (nœud Bevel, rayon de l'ordre d'un
-polissage) : la géométrie n'est pas modifiée.
+Le modèle rendu est celui du configurateur (`public/models/ring-001/ring-001.glb`, décompressé par
+`scripts/render/decode-web-glb.mjs`) : maillage de rendu du fichier de fabrication (Ring.3dm), simplifié à 0,02 mm au plus,
+avec les retouches web demandées par l'atelier (griffes rabattues, « 8 » supprimés). Aucune pièce n'est ajoutée ni
+redessinée. Le maillage dense, retouché par les mêmes scripts, ne convient pas : la perle des deux griffes de pointe de la
+marquise y reste en l'air. Comme dans KeyShot ou Matrix, les arêtes vives de la CAO sont adoucies au rendu seulement (nœud
+Bevel, rayon de l'ordre d'un polissage) : la géométrie n'est pas modifiée.
 
-Prérequis : `pip install bpy==5.3.0` (Python 3.13, environnement séparé conseillé : la roue pèse 430 Mo), et le modèle
-dense retouché :
-  python -I pipeline/extract_3dm.py pipeline/recipes/ring-001.json --out-glb <dir>/ring-001.raw.glb --out-meta <dir>/geometry.json
-  python -I pipeline/web_retouch.py <dir>/ring-001.raw.glb pipeline/recipes/ring-001.json <dir>/edits.json
-  node scripts/models/apply-web-edits.mjs <dir>/ring-001.raw.glb <dir>/edits.json <dir>/ring-001.retouched.glb --no-compress
+Prérequis : `pip install bpy==5.3.0` (Python 3.13, environnement séparé conseillé : la roue pèse 430 Mo).
 
-Usage : python scripts/render/render_ring.py <modèle.glb> <dossier de sortie> [nom de vue…] [--samples N] [--scale S]
-Vues : voir SHOTS. Sortie : PNG RVBA (fond transparent, ombre portée conservée par un « attrapeur d'ombre »).
+Usage :
+  node scripts/render/decode-web-glb.mjs public/models/ring-001/ring-001.glb <dir>/ring-001.glb
+  python scripts/render/render_ring.py <dir>/ring-001.glb <dossier des PNG> [vue…] [--samples N] [--scale S]
+  node scripts/render/to-webp.mjs <dossier des PNG>
+Vues : voir SHOTS. Sortie : PNG RVBA (fond transparent, ombre portée conservée par un « attrapeur d'ombre »). Réglages du
+site : --samples 128, --scale 0,8 (premier écran, gros plan, solitaire) et 0,75 (les quatre métaux) ; 4 à 9 min par image
+sur 4 cœurs.
 """
 
 import math

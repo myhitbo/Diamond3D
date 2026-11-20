@@ -20,11 +20,11 @@ export const VERSIONS: Record<VersionId, { name: Trilingual; summary: Trilingual
     },
   },
   b: {
-    name: { fr: 'Version B · Nuit', en: 'Version B · Night', he: 'גרסה ב · לילה' },
+    name: { fr: 'Version B · Constellation', en: 'Version B · Constellation', he: 'גרסה ב · קונסטלציה' },
     summary: {
-      fr: 'Une mise en scène de nuit, lente et cinématographique : la bague dans un ciel d’éclats.',
-      en: 'A slow, cinematic night staging: the ring in a sky of sparks.',
-      he: 'בימוי לילי, איטי וקולנועי: הטבעת בשמי ניצוצות.',
+      fr: 'Une mise en scène de nuit : les dix-sept diamants de la bague forment une constellation, qui devient la bague en 3D au défilement.',
+      en: 'A night staging: the seventeen diamonds of the ring form a constellation, which becomes the 3D ring as you scroll.',
+      he: 'בימוי לילי: שבעה־עשר היהלומים של הטבעת יוצרים קונסטלציה, שהופכת לטבעת בתלת־ממד בזמן הגלילה.',
     },
   },
   c: {

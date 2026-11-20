@@ -266,8 +266,10 @@ function Actor({
       Math.abs(c.x - t.x) + Math.abs(c.y - t.y) + Math.abs(c.size - t.size) + Math.abs(c.split - t.split) / 20 + Math.abs(c.a - t.a) + Math.abs(c.b - t.b) > 0.0005 ||
       Math.abs(c.rot[0] - t.rot[0]) + Math.abs(c.rot[1] - t.rot[1]) + Math.abs(c.rot[2] - t.rot[2]) > 0.05 ||
       Math.abs(tilt.current.x - p.y * p.tilt) + Math.abs(tilt.current.y - p.x * p.tilt) > 0.02 ||
-      !c.color.equals(t.color);
+      Math.abs(c.color.r - t.color.r) + Math.abs(c.color.g - t.color.g) + Math.abs(c.color.b - t.color.b) > 0.002;
+    // Arrivé : la pose visée est prise telle quelle (un écart infime ne relance pas le rendu indéfiniment).
     if (moving) invalidate();
+    else c.color.copy(t.color);
   });
 
   const piece = (id: 'A' | 'B') =>

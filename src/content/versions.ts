@@ -80,6 +80,8 @@ export const STORY: Record<
     liveNote: string;
     menu: string;
     progress: string;
+    /** Nom de la navigation par points entre les sections de la page. */
+    sections: string;
   }
 > = {
   fr: {
@@ -91,6 +93,7 @@ export const STORY: Record<
     liveNote: 'Bague affichée en 3D en temps réel, à partir du fichier de fabrication. Les couleurs sont celles d’un écran.',
     menu: 'Menu',
     progress: 'Avancement dans la page',
+    sections: 'Sections de la page',
   },
   en: {
     prevMetal: 'Previous metal',
@@ -101,6 +104,7 @@ export const STORY: Record<
     liveNote: 'Ring shown in real-time 3D, from the production file. Colours are those of a screen.',
     menu: 'Menu',
     progress: 'Progress through the page',
+    sections: 'Page sections',
   },
   he: {
     prevMetal: 'המתכת הקודמת',
@@ -111,5 +115,6 @@ export const STORY: Record<
     liveNote: 'הטבעת מוצגת בתלת־ממד בזמן אמת, מקובץ הייצור. הצבעים הם צבעי מסך.',
     menu: 'תפריט',
     progress: 'התקדמות בדף',
+    sections: 'חלקי הדף',
   },
 };

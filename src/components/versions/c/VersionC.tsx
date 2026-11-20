@@ -43,7 +43,8 @@ function keysFor(metals: VersionCopy['metals'], selected: number, composition: s
     k('c-atelier-scene', { x: 0, y: 0.1, size: 0.74, rot: [20, -32, 0], metal: chosen, ...pieces }, { size: 0.74 }),
     // Elle descend sous l'écran pendant les textes, puis remonte : seul le haut de la bague dépasse sous l'appel final.
     k('c-faits', { x: 0, y: -2.5, size: 1.25, rot: [64, 0, 0], metal: chosen, ...pieces }),
-    k('c-fin-scene', { x: 0, y: -1.2, size: 1.25, rot: [64, 0, 0], metal: chosen, ...pieces }, { size: 1.5, y: -0.86 }),
+    // Appel final au milieu de l'écran : la bague occupe la moitié basse, sous le bouton.
+    k('c-fin', { x: 0, y: -0.56, size: 1.1, rot: [64, 0, 0], metal: chosen, ...pieces }, { size: 1.3, y: -0.5 }),
   ];
 }
 
@@ -101,7 +102,7 @@ export default function VersionC({ copy, rtl }: { copy: VersionCopy; rtl: boolea
       </header>
 
       {/* Points de navigation entre les sections (sur le côté). */}
-      <nav className={styles.dots} aria-label={copy.navLabel}>
+      <nav className={styles.dots} aria-label={copy.sectionsLabel}>
         {SECTIONS.map((s, i) => (
           <a key={s} href={`#${s}`} aria-current={i === section ? 'true' : undefined}>
             <span className="visually-hidden">{dots[i]}</span>
@@ -179,7 +180,8 @@ export default function VersionC({ copy, rtl }: { copy: VersionCopy; rtl: boolea
               <div className={styles.swatches}>
                 {copy.metals.map((m, i) => (
                   <label key={m.family} className={styles.swatch} data-metal={m.family}>
-                    <input type="radio" name="c-metal" checked={i === selected} onChange={() => setSelected(i)} />
+                    {/* Un seul arrêt de tabulation par groupe (le choix en cours) ; les flèches passent d'un choix à l'autre. */}
+                    <input type="radio" name="c-metal" checked={i === selected} tabIndex={i === selected ? 0 : -1} onChange={() => setSelected(i)} />
                     <span className={styles.swatchDot} aria-hidden="true" />
                     <span>{m.name}</span>
                   </label>
@@ -191,7 +193,7 @@ export default function VersionC({ copy, rtl }: { copy: VersionCopy; rtl: boolea
               <div className={styles.options}>
                 {copy.compositions.map((c) => (
                   <label key={c.id} className={styles.option}>
-                    <input type="radio" name="c-composition" checked={c.id === composition} onChange={() => setComposition(c.id)} />
+                    <input type="radio" name="c-composition" checked={c.id === composition} tabIndex={c.id === composition ? 0 : -1} onChange={() => setComposition(c.id)} />
                     <span>{c.name}</span>
                   </label>
                 ))}
@@ -248,7 +250,7 @@ export default function VersionC({ copy, rtl }: { copy: VersionCopy; rtl: boolea
               <span className={styles.ctaArrow} aria-hidden="true" />
             </Link>
           </p>
-          <div id="c-fin-scene" className={styles.finalScene} aria-hidden="true" />
+          <div className={styles.finalScene} aria-hidden="true" />
         </section>
       </main>
     </div>

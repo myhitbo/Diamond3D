@@ -20,6 +20,7 @@ export type VersionCopy = {
   configurator: string;
   navLabel: string;
   menu: string;
+  sectionsLabel: string;
   nav: { label: string; href: string }[];
   languages: { code: string; label: string; href: string; current: boolean }[];
   eyebrow: string;
@@ -63,6 +64,7 @@ export function versionCopy(locale: Locale, id: VersionId): VersionCopy {
     configurator: configuratorPath(locale),
     navLabel: t.navLabel,
     menu: story.menu,
+    sectionsLabel: story.sections,
     nav: [
       { label: t.navConfigurator, href: configuratorPath(locale) },
       { label: t.navTransformation, href: localizedPath(locale, '/transformation') },

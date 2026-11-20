@@ -73,6 +73,11 @@ const PAGES: { name: string; urls: Partial<Record<Locale, string>>; status?: num
   { name: 'déclaration d’accessibilité', urls: { fr: '/fr/accessibilite', en: '/en/accessibility', he: '/he/accessibility' } },
   { name: 'confidentialité', urls: { fr: '/fr/confidentialite', en: '/en/privacy', he: '/he/privacy' } },
   { name: '404', urls: { fr: '/fr/page-inexistante', en: '/en/page-inexistante', he: '/he/page-inexistante' }, status: 404 },
+  // Trois versions de l'accueil à comparer (bague 3D pilotée par le défilement ; sans WebGL, un rendu fixe la remplace).
+  { name: 'versions', urls: { fr: '/fr/versions', en: '/en/versions', he: '/he/versions' } },
+  { name: 'version A', urls: { fr: '/fr/versions/a', en: '/en/versions/a', he: '/he/versions/a' } },
+  { name: 'version B', urls: { fr: '/fr/versions/b', en: '/en/versions/b', he: '/he/versions/b' } },
+  { name: 'version C', urls: { fr: '/fr/versions/c', en: '/en/versions/c', he: '/he/versions/c' } },
 ];
 
 const CONFIGURATOR: Record<Locale, string> = { fr: '/fr/configurateur/ring-001', en: '/en/configurator/ring-001', he: '/he/configurator/ring-001' };

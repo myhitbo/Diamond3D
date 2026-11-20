@@ -1,7 +1,7 @@
 /*
- * Accueil « maison de joaillerie » : premier écran noir plein cadre, gros plan, galerie des métaux, bandeau émeraude, citation,
- * cartes, appel final. Contrastes : jetons de globals.css (--champagne, --on-noir-muted, --gold-fill, --foil sur --noir et
- * --emerald ; --gold-text et --muted sur l'ivoire). Les animations ne touchent que les images (pas l'opacité d'un texte, que
+ * Accueil « maison de joaillerie » : premier écran noir plein cadre, gros plan, galerie des métaux, métaux et pierres avec le
+ * solitaire, citation, cartes, appel final. Images : rendus photoréalistes du modèle de fabrication. Contrastes : jetons de
+ * globals.css (--champagne, --on-noir-muted, --gold-fill, --foil sur --noir ; --gold-text et --muted sur l'ivoire). Les animations ne touchent que les images (pas l'opacité d'un texte, que
  * les contrôles de contraste liraient à mi-course) et s'arrêtent avec « réduire les animations » (globals.css).
  */
 .home {
@@ -11,7 +11,7 @@
 /* Grain des fonds sombres. */
 .hero::before,
 .metals::before,
-.band::before,
+.quote::before,
 .final::before {
   content: '';
   position: absolute;
@@ -324,10 +324,6 @@
   background: var(--noir);
 }
 
-.band .ornament::after {
-  background: var(--emerald);
-}
-
 .h2 {
   margin: 0;
   font-family: var(--font-display);
@@ -520,76 +516,119 @@
   }
 }
 
-/* ---------- Métaux et pierres : bandeau émeraude ---------- */
-.band {
-  position: relative;
-  padding: clamp(80px, 10vw, 144px) clamp(16px, 5vw, 80px);
-  background: radial-gradient(ellipse 70% 80% at 50% 30%, var(--emerald-soft) 0%, var(--emerald) 70%);
-  color: var(--ivory);
-  isolation: isolate;
+/* ---------- Métaux et pierres : texte sur l'ivoire, solitaire sur fond noir ---------- */
+.materialsSection {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  background: var(--ivory);
+}
+
+.materialsText {
+  padding: clamp(64px, 8vw, 128px) clamp(16px, 6vw, 104px);
 }
 
 .materials {
   display: grid;
-  max-width: 1280px;
-  margin: 0 auto;
-  gap: 0;
-}
-
-@media (min-width: 640px) {
-  .materials {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-@media (min-width: 1040px) {
-  .materials {
-    grid-template-columns: repeat(4, 1fr);
-  }
+  margin: 0;
 }
 
 .materials > div {
-  padding: 32px clamp(16px, 2.4vw, 40px);
-  border-inline-start: 1px solid rgba(217, 192, 143, 0.28);
+  display: grid;
+  grid-template-columns: minmax(120px, 0.4fr) 1fr;
+  gap: 8px 24px;
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+}
+
+.materials > div:last-child {
+  border-bottom: 1px solid var(--line);
 }
 
 .materials dt {
-  margin-bottom: 18px;
-  font-size: 12px;
-  letter-spacing: 0.32em;
+  padding-top: 5px;
+  font-size: 11.5px;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--champagne);
+  color: var(--gold-text);
 }
 
 .materials dd {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 21px;
   line-height: 1.5;
-  color: var(--ivory);
+  color: var(--ink);
 }
 
-/* ---------- Citation ---------- */
+.solitaire {
+  position: relative;
+  min-height: 560px;
+  margin: 0;
+  background: radial-gradient(ellipse 65% 55% at 50% 48%, #2a2216 0%, var(--noir) 75%);
+  overflow: hidden;
+}
+
+.solitaire img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 6%;
+}
+
+.solitaire figcaption {
+  position: absolute;
+  inset: auto 0 0;
+  padding: 40px 16px 22px;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-align: center;
+  color: var(--on-noir-muted);
+}
+
+@media (max-width: 1000px) {
+  .materialsSection {
+    grid-template-columns: 1fr;
+  }
+  .solitaire {
+    min-height: 0;
+    aspect-ratio: 1;
+  }
+}
+
+@media (max-width: 520px) {
+  .materials > div {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Citation : la fabrication en images (une intention), en or sur le noir ---------- */
 .quote {
   position: relative;
-  padding: clamp(88px, 11vw, 160px) clamp(16px, 6vw, 96px);
-  background: var(--ivory);
+  padding: clamp(96px, 12vw, 176px) clamp(16px, 6vw, 96px);
+  background: radial-gradient(ellipse 60% 70% at 50% 50%, #1f1a12 0%, var(--noir) 75%);
   text-align: center;
+  isolation: isolate;
 }
 
 .quote .ornament {
   display: block;
-  margin: 0 auto 40px;
+  margin: 0 auto 44px;
 }
 
 .quote p {
-  max-width: 22em;
+  max-width: 21em;
   margin: 0 auto;
   font-family: var(--font-display);
   font-style: italic;
-  font-size: clamp(28px, 3.6vw, 50px);
+  font-size: clamp(30px, 3.8vw, 54px);
   line-height: 1.25;
-  color: var(--ink);
+}
+
+/* La section suivante (ivoire) reprend après la citation. */
+.quote + .section {
+  padding-top: clamp(88px, 11vw, 150px);
 }
 
 /* ---------- Aussi sur le site ---------- */

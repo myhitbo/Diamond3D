@@ -1,5 +1,13 @@
 # Historique
 
+## 2026-11-20 — Réalisme de la 3D et images photoréalistes
+
+- Demande du propriétaire : « la 3D fait trop fausse, trop cylindrique, trop carrée, pas de rondeur ni de reflets ».
+- Configurateur : nouveau studio d'éclairage (fond presque noir, boîtes à lumière dégradées, bandes et points vifs) et métaux polis (rugosité 0,05). L'or reflète enfin des lumières et des ombres au lieu d'un fond clair uniforme.
+- Images de l'accueil : rendus photoréalistes Blender Cycles du modèle de fabrication (arêtes adoucies au rendu, diamants avec dispersion), `scripts/render/`. Remplacent les captures du configurateur.
+- En-tête : bandeau de signature, monogramme centré, menu complet ; bouton « Menu » sur tablette et téléphone.
+- Accueil : « Métaux et pierres » avec le solitaire, citation en or sur noir ; le bandeau émeraude est retiré.
+
 ## 2026-11-20 — Refonte visuelle, seconde version
 
 - Demande du propriétaire : la première refonte était « simple et fade, aucun sentiment de luxe ».

@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import Monogram from './Monogram';
+import { isGuideLocale } from '@/content/guides/types';
 import { DICTIONARIES } from '@/i18n/dictionaries';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
-import { accessibilityPath, homePath, localizedPath } from '@/lib/routes';
+import { accessibilityPath, configuratorPath, homePath, localizedPath } from '@/lib/routes';
 
 const LOCALE_LABELS: Record<Locale, string> = { fr: 'FR', en: 'EN', he: 'עב' };
 
@@ -27,6 +28,18 @@ export default function SiteHeader({
   hrefs?: Partial<Record<Locale, string>>;
 }) {
   const t = DICTIONARIES[locale];
+  // Pages principales. Lien de la page affichée : `aria-current="page"` ; les guides n'existent qu'en français et en anglais.
+  const links = [
+    { href: configuratorPath(locale), label: t.navConfigurator, current: path.startsWith('/configurateur/') },
+    { href: localizedPath(locale, '/transformation'), label: t.navTransformation, current: path === '/transformation' },
+    ...(isGuideLocale(locale) ? [{ href: localizedPath(locale, '/guides'), label: t.navGuides, current: path === '/guides' }] : []),
+    { href: localizedPath(locale, '/faq'), label: t.navFaq, current: path === '/faq' },
+  ];
+  const items = links.map((l) => (
+    <Link key={l.href} href={l.href} aria-current={l.current ? 'page' : undefined}>
+      {l.label}
+    </Link>
+  ));
   return (
     <header className="site-header">
       {/* Liens d'évitement : premiers éléments au clavier, visibles seulement quand ils ont le focus. Le second est l'un des deux
@@ -35,21 +48,29 @@ export default function SiteHeader({
         <a href={`#${MAIN_ID}`}>{t.skipToContent}</a>
         <Link href={accessibilityPath(locale)}>{t.navAccessibility}</Link>
       </div>
-      {/* Le mot-symbole mène à l'accueil de la langue courante. */}
-      <Link href={homePath(locale)} className="wordmark" aria-current={path === '/' ? 'page' : undefined}>
-        <Monogram />
-        JR Diamond
-      </Link>
-      <p className="tagline">{t.brandTagline}</p>
-      <div className="site-nav">
-        <nav aria-label={t.navLabel}>
-          {/* Libellé long sur ordinateur, court sur mobile (sinon il passe sur deux lignes). Le libellé masqué (display: none) sort
-              aussi de l'arbre d'accessibilité : le nom du lien est toujours le texte affiché (WCAG 2.5.3, « FAQ » sur mobile). */}
-          <Link href={localizedPath(locale, '/faq')} aria-current={path === '/faq' ? 'page' : undefined}>
-            <span className="nav-long">{t.navFaq}</span>
-            <span className="nav-short">{t.navFaqShort}</span>
-          </Link>
+      <p className="topbar">{t.brandTagline}</p>
+      <div className="header-row">
+        {/* Ordinateur : menu en ligne. Tablette et téléphone : bouton « Menu » (élément details, sans JavaScript). Un seul des
+            deux est affiché ; l'autre (display: none) sort aussi de l'arbre d'accessibilité. */}
+        <nav className="site-nav" aria-label={t.navLabel}>
+          {items}
         </nav>
+        <details className="menu">
+          <summary aria-label={t.navMenu}>
+            <span className="menu-icon" aria-hidden="true" />
+            <span className="menu-label" aria-hidden="true">
+              {t.navMenu}
+            </span>
+          </summary>
+          <nav className="menu-panel" aria-label={t.navLabel}>
+            {items}
+          </nav>
+        </details>
+        {/* Le mot-symbole mène à l'accueil de la langue courante. */}
+        <Link href={homePath(locale)} className="wordmark" aria-current={path === '/' ? 'page' : undefined}>
+          <Monogram />
+          JR Diamond
+        </Link>
         {/* Langue courante : `aria-current="page"` quand son lien mène à la page affichée ; sur une page sans adresse propre (404,
             `path` vide), il mène à l'accueil : `aria-current="true"` signale la langue active sans annoncer « page actuelle ». */}
         <nav className="lang" aria-label="Langue / Language">

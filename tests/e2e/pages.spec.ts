@@ -21,7 +21,7 @@ test('accueil : « / » mène à /fr, appel vers le configurateur, retour par le
   const render = page.getByRole('img', { name: /Ensemble marquise en or jaune/ });
   await expect(render).toBeVisible();
   expect(await render.evaluate((img: HTMLImageElement) => img.complete && img.naturalWidth > 0)).toBe(true);
-  await expect(page.getByText(/un rendu 3D, pas une photo/)).toBeVisible();
+  await expect(page.getByText(/une image 3D photoréaliste, pas une photo/)).toBeVisible();
   // Liens du corps de page : transformation, guides, FAQ.
   const main = page.getByRole('main');
   await expect(main.getByRole('link', { name: /Transformer un bijou de famille/ })).toHaveAttribute('href', '/fr/transformation');

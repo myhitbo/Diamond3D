@@ -173,14 +173,26 @@ test('pierres sur demande en hébreu', async ({ page }) => {
 test('en-tête : aucun lien sur deux lignes', async ({ page }) => {
   for (const locale of ['fr', 'en', 'he']) {
     await page.goto(`/${locale}/configurateur/ring-001`);
-    const link = page.locator('.site-nav a').first();
-    const box = (await link.boundingBox())!;
-    expect(box.height, locale).toBeLessThan(30);
-    const header = (await page.locator('.site-header').boundingBox())!;
-    // Une seule rangée : environ 60 px sur téléphone, 80 px sur tablette et ordinateur (marges plus larges).
-    expect(header.height, locale).toBeLessThan(100);
-    // Nom accessible = texte affiché (WCAG 2.5.3) : libellé long sur ordinateur, court sur mobile.
-    await expect(link).toHaveAccessibleName(/^(Questions fréquentes|FAQ|שאלות נפוצות|שאלות)$/);
+    // Tablette et téléphone : menu replié derrière le bouton « Menu » (élément details).
+    const menu = page.locator('.site-header details.menu');
+    if (await menu.isVisible()) {
+      await menu.locator('summary').click();
+      await expect(menu).toHaveAttribute('open', '');
+    }
+    const links = page.locator('.site-header nav a:visible');
+    // Configurateur, bijou de famille, guides (sauf en hébreu), FAQ, puis les trois langues.
+    expect(await links.count(), locale).toBe(locale === 'he' ? 6 : 7);
+    // Une seule ligne par lien : hauteur du texte inférieure à 1,6 fois la taille de la police.
+    const lines = await links.evaluateAll((els) =>
+      els.map((e) => {
+        const cs = getComputedStyle(e);
+        const text = e.getBoundingClientRect().height - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - parseFloat(cs.borderBottomWidth);
+        return { name: e.textContent, ratio: text / parseFloat(cs.fontSize) };
+      }),
+    );
+    for (const l of lines) expect(l.ratio, `${locale} ${l.name}`).toBeLessThan(1.6);
+    // Nom accessible = texte affiché (WCAG 2.5.3).
+    await expect(links.first()).toHaveAccessibleName(/^(Configurateur|Configurator|עיצוב תכשיט)$/);
   }
 });
 

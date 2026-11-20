@@ -15,11 +15,13 @@ import styles from './home.module.css';
 type Params = Promise<{ locale: string }>;
 
 /**
- * Images : captures du vrai rendu 3D de ring-001 (configurateur), sur fond transparent, recadrées. Pas des photos : les légendes
- * le disent. À refaire si le modèle ou le rendu change : `scripts/perf/gallery-render.mjs public/images/rendus`.
+ * Images : rendus photoréalistes (Blender Cycles) du modèle de ring-001 avant simplification, avec les retouches web demandées
+ * par l'atelier, sur fond transparent. Pas des photos : les légendes le disent. À refaire si le modèle change :
+ * `scripts/render/render_ring.py` puis `scripts/render/to-webp.mjs`.
  */
-const HERO = { src: '/images/rendus/ring-001-hero.webp', width: 1800, height: 1500 };
-const DETAIL = { src: '/images/rendus/ring-001-marquise-detail.webp', width: 1400, height: 1000 };
+const HERO = { src: '/images/rendus/ring-001-hero.webp', width: 1600, height: 1280 };
+const DETAIL = { src: '/images/rendus/ring-001-marquise-detail.webp', width: 1440, height: 1040 };
+const SOLITAIRE = { src: '/images/rendus/ring-001-solitaire.webp', width: 1200, height: 1200 };
 const METAL_RENDERS: { metal: MetalId; src: string }[] = [
   { metal: 'yellow-gold-18k', src: '/images/rendus/ring-001-or-jaune.webp' },
   { metal: 'white-gold-18k', src: '/images/rendus/ring-001-or-blanc.webp' },
@@ -156,7 +158,7 @@ export default async function HomePage({ params }: { params: Params }) {
               return (
                 <li key={metal}>
                   <figure>
-                    <Image src={src} width={1000} height={1250} alt={`${c.setName}, ${name}`} sizes="(max-width: 640px) 50vw, 25vw" />
+                    <Image src={src} width={900} height={1125} alt={`${c.setName}, ${name}`} sizes="(max-width: 820px) 50vw, 25vw" />
                     <figcaption>{name}</figcaption>
                   </figure>
                 </li>
@@ -165,23 +167,31 @@ export default async function HomePage({ params }: { params: Params }) {
           </ul>
         </section>
 
-        {/* ---------- Métaux et pierres (bandeau émeraude) ---------- */}
-        <section className={`${styles.band} on-noir`} aria-labelledby="home-materials">
-          <SectionTitle id="home-materials">{c.materialsTitle}</SectionTitle>
-          <dl className={styles.materials}>
-            {c.materials.map((m) => (
-              <div key={m.term}>
-                <dt>{m.term}</dt>
-                <dd>{m.text}</dd>
-              </div>
-            ))}
-          </dl>
+        {/* ---------- Métaux et pierres : texte à gauche, solitaire à droite ---------- */}
+        <section className={styles.materialsSection} aria-labelledby="home-materials">
+          <div className={styles.materialsText}>
+            <SectionTitle id="home-materials" align="start">
+              {c.materialsTitle}
+            </SectionTitle>
+            <dl className={styles.materials}>
+              {c.materials.map((m) => (
+                <div key={m.term}>
+                  <dt>{m.term}</dt>
+                  <dd>{m.text}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <figure className={`${styles.solitaire} on-noir`}>
+            <Image src={SOLITAIRE.src} width={SOLITAIRE.width} height={SOLITAIRE.height} alt={c.solitaire.alt} sizes="(max-width: 1000px) 100vw, 50vw" />
+            <figcaption>{c.solitaire.caption}</figcaption>
+          </figure>
         </section>
 
         {/* ---------- Fabrication en images : une intention, pas un engagement ---------- */}
-        <div className={styles.quote}>
+        <div className={`${styles.quote} on-noir`}>
           <span className={styles.ornament} aria-hidden="true" />
-          <p>{c.making}</p>
+          <p className="foil">{c.making}</p>
         </div>
 
         {/* ---------- Aussi sur le site ---------- */}

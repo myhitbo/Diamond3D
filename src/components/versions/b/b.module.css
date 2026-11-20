@@ -220,7 +220,28 @@
   width: auto;
   max-width: 80vw;
   height: auto;
-  max-height: 62svh;
+  max-height: 44svh;
+}
+
+/* Sans WebGL, une image fixe remplace la bague. Elle n'accompagne pas le défilement (elle passerait sur les textes de toute la
+   page) : elle occupe la place de la bague dans le premier écran et part avec lui. */
+.stage:has(.fallback) {
+  position: absolute;
+  inset: 0 0 auto;
+}
+
+.stage:has(.fallback) + * {
+  margin-top: 0;
+}
+
+/* La scène n'apparaît plus au défilement (elle resterait invisible en haut de page) et la constellation, dessinée pour se poser
+   sur la bague en 3D, laisse la place à l'image. */
+.stage:has(.fallback) {
+  animation: none;
+}
+
+.root:has(.fallback) .constellation {
+  display: none;
 }
 
 .main {

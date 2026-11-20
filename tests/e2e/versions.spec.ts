@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Locator } from '@playwright/test';
 
 // Trois versions de l'accueil à comparer (`/fr/versions`) : la bague en 3D suit le défilement. Sans WebGL (Firefox sans écran de
 // cet environnement), un rendu fixe la remplace : les textes et les commandes sont testés dans tous les navigateurs.
@@ -75,6 +75,13 @@ test('version B : la constellation a une étoile par pierre du modèle (17)', as
   await expect(page.getByRole('main').getByRole('link', { name: 'Configurer une bague' }).first()).toHaveAttribute('href', '/fr/configurateur/ring-001?metal=rose-gold-18k');
 });
 
+// Sur écran étroit, le haut de l'écran est le bandeau de la bague et les choix défilent dessous : comme un utilisateur, on amène
+// le choix dans la fenêtre de lecture (bas de l'écran) avant de le toucher. Sans cela, WebKit clique sur le bandeau.
+async function pick(radio: Locator) {
+  await radio.evaluate((el) => el.scrollIntoView({ block: 'end' }));
+  await radio.check({ force: true });
+}
+
 test('version C : métal et composition choisis dans la page, repris par le configurateur', async ({ page }) => {
   await page.goto('/fr/versions/c');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Votre bague, vue en 3D, fabriquée à Ramat Gan');
@@ -87,7 +94,7 @@ test('version C : métal et composition choisis dans la page, repris par le conf
   await metals.getByRole('radio', { name: 'Or jaune' }).focus();
   await page.keyboard.press('ArrowRight');
   await expect(metals.getByRole('radio', { name: 'Or blanc' })).toBeChecked();
-  await compositions.getByRole('radio', { name: 'Solitaire' }).check({ force: true });
+  await pick(compositions.getByRole('radio', { name: 'Solitaire' }));
   await expect(page.getByText('La bague marquise seule.')).toBeVisible();
   for (const href of await page.getByRole('main').getByRole('link', { name: 'Configurer une bague' }).evaluateAll((els) => els.map((e) => e.getAttribute('href'))))
     expect(href).toBe('/fr/configurateur/ring-001?composition=solitaire&metal=white-gold-18k');
@@ -101,7 +108,7 @@ test('version C : chaque étape nomme le métal montré ; les points de navigati
   await expect(page.getByRole('heading', { level: 3 }).first()).toHaveText('Fichier de fabrication: Le modèle 3D vient du fichier de fabrication');
   for (const metal of ['Or blanc', 'Or rose', 'Platine', 'Or jaune']) await expect(page.getByText(`Métal · ${metal}`, { exact: true })).toHaveCount(1);
   // La dernière étape porte le métal choisi dans la page.
-  await page.getByRole('group', { name: 'Métal' }).getByRole('radio', { name: 'Platine' }).check({ force: true });
+  await pick(page.getByRole('group', { name: 'Métal' }).getByRole('radio', { name: 'Platine' }));
   await expect(page.getByText('Métal · Platine', { exact: true })).toHaveCount(2);
   // Points de navigation (écran large) : cinq liens nommés, le nom s'affiche au focus et se referme avec Échap.
   const dots = page.getByRole('navigation', { name: 'Sections de la page' });

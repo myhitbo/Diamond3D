@@ -307,7 +307,20 @@
   width: auto;
   max-width: 80vw;
   height: auto;
-  max-height: 62svh;
+  /* À la place de la bague du carrousel : au-dessus du socle, sous le titre. */
+  max-height: 50svh;
+  translate: 0 -6svh;
+}
+
+/* Sans WebGL, une image fixe remplace la bague. Elle n'accompagne pas le défilement (elle passerait sur les textes de toute la
+   page) : elle occupe la place de la bague dans le premier écran et part avec lui. */
+.stage:has(.fallback) {
+  position: absolute;
+  inset: 0 0 auto;
+}
+
+.stage:has(.fallback) + * {
+  margin-top: 0;
 }
 
 .main {
@@ -1194,6 +1207,18 @@
   .heroIntro {
     max-width: none;
     text-align: center;
+  }
+  .fallback img {
+    max-height: 38svh;
+    translate: 0 -1svh;
+  }
+  /* Sans WebGL, plus de bandeau réservé à la bague après le premier écran : les textes se suivent. */
+  .root:has(.fallback) :is(.panel, .point)::before {
+    display: none;
+  }
+  .root:has(.fallback) :is(.panel, .point) {
+    min-height: 0;
+    padding-top: 8svh;
   }
   .arrowPrev {
     inset-inline-start: 10px;

@@ -235,9 +235,26 @@
 
 .fallback img {
   width: auto;
-  max-width: 80vw;
+  max-width: 42vw;
   height: auto;
   max-height: 62svh;
+}
+
+/* Sans WebGL, une image fixe remplace la bague. Elle n'accompagne pas le défilement (elle passerait sur les textes de toute la
+   page) : elle occupe la place de la bague dans le premier écran et part avec lui. */
+.stage:has(.fallback) {
+  position: absolute;
+  inset: 0 0 auto;
+}
+
+.stage:has(.fallback) + * {
+  margin-top: 0;
+}
+
+/* À la place de la bague du premier écran : du côté opposé au texte (propriétés logiques : l'hébreu est en miroir). */
+.stage:has(.fallback) .fallback {
+  justify-items: start;
+  padding-inline-start: 6vw;
 }
 
 .main {
@@ -1109,6 +1126,20 @@
      clics : il empêche de toucher un contenu qu'il cache. */
   .stage {
     z-index: 2;
+  }
+  /* Sans WebGL : l'image dans le bandeau du premier écran. */
+  .stage:has(.fallback) .fallback {
+    align-items: start;
+    justify-items: center;
+    padding: calc(var(--c-header) + 12px) 0 0;
+  }
+  .fallback img {
+    max-width: 80vw;
+    max-height: calc(54svh - var(--c-header) - 28px);
+  }
+  /* Sans WebGL, plus de bandeau après le premier écran : le texte prend toute la hauteur. */
+  .root:has(.fallback) .band {
+    display: none;
   }
   .band {
     position: sticky;

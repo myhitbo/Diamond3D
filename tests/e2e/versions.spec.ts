@@ -94,6 +94,38 @@ test('version C : métal et composition choisis dans la page, repris par le conf
   await expect(page.getByRole('radio', { name: 'Solitaire' })).toHaveAttribute('aria-checked', 'true');
 });
 
+test('version C : chaque étape nomme le métal montré ; les points de navigation portent le nom des sections', async ({ page }) => {
+  await page.goto('/fr/versions/c');
+  // Le titre d'une étape : le libellé court, puis la phrase.
+  await expect(page.getByRole('heading', { level: 3 }).first()).toHaveText('Fichier de fabrication: Le modèle 3D vient du fichier de fabrication');
+  for (const metal of ['Or blanc', 'Or rose', 'Platine', 'Or jaune']) await expect(page.getByText(`Métal · ${metal}`, { exact: true })).toHaveCount(1);
+  // La dernière étape porte le métal choisi dans la page.
+  await page.getByRole('group', { name: 'Métal' }).getByRole('radio', { name: 'Platine' }).check({ force: true });
+  await expect(page.getByText('Métal · Platine', { exact: true })).toHaveCount(2);
+  // Points de navigation (écran large) : cinq liens nommés, le nom s'affiche au focus et se referme avec Échap.
+  const dots = page.getByRole('navigation', { name: 'Sections de la page' });
+  if (await dots.isVisible()) {
+    await expect(dots.getByRole('link')).toHaveCount(5);
+    const link = dots.getByRole('link', { name: 'Métaux et pierres' });
+    await link.focus();
+    await expect(dots).not.toHaveAttribute('data-quiet', '');
+    await page.keyboard.press('Escape');
+    await expect(dots).toHaveAttribute('data-quiet', '');
+  }
+});
+
+test('versions A et B : les quatre métaux restent nommés et choisis au clavier', async ({ page }) => {
+  for (const id of ['a', 'b']) {
+    await page.goto(`/fr/versions/${id}`);
+    for (const metal of ['Or jaune', 'Or blanc', 'Or rose', 'Platine']) await expect(page.getByRole('button', { name: metal, exact: true })).toHaveCount(1);
+    const platinum = page.getByRole('button', { name: 'Platine', exact: true });
+    await platinum.focus();
+    await page.keyboard.press('Enter');
+    await expect(platinum).toHaveAttribute('aria-pressed', 'true');
+    await expect(page.getByRole('main').getByRole('link', { name: 'Configurer une bague' }).first()).toHaveAttribute('href', '/fr/configurateur/ring-001?metal=platinum-950');
+  }
+});
+
 test('versions en hébreu : sens droite-à-gauche, sans les guides', async ({ page }) => {
   for (const id of ['a', 'b', 'c']) {
     await page.goto(`/he/versions/${id}`);

@@ -39,24 +39,29 @@ function keysFor(metals: VersionCopy['metals'], selected: number, composition: s
   const chosen = metals[selected].id;
   const pieces = { a: composition === 'band' ? 0 : 1, b: composition === 'solitaire' ? 0 : 1 };
   const k = (anchor: string, pose: StagePose, narrow?: Partial<StagePose>): StageKey => ({ anchor, pose, narrow });
-  const atelier: StagePose = { x: 0, y: 0.34, size: 0.8, rot: [58, -18, 0], metal: chosen, ...pieces };
+  // Valeurs de téléphone : la taille suit la largeur et le bandeau de la bague suit la hauteur. Les tailles conviennent à un
+  // téléphone courant (390 × 664 et plus) ; `maxH` les réduit sur un écran court pour que la bague reste entre l'en-tête et le
+  // bas du bandeau (contrôlé à 375 × 548).
+  const atelier: StagePose = { x: 0, y: 0.3, size: 0.64, rot: [58, -18, 0], metal: chosen, ...pieces };
+  const atelierNarrow = { y: 0.29, size: 0.95 };
   const final: StagePose = { x: 0, y: -0.74, size: 1.45, rot: [64, 0, 0], metal: chosen, ...pieces };
   return [
-    k('c-hero', { x: -0.53, y: -0.08, size: 1.3, rot: [60, 26, -16], metal: id('yellow') }, { x: 0, y: 0.35, size: 1.22 }),
-    k('c-m1', { x: 0.63, y: -0.04, size: 1.42, rot: [72, -14, 6], metal: id('white') }, { x: 0, y: 0.4, size: 1.35 }),
-    k('c-m2', { x: 0.6, y: -0.06, size: 1.3, rot: [54, 34, -12], metal: id('rose') }, { x: 0, y: 0.4, size: 1.3 }),
+    k('c-hero', { x: -0.53, y: -0.08, size: 1.3, rot: [60, 26, -16], metal: id('yellow') }, { x: 0, y: 0.3, size: 1.2, maxH: 0.7 }),
+    k('c-m1', { x: 0.68, y: -0.07, size: 1.42, rot: [72, -14, 6], metal: id('white') }, { x: 0, y: 0.27, size: 1.25, maxH: 0.75 }),
+    k('c-m2', { x: 0.62, y: -0.12, size: 1.3, rot: [54, 34, -12], metal: id('rose') }, { x: 0, y: 0.31, size: 1.1, maxH: 0.65 }),
     // Très gros plan de la page : les pierres, coupées par le bord de l'écran.
-    k('c-m3', { x: -0.75, y: -0.1, size: 1.7, rot: [76, 22, 14], metal: id('platinum') }, { x: 0, y: 0.35, size: 1.5 }),
-    k('c-m4', { x: -0.54, y: -0.02, size: 1.2, rot: [50, -36, 8], metal: chosen }, { x: 0, y: 0.4, size: 1.2 }),
-    k('c-atelier-pose', atelier, { y: 0.4, size: 1.2 }),
-    k('c-atelier-stay', atelier, { y: 0.4, size: 1.2 }),
-    k('c-atelier-exit', { ...atelier, y: 1.9 }, { size: 1.2 }),
+    k('c-m3', { x: -0.78, y: -0.18, size: 1.7, rot: [76, 22, 14], metal: id('platinum') }, { x: 0, y: 0.25, size: 1.3, maxH: 0.8 }),
+    k('c-m4', { x: -0.58, y: -0.08, size: 1.2, rot: [50, -36, 8], metal: chosen }, { x: 0, y: 0.31, size: 1.05, maxH: 0.62 }),
+    k('c-atelier-pose', atelier, atelierNarrow),
+    k('c-atelier-stay', atelier, atelierNarrow),
+    k('c-atelier-exit', { ...atelier, y: 1.9 }, { size: 0.95 }),
     k('c-faits-a', { ...atelier, y: 1.9, size: 0.001 }),
     k('c-faits-b', { ...final, y: -1.9, size: 0.001 }),
-    k('c-faits-c', { ...final, y: -1.9 }),
-    // Appel final : la bague monte après le titre et le bouton, et reste coupée par le bas de l'écran.
-    k('c-fin-scene', final, { y: -0.34 }),
-    k('c-fin-end', final, { y: -0.72 }),
+    // Elle attend sous l'écran jusqu'à la fin des cartes (repère placé après la liste : sur téléphone, les cartes empilées font plus
+    // d'un écran), puis monte après le titre et le bouton, et reste coupée par le bas de l'écran.
+    k('c-faits-c', { ...final, y: -1.9 }, { size: 1.25 }),
+    k('c-fin-scene', final, { y: -0.55, size: 1.25 }),
+    k('c-fin-end', final, { y: -0.7, size: 1.25 }),
   ];
 }
 
@@ -64,6 +69,8 @@ export default function VersionC({ copy, rtl }: { copy: VersionCopy; rtl: boolea
   const [selected, setSelected] = useState(0);
   const [composition, setComposition] = useState('set');
   const [section, setSection] = useState(0);
+  // Les noms des sections s'affichent au survol et au focus des points, par-dessus la page : Échap les referme (WCAG 1.4.13).
+  const [quiet, setQuiet] = useState(false);
   const metal = copy.metals[selected];
   const keys = useMemo(() => keysFor(copy.metals, selected, composition), [copy.metals, selected, composition]);
   // Le configurateur s'ouvre sur les choix faits ici (la configuration est dans l'adresse).
@@ -80,6 +87,14 @@ export default function VersionC({ copy, rtl }: { copy: VersionCopy; rtl: boolea
     );
     els.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setQuiet(true);
+    };
+    document.addEventListener('keydown', onKey);
+    return () => document.removeEventListener('keydown', onKey);
   }, []);
 
   const dots = [copy.eyebrow, copy.pointsTitle, copy.metalsTitle, copy.materialsTitle, copy.finalTitle];
@@ -114,9 +129,9 @@ export default function VersionC({ copy, rtl }: { copy: VersionCopy; rtl: boolea
       </header>
 
       {/* Points de navigation entre les sections (sur le côté). */}
-      <nav className={styles.dots} aria-label={copy.sectionsLabel}>
+      <nav className={styles.dots} aria-label={copy.sectionsLabel} data-quiet={quiet ? '' : undefined}>
         {SECTIONS.map((s, i) => (
-          <a key={s} href={`#${s}`} aria-current={i === section ? 'true' : undefined}>
+          <a key={s} href={`#${s}`} aria-current={i === section ? 'true' : undefined} onPointerEnter={() => setQuiet(false)} onFocus={() => setQuiet(false)}>
             <span className={styles.dotLabel}>{dots[i]}</span>
           </a>
         ))}
@@ -132,7 +147,7 @@ export default function VersionC({ copy, rtl }: { copy: VersionCopy; rtl: boolea
             mirror={rtl}
             fallback={
               <div className={styles.fallback}>
-                <Image src={FALLBACK[metal.family]} width={900} height={1125} alt={copy.fallbackAlt} sizes="(max-width: 820px) 80vw, 40vw" />
+                <Image src={FALLBACK[metal.family]} width={900} height={1125} alt={copy.fallbackAlt} sizes="(max-width: 820px) 80vw, (max-aspect-ratio: 5/6) 80vw, 40vw" />
               </div>
             }
           />
@@ -269,7 +284,7 @@ export default function VersionC({ copy, rtl }: { copy: VersionCopy; rtl: boolea
           <p id="c-faits-b" className={styles.quote}>
             {copy.making}
           </p>
-          <ul id="c-faits-c" className={styles.cards} aria-label={copy.moreTitle}>
+          <ul className={styles.cards} aria-label={copy.moreTitle}>
             {copy.more.map((c) => (
               <li key={c.href}>
                 <Link href={c.href} className={styles.card}>
@@ -280,6 +295,7 @@ export default function VersionC({ copy, rtl }: { copy: VersionCopy; rtl: boolea
               </li>
             ))}
           </ul>
+          <span id="c-faits-c" className={styles.finalEnd} aria-hidden="true" />
         </section>
 
         {/* ---------- 5. Appel final : la bague revient en grand, coupée par le bas de l'écran ---------- */}
@@ -293,6 +309,7 @@ export default function VersionC({ copy, rtl }: { copy: VersionCopy; rtl: boolea
               <span className={styles.ctaArrow} aria-hidden="true" />
             </Link>
           </p>
+          {/* La pose finale est accrochée à cet espace, pas à la section : la bague monte après le titre et le bouton. */}
           <div id="c-fin-scene" className={styles.finalScene} aria-hidden="true" />
           <span id="c-fin-end" className={styles.finalEnd} aria-hidden="true" />
         </section>

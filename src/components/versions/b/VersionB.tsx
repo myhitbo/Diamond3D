@@ -30,12 +30,12 @@ const ORBIT = [
   { x: 0.21, y: -0.19, size: 0.4 },
   { x: 0.63, y: -0.09, size: 0.32 },
 ];
-/** Sur téléphone : deux rangs de deux. */
-const ORBIT_NARROW = [
-  { x: -0.46, y: 0.25, size: 0.46 },
-  { x: 0.46, y: 0.25, size: 0.46 },
-  { x: -0.46, y: -0.37, size: 0.46 },
-  { x: 0.46, y: -0.37, size: 0.46 },
+/** Sur un écran en hauteur (téléphone, tablette debout) : deux rangs de deux. Un écran couché, même étroit, garde la rangée. */
+const ORBIT_UPRIGHT = [
+  { x: -0.46, y: 0.25, size: 0.42 },
+  { x: 0.46, y: 0.25, size: 0.42 },
+  { x: -0.46, y: -0.37, size: 0.42 },
+  { x: 0.46, y: -0.37, size: 0.42 },
 ];
 
 /**
@@ -51,24 +51,26 @@ function actorsFor(metals: VersionCopy['metals'], selected: number): StageActor[
   return metals.map((m, k) => {
     const metal = m.id;
     const pose = (p: Omit<StagePose, 'metal'>): StagePose => ({ ...p, metal });
-    const key = (anchor: string, p: Omit<StagePose, 'metal'>, narrow?: Partial<StagePose>): StageKey => ({ anchor, pose: pose(p), narrow });
+    const key = (anchor: string, p: Omit<StagePose, 'metal'>, narrow?: Partial<StagePose>, upright?: Partial<StagePose>): StageKey => ({ anchor, pose: pose(p), narrow, upright });
     // Orbite : une étoile (taille 0) qui devient une bague, tenue, puis redevient une étoile. Le métal choisi est un peu plus grand.
     const big = k === selected ? 1.1 : 1;
     const slot = (anchor: string, scale: number) =>
       key(
         anchor,
         { x: ORBIT[k].x, y: ORBIT[k].y, size: ORBIT[k].size * scale * big, rot: [24, -30 + (k - 1.5) * 14, 0] },
-        { x: ORBIT_NARROW[k].x, y: ORBIT_NARROW[k].y, size: ORBIT_NARROW[k].size * scale * big },
+        undefined,
+        { x: ORBIT_UPRIGHT[k].x, y: ORBIT_UPRIGHT[k].y, size: ORBIT_UPRIGHT[k].size * scale * big },
       );
     const orbit = [slot('b-orbite-debut', 0), slot('b-orbite', 1), slot('b-orbite-fin', 1), slot('b-orbite-sortie', 0)];
     if (k !== selected) return { id: m.family, keys: orbit };
-    // Vue de dessus, à l'échelle de la constellation (voir `.constellation` : largeur en vmin / 63, ou / 61,5 sur téléphone).
-    const plan = { x: 0, y: 0, size: 1.09, rot: [90, 0, 0] as [number, number, number] };
+    // Vue de dessus, à l'échelle de la constellation (voir `.constellation` : largeur en vmin / 66, ou / 64 sur téléphone ; le
+    // moteur mesure la bague sur le modèle publié, de rayon 14,95 mm).
+    const plan = { x: 0, y: 0, size: 1.04, rot: [90, 0, 0] as [number, number, number] };
     return {
       id: m.family,
       keys: [
-        key('b-ciel', plan, { size: 1.3 }),
-        key('b-ciel-fin', plan, { size: 1.3 }),
+        key('b-ciel', plan, { size: 1.25 }),
+        key('b-ciel-fin', plan, { size: 1.25 }),
         key('b-approche', { x: 0.24, y: 0.04, size: 0.95, rot: [62, -18, 0] }, { x: 0, y: 0.3, size: 0.95 }),
         // Quatre vues : la marquise de dessus, le trois-quarts, le profil, l'anneau de face.
         key('b-vue-1', { x: -0.44, y: -0.02, size: 1.4, rot: [76, 12, 0] }, { x: 0, y: 0.42, size: 1.2 }),
@@ -79,8 +81,8 @@ function actorsFor(metals: VersionCopy['metals'], selected: number): StageActor[
         key('b-orbite-seuil', { x: -0.44, y: 0, size: 0, rot: [4, -6, 0] }, { x: 0, y: 0.44, size: 0 }),
         ...orbit,
         // Appel final : elle grandit comme une étoile au-dessus de l'horizon pendant que la scène monte.
-        key('b-fin-seuil', { x: 0, y: 0.38, size: 0, rot: [22, -32, 0] }, { y: 0.36, size: 0 }),
-        key('b-fin-scene', { x: 0, y: 0.38, size: 0.6, rot: [22, -32, 0] }, { y: 0.36, size: 0.74 }),
+        key('b-fin-seuil', { x: 0, y: 0.3, size: 0, rot: [22, -32, 0] }, undefined, { y: 0.36 }),
+        key('b-fin-scene', { x: 0, y: 0.3, size: 0.54, rot: [22, -32, 0] }, undefined, { y: 0.36, size: 0.7 }),
       ],
     };
   });
@@ -175,11 +177,11 @@ export default function VersionB({ copy, rtl, stars }: { copy: VersionCopy; rtl:
         <div className={styles.stage}>
           <RingStage
             actors={actors}
-            tilt={3}
+            tilt={2}
             mirror={rtl}
             fallback={
               <div className={styles.fallback}>
-                <Image src={FALLBACK[metal.family]} width={900} height={1125} alt={copy.fallbackAlt} sizes="(max-width: 820px) 80vw, 40vw" />
+                <Image src={FALLBACK[metal.family]} width={900} height={1125} alt={copy.fallbackAlt} sizes="(max-width: 820px) 80vw, (max-aspect-ratio: 5/6) 80vw, 40vw" />
               </div>
             }
           />
@@ -250,10 +252,10 @@ export default function VersionB({ copy, rtl, stars }: { copy: VersionCopy; rtl:
         {/* ---------- 4. L'orbite : quatre étoiles deviennent les quatre métaux (scène tenue à l'écran) ---------- */}
         <section className={styles.orbit} aria-labelledby="b-orbit-title">
           <span id="b-orbite-seuil" className={styles.gate} style={{ top: 0 }} aria-hidden="true" />
-          <span id="b-orbite-debut" className={styles.gate} style={{ top: '50svh' }} aria-hidden="true" />
-          <span id="b-orbite" className={styles.gate} style={{ top: '78svh' }} aria-hidden="true" />
-          <span id="b-orbite-fin" className={styles.gate} style={{ top: '125svh' }} aria-hidden="true" />
-          <span id="b-orbite-sortie" className={styles.gate} style={{ top: '150svh' }} aria-hidden="true" />
+          <span id="b-orbite-debut" className={styles.gate} style={{ top: '28svh' }} aria-hidden="true" />
+          <span id="b-orbite" className={styles.gate} style={{ top: '56svh' }} aria-hidden="true" />
+          <span id="b-orbite-fin" className={styles.gate} style={{ top: '138svh' }} aria-hidden="true" />
+          <span id="b-orbite-sortie" className={styles.gate} style={{ top: '162svh' }} aria-hidden="true" />
           <div className={styles.orbitView}>
             <span className={styles.orbitPath} aria-hidden="true" />
             {/* Réticule sur le métal choisi (décoratif : le choix est porté par les boutons). */}

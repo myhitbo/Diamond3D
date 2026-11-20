@@ -326,7 +326,8 @@
 .heroIntro {
   position: relative;
   z-index: 2;
-  max-width: 420px;
+  /* La largeur suit la place laissée par la bague du milieu (420 px dès 1280 px de large, moins sur une tablette). */
+  max-width: clamp(240px, calc(50vw - 215px), 420px);
 }
 
 .eyebrow {
@@ -549,7 +550,8 @@
 .text {
   position: relative;
   z-index: 2;
-  max-width: 500px;
+  /* 40vw : sur un écran 4:3, la colonne s'arrête avant la bague. */
+  max-width: min(500px, 40vw);
 }
 
 .chip {
@@ -1072,7 +1074,7 @@
 }
 
 /* Grand écran : une lueur du métal derrière la bague, propre à chaque section (elle défile avec la section, la bague reste). */
-@media (min-width: 821px) {
+@media (min-width: 821px) and (min-aspect-ratio: 5/6) {
   .panel,
   .point {
     background: radial-gradient(circle at 73% 50%, color-mix(in srgb, var(--a-glow) 20%, transparent) 0%, color-mix(in srgb, var(--a-mid) 50%, transparent) 26%, transparent 54%);
@@ -1083,8 +1085,76 @@
   }
 }
 
-/* ---------- Écrans étroits : la bague en haut, le texte en bas ---------- */
-@media (max-width: 820px) {
+/* ---------- Tablette, ou écran large mais bas (téléphone tenu à l'horizontale) ---------- */
+/* Le nom ne touche plus le bouton « Menu » ; les deux légendes du carrousel retournent dans la fiche du modèle. */
+@media (min-width: 821px) and (max-width: 1100px), (min-width: 821px) and (max-height: 620px) {
+  .hudEnd :global(.menu-label) {
+    display: none;
+  }
+  .onlyNarrow {
+    display: block;
+  }
+  .badge.onlyNarrow {
+    display: inline-block;
+  }
+  .onlyWide {
+    display: none;
+  }
+}
+
+/* Écran large mais bas : les tailles de texte suivent la hauteur, pour que la bague ne passe ni sur le titre ni sur le nom du métal. */
+@media (min-width: 821px) and (max-height: 620px) {
+  .root {
+    --a-header: 56px;
+  }
+  .heroIntro {
+    max-width: 30vw;
+  }
+  .heroTitle {
+    font-size: 20px;
+  }
+  /* La bague, dimensionnée sur la hauteur, laisse moins de la moitié de la largeur au texte. */
+  .panel .text,
+  .point .text {
+    max-width: 42vw;
+  }
+  .metalName {
+    font-size: clamp(30px, 12svh, 116px);
+  }
+  .heroBase {
+    gap: 10px;
+  }
+  .scrollHint {
+    display: none;
+  }
+  .final {
+    gap: 16px;
+    padding-bottom: 6svh;
+  }
+  .finalTitle {
+    font-size: clamp(30px, 11svh, 132px);
+  }
+}
+
+/* ---------- Écrans en hauteur (téléphone, tablette debout) : la même condition que `upright` dans le moteur ---------- */
+/* Rangée en deux rangs de deux, un nom sous chaque bague. Les rangs sont à 25 et 58 % de la hauteur ; une bague fait 44 % de la
+   largeur, soit une demi-hauteur visible de 16 % de la largeur environ : le nom se place juste dessous, et le rang suivant ne le
+   recouvre pas (vérifié jusqu'à 375 × 548). La condition porte sur la forme de l'écran, pas sur sa largeur : couché, même étroit,
+   l'écran garde la rangée (deux rangs dimensionnés sur une faible hauteur recouvriraient les noms). */
+@media (max-aspect-ratio: 5/6) {
+  .rangeNames {
+    inset: calc(25svh + 17vw) 0 auto;
+    grid-template-columns: 1fr 1fr;
+    row-gap: calc(33svh - 44px);
+  }
+  .range .h2 {
+    inset-block-start: calc(58svh + 17vw + 56px);
+  }
+}
+
+/* ---------- Écrans étroits ou en hauteur (téléphone, tablette debout) : la bague en haut, le texte en bas ---------- */
+/* La même condition que la mise en page « étroite » du moteur. */
+@media (max-width: 820px), (max-aspect-ratio: 5/6) {
   .root {
     --a-header: 64px;
   }
@@ -1166,7 +1236,9 @@
   .panel .text,
   .point .text {
     z-index: 0;
-    max-width: none;
+    /* Pleine largeur sur téléphone ; colonne centrée sur une tablette debout (lignes de longueur lisible). */
+    max-width: 680px;
+    margin-inline: auto;
     padding: 4px 16px 12svh;
     animation: none;
   }
@@ -1192,18 +1264,9 @@
     height: 168px;
     inset-inline-end: 25.5px;
   }
-  /* Rangée : deux rangs de deux bagues, un nom sous chacune. */
-  .rangeNames {
-    inset: calc(27svh + 19vw) 4% auto;
-    grid-template-columns: 1fr 1fr;
-    row-gap: calc(29svh - 44px);
-  }
   .rangeNames button {
     font-size: 11px;
     letter-spacing: 0.14em;
-  }
-  .range .h2 {
-    inset-block-start: calc(56svh + 19vw + 60px);
   }
   .materials > div {
     grid-template-columns: 1fr;
@@ -1218,6 +1281,15 @@
   }
   .cards {
     grid-auto-flow: row;
+  }
+}
+
+/* Écran étroit mais couché (téléphone à l'horizontale, zoom à 200 %) : le titre du carrousel passe dans le coin, la bague garde le
+   centre (centré, le titre tenait sur une ligne que la bague croisait). */
+@media (max-width: 820px) and (min-aspect-ratio: 5/4) {
+  .heroIntro {
+    max-width: 30vw;
+    text-align: start;
   }
 }
 

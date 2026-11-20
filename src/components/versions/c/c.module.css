@@ -178,7 +178,6 @@
   background: var(--c-bg-light);
   border: 1px solid var(--c-line);
   clip-path: inset(0 0 0 100%);
-  pointer-events: none;
   transition: clip-path 0.25s ease;
 }
 
@@ -186,8 +185,31 @@
   clip-path: inset(0 100% 0 0);
 }
 
+/* Affiché : la découpe déborde de 12 px vers le point, où un pont transparent relie le nom au point (le pointeur peut passer de
+   l'un à l'autre sans que le nom se referme). */
 .dots a:is(:hover, :focus-visible) .dotLabel {
-  clip-path: inset(0);
+  clip-path: inset(0 -12px 0 0);
+}
+
+:global(html[dir='rtl']) .dots a:is(:hover, :focus-visible) .dotLabel {
+  clip-path: inset(0 0 0 -12px);
+}
+
+.dotLabel::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 100%;
+  width: 12px;
+}
+
+/* Refermé par la touche Échap, jusqu'au prochain survol ou focus d'un point. */
+.dots[data-quiet] a .dotLabel {
+  clip-path: inset(0 0 0 100%);
+}
+
+:global(html[dir='rtl']) .dots[data-quiet] a .dotLabel {
+  clip-path: inset(0 100% 0 0);
 }
 
 /* ---------- Scène 3D ---------- */
@@ -248,11 +270,12 @@
 .text {
   position: relative;
   z-index: 2;
-  max-width: 540px;
+  /* 40vw : sur un écran 4:3, la colonne s'arrête avant la bague. */
+  max-width: min(540px, 40vw);
 }
 
 .method .text {
-  max-width: 600px;
+  max-width: min(600px, 44vw);
 }
 
 .eyebrow,
@@ -450,11 +473,12 @@
   color: var(--c-bg-light);
 }
 
-/* Invitation à défiler, sous la colonne de texte ; elle s'efface (par découpe) dès que la page bouge. */
+/* Invitation à défiler, du côté de la bague (rien d'autre n'y descend, à aucune taille d'écran) ; elle s'efface (par découpe) dès
+   que la page bouge. */
 .scrollHint {
   position: absolute;
   inset-block-end: 26px;
-  inset-inline-end: clamp(16px, 8vw, 140px);
+  inset-inline-start: clamp(16px, 8vw, 140px);
   z-index: 2;
   display: flex;
   align-items: center;
@@ -467,10 +491,10 @@
   pointer-events: none;
 }
 
-.scrollHint::after {
+.scrollHint::before {
   content: '';
-  width: 1px;
-  height: 28px;
+  width: 44px;
+  height: 1px;
   background: var(--c-ink);
 }
 
@@ -654,8 +678,9 @@
   inset-block-start: 50%;
 }
 
+/* Fin de la section : l'ordre des repères est garanti quelle que soit la hauteur de l'écran. */
 .atelierExit {
-  inset-block-start: calc(50% + 100svh);
+  inset-block-start: 100%;
 }
 
 .controls {
@@ -967,7 +992,8 @@
   margin: 0;
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(46px, min(8.4vw, 13svh), 150px);
+  /* 7,6vw : le titre français tient sur une ligne dès 821 px de large (sur deux lignes, le bouton descendait sur la bague). */
+  font-size: clamp(46px, min(7.6vw, 13svh), 150px);
   line-height: 0.98;
   letter-spacing: 0.01em;
   text-transform: uppercase;
@@ -978,12 +1004,13 @@
   z-index: 2;
 }
 
-/* Place de la bague : la pose est accrochée à cet espace, pas à la section, pour que la bague monte après le titre. */
+/* Place de la bague, sous le bouton : la pose finale y est accrochée. */
 .finalScene {
   flex: 1 0 46svh;
   align-self: stretch;
 }
 
+/* Repère sans hauteur (fin des cartes, fin de la page). */
 .finalEnd {
   display: block;
   height: 0;
@@ -1006,26 +1033,57 @@
   .step .text:not(:focus-within) {
     animation: none;
   }
+  /* Rien n'est tenu : la bague peut croiser un texte en traversant l'écran. Chaque bloc de texte prend un fond plein (il est
+     au-dessus de la scène) : le texte reste lisible, la bague passe derrière. */
+  .panel .text {
+    max-width: 44vw;
+    padding: 18px 22px;
+    border: 1px solid var(--c-line);
+    background: var(--c-bg-light);
+  }
   .atelier {
     min-height: 0;
   }
-  .atelierScene {
-    flex-basis: 70svh;
+  /* La section n'est plus tenue : le titre défile devant la bague. Il prend le fond plein du bloc des choix (texte lisible). */
+  .atelier .h2 {
+    width: 100%;
+    max-width: 1120px;
+    margin: 0;
+    padding: 16px 16px 4px;
+    border: 1px solid var(--c-line);
+    border-bottom: 0;
+    background: var(--c-bg-light);
+  }
+  .controls {
+    border-top: 0;
   }
 }
 
 @media (min-width: 821px) and (max-height: 760px) {
-  .atelierScene {
-    flex-basis: 52svh;
-  }
   .atelier .h2 {
     margin-bottom: 12px;
     font-size: 30px;
   }
 }
 
-/* ---------- Écrans étroits : la bague en haut, le texte en bas ---------- */
-@media (max-width: 820px) {
+@media (min-width: 821px) and (max-height: 660px) {
+  .atelierScene {
+    flex-basis: 52svh;
+  }
+}
+
+@media (min-width: 821px) and (max-height: 600px) {
+  .atelierScene {
+    flex-basis: 70svh;
+  }
+  .atelier .h2 {
+    margin: 0;
+  }
+}
+
+/* ---------- Écrans étroits ou en hauteur (téléphone, tablette debout) : la bague en haut, le texte en bas ---------- */
+/* La même condition que la mise en page « étroite » du moteur. */
+@media (max-width: 820px), (max-aspect-ratio: 5/6) {
   .root {
     --c-header: 64px;
     /* Fond uni sur petit écran : le bandeau de la bague a exactement la couleur de la page (aucune couture). */
@@ -1081,7 +1139,9 @@
   }
   .panel .text {
     z-index: 0;
-    max-width: none;
+    /* Pleine largeur sur téléphone ; colonne centrée sur une tablette debout (lignes de longueur lisible). */
+    max-width: 680px;
+    margin-inline: auto;
     padding: 9svh 16px;
   }
   /* Pas de masque sur téléphone : le bandeau cache déjà le texte qui monte. (Même poids que la règle des étapes, placée avant.) */

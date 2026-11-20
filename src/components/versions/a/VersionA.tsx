@@ -40,18 +40,20 @@ function actorsFor(metals: VersionCopy['metals'], selected: number): StageActor[
     const sg = Math.sign(o);
     const metal = m.id;
     const pose = (p: Omit<StagePose, 'metal'>): StagePose => ({ ...p, metal });
-    const key = (anchor: string, p: Omit<StagePose, 'metal'>, narrow?: Partial<StagePose>): StageKey => ({ anchor, pose: pose(p), narrow });
+    const key = (anchor: string, p: Omit<StagePose, 'metal'>, narrow?: Partial<StagePose>, upright?: Partial<StagePose>): StageKey => ({ anchor, pose: pose(p), narrow, upright });
     // Carrousel : la bague du milieu en pleine lumière sur son socle, les voisines en silhouette, de plus en plus petites.
     const carousel = key(
       'a-gamme',
       { x: sg * [0, 0.6, 1.0, 1.5][n], y: n ? 0.07 - n * 0.02 : 0.12, size: [0.74, 0.34, 0.26, 0.26][n], rot: [20, -32 + o * 16, o * 5], light: n ? 0.22 : 1 },
-      { x: sg * [0, 0.98, 1.7, 2.2][n], y: 0.05, size: n ? 0.4 : 0.9 },
+      // Écran court : la bague du milieu ne dépasse pas la moitié de la hauteur (elle passerait sur le titre).
+      { x: sg * [0, 0.98, 1.7, 2.2][n], y: 0.05, size: n ? 0.4 : 0.9, maxH: n ? 0.24 : 0.5 },
     );
-    // Rangée : quatre places, un léger éventail d'angles ; deux rangs de deux sur téléphone.
+    // Rangée : quatre places, un léger éventail d'angles. Sur un écran en hauteur (téléphone, tablette debout) : deux rangs de
+    // deux. La condition porte sur la forme de l'écran : un téléphone à l'horizontale ou un zoom à 200 % gardent la rangée.
     const f = k - 1.5;
     const slot = { x: SLOT_X[k], y: 0.26, size: 0.48, rot: [21.5 - f * 3, -29 + f * 10, f * -4] as [number, number, number] };
-    const slotNarrow = { x: k % 2 ? 0.5 : -0.5, y: k < 2 ? 0.46 : -0.12, size: 0.5 };
-    const none = (anchor: string) => key(anchor, { ...slot, size: 0 }, { ...slotNarrow, size: 0 });
+    const slotUpright = { x: k % 2 ? 0.5 : -0.5, y: k < 2 ? 0.5 : -0.16, size: 0.44 };
+    const none = (anchor: string) => key(anchor, { ...slot, size: 0 }, undefined, { ...slotUpright, size: 0 });
     if (o !== 0) {
       const side = sg * 1.7;
       return {
@@ -61,9 +63,9 @@ function actorsFor(metals: VersionCopy['metals'], selected: number): StageActor[
           key('a-profil', { x: side, y: 0.1, size: 0.3, rot: [20, -32 + o * 40, 0] }),
           key('a-p1', { x: side, y: -1.8, size: 0.3, rot: [20, -32, 0] }),
           // Même place un écran plus bas : la bague monte avec la carte de la rangée.
-          key('a-mot-fin', { ...slot, y: slot.y - 2 }, { ...slotNarrow, y: slotNarrow.y - 2 }),
-          key('a-rang', slot, slotNarrow),
-          key('a-rang-fin', slot, slotNarrow),
+          key('a-mot-fin', { ...slot, y: slot.y - 2 }, undefined, { ...slotUpright, y: slotUpright.y - 2 }),
+          key('a-rang', slot, undefined, slotUpright),
+          key('a-rang-fin', slot, undefined, slotUpright),
           none('a-rideau'),
           none('a-final'),
         ],
@@ -85,8 +87,8 @@ function actorsFor(metals: VersionCopy['metals'], selected: number): StageActor[
         // Le grand mot : la bague au centre, tenue pendant que la scène reste à l'écran.
         key('a-mot', word, { size: 0.8 }),
         key('a-mot-fin', word, { size: 0.8 }),
-        key('a-rang', slot, slotNarrow),
-        key('a-rang-fin', slot, slotNarrow),
+        key('a-rang', slot, undefined, slotUpright),
+        key('a-rang-fin', slot, undefined, slotUpright),
         // Derrière le rideau des matières, la bague passe à la pose « séparée » : on la découvre déjà en place.
         key('a-rideau', split, splitNarrow),
         key('a-compositions', split, splitNarrow),
@@ -185,7 +187,7 @@ export default function VersionA({ copy, rtl }: { copy: VersionCopy; rtl: boolea
             mirror={rtl}
             fallback={
               <div className={styles.fallback}>
-                <Image src={FALLBACK[metal.family]} width={900} height={1125} alt={copy.fallbackAlt} sizes="(max-width: 820px) 80vw, 40vw" />
+                <Image src={FALLBACK[metal.family]} width={900} height={1125} alt={copy.fallbackAlt} sizes="(max-width: 820px) 80vw, (max-aspect-ratio: 5/6) 80vw, 40vw" />
               </div>
             }
           />
@@ -287,7 +289,7 @@ export default function VersionA({ copy, rtl }: { copy: VersionCopy; rtl: boolea
           {/* Repères des poses (sans hauteur) : milieu de l'écran quand la scène se fixe, puis à la fin de sa tenue. */}
           <span id="a-mot" className={styles.mark} style={{ top: '50svh' }} aria-hidden="true" />
           <span id="a-mot-fin" className={styles.mark} style={{ top: '110svh' }} aria-hidden="true" />
-          <span id="a-rang" className={styles.mark} style={{ top: '210svh' }} aria-hidden="true" />
+          <span id="a-rang" className={styles.mark} style={{ top: '226svh' }} aria-hidden="true" />
           <span id="a-rang-fin" className={styles.mark} style={{ top: '338svh' }} aria-hidden="true" />
           <span id="a-rideau" className={styles.mark} style={{ top: '380svh' }} aria-hidden="true" />
 

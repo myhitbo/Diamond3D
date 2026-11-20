@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { MAIN_ID } from '@/components/site/SiteHeader';
 import type { StageActor, StageKey } from '@/components/stage/RingStage';
 
 const RingStage = dynamic(() => import('@/components/stage/RingStage'), { ssr: false });
@@ -23,7 +24,7 @@ const ACTORS: StageActor[] = [{ id: 'jaune', keys: MAIN }, extra('blanc', -0.2, 
 
 export default function Demo() {
   return (
-    <main style={{ background: '#0b0a08', color: '#f7f3ec' }}>
+    <main id={MAIN_ID} style={{ background: '#0b0a08', color: '#f7f3ec' }}>
       <div style={{ position: 'sticky', top: 0, height: '100svh', marginBottom: '-100svh', pointerEvents: 'none' }}>
         <RingStage actors={ACTORS} tilt={6} fallback={<p>Sans WebGL</p>} />
       </div>

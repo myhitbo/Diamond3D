@@ -25,8 +25,16 @@ export type StagePose = {
   /** Centre du bijou : fraction de la demi-largeur (x) et de la demi-hauteur (y) de l'écran ; 0 = centre, 1 = bord droit ou haut. */
   x: number;
   y: number;
-  /** Taille apparente : diamètre du bijou en fraction de la plus petite dimension de l'écran. */
+  /**
+   * Taille apparente : diamètre du bijou en fraction de la plus petite dimension de l'écran (en mise en page large : de la hauteur,
+   * plafonnée à 62 % de la largeur ; en CSS, `min(100svh, 62vw)`).
+   */
   size: number;
+  /**
+   * Plafond du diamètre, en fraction de la hauteur de l'écran (aucun par défaut). Sur un téléphone, la taille suit la largeur alors
+   * que les textes se placent selon la hauteur : sur un écran court, le plafond empêche la bague de passer sur un titre.
+   */
+  maxH?: number;
   /** Rotation en degrés : tangage (autour de l'horizontale), lacet (autour de la verticale), roulis (dans le plan de l'écran). */
   rot: [number, number, number];
   /** Écart entre le solitaire et l'alliance le long du doigt, en millimètres (0 : portés ensemble). */
@@ -43,8 +51,18 @@ export type StageKey = {
   /** Identifiant de l'élément de la page auquel la pose est accrochée (son centre vertical). */
   anchor: string;
   pose: StagePose;
-  /** Valeurs propres aux écrans étroits (moins de 820 px de large). */
+  /**
+   * Valeurs propres à la mise en page « étroite » : écran de 820 px de large au plus, ou écran en hauteur (tablette debout), comme
+   * `@media (max-width: 820px), (max-aspect-ratio: 5/6)`. La bague y occupe le haut de l'écran et le texte le bas : c'est la bonne
+   * disposition pour tout écran plus haut que large, même large de plus de 820 px.
+   */
   narrow?: Partial<StagePose>;
+  /**
+   * Valeurs propres aux écrans en hauteur (largeur ÷ hauteur ≤ 5/6, comme `@media (max-aspect-ratio: 5/6)`), appliquées après
+   * `narrow`. Pour une disposition qui dépend de la forme de l'écran et non de sa largeur : deux rangs de deux bagues sur un écran
+   * en hauteur, une rangée sur un écran couché, même étroit (téléphone à l'horizontale, zoom à 200 %).
+   */
+  upright?: Partial<StagePose>;
 };
 
 /** Un bijou de la scène et ses poses. Plusieurs acteurs = plusieurs exemplaires du modèle (une rangée de quatre métaux…). */
@@ -54,8 +72,13 @@ type Resolved = Required<Omit<StagePose, 'metal'>> & { color: THREE.Color; rough
 
 const DEFAULT_METAL: MetalId = 'yellow-gold-18k';
 const NARROW = 820;
+const UPRIGHT = 5 / 6;
+/** Mise en page large : la taille de référence ne dépasse pas cette part de la largeur (égale à la hauteur en 16:10). */
+const WIDE_FIT = 0.62;
 const FOV = 28;
 const DISTANCE = 120;
+/** Pas de plafond de taille (valeur finie : elle s'interpole avec un vrai plafond). */
+const NO_CAP = 9;
 /** Part du trajet entre deux ancres pendant laquelle la pose ne bouge pas, au départ et à l'arrivée. */
 const HOLD = 0.18;
 
@@ -63,14 +86,15 @@ const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const smooth = (t: number) => t * t * t * (t * (t * 6 - 15) + 10);
 
 /** `mirror` : mise en page de droite à gauche (hébreu) ; la scène est retournée horizontalement (place, lacet et roulis). */
-function resolve(key: StageKey, narrow: boolean, mirror: boolean): Resolved {
-  const p = { ...key.pose, ...(narrow ? key.narrow : null) };
+function resolve(key: StageKey, narrow: boolean, upright: boolean, mirror: boolean): Resolved {
+  const p = { ...key.pose, ...(narrow ? key.narrow : null), ...(upright ? key.upright : null) };
   const metal = METALS[p.metal ?? DEFAULT_METAL].render;
   const m = mirror ? -1 : 1;
   return {
     x: p.x * m,
     y: p.y,
     size: p.size,
+    maxH: p.maxH ?? NO_CAP,
     rot: [p.rot[0], p.rot[1] * m, p.rot[2] * m],
     split: p.split ?? 0,
     a: p.a ?? 1,
@@ -85,6 +109,7 @@ function mix(a: Resolved, b: Resolved, t: number, out: Resolved) {
   out.x = lerp(a.x, b.x, t);
   out.y = lerp(a.y, b.y, t);
   out.size = lerp(a.size, b.size, t);
+  out.maxH = lerp(a.maxH, b.maxH, t);
   out.rot = [lerp(a.rot[0], b.rot[0], t), lerp(a.rot[1], b.rot[1], t), lerp(a.rot[2], b.rot[2], t)];
   out.split = lerp(a.split, b.split, t);
   out.a = lerp(a.a, b.a, t);
@@ -98,12 +123,13 @@ const clonePose = (p: Resolved): Resolved => ({ ...p, rot: [...p.rot], color: p.
 
 /** Pose visée de chaque acteur d'après la position de défilement ; mise à jour à chaque défilement ou redimensionnement. */
 function useScrollTargets(actors: StageActor[], mirror: boolean, reduced: boolean, onChange: () => void): MutableRefObject<Resolved[]> {
-  const targets = useRef<Resolved[]>(actors.map((a) => resolve(a.keys[0], false, mirror)));
+  const targets = useRef<Resolved[]>(actors.map((a) => resolve(a.keys[0], false, false, mirror)));
   useEffect(() => {
     let frame = 0;
     const update = () => {
       frame = 0;
-      const narrow = window.innerWidth < NARROW;
+      const upright = window.innerWidth / window.innerHeight <= UPRIGHT;
+      const narrow = window.innerWidth <= NARROW || upright;
       const centre = window.scrollY + window.innerHeight / 2;
       const centres = new Map<string, number | null>();
       const centreOf = (id: string) => {
@@ -127,8 +153,8 @@ function useScrollTargets(actors: StageActor[], mirror: boolean, reduced: boolea
         let t = to.y > from.y ? Math.min(Math.max((centre - from.y) / (to.y - from.y), 0), 1) : 0;
         // Réduction des animations : pas de glissement, la pose de la section la plus proche.
         t = reduced ? (t < 0.5 ? 0 : 1) : smooth(Math.min(Math.max((t - HOLD) / (1 - 2 * HOLD), 0), 1));
-        if (!targets.current[n]) targets.current[n] = resolve(actor.keys[0], narrow, mirror);
-        mix(resolve(from.key, narrow, mirror), resolve(to.key, narrow, mirror), t, targets.current[n]);
+        if (!targets.current[n]) targets.current[n] = resolve(actor.keys[0], narrow, upright, mirror);
+        mix(resolve(from.key, narrow, upright, mirror), resolve(to.key, narrow, upright, mirror), t, targets.current[n]);
       });
       onChange();
     };
@@ -253,7 +279,12 @@ function Actor({
     const g = root.current;
     if (g) {
       g.position.set(c.x * halfW, c.y * halfH, 0);
-      g.scale.setScalar(Math.max((c.size * Math.min(halfW, halfH)) / radius, 0.00001));
+      // Dimension de référence de la taille : la plus petite dimension de l'écran ; en mise en page large, la hauteur, plafonnée
+      // par la largeur (les poses sont réglées en 16:10 : sur un écran 4:3, des bagues dimensionnées sur la seule hauteur
+      // prendraient la place du texte et se toucheraient dans une rangée).
+      const narrow = state.size.width <= NARROW || state.size.width / state.size.height <= UPRIGHT;
+      const unit = narrow ? Math.min(halfW, halfH) : Math.min(halfH, WIDE_FIT * halfW);
+      g.scale.setScalar(Math.max(Math.min(c.size * unit, c.maxH * halfH) / radius, 0.00001));
       g.visible = c.size > 0.005;
       g.rotation.set(THREE.MathUtils.degToRad(c.rot[0] - tilt.current.x), THREE.MathUtils.degToRad(c.rot[1] + tilt.current.y), THREE.MathUtils.degToRad(c.rot[2]), 'YXZ');
     }

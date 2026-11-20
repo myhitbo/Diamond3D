@@ -1,7 +1,8 @@
 # Trois versions du site : journal de travail
 
 Journal tenu pendant le travail, pour reprendre après une interruption (limite de jetons, redémarrage). Une tâche planifiée
-« Reprise automatique JR Diamond » relance la session toutes les heures tant que le travail n'est pas livré ; la désactiver à la fin.
+« Reprise automatique JR Diamond » relançait la session toutes les heures tant que le travail n'était pas livré ; elle a été
+désactivée à la livraison (20/11).
 
 ## Demande du propriétaire (20/11)
 
@@ -65,6 +66,17 @@ Tests sur le commit final (20/11, 21 h UTC) : 116 unitaires ; Chromium 296 pass�
 (le diagnostic ; il passe seul) ; WebKit iPhone, iPad et Firefox : 362 passés, 55 ignorés, aucun échec. Les versions sont aussi
 jouées dans Firefox (sans WebGL : image fixe au premier écran seulement).
 
-Reste :
-1. Pousser sur `main` (toute autorisation donnée par le propriétaire), vérifier le déploiement Vercel et les trois adresses.
-2. Message au propriétaire : trois liens, captures, ce qui reste perfectible ; désactiver la tâche planifiée « Reprise automatique JR Diamond ».
+Livré le 20/11 à 19 h 30 UTC :
+- Poussé sur `main` (commit `d2de427`), déployé par Vercel ; adresses vérifiées (200, non indexées) :
+  https://jr-diamond.vercel.app/fr/versions et `/versions/a`, `/b`, `/c`, en français, anglais et hébreu.
+- Trois planches de présentation envoyées au propriétaire (six vues d'ordinateur et cinq de téléphone par version).
+- Tâche planifiée « Reprise automatique JR Diamond » désactivée.
+
+Ce qui reste perfectible (dit au propriétaire) :
+- Sans WebGL, la bague n'apparaît qu'au premier écran (image fixe) ; les scènes suivantes sont du texte seul.
+- Téléphone à l'horizontale et zoom à 200 % : lisibles et sans chevauchement, mais la mise en scène y est simplifiée.
+- Les pierres du rendu simplifié (appareils lents) sont un miroir à facettes, moins fin que la réfraction.
+- Deux tests Chromium dépassent leur délai quand toute la suite tourne sur quatre cœurs (ils passent seuls).
+- Aucun essai sur appareil réel : fluidité à vérifier sur un iPhone et un Android (protocole `docs/DEVICE_TESTS.md`).
+
+Suite : le propriétaire choisit une version (ou un mélange) ; l'accueil en ligne n'est pas remplacé d'ici là.

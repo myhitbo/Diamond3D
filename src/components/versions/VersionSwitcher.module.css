@@ -1,0 +1,41 @@
+/* Sélecteur des versions : bandeau discret au-dessus du pied de page (outil de comparaison, pas un élément du design). */
+.switcher {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px 12px;
+  padding: 18px 16px;
+  background: var(--noir);
+  border-top: 1px solid var(--line-noir);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.switcher a {
+  /* Cible d'au moins 24 × 24 px (WCAG 2.5.8). */
+  display: inline-block;
+  min-width: 44px;
+  padding: 8px 14px;
+  border: 1px solid var(--line-noir);
+  color: var(--ivory);
+  text-align: center;
+  text-decoration: none;
+}
+
+.switcher a:hover {
+  border-color: var(--champagne);
+  color: var(--champagne);
+}
+
+.switcher a[aria-current='page'] {
+  background: var(--gold-fill);
+  border-color: var(--gold-fill);
+  color: var(--noir);
+}
+
+.switcher a:focus-visible {
+  outline-color: var(--champagne);
+}

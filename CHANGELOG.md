@@ -7,8 +7,10 @@
 - Version A « Écrin », version B « Constellation », version C « Lumière » : `/fr/versions`.
 - Reflets adoucis (choix « doux » du propriétaire) dans le configurateur et dans les sept rendus Cycles.
 - Étude des sites de référence : `docs/versions/ETUDE_REFERENCES.md`.
-- Critique des trois versions par trois directeurs artistiques, puis corrections : scènes tenues à l'écran (le texte se pose pendant que la bague finit son mouvement), appels finaux avec la bague, téléphone revu (bandeau de la bague, textes qui se suivent), aucun texte sur la bague. Contrôle sur cinq tailles d'écran et en hébreu.
-- Moteur : plafond de taille par rapport à la hauteur (`maxH`), `?quality=low|high` ; studio clair sans noir ; pierres simplifiées contrastées sur fond clair.
+- Critique des trois versions par trois directeurs artistiques, chaque correction contrôlée par un second agent, puis corrections : scènes tenues à l'écran (le texte se pose pendant que la bague finit son mouvement), appels finaux avec la bague, téléphone revu (bandeau de la bague, textes qui se suivent), aucun texte sur la bague.
+- Contrôle sur captures à huit tailles d'écran (ordinateur, portable, tablette couchée et debout, deux téléphones, téléphone à l'horizontale, zoom à 200 %) et en hébreu ; défauts corrigés : bague sur un titre, rangs de bagues sur les noms des métaux, texte sur la bague sur tablette.
+- Moteur : plafond de taille par rapport à la hauteur (`maxH`), valeurs d'écran en hauteur (`upright`), mise en page étroite pour tout écran plus haut que large, taille plafonnée par la largeur sur écran 4:3, `?quality=low|high` ; studio clair sans noir ; pierres simplifiées contrastées sur fond clair.
+- Tests unitaires réparés (plan du site, identifiant du contenu principal) : les pages des versions les avaient cassés.
 
 ## 2026-11-20 — Réalisme de la 3D et images photoréalistes
 

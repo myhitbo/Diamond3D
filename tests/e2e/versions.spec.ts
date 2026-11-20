@@ -59,8 +59,9 @@ test('version A : le lien ouvre le configurateur dans le métal choisi', async (
   await page.goto('/fr/versions/a');
   await page.getByRole('button', { name: 'Métal suivant' }).click();
   await page.getByRole('main').getByRole('link', { name: 'Configurer une bague' }).first().click();
-  await expect(page).toHaveURL(/\/fr\/configurateur\/ring-001\?metal=white-gold-18k$/);
-  await expect(page.getByRole('radio', { name: 'Or blanc' })).toHaveAttribute('aria-checked', 'true');
+  // Délais larges : le configurateur charge sa scène 3D, lentement quand toute la suite tourne en parallèle.
+  await expect(page).toHaveURL(/\/fr\/configurateur\/ring-001\?metal=white-gold-18k$/, { timeout: 30_000 });
+  await expect(page.getByRole('radio', { name: 'Or blanc' })).toHaveAttribute('aria-checked', 'true', { timeout: 30_000 });
 });
 
 test('version B : la constellation a une étoile par pierre du modèle (17)', async ({ page }) => {

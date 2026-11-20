@@ -2,7 +2,8 @@
 
 Le modèle rendu est celui du configurateur (`public/models/ring-001/ring-001.glb`, décompressé par
 `scripts/render/decode-web-glb.mjs`) : maillage de rendu du fichier de fabrication (Ring.3dm), simplifié à 0,02 mm au plus,
-avec les retouches web demandées par l'atelier (griffes rabattues, « 8 » supprimés). Aucune pièce n'est ajoutée ni
+avec les retouches web demandées par l'atelier (griffes rabattues, « 8 » supprimés : écart volontaire de quelques dixièmes
+de millimètre à l'extrémité des griffes). Aucune pièce n'est ajoutée ni
 redessinée. Le maillage dense, retouché par les mêmes scripts, ne convient pas : la perle des deux griffes de pointe de la
 marquise y reste en l'air. Comme dans KeyShot ou Matrix, les arêtes vives de la CAO sont adoucies au rendu seulement (nœud
 Bevel, rayon de l'ordre d'un polissage) : la géométrie n'est pas modifiée.

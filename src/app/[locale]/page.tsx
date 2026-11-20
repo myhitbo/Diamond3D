@@ -48,10 +48,11 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 function Card({ href, card, index }: { href: string; card: HomeCard; index: number }) {
   return (
     <li>
+      {/* Numéro décoratif hors du lien : le nom du lien reste son titre et son texte (WCAG 2.5.3). */}
+      <span className={styles.cardNum} aria-hidden="true">
+        {String(index).padStart(2, '0')}
+      </span>
       <Link href={href} className={styles.card}>
-        <span className={styles.cardNum} aria-hidden="true">
-          {String(index).padStart(2, '0')}
-        </span>
         <span className={styles.cardTitle}>{card.title}</span>
         <span className={styles.cardText}>{card.text}</span>
       </Link>

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import HeaderMenu from './HeaderMenu';
 import Monogram from './Monogram';
 import { isGuideLocale } from '@/content/guides/types';
 import { DICTIONARIES } from '@/i18n/dictionaries';
@@ -33,13 +34,16 @@ export default function SiteHeader({
     { href: configuratorPath(locale), label: t.navConfigurator, current: path.startsWith('/configurateur/') },
     { href: localizedPath(locale, '/transformation'), label: t.navTransformation, current: path === '/transformation' },
     ...(isGuideLocale(locale) ? [{ href: localizedPath(locale, '/guides'), label: t.navGuides, current: path === '/guides' }] : []),
-    { href: localizedPath(locale, '/faq'), label: t.navFaq, current: path === '/faq' },
+    { href: localizedPath(locale, '/faq'), label: t.navFaq, short: t.navFaqShort, current: path === '/faq' },
   ];
-  const items = links.map((l) => (
-    <Link key={l.href} href={l.href} aria-current={l.current ? 'page' : undefined}>
-      {l.label}
-    </Link>
-  ));
+  // Menu en ligne : libellé court de la FAQ (« FAQ »), pour que le menu tienne dans sa moitié d'en-tête et que le monogramme
+  // reste au centre ; libellé long dans le menu déroulant. Le nom de chaque lien est son texte affiché (WCAG 2.5.3).
+  const items = (compact: boolean) =>
+    links.map((l) => (
+      <Link key={l.href} href={l.href} aria-current={l.current ? 'page' : undefined}>
+        {compact && 'short' in l ? l.short : l.label}
+      </Link>
+    ));
   return (
     <header className="site-header">
       {/* Liens d'évitement : premiers éléments au clavier, visibles seulement quand ils ont le focus. Le second est l'un des deux
@@ -53,19 +57,11 @@ export default function SiteHeader({
         {/* Ordinateur : menu en ligne. Tablette et téléphone : bouton « Menu » (élément details, sans JavaScript). Un seul des
             deux est affiché ; l'autre (display: none) sort aussi de l'arbre d'accessibilité. */}
         <nav className="site-nav" aria-label={t.navLabel}>
-          {items}
+          {items(true)}
         </nav>
-        <details className="menu">
-          <summary aria-label={t.navMenu}>
-            <span className="menu-icon" aria-hidden="true" />
-            <span className="menu-label" aria-hidden="true">
-              {t.navMenu}
-            </span>
-          </summary>
-          <nav className="menu-panel" aria-label={t.navLabel}>
-            {items}
-          </nav>
-        </details>
+        <HeaderMenu label={t.navMenu} navLabel={t.navLabel}>
+          {items(false)}
+        </HeaderMenu>
         {/* Le mot-symbole mène à l'accueil de la langue courante. */}
         <Link href={homePath(locale)} className="wordmark" aria-current={path === '/' ? 'page' : undefined}>
           <Monogram />

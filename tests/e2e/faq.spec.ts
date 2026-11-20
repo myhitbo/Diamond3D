@@ -26,7 +26,8 @@ test('lien FAQ depuis le configurateur, et version anglaise', async ({ page }) =
   // Tablette et téléphone : le menu est replié derrière le bouton « Menu ».
   const menu = page.getByRole('banner').locator('details.menu');
   if (await menu.isVisible()) await menu.getByLabel('Menu').click();
-  await page.getByRole('banner').getByRole('link', { name: 'Questions fréquentes' }).click();
+  // Nom du lien = texte affiché : « FAQ » dans le menu en ligne (ordinateur), « Questions fréquentes » dans le menu déroulant.
+  await page.getByRole('banner').getByRole('link', { name: /^(Questions fréquentes|FAQ)$/ }).click();
   await expect(page).toHaveURL(/\/fr\/faq$/);
   await page.getByRole('link', { name: 'EN', exact: true }).click();
   await expect(page).toHaveURL(/\/en\/faq$/);

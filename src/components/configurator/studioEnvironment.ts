@@ -2,8 +2,8 @@ import * as THREE from 'three';
 
 /**
  * Environnement de studio procédural (HDR, équirectangulaire), généré localement : aucun téléchargement, aucune licence
- * d'image tierce. Il imite un studio de photographie de joaillerie : un studio presque noir, de grandes boîtes à lumière
- * dégradées et quelques bandes fines. Le métal poli ne montre que ce qu'il reflète : sur un fond clair uniforme il paraît
+ * d'image tierce. Il imite un studio de photographie de joaillerie : un studio sombre et de grandes boîtes à lumière
+ * dégradées. Le métal poli ne montre que ce qu'il reflète : sur un fond clair uniforme il paraît
  * mat et « en plastique » ; c'est l'alternance de noir et de lumières dégradées qui dessine les rondeurs et les reflets.
  *
  * Repère : longitude = atan2(z, x) en degrés (convention de three.js pour une carte équirectangulaire), latitude = hauteur.
@@ -23,16 +23,15 @@ type Light = {
   warm?: boolean;
 };
 
+// Éclairage « doux » (choisi par le propriétaire le 20/11 : l'éclairage précédent, à bandes fines et points vifs, donnait
+// « trop de reflets ») : de grandes boîtes dégradées seulement, un fond moins noir.
 const STUDIO: Light[] = [
-  { lon: 40, lat: 32, w: 120, h: 62, intensity: 6.5, feather: 0.7, gradient: 0.5 }, // principale, derrière l'observateur
-  { lon: 0, lat: 80, w: 360, h: 26, intensity: 4, feather: 0.85 }, // plafond
-  { lon: -60, lat: 10, w: 10, h: 96, intensity: 14, feather: 0.3 }, // bande verticale gauche
-  { lon: 130, lat: 10, w: 9, h: 96, intensity: 12, feather: 0.3 }, // bande verticale droite
-  { lon: -140, lat: 22, w: 100, h: 40, intensity: 4.5, feather: 0.75, warm: true }, // contre-jour chaud
-  { lon: -100, lat: 30, w: 40, h: 50, intensity: 3, feather: 0.8 }, // remplissage latéral
-  { lon: 60, lat: -14, w: 140, h: 18, intensity: 2.2, feather: 0.85 }, // réflecteur bas
-  { lon: 82, lat: 50, w: 10, h: 10, intensity: 26, feather: 0.4 }, // point vif (étincelle sur les arêtes)
-  { lon: -20, lat: 58, w: 14, h: 8, intensity: 16, feather: 0.4 }, // second point vif
+  { lon: 40, lat: 32, w: 130, h: 70, intensity: 6.5, feather: 0.8, gradient: 0.45 }, // principale, derrière l'observateur
+  { lon: 0, lat: 80, w: 360, h: 30, intensity: 3.5, feather: 0.9 }, // plafond
+  { lon: -70, lat: 12, w: 50, h: 80, intensity: 4.5, feather: 0.85 }, // côté gauche
+  { lon: 130, lat: 12, w: 45, h: 80, intensity: 4.2, feather: 0.85 }, // côté droit
+  { lon: -140, lat: 22, w: 110, h: 45, intensity: 3.2, feather: 0.8, warm: true }, // contre-jour chaud
+  { lon: 60, lat: -14, w: 150, h: 22, intensity: 2, feather: 0.9 }, // réflecteur bas
 ];
 
 /**
@@ -65,7 +64,7 @@ export function createStudioEnvironment(width = 1024, variant: 'metal' | 'gem' =
     // Fond presque noir, sol à peine plus clair (le bijou s'y reflète par-dessous) et fine ligne d'horizon.
     const floor = lat < 0 ? 0.16 * smoothstep(0, -40, lat) : 0;
     const horizon = 0.12 * Math.exp(-((lat / 5) ** 2));
-    const base = 0.02 + floor + horizon;
+    const base = 0.05 + floor + horizon;
     for (let x = 0; x < width; x++) {
       const lon = (x / width) * 360 - 180;
       let r = base;

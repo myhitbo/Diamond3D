@@ -12,7 +12,7 @@ Prérequis : `pip install bpy==5.3.0` (Python 3.13, environnement séparé conse
 
 Usage :
   node scripts/render/decode-web-glb.mjs public/models/ring-001/ring-001.glb <dir>/ring-001.glb
-  python scripts/render/render_ring.py <dir>/ring-001.glb <dossier des PNG> [vue…] [--samples N] [--scale S]
+  python scripts/render/render_ring.py <dir>/ring-001.glb <dossier des PNG> [vue…] [--samples N] [--scale S] [--studio NOM]
   node scripts/render/to-webp.mjs <dossier des PNG>
 Vues : voir SHOTS. Sortie : PNG RVBA (fond transparent, ombre portée conservée par un « attrapeur d'ombre »). Réglages du
 site : --samples 128, --scale 0,8 (premier écran, gros plan, solitaire) et 0,75 (les quatre métaux) ; 4 à 9 min par image
@@ -45,13 +45,61 @@ SHOTS = {
     'solitaire': dict(composition='solitaire', metal='yellow-18k', dir=(0.52, 0.76, 0.40), lens=105, size=(1500, 1500), zoom=1.3),
 }
 
+# Éclairages. « contraste » : studio noir, bandes fines et point vif (reflets nombreux et marqués, jugés excessifs par le
+# propriétaire le 20/11). « doux » : grandes boîtes seulement, fond moins noir, métal un peu moins poli. « tres-doux » : tente de
+# lumière (reflets larges et calmes). Chaque lumière : (nom, intensité, largeur et hauteur en rayons du bijou, décalage horizontal
+# et vertical par rapport à la caméra en degrés, distance en rayons, teinte).
+STUDIOS = {
+    'contraste': dict(
+        world=0.02, roughness=0.045, exposure=0.45, look='AgX - Punchy',
+        lights=[
+            ('principale', 9, 3.2, 2.0, 22, 28, 4.5, (1, 0.98, 0.95)),
+            ('remplissage', 3, 3.0, 2.4, -35, 10, 5, (1, 0.98, 0.95)),
+            ('bande gauche', 22, 0.35, 4.0, -80, 0, 4, (1, 1, 1)),
+            ('bande droite', 18, 0.3, 4.0, 85, 4, 4, (1, 1, 1)),
+            ('contre-jour', 10, 3.0, 1.2, 165, 25, 4.5, (1, 0.9, 0.78)),
+            ('haut', 4, 4.0, 2.0, 0, 70, 5, (1, 1, 1)),
+            ('réflecteur bas', 1.5, 4.0, 0.8, 10, -30, 4, (1, 0.97, 0.92)),
+            ('point vif', 60, 0.25, 0.25, 38, 45, 4, (1, 1, 1)),
+        ],
+    ),
+    'doux': dict(
+        world=0.06, roughness=0.08, exposure=0.5, look='AgX - Medium High Contrast',
+        lights=[
+            ('principale', 7, 4.0, 2.8, 22, 28, 4.5, (1, 0.98, 0.95)),
+            ('remplissage', 4, 3.6, 3.0, -40, 10, 5, (1, 0.98, 0.95)),
+            ('côté droit', 4, 1.6, 4.0, 85, 4, 4.5, (1, 1, 1)),
+            ('contre-jour', 6, 3.6, 1.6, 165, 25, 4.5, (1, 0.92, 0.82)),
+            ('haut', 4, 5.0, 3.0, 0, 70, 5, (1, 1, 1)),
+            ('réflecteur bas', 2.0, 4.0, 1.2, 10, -30, 4, (1, 0.97, 0.92)),
+        ],
+    ),
+    'tres-doux': dict(
+        world=0.14, roughness=0.11, exposure=0.25, look='AgX - Base Contrast',
+        lights=[
+            ('principale', 5, 5.0, 3.6, 20, 25, 4.5, (1, 0.98, 0.95)),
+            ('remplissage', 4, 5.0, 3.6, -45, 10, 4.5, (1, 0.98, 0.95)),
+            ('côté droit', 3, 3.0, 4.0, 90, 5, 4.5, (1, 1, 1)),
+            ('contre-jour', 4, 4.0, 2.0, 170, 25, 4.5, (1, 0.94, 0.86)),
+            ('haut', 4, 6.0, 4.0, 0, 75, 5, (1, 1, 1)),
+            ('réflecteur bas', 2.5, 5.0, 1.6, 10, -30, 4, (1, 0.97, 0.92)),
+        ],
+    ),
+}
+
 PIECES = {'ensemble': ('A__', 'B__'), 'solitaire': ('A__',), 'alliance': ('B__',)}
 
 
 def args():
     a = sys.argv[1:]
     opts = {'samples': 256, 'scale': 1.0}
-    for k in list(opts):
+    studio = 'doux'
+    if '--studio' in a:
+        i = a.index('--studio')
+        studio = a[i + 1]
+        del a[i : i + 2]
+    opts['studio'] = studio
+    for k in ('samples', 'scale'):
         if f'--{k}' in a:
             i = a.index(f'--{k}')
             opts[k] = float(a[i + 1])
@@ -174,7 +222,7 @@ def main():
         for o in meshes:
             o.matrix_world = Matrix.Scale(1000, 4) @ o.matrix_world
         keep = PIECES[shot['composition']]
-        gold = metal_material('metal', METALS[shot['metal']])
+        gold = metal_material('metal', METALS[shot['metal']], roughness=STUDIOS[opts['studio']]['roughness'])
         gem = diamond_material()
         shown = []
         for o in meshes:
@@ -214,20 +262,10 @@ def main():
 
         # Studio : boîtes à lumière autour de la caméra (mêmes reflets quelle que soit la vue).
         R = radius
-        # (nom, intensité, largeur, hauteur, décalage horizontal et vertical par rapport à la caméra en degrés, distance, teinte)
-        lights = [
-            ('principale', 9, 3.2 * R, 2.0 * R, 22, 28, 4.5 * R, (1, 0.98, 0.95)),
-            ('remplissage', 3, 3.0 * R, 2.4 * R, -35, 10, 5 * R, (1, 0.98, 0.95)),
-            ('bande gauche', 22, 0.35 * R, 4.0 * R, -80, 0, 4 * R, (1, 1, 1)),
-            ('bande droite', 18, 0.3 * R, 4.0 * R, 85, 4, 4 * R, (1, 1, 1)),
-            ('contre-jour', 10, 3.0 * R, 1.2 * R, 165, 25, 4.5 * R, (1, 0.9, 0.78)),
-            ('haut', 4, 4.0 * R, 2.0 * R, 0, 70, 5 * R, (1, 1, 1)),
-            ('réflecteur bas', 1.5, 4.0 * R, 0.8 * R, 10, -30, 4 * R, (1, 0.97, 0.92)),
-            ('point vif', 60, 0.25 * R, 0.25 * R, 38, 45, 4 * R, (1, 1, 1)),
-        ]
-        for nm, s, lw, lh, az, el, dd, tint in lights:
-            o = emitter(nm, s, lw, lh, tint)
-            place_facing(o, center, relative(d, az, el), dd)
+        studio = STUDIOS[opts['studio']]
+        for nm, s, lw, lh, az, el, dd, tint in studio['lights']:
+            o = emitter(nm, s, lw * R, lh * R, tint)
+            place_facing(o, center, relative(d, az, el), dd * R)
         # Couronne de petites sources autour de la caméra : ce sont elles qui font scintiller les diamants (chaque facette
         # renvoie l'une d'elles), comme les rampes de LED des photographes de joaillerie. Invisibles en reflet sur le métal.
         for i in range(16):
@@ -253,7 +291,8 @@ def main():
         gt.inputs[1].default_value = 0.5
         mix = wn.new('ShaderNodeMix')
         mix.data_type = 'RGBA'
-        mix.inputs['A'].default_value = (0.02, 0.019, 0.018, 1)
+        wv = STUDIOS[opts['studio']]['world']
+        mix.inputs['A'].default_value = (wv, wv * 0.95, wv * 0.9, 1)
         # Studio vu à travers la pierre : bandes claires et sombres (le contraste noir et blanc des photographes de diamants).
         tc = wn.new('ShaderNodeTexCoord')
         wave = wn.new('ShaderNodeTexWave')
@@ -294,9 +333,9 @@ def main():
         sc.render.image_settings.file_format = 'PNG'
         sc.render.image_settings.color_mode = 'RGBA'
         sc.view_settings.view_transform = 'AgX'
-        sc.view_settings.exposure = 0.45
+        sc.view_settings.exposure = STUDIOS[opts['studio']]['exposure']
         try:
-            sc.view_settings.look = 'AgX - Punchy'
+            sc.view_settings.look = STUDIOS[opts['studio']]['look']
         except TypeError:
             pass
         sc.render.filepath = f'{out_dir}/{name}.png'

@@ -163,8 +163,13 @@
   top: 0;
   z-index: 1;
   height: 100svh;
-  margin-bottom: -100svh;
   pointer-events: none;
+}
+
+/* La première section remonte sous la scène. (Une marge négative sur la scène elle-même la laisserait dépasser la fin de la page :
+   ainsi, la scène quitte l'écran avec la dernière section, et la bague ne passe pas sur le pied de page.) */
+.stage + * {
+  margin-top: -100svh;
 }
 
 .fallback {

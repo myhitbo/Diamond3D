@@ -23,8 +23,10 @@ test('données structurées FAQPage sans les réponses à confirmer', async ({ p
 
 test('lien FAQ depuis le configurateur, et version anglaise', async ({ page }) => {
   await page.goto('/fr/configurateur/ring-001');
-  // Nom du lien = texte affiché : « Questions fréquentes » sur ordinateur, « FAQ » sur mobile (WCAG 2.5.3).
-  await page.getByRole('banner').getByRole('link', { name: /^(Questions fréquentes|FAQ)$/ }).click();
+  // Tablette et téléphone : le menu est replié derrière le bouton « Menu ».
+  const menu = page.getByRole('banner').locator('details.menu');
+  if (await menu.isVisible()) await menu.getByLabel('Menu').click();
+  await page.getByRole('banner').getByRole('link', { name: 'Questions fréquentes' }).click();
   await expect(page).toHaveURL(/\/fr\/faq$/);
   await page.getByRole('link', { name: 'EN', exact: true }).click();
   await expect(page).toHaveURL(/\/en\/faq$/);

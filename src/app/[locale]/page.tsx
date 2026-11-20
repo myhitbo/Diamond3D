@@ -19,14 +19,14 @@ type Params = Promise<{ locale: string }>;
  * par l'atelier, sur fond transparent. Pas des photos : les légendes le disent. À refaire si le modèle change :
  * `scripts/render/render_ring.py` puis `scripts/render/to-webp.mjs`.
  */
-const HERO = { src: '/images/rendus/ring-001-hero.webp', width: 1600, height: 1280 };
-const DETAIL = { src: '/images/rendus/ring-001-marquise-detail.webp', width: 1440, height: 1040 };
-const SOLITAIRE = { src: '/images/rendus/ring-001-solitaire.webp', width: 1200, height: 1200 };
+const HERO = { src: '/images/rendus/ring-001-hero-cycles.webp', width: 1600, height: 1280 };
+const DETAIL = { src: '/images/rendus/ring-001-marquise-detail-cycles.webp', width: 1440, height: 1040 };
+const SOLITAIRE = { src: '/images/rendus/ring-001-solitaire-cycles.webp', width: 1200, height: 1200 };
 const METAL_RENDERS: { metal: MetalId; src: string }[] = [
-  { metal: 'yellow-gold-18k', src: '/images/rendus/ring-001-or-jaune.webp' },
-  { metal: 'white-gold-18k', src: '/images/rendus/ring-001-or-blanc.webp' },
-  { metal: 'rose-gold-18k', src: '/images/rendus/ring-001-or-rose.webp' },
-  { metal: 'platinum-950', src: '/images/rendus/ring-001-platine.webp' },
+  { metal: 'yellow-gold-18k', src: '/images/rendus/ring-001-or-jaune-cycles.webp' },
+  { metal: 'white-gold-18k', src: '/images/rendus/ring-001-or-blanc-cycles.webp' },
+  { metal: 'rose-gold-18k', src: '/images/rendus/ring-001-or-rose-cycles.webp' },
+  { metal: 'platinum-950', src: '/images/rendus/ring-001-platine-cycles.webp' },
 ];
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {

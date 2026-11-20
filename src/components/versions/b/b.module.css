@@ -377,6 +377,13 @@
   animation: appear 1.2s cubic-bezier(0.2, 0.7, 0.2, 1) both;
 }
 
+/* Animations réduites : pas de tracé progressif, les traits sont affichés d'emblée. */
+@media (prefers-reduced-motion: reduce) {
+  .constellation polyline {
+    stroke-dashoffset: 0;
+  }
+}
+
 @keyframes draw {
   to {
     stroke-dashoffset: 0;

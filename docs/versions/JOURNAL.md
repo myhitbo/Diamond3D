@@ -26,27 +26,25 @@ Références données :
 - Les trois versions vivent à des adresses séparées (`/fr/versions/a`, `b`, `c`, non indexées) pour être comparées en ligne ;
   le propriétaire a donné toute autorisation : pousser sur `main` une fois les contrôles verts.
 
-## État (mis à jour le 20/11 à 15 h 30 UTC)
+## État (mis à jour le 20/11 à 16 h 40 UTC)
 
-- [x] Éclairage « doux » choisi par le propriétaire (planche A/B/C), appliqué au configurateur (`fc29181`).
-- [ ] Rendus Cycles en éclairage doux (7 images, `scratchpad/final3`, journal `log.txt`) : 5 sur 7 à 15 h 25 ; à convertir
-      (`node scripts/render/to-webp.mjs <dossier>`), intégrer (mêmes noms `*-cycles.webp`), tester, pousser sur `main`.
-      Si le dossier a disparu : relancer `scripts/render/render_ring.py … --studio doux` (voir son en-tête).
-- [x] Moteur commun `src/components/stage/RingStage.tsx` : bague(s) pilotée(s) par le défilement (poses accrochées à des ancres,
-      plusieurs exemplaires, métal, écart solitaire/alliance, miroir pour l'hébreu, studio clair ou sombre, inclinaison au pointeur).
-      Page d'essai `/fr/versions/moteur`.
-- [x] Index `/fr/versions`, sélecteur `VersionSwitcher`, fiches `src/content/versions.ts` (noms provisoires des versions B et C).
-- [x] **Version A « Écrin »** (`/fr/versions/a`, `src/components/versions/a/`) : système de Ciao Energy (carrousel + curseur des
-      quatre métaux, thème par métal, portrait, quatre vues de détail avec repères 01 à 04, grand mot sur bande claire, rangée des
-      quatre métaux, solitaire/alliance séparés). Vérifié : captures ordinateur, iPhone, hébreu ; axe sans violation ; pas de
-      débordement à 320 px dans les trois langues. Reste : polir (critique sur captures), ajouter aux tests e2e.
-- [ ] Étude des sites (flux `etude-references`, `wf_2f8539b8-cb8`, captures dans `scratchpad/refs/`) : Ciao et Unique Jewelry
-      capturés ; Maserati et Seed pas encore commencés à 15 h 25 (rendu logiciel lent). Ciao : carrousel de canettes avec curseur
-      de parfums → canette qui avance (profil) → 4 bénéfices avec repères à droite et rotation de la canette → bande claire avec
-      mot géant derrière la canette → gamme complète. Unique Jewelry (Mancini & Co) : bague en très gros plan sur fond rose doux,
-      titre en capitales à empattements, personnalisation du métal et de la pierre dans la page.
-- [ ] Version B (inspiration Maserati Trident Stars : nuit, cinématographique) : à concevoir après l'étude.
-- [ ] Version C (inspiration Unique Jewelry / Seed Jewelry : fond clair, studio clair `studio="light"`) : à concevoir.
-- [ ] Critique des trois versions sur captures, corrections.
-- [ ] Tests (ajouter les versions à `tests/e2e/accessibility.spec.ts` et un test de fumée), build, mise en ligne sur `main`,
-      message au propriétaire avec les trois liens ; désactiver la tâche planifiée de reprise.
+Fait et poussé sur la branche `claude/modest-davinci-u398r2` :
+- Éclairage « doux » (choix du propriétaire) au configurateur et dans les sept rendus Cycles (`public/images/rendus/*-cycles.webp`).
+- Moteur `src/components/stage/RingStage.tsx` (poses accrochées à des ancres de la page ; plusieurs exemplaires ; métal ; écart
+  solitaire/alliance ; miroir pour l'hébreu ; studio clair ou sombre ; inclinaison au pointeur ; repli sans WebGL).
+- Index `/fr/versions`, sélecteur, textes communs `src/components/versions/copy.ts` (tout vient de l'accueil, du modèle, du dictionnaire).
+- **A « Écrin »** (Ciao Energy), **B « Constellation »** (Maserati Trident Stars), **C « Lumière »** (Unique Jewelry, Seed Jewelry) :
+  `src/components/versions/{a,b,c}/`, pages `src/app/[locale]/versions/{a,b,c}/page.tsx`.
+- Tests : `tests/e2e/versions.spec.ts` ; versions ajoutées à `tests/e2e/accessibility.spec.ts` (axe, clavier, 320 px, zoom, cibles)
+  et à `tests/e2e/legal.spec.ts` (aucune requête vers un autre domaine).
+- Étude des quatre sites : `docs/versions/ETUDE_REFERENCES.md`, `etude-references.json` (Seed Jewelry bloqué : `agents.md`).
+
+En cours à 16 h 40 :
+- Suites complètes de tests en arrière-plan sur le commit `08000ff` (journaux `scratchpad/e2e-g1.log`, `e2e-g2.log`).
+- Critique des trois versions par trois directeurs artistiques (flux `critique-versions`, `wf_2559bb66-138`), puis corrections.
+
+Reste :
+1. Appliquer les corrections retenues de la critique ; reconstruire ; recapturer ; relancer les tests des versions et d'accessibilité.
+2. `CLAUDE.md` et `CHANGELOG.md` (section « Trois versions de l'accueil »).
+3. Pousser sur `main` (toute autorisation donnée par le propriétaire), vérifier le déploiement Vercel et les trois adresses.
+4. Message au propriétaire : trois liens, captures, ce qui reste perfectible ; désactiver la tâche planifiée « Reprise automatique JR Diamond ».

@@ -43,7 +43,7 @@ le bouton y reste désactivé.
 
 ## Régénérer un modèle depuis le fichier CAO
 
-Les fichiers CAO sont dans `cad/originals/` (dépôt privé, voir [`cad/README.md`](cad/README.md)).
+Les fichiers CAO sont dans `cad/originals/` (dépôt public depuis le 15/11/2026, voir [`cad/README.md`](cad/README.md)).
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r pipeline/requirements.txt

@@ -1,16 +1,70 @@
 # Historique
 
-## 0.6.0 — 2026-11-16 — Réponses de l'atelier : aucun prix automatique, osek patour, WhatsApp
+## 2026-11-24 — Réponses de l'atelier du 16/11 : aucun prix automatique, osek patour, textes validés
 
 - **Réponses de l'atelier du 16/11** archivées (`docs/atelier/2026-11-16_reponses.txt` : messages WhatsApp ; le fichier joint reste à coller tel quel, il n'a pas été reçu par la session) et rapprochées des 22 points du message du 14/11 (`docs/REPONSES_ATELIER.md`).
 - **Aucun prix automatique** : chaque prix est fixé à la main par Yonathan dans un devis ; le site reste « Sur devis ». Le moteur de prix est abandonné, ni branché ni supprimé. Repères internes, jamais affichés : platine 280 + 100 ₪/g, polissage ≈ 10 $, rhodiage ≈ 10 $ de plus, supplément pour une pièce complexe (`docs/PRICING_RULES.md`).
 - **Osek patour, sans TVA** : plus de « TTC » ni de « TVA 18 % ». Un seul réglage, `vatStatus` (`src/config/business.ts`), décide de la mention de TVA de la FAQ « prix » et de la politique de confidentialité ; testé pour ses deux valeurs. FAQ « prix » réécrite : chaque prix est fixé par l'atelier pour la pièce.
 - **Informations de l'entreprise** : « Diamdor » (à confirmer : nom du titulaire), numéro d'osek patour 345837116, téléphone +972 55-255-0455, paiement par carte en ligne et Bit, livraison en Israël par coursier ou retrait à la Bourse.
-- **Configurateur et formulaires** : or jaune 14 k par défaut ; réponse aux devis « sous 24 à 48 h ouvrées » ; taille européenne de référence, avec l'équivalent américain. `NEXT_PUBLIC_WHATSAPP_NUMBER` saisi dans Vercel (production et preview).
+- **Configurateur et formulaires** : or jaune 14 k par défaut ; réponse aux devis « sous 24 à 48 h ouvrées » ; taille européenne de référence, avec l'équivalent américain.
 - **Textes** (FR, EN, HE) : FAQ validée par l'atelier (sur mesure, paiement, livraison, entretien ; l'annulation reste « À confirmer » jusqu'à l'avis de l'avocat ; la livraison à l'étranger est retirée) ; pas de certificat systématique sous 0,50 ct ; or blanc sans nickel ; poinçon 585 ou 750 ; guide de la taille sans « taille israélienne » comme norme ; bijou de famille confirmé, avec l'apport à l'atelier et l'assurance de l'envoi. Nouveaux textes hébreux à faire relire.
 - Dossier de l'avocat : questions 44 à 47 (non-reprise du sur-mesure, clause de casse au dessertissage non publiée, osek patour, transport). Relance de l'atelier prête (`docs/atelier/2026-11-16_relance.md`, 11 questions).
-- Image de l'accueil refaite (or jaune 14 k, métal par défaut).
-- Tests : 117 unitaires ; Chromium 242 (239 passés, 3 ignorés), dont l'audit d'accessibilité ; aucun échec. WebKit et Firefox non relancés.
+- Tests : TESTS_PLACEHOLDER
+
+## 2026-11-20 — Trois versions de l'accueil, bague pilotée par le défilement
+
+- Demande du propriétaire : reprendre le système de quatre sites primés (Ciao Energy, Unique Jewelry, Maserati Trident Stars, Seed Jewelry) avec la bague, en trois versions.
+- Moteur commun : le modèle 3D réel suit le défilement (place, taille, rotation, métal, séparation du solitaire et de l'alliance), en gardant le défilement du navigateur.
+- Version A « Écrin », version B « Constellation », version C « Lumière » : `/fr/versions`.
+- Reflets adoucis (choix « doux » du propriétaire) dans le configurateur et dans les sept rendus Cycles.
+- Étude des sites de référence : `docs/versions/ETUDE_REFERENCES.md`.
+- Critique des trois versions par trois directeurs artistiques, chaque correction contrôlée par un second agent, puis corrections : scènes tenues à l'écran (le texte se pose pendant que la bague finit son mouvement), appels finaux avec la bague, téléphone revu (bandeau de la bague, textes qui se suivent), aucun texte sur la bague.
+- Contrôle sur captures à huit tailles d'écran (ordinateur, portable, tablette couchée et debout, deux téléphones, téléphone à l'horizontale, zoom à 200 %) et en hébreu ; défauts corrigés : bague sur un titre, rangs de bagues sur les noms des métaux, texte sur la bague sur tablette.
+- Moteur : plafond de taille par rapport à la hauteur (`maxH`), valeurs d'écran en hauteur (`upright`), mise en page étroite pour tout écran plus haut que large, taille plafonnée par la largeur sur écran 4:3, `?quality=low|high` ; studio clair sans noir ; pierres simplifiées contrastées sur fond clair.
+- Tests unitaires réparés (plan du site, identifiant du contenu principal) : les pages des versions les avaient cassés.
+
+## 2026-11-20 — Réalisme de la 3D et images photoréalistes
+
+- Demande du propriétaire : « la 3D fait trop fausse, trop cylindrique, trop carrée, pas de rondeur ni de reflets ».
+- Configurateur : nouveau studio d'éclairage (fond presque noir, boîtes à lumière dégradées, bandes et points vifs) et métaux polis (rugosité 0,05). L'or reflète enfin des lumières et des ombres au lieu d'un fond clair uniforme.
+- Images de l'accueil : rendus photoréalistes Blender Cycles du modèle de fabrication (arêtes adoucies au rendu, diamants avec dispersion), `scripts/render/`. Remplacent les captures du configurateur.
+- En-tête : bandeau de signature, monogramme centré, menu complet ; bouton « Menu » sur tablette et téléphone.
+- Accueil : « Métaux et pierres » avec le solitaire, citation en or sur noir ; le bandeau émeraude est retiré.
+
+## 2026-11-20 — Refonte visuelle, seconde version
+
+- Demande du propriétaire : la première refonte était « simple et fade, aucun sentiment de luxe ».
+- Titres en Bodoni Moda, or « feuille » en dégradé, vert émeraude, grain sur les fonds sombres.
+- Accueil reconstruit : premier écran plein cadre, gros plan de la marquise, galerie des quatre métaux, bandeau émeraude, citation, appel final. Textes existants conservés ; ajouts : trois repères, titre et texte de la galerie, appel final.
+- Six rendus 3D réels de ring-001 sur fond transparent (`public/images/rendus/`, `scripts/perf/gallery-render.mjs`).
+- Configurateur, FAQ, guides et pages légales : titres plus grands, filet or.
+
+## 2026-11-17 — Refonte visuelle « maison de joaillerie »
+
+- Palette noir, ivoire et champagne ; en-tête et pied de page noirs avec monogramme JR et filets dorés.
+- Accueil : premier écran noir en pleine largeur avec le rendu 3D sur fond noir, sections numérotées, bandeau « Métaux et pierres », liens fléchés. Textes inchangés.
+- Configurateur : scène 3D sur fond noir, vues et choix en cours restylés, bouton principal or au survol.
+- WhatsApp des devis actif en production ; inventaire des fichiers de l'atelier reçus par le Drive (`docs/atelier/2026-11-17_fichiers_drive.md`).
+- Tests : tout vert (Chromium 247 passés ; WebKit et Firefox 295 passés). Déclaration d'accessibilité datée du 17/11.
+- Sécurité : Next.js 16.4.2 → 16.4.6 (GHSA-mfr8-8qww-v76h, GHSA-vc7v-qv4w-wrv8) ; 0 faille dans les dépendances de production ; suites complètes repassées, toutes vertes.
+
+## 2026-11-16 — Lien de partage de la configuration
+
+- La configuration (composition, métal, origine, pierre) est dans l'adresse de la page : recharger, mettre en favori ou envoyer le lien rouvre la même bague. Valeurs inconnues ignorées une à une ; aucune nouvelle entrée d'historique.
+- Bouton « Partager cette configuration » (FR, EN, HE) : partage du système, sinon copie du lien, sinon lien affiché et sélectionné.
+- Le lien complet part dans l'e-mail du devis et dans le message WhatsApp (avant : page sans configuration).
+- Concurrence, périmètre réduit voulu par le propriétaire : 10 sites israéliens et 5 français audités de plus (16 et 8 en tout), synthèses `SYNTHESE_il.md` et `SYNTHESE_fr.md`. Écart noté chez Laveran (`agents.md`).
+- Tests : 4 unitaires et 4 navigateur ajoutés. Suites complètes : 116 unitaires ; Chromium 247 passés, 3 ignorés ; iPhone et iPad 104 passés, 21 ignorés chacun ; Firefox 87 passés, 5 ignorés ; aucun échec. Déclaration d'accessibilité datée du 16/11.
+
+## 2026-11-16 — Étude de concurrence terminée, dépôt public
+
+- Fin de l'étude de concurrence fusionnée dans `main` : rapports de forums vérifiés, audits de sites (États-Unis, Israël, Europe, Australie), deux comparaisons avec le prototype et `docs/concurrence/SYNTHESE.md` (35 avantages de la concurrence classés, nos avantages, ce qu'il ne faut pas copier, décisions attendues).
+- Contrôle complet local sur `d85cc16` : tout vert ; CI GitHub bloquée par la facturation du compte.
+
+## 2026-11-15 — Dépôt public, étude de concurrence (sans changement de code)
+
+- Le dépôt GitHub est public (décision du propriétaire). Les fichiers CAO, les règles de prix et les dossiers de `docs/` sont lisibles par tous. Contrôle : aucun secret dans les fichiers suivis ni dans l'historique.
+- Étude de concurrence dans `docs/concurrence/` : exploration de quatre marchés, dix rapports de forums vérifiés, audits de sites en cours.
 
 ## 0.5.0 — 2026-11-15 — Accueil, pages légales, accessibilité, pierres de couleur, lancement préparé
 

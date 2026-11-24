@@ -28,13 +28,26 @@ export type HomeContent = {
   shareTitle: string;
   description: string;
   eyebrow: string;
-  title: string;
+  /** Titre principal en segments : les segments d'indice impair sont mis en valeur (italique, or). */
+  title: string[];
+  /** Trois repères sous le premier écran (faits acquis : métaux, pierres, délai). */
+  heroFacts: string[];
   lede: string;
   draft: string;
   cta: string;
   /** Sous l'appel principal : le seul modèle en ligne et le prix sur devis. */
   ctaNote: string;
   image: { alt: string; caption: string };
+  /** Gros plan de la marquise (rendu 3D, vue de dessus). */
+  detail: { alt: string; caption: string };
+  /** Galerie des quatre métaux (rendus 3D de l'ensemble marquise). `setName` précède le nom du métal dans le texte alternatif. */
+  metalsTitle: string;
+  metalsText: string;
+  setName: string;
+  /** Solitaire seul (section « Métaux et pierres »). */
+  solitaire: { alt: string; caption: string };
+  /** Appel final, en bas de page. */
+  finalTitle: string;
   pointsTitle: string;
   points: HomeCard[];
   making: string;
@@ -51,15 +64,22 @@ export const HOME: Record<Locale, HomeContent> = {
     description:
       'Bagues en or et en platine, diamants naturels ou synthétiques, fabriquées par notre atelier de la Bourse du diamant de Ramat Gan. Configurez votre bague en 3D, prix sur devis.',
     eyebrow: 'L’atelier en direct',
-    title: 'Votre bague, vue en 3D, fabriquée à Ramat Gan',
+    title: ['Votre bague, ', 'vue en 3D', ', fabriquée à Ramat Gan'],
+    heroFacts: ['Or 14 et 18 carats, platine', 'Diamants naturels ou synthétiques', '14 jours ouvrés à partir de la commande'],
     lede: 'JR Diamond est un atelier de joaillerie installé à la Bourse du diamant de Ramat Gan. Choisissez en 3D le métal et le diamant de votre bague : l’atelier vous répond avec un devis, puis la fabrique.',
     draft: 'Brouillon · page en attente de relecture par l’atelier',
     cta: 'Configurer une bague',
     ctaNote: 'Premier modèle en ligne : l’ensemble marquise, en solitaire, en alliance ou les deux. Prix sur devis, sans engagement.',
     image: {
       alt: 'Ensemble marquise en or jaune : bague solitaire et alliance, vues de trois quarts.',
-      caption: 'L’ensemble marquise tel qu’il s’affiche dans le configurateur : un rendu 3D, pas une photo.',
+      caption: 'L’ensemble marquise, rendu à partir du fichier de fabrication de l’atelier : une image 3D photoréaliste, pas une photo.',
     },
+    detail: { alt: 'Gros plan de la marquise en or jaune, entourée de six diamants ronds.', caption: 'Le solitaire vu de dessus : rendu 3D photoréaliste.' },
+    metalsTitle: 'Un modèle, quatre métaux',
+    metalsText: 'L’ensemble marquise en or jaune, blanc ou rose et en platine. Rendus 3D photoréalistes du modèle de fabrication, pas des photos.',
+    setName: 'Ensemble marquise',
+    solitaire: { alt: 'Le solitaire marquise en or jaune, vu de trois quarts.', caption: 'Le solitaire seul : rendu 3D photoréaliste.' },
+    finalTitle: 'Composez la vôtre',
     pointsTitle: 'Comment nous travaillons',
     points: [
       {
@@ -96,15 +116,22 @@ export const HOME: Record<Locale, HomeContent> = {
     description:
       'Gold and platinum rings with natural or lab-grown diamonds, made by our workshop at the Diamond Exchange in Ramat Gan. Configure your ring in 3D, priced on quote.',
     eyebrow: 'Straight from the workshop',
-    title: 'Your ring, seen in 3D, made in Ramat Gan',
+    title: ['Your ring, ', 'seen in 3D', ', made in Ramat Gan'],
+    heroFacts: ['14 or 18 karat gold, platinum', 'Natural or lab-grown diamonds', '14 working days from your order'],
     lede: 'JR Diamond is a jewellery workshop at the Diamond Exchange in Ramat Gan. Choose the metal and the diamond of your ring in 3D: the workshop replies with a quote, then makes it.',
     draft: 'Draft · page awaiting review by the workshop',
     cta: 'Configure a ring',
     ctaNote: 'First piece online: the marquise set, as a solitaire, a band or both. Priced on quote, with no obligation.',
     image: {
       alt: 'Marquise set in yellow gold: solitaire ring and band, seen at a three-quarter angle.',
-      caption: 'The marquise set as shown in the configurator: a 3D render, not a photo.',
+      caption: 'The marquise set, rendered from the workshop’s production file: a photorealistic 3D image, not a photo.',
     },
+    detail: { alt: 'Close-up of the marquise in yellow gold, surrounded by six round diamonds.', caption: 'The solitaire seen from above: a photorealistic 3D render.' },
+    metalsTitle: 'One design, four metals',
+    metalsText: 'The marquise set in yellow, white or rose gold and in platinum. Photorealistic 3D renders of the production model, not photos.',
+    setName: 'Marquise set',
+    solitaire: { alt: 'The marquise solitaire in yellow gold, seen at a three-quarter angle.', caption: 'The solitaire on its own: a photorealistic 3D render.' },
+    finalTitle: 'Design yours',
     pointsTitle: 'How we work',
     points: [
       {
@@ -140,15 +167,22 @@ export const HOME: Record<Locale, HomeContent> = {
     shareTitle: 'תכשיטים מבורסת היהלומים ברמת גן',
     description: 'טבעות זהב ופלטינה עם יהלומים טבעיים או יהלומי מעבדה, בייצור הסדנה שלנו בבורסת היהלומים ברמת גן. עצבו את הטבעת בתלת־ממד, המחיר לפי הצעת מחיר.',
     eyebrow: 'ישר מהסדנה',
-    title: 'הטבעת שלכם, בתלת־ממד, מיוצרת ברמת גן',
+    title: ['הטבעת שלכם, ', 'בתלת־ממד', ', מיוצרת ברמת גן'],
+    heroFacts: ['זהב 14 או 18 קראט, פלטינה', 'יהלומים טבעיים או יהלומי מעבדה', '14 ימי עבודה מיום ההזמנה'],
     lede: 'JR Diamond היא סדנת תכשיטים בבורסת היהלומים ברמת גן. בחרו בתלת־ממד את המתכת ואת היהלום של הטבעת: הסדנה משיבה בהצעת מחיר, ואחר כך מייצרת אותה.',
     draft: 'טיוטה · העמוד ממתין לאישור הסדנה · תרגום ממתין להגהה',
     cta: 'עיצוב טבעת',
     ctaNote: 'הדגם הראשון באתר: סט המרקיזה, כטבעת סוליטר, כטבעת נישואין או שתיהן יחד. המחיר לפי הצעת מחיר, ללא התחייבות.',
     image: {
       alt: 'סט מרקיזה בזהב צהוב: טבעת סוליטר וטבעת נישואין, במבט אלכסוני.',
-      caption: 'סט המרקיזה כפי שהוא מוצג במעצב התכשיטים: הדמיה בתלת־ממד, לא תמונה.',
+      caption: 'סט המרקיזה, בהדמיה מקובץ הייצור של הסדנה: הדמיה פוטו־ריאליסטית בתלת־ממד, לא תמונה.',
     },
+    detail: { alt: 'תקריב של המרקיזה בזהב צהוב, מוקפת שישה יהלומים עגולים.', caption: 'הסוליטר במבט מלמעלה: הדמיה פוטו־ריאליסטית בתלת־ממד.' },
+    metalsTitle: 'דגם אחד, ארבע מתכות',
+    metalsText: 'סט המרקיזה בזהב צהוב, לבן או אדום ובפלטינה. הדמיות פוטו־ריאליסטיות בתלת־ממד של דגם הייצור, לא תמונות.',
+    setName: 'סט מרקיזה',
+    solitaire: { alt: 'סוליטר המרקיזה בזהב צהוב, במבט אלכסוני.', caption: 'הסוליטר לבדו: הדמיה פוטו־ריאליסטית בתלת־ממד.' },
+    finalTitle: 'עצבו את שלכם',
     pointsTitle: 'איך אנחנו עובדים',
     points: [
       {

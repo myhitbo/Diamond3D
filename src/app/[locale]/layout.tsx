@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from 'next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { Assistant, Cormorant_Garamond, Frank_Ruhl_Libre, Jost } from 'next/font/google';
+import { Assistant, Bodoni_Moda, Frank_Ruhl_Libre, Jost } from 'next/font/google';
 import SiteFooter from '@/components/site/SiteFooter';
 import { DIRECTION } from '@/i18n/dictionaries';
 import { LOCALES } from '@/lib/configurator/schema';
@@ -8,7 +8,8 @@ import { siteMetadata } from '@/lib/metadata';
 import { localeOrDefault } from '@/lib/routes';
 import '../globals.css';
 
-const display = Cormorant_Garamond({ subsets: ['latin'], weight: ['400', '500'], style: ['normal', 'italic'], variable: '--font-cormorant', display: 'swap' });
+// Titres : Didone à fort contraste (axe de taille optique : déliés plus fins dans les grands titres).
+const display = Bodoni_Moda({ subsets: ['latin'], style: ['normal', 'italic'], axes: ['opsz'], variable: '--font-bodoni', display: 'swap' });
 const text = Jost({ subsets: ['latin'], weight: ['300', '400'], variable: '--font-jost', display: 'swap' });
 // Hébreu : les polices latines n'ont pas de glyphes hébreux.
 const displayHe = Frank_Ruhl_Libre({ subsets: ['hebrew'], weight: ['400', '500'], variable: '--font-frank', display: 'swap' });
@@ -22,7 +23,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   return siteMetadata(localeOrDefault((await params).locale));
 }
 
-export const viewport: Viewport = { themeColor: '#f7f3ec', width: 'device-width', initialScale: 1 };
+export const viewport: Viewport = { themeColor: '#0b0a08', width: 'device-width', initialScale: 1 };
 
 export function generateStaticParams() {
   return LOCALES.map((locale) => ({ locale }));

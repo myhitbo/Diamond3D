@@ -108,8 +108,8 @@ test('déclaration : état de conformité daté ; formulaires : lien vers la pol
   const status = page.locator('section#etat');
   await expect(status.getByRole('heading', { level: 2 })).toHaveText('État de conformité');
   await expect(status).toContainText('Dernière vérification');
-  await expect(status).toContainText('15 novembre 2026');
-  // Vérification du 15/11 : contrôles automatiques (axe-core et contrôles complémentaires), pas de lecteur d'écran.
+  await expect(status).toContainText('20 novembre 2026');
+  // Vérification du 15/11, refaite le 16/11 et le 17/11 : contrôles automatiques (axe-core et contrôles complémentaires), pas de lecteur d'écran.
   await expect(status).toContainText('Partielle au niveau AA');
   await expect(status).toContainText('axe-core 4.14.0');
   await expect(status.getByRole('heading', { level: 3, name: 'Lecteurs d’écran testés' })).toBeVisible();
@@ -138,6 +138,11 @@ test('ce que dit la politique : aucun cookie, aucun stockage, aucune requête ve
   await page.goto('/fr/configurateur/ring-001?debug=1');
   await page.waitForFunction(() => window.__jr?.ready === true, null, { timeout: 60_000 });
   await page.goto('/he/faq');
+  // Versions de l'accueil à l'essai : même modèle 3D, polices servies par le site.
+  for (const id of ['a', 'b', 'c']) {
+    await page.goto(`/fr/versions/${id}`);
+    await page.waitForLoadState('networkidle');
+  }
   // Envoi d'une demande (envoi simulé pendant les tests).
   await page.goto('/fr/transformation');
   await page.getByLabel('Nom *').fill('Jeanne Martin');

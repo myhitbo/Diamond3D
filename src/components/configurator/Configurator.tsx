@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useCallback, useEffect, useMemo, useReducer, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { useProgress } from '@react-three/drei';
 import { getModel } from '@/models';
 import { METALS } from '@/config/metals';
@@ -10,11 +10,15 @@ import type { ConfigState, Locale, ModelDefinition } from '@/lib/configurator/sc
 import {
   applyChange,
   buildRequestMessage,
+  configFromParams,
+  configToParams,
   defaultState,
+  hasConfigParams,
   metalFamilies,
   metalTitres,
   metalWeightEstimateG,
   pickMetal,
+  shareUrl,
   stoneSummary,
   visibleNodes,
   type StoneRequest,
@@ -105,6 +109,8 @@ export default function Configurator({
   const [request, setRequest] = useState<StoneRequest>({});
   /** Nombre de clics sur un bouton « sur demande » : seul ce geste fait défiler la page jusqu'au formulaire déjà ouvert. */
   const [requestCount, setRequestCount] = useState(0);
+  /** Résultat du bouton « partager » : lien copié, ou lien affiché à copier à la main (presse-papiers refusé). */
+  const [shared, setShared] = useState<{ status: 'idle' | 'copied' | 'fallback'; link: string }>({ status: 'idle', link: '' });
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
@@ -113,9 +119,27 @@ export default function Configurator({
     if (probe) initProbe();
     setDebug(probe);
     if (q.get('quality') === 'low') setQuality('low');
+    // Lien partagé : la configuration de l'adresse remplace celle par défaut (valeurs non prévues ignorées).
+    if (hasConfigParams(model, q)) dispatch({ type: 'change', change: configFromParams(model, q) });
     setWebgl(hasWebGL());
     /* eslint-enable react-hooks/set-state-in-effect */
-  }, [diagnostic]);
+  }, [diagnostic, model]);
+
+  // L'adresse suit la configuration (sans nouvelle entrée d'historique) : recharger ou copier la barre d'adresse la conserve.
+  // Une adresse arrivée sans configuration reste nue tant que rien n'a changé.
+  const urlWritten = useRef(false);
+  useEffect(() => {
+    try {
+      const u = new URL(window.location.href);
+      const atDefault = JSON.stringify(state) === JSON.stringify(defaultState(model));
+      if (!urlWritten.current && atDefault && !hasConfigParams(model, u.searchParams)) return;
+      urlWritten.current = true;
+      for (const [k, v] of configToParams(model, state)) u.searchParams.set(k, v);
+      if (u.href !== window.location.href) window.history.replaceState(window.history.state, '', u.href);
+    } catch {
+      // Page sans historique modifiable (préversion dans un cadre isolé) : le bouton « partager » reste disponible.
+    }
+  }, [model, state]);
 
   useEffect(() => {
     if (debug) setProbe({ quality });
@@ -144,6 +168,25 @@ export default function Configurator({
   ].join(' ');
   const onReady = useCallback(() => setReady(true), []);
   const onQualityDrop = useCallback(() => setQuality('low'), []);
+
+  const share = async () => {
+    const link = shareUrl(model, state, window.location.href);
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: model.name[locale], url: link });
+        setShared({ status: 'idle', link });
+        return;
+      } catch (e) {
+        if ((e as Error)?.name === 'AbortError') return;
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(link);
+      setShared({ status: 'copied', link });
+    } catch {
+      setShared({ status: 'fallback', link });
+    }
+  };
 
   const reset = () => {
     dispatch({ type: 'reset' });
@@ -429,9 +472,33 @@ export default function Configurator({
               </p>
             </>
           )}
-          <button type="button" className={styles.textButton} onClick={reset}>
-            {t.reset}
-          </button>
+          <div className={styles.summaryActions}>
+            <button type="button" className={styles.textButton} onClick={share}>
+              {t.share}
+            </button>
+            <button type="button" className={styles.textButton} onClick={reset}>
+              {t.reset}
+            </button>
+          </div>
+          {/* Région annoncée poliment (pas `role=status` : réservé ici à l'indicateur de chargement de la 3D). */}
+          <p aria-live="polite" className={styles.note}>
+            {shared.status === 'copied' && t.shareCopied}
+          </p>
+          {shared.status === 'fallback' && (
+            <p className={styles.note}>
+              <label htmlFor="share-link">{t.shareFallback}</label>
+              <input
+                id="share-link"
+                className={styles.shareLink}
+                type="text"
+                readOnly
+                dir="ltr"
+                value={shared.link}
+                onFocus={(e) => e.currentTarget.select()}
+                autoFocus
+              />
+            </p>
+          )}
         </section>
 
         {quoteEnabled && (

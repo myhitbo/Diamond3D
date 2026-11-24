@@ -24,7 +24,8 @@
 - [ ] Poids réels des pierres, à la place des carats estimés. Marquise affichée « ≈ 0,25 ct, à confirmer » (tableau Stuller) ; passer `confirmedByWorkshop` à true avec le poids réel.
 - [ ] Choix du carat pour les solitaires (pierre + tête agrandies depuis l'ancrage, plage validée par l'atelier) : en attente d'un fichier de solitaire (CGTrader « solitaire ring » ou atelier).
 - [ ] Densités des alliages et taux de perte : indisponibles chez l'atelier (3/11). Poids affichés « ≈ … (± 5 %) » depuis le 4/11.
-- [ ] Recevoir les 3 modèles `.3dm` + STL + photos studio promis par l'atelier (3/11).
+- [x] Fichiers de l'atelier reçus le 17/11 par le Drive du propriétaire : 7 modèles (inventaire `docs/atelier/2026-11-17_fichiers_drive.md`). Prêts pour le pipeline : solitaire marquise et bague cœur. Deux `.3dm` sans maillage à faire réenregistrer.
+- [ ] Repasser en accès « Limité » les 7 fichiers du Drive ouverts par lien le 17/11 (propriétaire).
 - [x] Or 14 k (jaune, blanc, rose) au configurateur, choix couleur + titre ; « Synthétique » en français (4/11).
 - [x] Métal par défaut de ring-001 : or jaune 14 k (atelier, 16/11).
 - [x] Pierres de couleur au configurateur, « sur demande » (15/11) : diamant de couleur ; émeraude, saphir et rubis naturels. Boutons en pointillés sous la pierre centrale, comme les autres formes : ils ouvrent le devis avec un message pré-rempli (FR/EN/HE), la 3D reste la marquise, aucun prix. En origine « synthétique », le message précise que les autres pierres sont des diamants synthétiques (jamais « émeraude synthétique »).
@@ -77,8 +78,8 @@
 - [x] Délai affiché : 14 jours ouvrés (4/11).
 - [ ] Paiement intégral sur le site.
 - [x] Phase 4, version légère (13/11) : formulaire de devis FR/EN/HE envoyé par e-mail (sans base de données), avec accord facultatif de publication des photos et vidéos de fabrication.
-- [x] Bouton WhatsApp en production : `NEXT_PUBLIC_WHATSAPP_NUMBER=+972552550455` saisi dans Vercel le 16/11 (production et preview).
-- [ ] Devis par e-mail : saisir `QUOTE_TO`, `QUOTE_FROM`, `SMTP_*` dans Vercel quand l'adresse de l'atelier existera (« en création » le 16/11), redéployer, tester une vraie demande.
+- [x] WhatsApp en production (17/11) : `NEXT_PUBLIC_WHATSAPP_NUMBER = +972552550455` dans Vercel, vérifié dans le code servi. Reste : envoyer une vraie demande depuis un téléphone pour contrôler le message reçu.
+- [ ] E-mail des devis : saisir dans Vercel `QUOTE_TO`, `QUOTE_FROM`, `SMTP_*` quand l'adresse de l'atelier existera (« en création » le 16/11), puis redéployer et tester une vraie demande.
 - [x] Délai de réponse affiché (16/11) : « sous 24 à 48 h ouvrées » (formulaires de devis et de transformation, accueil).
 - [x] Formes « sur demande » cliquables, en-tête mobile sur une ligne, actions GitHub en v7 (14/11).
 - [ ] Page d'accueil (`/fr`, `/en`, `/he`, contenu `src/content/home.ts`) : relecture par l'atelier, puis retrait du badge « Brouillon ». Points à confirmer (questions 80 à 82 de `docs/QUESTIONS_ATELIER.md`) : étapes confiées à d'autres (le site ne dit plus « sur place »), point de départ de l'année de mise à taille offerte, photos et vidéos de fabrication (intention, réponse de la FAQ marquée « À confirmer »). Formulations corrigées le 15/11 : un diamant synthétique n'est plus dit « vrai diamant » (décret 2002-65, article 4), ni sur l'accueil, ni dans la FAQ, ni dans le configurateur.
@@ -86,6 +87,7 @@
 - [ ] Paiement : ouvrir un compte Grow au nom de l'entreprise de l'atelier, demander des devis à PayPlus et Cardcom, puis développer le parcours devis → lien de paiement.
 - [ ] Juridique : compléter la partie 4 du dossier avec l'atelier et consulter un avocat israélien.
 - [ ] Devis : faire relire les textes hébreux du formulaire (traduction IA).
+- [x] Lien de partage (16/11) : configuration dans l'adresse, bouton « Partager cette configuration », lien complet dans l'e-mail du devis et dans WhatsApp. Reste : relecture native du texte hébreu du bouton et de ses messages.
 - [x] Adresses traduites (`/en/configurator/…`, `/he/configurator/…`, 14/11). Redirections passées en permanent au lancement par l'interrupteur `SITE_INDEXABLE` (voir « Lancement en Israël »).
 - [x] Tests Safari et Firefox automatisés (15/11) : WebKit iPhone et iPad, Firefox sans 3D (`npm run test:e2e:browsers`). Reste le test sur appareils réels (section « Bloquant »).
 - [ ] Calibrer les teintes des métaux sur des photos authentiques.

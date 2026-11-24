@@ -85,8 +85,9 @@ describe('plan du site', () => {
     };
     walk(root);
     const listed = new Set(SITEMAP_PAGES.map((p) => p.path.replace(/\/ring-001$/, '/[modelId]')));
-    // Guides : ajoutés un par un (adresse traduite). Diagnostic : jamais indexé. [...rest] : 404.
-    const excluded = new Set(['/guides/[slug]', '/diagnostic', '/[...rest]']);
+    // Guides : ajoutés un par un (adresse traduite). Diagnostic : jamais indexé. [...rest] : 404. Versions de l'accueil à
+    // comparer : pages d'essai non indexées, hors du plan du site tant que le propriétaire n'a pas choisi.
+    const excluded = new Set(['/guides/[slug]', '/diagnostic', '/[...rest]', '/versions', '/versions/a', '/versions/b', '/versions/c', '/versions/moteur']);
     for (const p of pages) expect(listed.has(p) || excluded.has(p), `page ${p} absente du plan du site`).toBe(true);
   });
 

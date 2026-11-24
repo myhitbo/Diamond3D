@@ -5,6 +5,7 @@ import { ErrorSummary, FieldMessages, collectErrors, commonFieldError, fieldAria
 import type { Dict } from '@/i18n/dictionaries';
 import type { ConfigState, Locale } from '@/lib/configurator/schema';
 import { getModel } from '@/models';
+import { shareUrl } from '@/lib/configurator/logic';
 import { checkPhotos, PHOTO_LIMITS, type QuoteError } from '@/lib/quote/request';
 import { buildWhatsAppLink, buildWhatsAppMessage, normalizeWhatsAppNumber } from '@/lib/quote/whatsapp';
 import { privacyPath } from '@/lib/routes';
@@ -112,7 +113,7 @@ export default function QuoteForm({
     if (!WHATSAPP || !model) return;
     const data = new FormData(form);
     const get = (k: string) => String(data.get(k) ?? '');
-    const text = buildWhatsAppMessage(model, state, { name: get('name'), ringSize: get('ringSize'), message: get('message') }, window.location.href.split('?')[0]);
+    const text = buildWhatsAppMessage(model, state, { name: get('name'), ringSize: get('ringSize'), message: get('message') }, shareUrl(model, state, window.location.href));
     window.open(buildWhatsAppLink(WHATSAPP, text), '_blank', 'noopener');
   }
 

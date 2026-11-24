@@ -37,7 +37,7 @@ await p.evaluate(async () => {
   await Promise.all([...document.images].map((i) => i.decode()));
 });
 const fonts = await p.evaluate(() => [...document.fonts].filter((f) => f.status === 'loaded').map((f) => f.family));
-if (!fonts.some((f) => /Cormorant/i.test(f))) throw new Error(`Police du mot-symbole non chargée (${fonts.join(', ')})`);
+if (!fonts.some((f) => /Bodoni/i.test(f))) throw new Error(`Police du mot-symbole non chargée (${fonts.join(', ')})`);
 const png = await p.screenshot({ clip: { x: 0, y: 0, width: W, height: H } });
 await b.close();
 

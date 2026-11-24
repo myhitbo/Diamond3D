@@ -6,13 +6,17 @@ import { LOCALES, type ModelDefinition } from '@/lib/configurator/schema';
 import {
   applyChange,
   buildRequestMessage,
+  configFromParams,
+  configToParams,
   defaultState,
   fixedStoneCount,
+  hasConfigParams,
   metalFamilies,
   metalTitres,
   metalVolumeMm3,
   metalWeightEstimateG,
   pickMetal,
+  shareUrl,
   stoneSummary,
   validateModel,
   visibleNodes,
@@ -223,5 +227,38 @@ describe('formes et pierres « sur demande »', () => {
     const solitaire = { ...labGrown, composition: 'solitaire' };
     expect(fixedStoneCount(m, solitaire)).toBe(0);
     expect(buildRequestMessage(fr, m, solitaire, { stone: 'ruby' })).toBe('Je souhaite ce bijou avec un rubis naturel en pierre centrale.');
+  });
+});
+
+describe('configuration dans l’adresse (lien partagé)', () => {
+  it('aller-retour : l’adresse rend exactement la configuration', () => {
+    const s = applyChange(ring001, defaultState(ring001), { composition: 'solitaire', metal: 'rose-gold-18k', diamondOrigin: 'lab-grown' });
+    expect(s.composition).toBe('solitaire');
+    const p = configToParams(ring001, s);
+    expect(p.get('composition')).toBe('solitaire');
+    expect(p.get('metal')).toBe('rose-gold-18k');
+    expect(p.get('origin')).toBe('lab-grown');
+    expect(configFromParams(ring001, new URLSearchParams(p.toString()))).toEqual(s);
+  });
+
+  it('ignore une valeur non prévue, une à une, sans perdre les autres', () => {
+    const s = configFromParams(ring001, new URLSearchParams('composition=solitaire&metal=silver-925&origin=imitation&stone-center=xxl'));
+    expect(s).toEqual({ ...defaultState(ring001), composition: 'solitaire' });
+    expect(configFromParams(ring001, new URLSearchParams(''))).toEqual(defaultState(ring001));
+  });
+
+  it('reconnaît une adresse qui porte une configuration', () => {
+    expect(hasConfigParams(ring001, new URLSearchParams('debug=1&quality=low'))).toBe(false);
+    expect(hasConfigParams(ring001, new URLSearchParams('metal=platinum-950'))).toBe(true);
+    expect(hasConfigParams(ring001, new URLSearchParams('stone-center=marquise-6x3'))).toBe(true);
+  });
+
+  it('lien à partager : garde la page, retire les autres paramètres et l’ancre', () => {
+    const s = applyChange(ring001, defaultState(ring001), { metal: 'platinum-950' });
+    const u = new URL(shareUrl(ring001, s, 'https://jr.example/he/configurator/ring-001?debug=1&quality=low#quote-form'));
+    expect(u.origin + u.pathname).toBe('https://jr.example/he/configurator/ring-001');
+    expect(u.hash).toBe('');
+    expect([...u.searchParams.keys()].sort()).toEqual(['composition', 'metal', 'origin', 'stone-center']);
+    expect(u.searchParams.get('metal')).toBe('platinum-950');
   });
 });

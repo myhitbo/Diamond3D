@@ -1,0 +1,1338 @@
+/*
+ * Version A « Écrin ». Système repris d'un site de lancement de produit : carrousel de l'objet en 3D avec un curseur (ici les
+ * quatre métaux), thème de couleur selon le choix, objet qui traverse la page au défilement, grand mot en fond, rangée finale.
+ * Plans : fond fixe (0) < fonds des sections (dans le flux) < scène 3D collante (1) < textes (2) < repères et en-tête (3, 20).
+ * Contrastes (texte --a-ink #f7f3ec) : sur --a-deep et --a-mid de chaque thème, 12:1 au moins ; texte atténué --on-noir-muted,
+ * 5:1 au moins ; pastilles en --a-glow, 5,5:1 au moins. Sur la bande claire du « grand mot », texte --a-ink-bright (6:1 au moins).
+ */
+@property --a-deep {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #130d05;
+}
+@property --a-mid {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #3a2a0f;
+}
+@property --a-glow {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #c9a05a;
+}
+@property --a-bright1 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #e7c77e;
+}
+@property --a-bright2 {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: #b98e42;
+}
+
+.root {
+  --a-ink: #f7f3ec;
+  --a-ink-bright: #171006;
+  --a-header: 84px;
+  position: relative;
+  /* Les éléments fixes de la version (fond, en-tête, repères) s'arrêtent où elle s'arrête : ils ne couvrent pas le pied de page. */
+  clip-path: inset(0);
+  background: var(--a-deep);
+  color: var(--a-ink);
+  transition:
+    --a-deep 0.8s ease,
+    --a-mid 0.8s ease,
+    --a-glow 0.8s ease,
+    --a-bright1 0.8s ease,
+    --a-bright2 0.8s ease;
+}
+
+.root[data-metal='yellow'] {
+  --a-deep: #130d05;
+  --a-mid: #3a2a0f;
+  --a-glow: #c9a05a;
+  --a-bright1: #e7c77e;
+  --a-bright2: #b98e42;
+  --a-ink-bright: #171006;
+}
+
+.root[data-metal='white'] {
+  --a-deep: #090d12;
+  --a-mid: #1d2b3a;
+  --a-glow: #a9bfd4;
+  --a-bright1: #dfe8f0;
+  --a-bright2: #9db1c4;
+  --a-ink-bright: #0a1119;
+}
+
+.root[data-metal='rose'] {
+  --a-deep: #150a0b;
+  --a-mid: #3d1f22;
+  --a-glow: #dd9f90;
+  --a-bright1: #f2cfc4;
+  --a-bright2: #c98a7b;
+  --a-ink-bright: #1c0c0d;
+}
+
+.root[data-metal='platinum'] {
+  --a-deep: #0d0e10;
+  --a-mid: #2a2d33;
+  --a-glow: #c3c7ce;
+  --a-bright1: #e6e8eb;
+  --a-bright2: #a4a8af;
+  --a-ink-bright: #0d0e10;
+}
+
+.root :focus-visible {
+  outline-color: var(--a-ink);
+}
+
+/* Fond fixe : sombre, avec une lueur du métal choisi qui monte du bas de l'écran (30 % au plus : le texte reste lisible). */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 70% 46% at 50% 108%, color-mix(in srgb, var(--a-glow) 30%, transparent) 0%, transparent 72%),
+    radial-gradient(ellipse 110% 70% at 50% 100%, var(--a-mid) 0%, transparent 75%),
+    var(--a-deep);
+  pointer-events: none;
+}
+
+.backdrop::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--grain);
+  opacity: 0.06;
+}
+
+/* ---------- En-tête : avancement, langues, nom, menu, appel ---------- */
+.hud {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 20;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  height: var(--a-header);
+  padding: 0 clamp(16px, 4vw, 56px);
+  /* Opaque : rien de ce qui défile ne se devine à travers l'en-tête. */
+  background: var(--a-deep);
+  border-bottom: 1px solid color-mix(in srgb, var(--a-glow) 22%, transparent);
+  transition: background-color 0.8s ease;
+}
+
+/* Trait d'avancement dans la page (décoratif), piloté par le défilement là où le navigateur le permet. */
+.progress {
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--a-glow) 40%, transparent), var(--a-ink));
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+:global(html[dir='rtl']) .progress {
+  transform-origin: right;
+  background: linear-gradient(270deg, color-mix(in srgb, var(--a-glow) 40%, transparent), var(--a-ink));
+}
+
+@supports (animation-timeline: scroll()) {
+  .progress {
+    animation: grow linear both;
+    animation-timeline: scroll(root);
+  }
+}
+
+@keyframes grow {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.lang {
+  justify-self: start;
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+  letter-spacing: 0.16em;
+}
+
+.lang a {
+  display: inline-block;
+  min-width: 24px;
+  padding: 6px 0;
+  color: var(--on-noir-muted);
+  text-align: center;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+}
+
+.lang a:hover {
+  color: var(--a-ink);
+}
+
+.lang a[aria-current] {
+  color: var(--a-ink);
+  border-bottom-color: var(--a-ink);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding-block: 4px;
+  font-family: var(--font-bodoni), 'Bodoni Moda', Georgia, serif;
+  font-size: 18px;
+  letter-spacing: 0.3em;
+  /* L'espacement s'ajoute après la dernière lettre, à droite (nom en lettres latines) : compensé pour rester centré. */
+  margin-right: -0.3em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--a-ink);
+  white-space: nowrap;
+}
+
+.brand :global(.monogram) {
+  width: 30px;
+  height: 30px;
+  color: var(--a-glow);
+}
+
+.hudEnd {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 2vw, 24px);
+}
+
+/* Menu repliable (composant commun) : toujours affiché ici, et son panneau prend les couleurs du thème. */
+.hudEnd :global(.menu) {
+  display: block;
+}
+
+.hudEnd :global(.menu-label) {
+  display: inline;
+}
+
+.hud :global(.menu-panel) {
+  background: var(--a-deep);
+  border-color: color-mix(in srgb, var(--a-glow) 30%, transparent);
+}
+
+/* Bouton clair, comme un interrupteur allumé : texte sombre sur ivoire (17:1). */
+.pill {
+  display: inline-block;
+  padding: 13px 22px;
+  border-radius: 6px;
+  background: var(--a-ink);
+  color: #0b0a08;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 0 24px color-mix(in srgb, var(--a-glow) 35%, transparent);
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.pill:hover {
+  background: #ffffff;
+  box-shadow: 0 0 36px color-mix(in srgb, var(--a-glow) 70%, transparent);
+}
+
+/* Repères d'angle (décoratifs). */
+.frame {
+  position: fixed;
+  inset: calc(var(--a-header) + 16px) clamp(12px, 2.4vw, 36px) 16px;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.frame span {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 0 solid color-mix(in srgb, var(--a-ink) 55%, transparent);
+}
+
+.frame span:nth-child(1) {
+  inset: 0 auto auto 0;
+  border-width: 1px 0 0 1px;
+}
+
+.frame span:nth-child(2) {
+  inset: 0 0 auto auto;
+  border-width: 1px 1px 0 0;
+}
+
+.frame span:nth-child(3) {
+  inset: auto auto 0 0;
+  border-width: 0 0 1px 1px;
+}
+
+.frame span:nth-child(4) {
+  inset: auto 0 0 auto;
+  border-width: 0 1px 1px 0;
+}
+
+/* ---------- Scène 3D : collée à l'écran pendant toute la page ---------- */
+.stage {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  height: 100svh;
+  pointer-events: none;
+}
+
+/* La première section remonte sous la scène. (Une marge négative sur la scène elle-même la laisserait dépasser la fin de la page :
+   ainsi, la scène quitte l'écran avec la dernière section, et la bague ne passe pas sur le pied de page.) */
+.stage + * {
+  margin-top: -100svh;
+}
+
+.fallback {
+  display: grid;
+  place-items: center;
+  height: 100%;
+}
+
+.fallback img {
+  width: auto;
+  max-width: 80vw;
+  height: auto;
+  /* À la place de la bague du carrousel : au-dessus du socle, sous le titre. */
+  max-height: 50svh;
+  translate: 0 -6svh;
+}
+
+/* Sans WebGL, une image fixe remplace la bague. Elle n'accompagne pas le défilement (elle passerait sur les textes de toute la
+   page) : elle occupe la place de la bague dans le premier écran et part avec lui. */
+.stage:has(.fallback) {
+  position: absolute;
+  inset: 0 0 auto;
+}
+
+.stage:has(.fallback) + * {
+  margin-top: 0;
+}
+
+.main {
+  position: relative;
+}
+
+/* ---------- 1. Carrousel des métaux ---------- */
+.hero {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100svh;
+  padding: calc(var(--a-header) + clamp(20px, 4svh, 44px)) clamp(16px, 5vw, 72px) clamp(20px, 4svh, 40px);
+}
+
+.heroIntro {
+  position: relative;
+  z-index: 2;
+  /* La largeur suit la place laissée par la bague du milieu (420 px dès 1280 px de large, moins sur une tablette). */
+  max-width: clamp(240px, calc(50vw - 215px), 420px);
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  font-size: 11px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: var(--a-glow);
+}
+
+.heroTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(22px, 2.6vw, 38px);
+  line-height: 1.16;
+}
+
+/* Flèches de part et d'autre de la bague du milieu. */
+.picker {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.arrow {
+  position: absolute;
+  top: calc(43svh - 24px);
+  width: 48px;
+  height: 48px;
+  border: 1px solid color-mix(in srgb, var(--a-ink) 40%, transparent);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--a-deep) 60%, transparent);
+  cursor: pointer;
+  pointer-events: auto;
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.arrow::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 9px;
+  height: 9px;
+  border-top: 1px solid var(--a-ink);
+  border-inline-end: 1px solid var(--a-ink);
+}
+
+/* À distance constante de la bague du milieu, dont la taille suit la plus petite dimension de l'écran. */
+.arrowPrev {
+  inset-inline-start: calc(50% - min(24svh, 24vw) - 72px);
+}
+
+.arrowNext {
+  inset-inline-end: calc(50% - min(24svh, 24vw) - 72px);
+}
+
+/* Chevron : pointe vers l'extérieur, dans le sens de lecture. */
+.arrowPrev::after {
+  transform: translateX(2px) rotate(-135deg);
+}
+
+.arrowNext::after {
+  transform: translateX(-2px) rotate(45deg);
+}
+
+:global(html[dir='rtl']) .arrowPrev::after {
+  transform: translateX(-2px) rotate(135deg);
+}
+
+:global(html[dir='rtl']) .arrowNext::after {
+  transform: translateX(2px) rotate(-45deg);
+}
+
+.arrow:hover:not(:disabled) {
+  border-color: var(--a-ink);
+  background: color-mix(in srgb, var(--a-glow) 25%, var(--a-deep));
+}
+
+.arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.heroBase {
+  position: relative;
+  z-index: 2;
+  grid-row: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+}
+
+/* Socle lumineux sous la bague (décoratif) : deux ovales concentriques. */
+.pedestal {
+  position: absolute;
+  inset: auto 50% 100% auto;
+  width: min(520px, 70vw);
+  height: 52px;
+  margin-bottom: 8px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--a-glow) 38%, transparent) 0%, transparent 68%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--a-glow) 28%, transparent);
+  transform: translateX(50%);
+}
+
+.pedestal::after {
+  content: '';
+  position: absolute;
+  inset: 20% 14%;
+  border: 1px solid color-mix(in srgb, var(--a-glow) 20%, transparent);
+  border-radius: 50%;
+}
+
+.metalName {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(46px, 7.4vw, 116px);
+  line-height: 0.9;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+}
+
+.metalName span {
+  display: inline-block;
+  padding-inline: 0.06em;
+  animation: nameIn 0.55s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+@keyframes nameIn {
+  from {
+    transform: translateY(0.35em);
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    transform: none;
+    clip-path: inset(-10% -10% -10% -10%);
+  }
+}
+
+/* Curseur des métaux : une bande du jaune au platine. */
+.slider {
+  display: block;
+  width: min(460px, 78vw);
+}
+
+.slider input {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: 28px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.slider input::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #e2bf73 0%, #dfe5ec 34%, #e6a995 67%, #b9bdc4 100%);
+}
+
+.slider input::-moz-range-track {
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #e2bf73 0%, #dfe5ec 34%, #e6a995 67%, #b9bdc4 100%);
+}
+
+:global(html[dir='rtl']) .slider input::-webkit-slider-runnable-track,
+:global(html[dir='rtl']) .slider input::-moz-range-track {
+  background: linear-gradient(270deg, #e2bf73 0%, #dfe5ec 34%, #e6a995 67%, #b9bdc4 100%);
+}
+
+.slider input::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin-top: -8.5px;
+  border: 2px solid var(--a-deep);
+  border-radius: 50%;
+  background: var(--a-ink);
+  box-shadow: 0 0 0 1px var(--a-ink), 0 0 18px var(--a-glow);
+}
+
+.slider input::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--a-deep);
+  border-radius: 50%;
+  background: var(--a-ink);
+  box-shadow: 0 0 0 1px var(--a-ink), 0 0 18px var(--a-glow);
+}
+
+.scrollHint {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--a-ink);
+}
+
+/* ---------- Sections à texte : colonne de texte d'un côté, bague de l'autre ---------- */
+.panel,
+.point {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 100svh;
+  padding: calc(var(--a-header) + 24px) clamp(16px, 7vw, 120px) 48px;
+}
+
+.text {
+  position: relative;
+  z-index: 2;
+  /* 40vw : sur un écran 4:3, la colonne s'arrête avant la bague. */
+  max-width: min(500px, 40vw);
+}
+
+.chip {
+  display: inline-block;
+  margin: 0 0 22px;
+  padding: 6px 12px;
+  border: 1px solid color-mix(in srgb, var(--a-glow) 60%, transparent);
+  font-size: 11px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--a-glow);
+}
+
+.h2,
+.h3 {
+  margin: 0 0 24px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  line-height: 0.98;
+  letter-spacing: -0.015em;
+}
+
+.h2 {
+  font-size: clamp(42px, 5.6vw, 88px);
+}
+
+.h3 {
+  font-size: clamp(34px, 4.2vw, 64px);
+}
+
+.centered {
+  text-align: center;
+}
+
+.body {
+  margin: 0 0 16px;
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--a-ink);
+}
+
+.action {
+  margin: 30px 0 18px;
+}
+
+.note {
+  margin: 0 0 10px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--on-noir-muted);
+}
+
+.badge {
+  display: inline-block;
+  margin: 10px 0 0;
+  padding: 5px 12px;
+  border: 1px solid color-mix(in srgb, var(--a-ink) 30%, transparent);
+  border-radius: 999px;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--a-ink);
+}
+
+/* Portrait : une phrase d'accroche en italique, le texte courant atténué, les petites lignes sous un filet. */
+.leadText {
+  margin: 0 0 18px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(20px, 1.7vw, 25px);
+  line-height: 1.4;
+}
+
+.panel .body {
+  font-size: 16px;
+  color: var(--on-noir-muted);
+}
+
+.notes {
+  margin-top: 26px;
+  padding-top: 16px;
+  border-top: 1px solid color-mix(in srgb, var(--a-glow) 28%, transparent);
+}
+
+.notes .note {
+  margin: 0 0 8px;
+  font-size: 12px;
+}
+
+/* Légendes de bas d'écran du carrousel (grand écran). En ivoire : sur la lueur du bas, le gris atténué perdrait du contraste. */
+.hudNote {
+  position: absolute;
+  z-index: 2;
+  inset-inline-start: clamp(16px, 5vw, 72px);
+  bottom: clamp(20px, 4svh, 40px);
+  max-width: 240px;
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.6;
+  letter-spacing: 0.04em;
+  color: var(--a-ink);
+}
+
+.hudBadge {
+  position: absolute;
+  z-index: 2;
+  inset-inline-end: clamp(16px, 5vw, 72px);
+  bottom: clamp(20px, 4svh, 40px);
+  margin: 0;
+}
+
+/* Un même texte à deux places selon l'écran : l'exemplaire masqué (display: none) sort aussi de l'arbre d'accessibilité. */
+.onlyNarrow {
+  display: none;
+}
+
+/* Le texte monte dans son cadre puis en sort, masqué par le haut et le bas (jamais par l'opacité). Pas d'effet quand un lien du
+   bloc a le focus : il doit rester visible en entier. */
+@supports (animation-timeline: view()) {
+  .text:not(:focus-within) {
+    animation:
+      enter linear both,
+      leave linear both;
+    animation-timeline: view(), view();
+    animation-range:
+      entry 15% cover 38%,
+      cover 66% exit 88%;
+  }
+}
+
+@keyframes enter {
+  from {
+    transform: translateY(64px);
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    transform: none;
+    clip-path: inset(-20% -20% -20% -20%);
+  }
+}
+
+@keyframes leave {
+  from {
+    transform: none;
+    clip-path: inset(-20% -20% -20% -20%);
+  }
+  to {
+    transform: translateY(-64px);
+    clip-path: inset(100% 0 0 0);
+  }
+}
+
+/* ---------- 3. Étapes : repères numérotés sur le côté ---------- */
+.points {
+  position: relative;
+}
+
+.steps {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  height: 0;
+}
+
+.steps a {
+  position: absolute;
+  inset-inline-end: clamp(12px, 3.4vw, 52px);
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid color-mix(in srgb, var(--a-ink) 35%, transparent);
+  border-radius: 50%;
+  background: var(--a-deep);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: var(--a-ink);
+  text-decoration: none;
+  transition:
+    clip-path 0.4s ease,
+    transform 0.4s ease,
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
+}
+
+/* Trait qui relie les quatre repères. */
+.steps::before {
+  content: '';
+  position: absolute;
+  top: calc(50svh - 112px);
+  inset-inline-end: calc(clamp(12px, 3.4vw, 52px) + 21.5px);
+  width: 1px;
+  height: 218px;
+  background: color-mix(in srgb, var(--a-ink) 22%, transparent);
+}
+
+/* Hors de la section : repères masqués (par un cache, pas par l'opacité) ; un repère qui a le focus reste affiché. */
+.steps:not([data-active]) a:not(:focus-visible) {
+  clip-path: inset(0 0 100% 0);
+  transform: translateY(8px);
+}
+
+.steps:not([data-active])::before {
+  clip-path: inset(0 0 100% 0);
+}
+
+.steps a:nth-child(1) {
+  top: calc(50svh - 112px);
+}
+
+.steps a:nth-child(2) {
+  top: calc(50svh - 54px);
+}
+
+.steps a:nth-child(3) {
+  top: calc(50svh + 4px);
+}
+
+.steps a:nth-child(4) {
+  top: calc(50svh + 62px);
+}
+
+.steps a:hover {
+  border-color: var(--a-ink);
+}
+
+.steps a[aria-current] {
+  border-color: var(--a-ink);
+  background: var(--a-ink);
+  color: #0b0a08;
+  box-shadow: 0 0 22px color-mix(in srgb, var(--a-glow) 60%, transparent);
+}
+
+/* ---------- 4 et 5. Pile de scènes tenues à l'écran ----------
+   Chaque scène est une carte collante de la hauteur de l'écran ; la suivante glisse par-dessus. Les cartes sont peintes sous la
+   scène 3D (la bague reste devant) ; le rideau des matières passe devant elle. */
+.lead {
+  height: 40svh;
+  background: linear-gradient(180deg, transparent, var(--a-bright2));
+}
+
+.stack {
+  position: relative;
+}
+
+.mark {
+  position: absolute;
+  inset-inline: 0;
+  height: 0;
+}
+
+/* Le grand mot : bande claire, mot géant derrière la bague, la phrase dessous. */
+.statement {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  background: linear-gradient(180deg, var(--a-bright2), var(--a-bright1) 50%, var(--a-bright2));
+  text-align: center;
+}
+
+/* Bande de sécurité sous la carte : quand la barre du navigateur d'un téléphone se replie, l'écran dépasse 100svh. */
+.statement::after {
+  content: '';
+  position: absolute;
+  inset: 100% 0 auto;
+  height: 16svh;
+  background: var(--a-bright2);
+}
+
+.giant {
+  position: absolute;
+  inset: 50% clamp(8px, 2vw, 24px) auto;
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 800;
+  font-size: clamp(34px, 14.5vw, 300px);
+  line-height: 0.84;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  color: var(--a-ink-bright);
+  transform: translateY(-50%);
+}
+
+.making {
+  position: absolute;
+  inset: 84svh 0 auto;
+  max-width: 24em;
+  margin: 0 auto;
+  padding: 0 16px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(20px, 2.2vw, 30px);
+  line-height: 1.3;
+  color: var(--a-ink-bright);
+}
+
+/* La rangée des quatre métaux : les noms sous chaque bague, le titre dessous. */
+.range {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  border-top: 1px solid color-mix(in srgb, var(--a-glow) 35%, transparent);
+  background:
+    radial-gradient(ellipse 90% 60% at 50% 36%, color-mix(in srgb, var(--a-mid) 80%, transparent), transparent 70%),
+    var(--a-deep);
+}
+
+.range::after {
+  content: '';
+  position: absolute;
+  inset: 100% 0 auto;
+  height: 16svh;
+  background: var(--a-deep);
+}
+
+/* Colonnes centrées sous les bagues : 17, 39, 61 et 83 % de la largeur. */
+.rangeNames {
+  position: absolute;
+  inset: 57svh 6% auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.range .h2 {
+  position: absolute;
+  inset: 67svh 16px auto;
+  margin: 0;
+}
+
+.rangeNames button {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px 4px;
+  border: 0;
+  background: none;
+  font-size: 12px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--a-ink);
+  cursor: pointer;
+}
+
+/* Petit trait au-dessus du métal choisi. */
+.rangeNames button::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  margin: 0 auto 10px;
+  background: transparent;
+}
+
+.rangeNames button:hover {
+  color: var(--a-glow);
+}
+
+.rangeNames button[aria-pressed='true']::before {
+  background: var(--a-ink);
+}
+
+/* Les matières : un rideau opaque qui monte par-dessus la rangée, puis s'en va avec la pile. */
+.materials {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: center;
+  min-height: 100svh;
+  margin: 0;
+  padding: calc(var(--a-header) + 4svh) max(clamp(16px, 7vw, 120px), calc((100% - 1080px) / 2)) 8svh;
+  border-top: 1px solid color-mix(in srgb, var(--a-glow) 35%, transparent);
+  background: var(--a-deep);
+}
+
+.materials > div {
+  display: grid;
+  grid-template-columns: minmax(150px, 24%) 1fr;
+  column-gap: 32px;
+  align-items: baseline;
+  padding: 26px 0;
+  border-top: 1px solid color-mix(in srgb, var(--a-glow) 28%, transparent);
+}
+
+.materials > div:first-child {
+  border-top: 0;
+}
+
+.materials dt {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--a-glow);
+}
+
+.materials dd {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.1vw, 30px);
+  line-height: 1.35;
+}
+
+/* ---------- 6. Compositions ---------- */
+.compositions {
+  margin: 0;
+}
+
+.compositions > div {
+  padding: 16px 0;
+  border-top: 1px solid color-mix(in srgb, var(--a-glow) 30%, transparent);
+}
+
+.compositions dt {
+  margin-bottom: 6px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 26px;
+}
+
+.compositions dd {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--on-noir-muted);
+}
+
+/* ---------- 7. Suite ---------- */
+.more {
+  position: relative;
+  z-index: 2;
+  padding: 6svh clamp(16px, 5vw, 72px) 0;
+}
+
+.cards {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 16px;
+  max-width: 1320px;
+  margin: 8svh auto 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: block;
+  height: 100%;
+  padding: 30px 28px 34px;
+  border: 1px solid color-mix(in srgb, var(--a-glow) 30%, transparent);
+  background: color-mix(in srgb, var(--a-deep) 70%, transparent);
+  color: var(--a-ink);
+  text-decoration: none;
+  transition:
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+}
+
+.card:hover {
+  border-color: var(--a-ink);
+  background: color-mix(in srgb, var(--a-glow) 16%, var(--a-deep));
+}
+
+.cardTitle {
+  display: block;
+  margin-bottom: 12px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 28px;
+  line-height: 1.15;
+}
+
+.cardText {
+  display: block;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--on-noir-muted);
+}
+
+/* Appel final : la bague revient sur un socle, le titre et le bouton dessous (la page finit comme elle a commencé). */
+.final {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 36px;
+  min-height: 100svh;
+  margin-top: 8svh;
+  padding-bottom: 12svh;
+  text-align: center;
+}
+
+.final::before {
+  content: '';
+  position: absolute;
+  top: 54svh;
+  left: 50%;
+  width: min(420px, 60vw);
+  height: 44px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, color-mix(in srgb, var(--a-glow) 38%, transparent) 0%, transparent 68%);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--a-glow) 28%, transparent);
+  transform: translateX(-50%);
+}
+
+.finalTitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(52px, 8vw, 132px);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+/* Grand écran : une lueur du métal derrière la bague, propre à chaque section (elle défile avec la section, la bague reste). */
+@media (min-width: 821px) and (min-aspect-ratio: 5/6) {
+  .panel,
+  .point {
+    background: radial-gradient(circle at 73% 50%, color-mix(in srgb, var(--a-glow) 20%, transparent) 0%, color-mix(in srgb, var(--a-mid) 50%, transparent) 26%, transparent 54%);
+  }
+  :global(html[dir='rtl']) .panel,
+  :global(html[dir='rtl']) .point {
+    background: radial-gradient(circle at 27% 50%, color-mix(in srgb, var(--a-glow) 20%, transparent) 0%, color-mix(in srgb, var(--a-mid) 50%, transparent) 26%, transparent 54%);
+  }
+}
+
+/* ---------- Tablette, ou écran large mais bas (téléphone tenu à l'horizontale) ---------- */
+/* Le nom ne touche plus le bouton « Menu » ; les deux légendes du carrousel retournent dans la fiche du modèle. */
+@media (min-width: 821px) and (max-width: 1100px), (min-width: 821px) and (max-height: 620px) {
+  .hudEnd :global(.menu-label) {
+    display: none;
+  }
+  .onlyNarrow {
+    display: block;
+  }
+  .badge.onlyNarrow {
+    display: inline-block;
+  }
+  .onlyWide {
+    display: none;
+  }
+}
+
+/* Écran large mais bas : les tailles de texte suivent la hauteur, pour que la bague ne passe ni sur le titre ni sur le nom du métal. */
+@media (min-width: 821px) and (max-height: 620px) {
+  .root {
+    --a-header: 56px;
+  }
+  .heroIntro {
+    max-width: 30vw;
+  }
+  .heroTitle {
+    font-size: 20px;
+  }
+  /* La bague, dimensionnée sur la hauteur, laisse moins de la moitié de la largeur au texte. */
+  .panel .text,
+  .point .text {
+    max-width: 42vw;
+  }
+  .metalName {
+    font-size: clamp(30px, 12svh, 116px);
+  }
+  .heroBase {
+    gap: 10px;
+  }
+  .scrollHint {
+    display: none;
+  }
+  .final {
+    gap: 16px;
+    padding-bottom: 6svh;
+  }
+  .finalTitle {
+    font-size: clamp(30px, 11svh, 132px);
+  }
+}
+
+/* ---------- Écrans en hauteur (téléphone, tablette debout) : la même condition que `upright` dans le moteur ---------- */
+/* Rangée en deux rangs de deux, un nom sous chaque bague. Les rangs sont à 25 et 58 % de la hauteur ; une bague fait 44 % de la
+   largeur, soit une demi-hauteur visible de 16 % de la largeur environ : le nom se place juste dessous, et le rang suivant ne le
+   recouvre pas (vérifié jusqu'à 375 × 548). La condition porte sur la forme de l'écran, pas sur sa largeur : couché, même étroit,
+   l'écran garde la rangée (deux rangs dimensionnés sur une faible hauteur recouvriraient les noms). */
+@media (max-aspect-ratio: 5/6) {
+  .rangeNames {
+    inset: calc(25svh + 17vw) 0 auto;
+    grid-template-columns: 1fr 1fr;
+    row-gap: calc(33svh - 44px);
+  }
+  .range .h2 {
+    inset-block-start: calc(58svh + 17vw + 56px);
+  }
+}
+
+/* ---------- Écrans étroits ou en hauteur (téléphone, tablette debout) : la bague en haut, le texte en bas ---------- */
+/* La même condition que la mise en page « étroite » du moteur. */
+@media (max-width: 820px), (max-aspect-ratio: 5/6) {
+  .root {
+    --a-header: 64px;
+  }
+  .brand {
+    font-size: 14px;
+    gap: 8px;
+    letter-spacing: 0.22em;
+    margin-right: -0.22em;
+  }
+  .brand :global(.monogram) {
+    width: 24px;
+    height: 24px;
+  }
+  .hud .pill {
+    display: none;
+  }
+  .hudEnd :global(.menu-label) {
+    display: none;
+  }
+  .onlyNarrow {
+    display: block;
+  }
+  .badge.onlyNarrow {
+    display: inline-block;
+  }
+  .onlyWide {
+    display: none;
+  }
+  /* Repères d'angle plus petits et plus près du bord : ils ne touchent pas le texte, qui commence à 16 px. */
+  .frame {
+    inset-inline: 4px;
+  }
+  .frame span {
+    width: 8px;
+    height: 8px;
+  }
+  .heroIntro {
+    max-width: none;
+    text-align: center;
+  }
+  .fallback img {
+    max-height: 38svh;
+    translate: 0 -1svh;
+  }
+  /* Sans WebGL, plus de bandeau réservé à la bague après le premier écran : les textes se suivent. */
+  .root:has(.fallback) :is(.panel, .point)::before {
+    display: none;
+  }
+  .root:has(.fallback) :is(.panel, .point) {
+    min-height: 0;
+    padding-top: 8svh;
+  }
+  .arrowPrev {
+    inset-inline-start: 10px;
+  }
+  .arrowNext {
+    inset-inline-end: 10px;
+  }
+  .arrow {
+    top: calc(47svh - 22px);
+    width: 44px;
+    height: 44px;
+    background: var(--a-deep);
+  }
+  /* La moitié haute de l'écran est un bandeau opaque réservé à la bague : le texte défile dessous sans passer derrière elle.
+     Plans : texte (0) < bandeau (1) < scène 3D (2). Le haut du bandeau est fondu ; une fois collé, il est sous l'en-tête. */
+  .stage {
+    z-index: 2;
+  }
+  .panel,
+  .point {
+    display: block;
+    min-height: 112svh;
+    padding: 0;
+  }
+  .point {
+    min-height: 100svh;
+  }
+  .panel::before,
+  .point::before {
+    content: '';
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: block;
+    height: 58svh;
+    background: radial-gradient(circle at 50% 52%, color-mix(in srgb, var(--a-glow) 18%, var(--a-deep)) 0%, var(--a-deep) 58%);
+    -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 var(--a-header), #000 86%, transparent 100%);
+    mask-image: linear-gradient(180deg, transparent 0, #000 var(--a-header), #000 86%, transparent 100%);
+  }
+  .panel .text,
+  .point .text {
+    z-index: 0;
+    /* Pleine largeur sur téléphone ; colonne centrée sur une tablette debout (lignes de longueur lisible). */
+    max-width: 680px;
+    margin-inline: auto;
+    padding: 4px 16px 12svh;
+    animation: none;
+  }
+  .steps a {
+    width: 36px;
+    height: 36px;
+    inset-inline-end: 8px;
+  }
+  .steps a:nth-child(1) {
+    top: calc(30svh - 84px);
+  }
+  .steps a:nth-child(2) {
+    top: calc(30svh - 40px);
+  }
+  .steps a:nth-child(3) {
+    top: calc(30svh + 4px);
+  }
+  .steps a:nth-child(4) {
+    top: calc(30svh + 48px);
+  }
+  .steps::before {
+    top: calc(30svh - 84px);
+    height: 168px;
+    inset-inline-end: 25.5px;
+  }
+  .rangeNames button {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+  }
+  .materials > div {
+    grid-template-columns: 1fr;
+    row-gap: 10px;
+    padding: 20px 0;
+  }
+  .materials dd {
+    font-size: 20px;
+  }
+  .final::before {
+    top: 47svh;
+  }
+  .cards {
+    grid-auto-flow: row;
+  }
+}
+
+/* Écran étroit mais couché (téléphone à l'horizontale, zoom à 200 %) : le titre du carrousel passe dans le coin, la bague garde le
+   centre (centré, le titre tenait sur une ligne que la bague croisait). */
+@media (max-width: 820px) and (min-aspect-ratio: 5/4) {
+  .heroIntro {
+    max-width: 30vw;
+    text-align: start;
+  }
+}
+
+@media (max-width: 420px) {
+  .brand :global(.monogram) {
+    display: none;
+  }
+}
+
+/* Hébreu : pas d'italique (les polices hébraïques n'en ont pas). */
+:global(html[lang='he']) .metalName,
+:global(html[lang='he']) .leadText,
+:global(html[lang='he']) .h2,
+:global(html[lang='he']) .h3,
+:global(html[lang='he']) .giant,
+:global(html[lang='he']) .making,
+:global(html[lang='he']) .compositions dt,
+:global(html[lang='he']) .cardTitle,
+:global(html[lang='he']) .finalTitle {
+  font-style: normal;
+}

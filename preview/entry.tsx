@@ -37,15 +37,19 @@ function App() {
   return (
     <>
       <header className="site-header">
-        <span className="wordmark">JR Diamond</span>
-        <p className="tagline">{t.brandTagline}</p>
-        <nav className="lang" aria-label="Langue / Language">
-          {LOCALES.map((l) => (
-            <a key={l} href={`#${l}`} hrefLang={l} aria-current={l === locale ? 'page' : undefined}>
-              {l}
-            </a>
-          ))}
-        </nav>
+        <p className="topbar">{t.brandTagline}</p>
+        <div className="header-row">
+          {/* Pas de menu dans la préversion (page unique) : cellule vide pour garder le nom au centre. */}
+          <span />
+          <span className="wordmark">JR Diamond</span>
+          <nav className="lang" aria-label="Langue / Language">
+            {LOCALES.map((l) => (
+              <a key={l} href={`#${l}`} hrefLang={l} aria-current={l === locale ? 'page' : undefined}>
+                {l}
+              </a>
+            ))}
+          </nav>
+        </div>
       </header>
       <main>
         <Configurator key={locale} modelId="ring-001" locale={locale} quoteEnabled={false} />

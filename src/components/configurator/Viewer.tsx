@@ -70,7 +70,7 @@ function bakeToFloat(src: THREE.BufferGeometry, m: THREE.Matrix4): THREE.BufferG
 }
 
 function useStudio() {
-  return useMemo(() => ({ metal: createStudioEnvironment(512, 'metal'), gem: createStudioEnvironment(512, 'gem') }), []);
+  return useMemo(() => ({ metal: createStudioEnvironment(1024, 'metal'), gem: createStudioEnvironment(512, 'gem') }), []);
 }
 
 function Model({ url, nodes, visible, metal, quality, debug, onReady, env }: ViewerProps & { env: THREE.Texture }) {

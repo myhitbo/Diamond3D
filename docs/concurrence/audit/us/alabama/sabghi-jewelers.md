@@ -11,7 +11,7 @@
 
 Marques : **V** vérifié (contrôle actionné ou page lue, adresse indiquée) · **I** inféré · **S** supposé. Sans autre adresse, la source est la page de départ.
 
-**À trancher par le propriétaire.** Le robots.txt interdit les robots d'entraînement d'Anthropic et autorise « * ». L'audit a été fait dans un navigateur, pour une étude commandée par un utilisateur, sans défi ni refus du site, à moins d'une page toutes les 2 secondes. Les textes ne sont cités que par courts extraits avec leur adresse (`use=reference`). Si cette lecture du robots.txt ne convient pas, ce rapport est à écarter.
+**Tranché le 24/11 : rapport conservé (décision du propriétaire).** Le robots.txt interdit les robots d'entraînement d'Anthropic et autorise « * ». L'audit a été fait dans un navigateur, pour une étude commandée par un utilisateur, sans défi ni refus du site, à moins d'une page toutes les 2 secondes. Les textes ne sont cités que par courts extraits avec leur adresse (`use=reference`). Si cette lecture du robots.txt ne convient pas, ce rapport est à écarter.
 
 ## Parcours
 

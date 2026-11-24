@@ -1,13 +1,14 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useCallback, useEffect, useMemo, useReducer, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState, type ReactNode } from 'react';
 import { useProgress } from '@react-three/drei';
 import { getModel } from '@/models';
 import { METALS } from '@/config/metals';
 import { DICTIONARIES, formatNumber } from '@/i18n/dictionaries';
 import type { ConfigState, Locale, ModelDefinition } from '@/lib/configurator/schema';
 import { applyChange, defaultState, metalFamilies, metalTitres, metalWeightEstimateG, pickMetal, stoneSummary, visibleNodes } from '@/lib/configurator/logic';
+import { configReference, hasConfigParams, shareUrl, stateFromParams, withConfig } from '@/lib/configurator/share';
 import type { Quality, ViewName } from './Viewer';
 import { initProbe, setProbe } from './debugProbe';
 import DiagnosticPanel from './DiagnosticPanel';
@@ -17,7 +18,7 @@ import styles from './Configurator.module.css';
 // Le moteur 3D n'est chargé qu'à l'affichage du configurateur : il ne pèse pas sur le reste du site.
 const Viewer = dynamic(() => import('./Viewer'), { ssr: false });
 
-type Action = { type: 'change'; change: Partial<ConfigState> } | { type: 'reset' };
+type Action = { type: 'change'; change: Partial<ConfigState> } | { type: 'restore'; state: ConfigState } | { type: 'reset' };
 
 function sceneFraming(m: ModelDefinition) {
   const all = Object.values(m.geometry.pieces).flatMap((p) => p.parts.map((x) => x.boundsMm));
@@ -56,7 +57,7 @@ export default function Configurator({
   // La préversion autonome n'a que cette page : pas de liens vers les guides du site.
   const guideLinks = quoteEnabled ? t.guideLinks : null;
   const [state, dispatch] = useReducer(
-    (s: ConfigState, a: Action) => (a.type === 'reset' ? defaultState(model) : applyChange(model, s, a.change)),
+    (s: ConfigState, a: Action) => (a.type === 'reset' ? defaultState(model) : a.type === 'restore' ? a.state : applyChange(model, s, a.change)),
     model,
     defaultState,
   );
@@ -71,6 +72,9 @@ export default function Configurator({
   const [quoteOpen, setQuoteOpen] = useState(false);
   /** Forme non modélisée demandée par un bouton « sur demande » : pré-remplit le message du devis. */
   const [requestedShape, setRequestedShape] = useState<string | null>(null);
+  const [shareStatus, setShareStatus] = useState<'idle' | 'copied' | 'failed'>('idle');
+  /** Faux jusqu'à la lecture de l'adresse : évite d'y écrire la configuration par défaut avant de l'avoir lue. */
+  const urlRead = useRef(false);
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
@@ -81,7 +85,20 @@ export default function Configurator({
     if (q.get('quality') === 'low') setQuality('low');
     setWebgl(hasWebGL());
     /* eslint-enable react-hooks/set-state-in-effect */
-  }, [diagnostic]);
+    // Un lien partagé ou une page rechargée rouvre la bague telle qu'elle avait été composée.
+    if (hasConfigParams(q)) dispatch({ type: 'restore', state: stateFromParams(model, q) });
+  }, [diagnostic, model]);
+
+  // La configuration suit dans l'adresse (sans nouvelle entrée d'historique) : recharger ou copier l'adresse la garde.
+  useEffect(() => {
+    if (!urlRead.current) {
+      urlRead.current = true;
+      return;
+    }
+    window.history.replaceState(window.history.state, '', withConfig(window.location.href, state));
+    // Un nouveau choix efface l'avis « lien copié ».
+    setShareStatus('idle');
+  }, [state]);
 
   useEffect(() => {
     if (debug) setProbe({ quality });
@@ -98,6 +115,26 @@ export default function Configurator({
   const weight = metalWeightEstimateG(model, state);
   const onReady = useCallback(() => setReady(true), []);
   const onQualityDrop = useCallback(() => setQuality('low'), []);
+
+  const reference = configReference(model.id, state);
+
+  const share = async () => {
+    const url = shareUrl(window.location.origin, window.location.pathname, state);
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: t.shareTitle, text: `${model.name[locale]} · ${t.reference} ${reference}`, url });
+        return;
+      } catch (e) {
+        if ((e as Error).name === 'AbortError') return;
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareStatus('copied');
+    } catch {
+      setShareStatus('failed');
+    }
+  };
 
   const reset = () => {
     dispatch({ type: 'reset' });
@@ -370,6 +407,17 @@ export default function Configurator({
               </p>
             </>
           )}
+          <button type="button" className={styles.secondary} onClick={share}>
+            {t.share}
+          </button>
+          <p className={styles.note} aria-live="polite" data-testid="share-status">
+            {shareStatus === 'copied' ? t.shareCopied : shareStatus === 'failed' ? t.shareFailed : ''}
+          </p>
+          <p className={styles.note} data-testid="config-reference">
+            {t.reference}
+            {t.colon}
+            <span dir="ltr">{reference}</span>
+          </p>
           <button type="button" className={styles.textButton} onClick={reset}>
             {t.reset}
           </button>

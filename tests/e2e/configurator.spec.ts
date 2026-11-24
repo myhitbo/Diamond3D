@@ -119,6 +119,35 @@ test('réinitialiser revient à la configuration initiale', async ({ page }) => 
   expect(await page.evaluate(() => window.__jr!.visibleNodes())).toHaveLength(8);
 });
 
+test('la configuration suit dans l’adresse et un lien la rouvre', async ({ page, browserName }) => {
+  await page.goto(URL);
+  await ready(page);
+  const reference = await page.getByTestId('config-reference').textContent();
+  await page.getByRole('radio', { name: 'Platine', exact: true }).click();
+  await page.getByRole('radio', { name: 'Solitaire' }).click();
+  await expect(page).toHaveURL(/m=platinum-950/);
+  await expect(page).toHaveURL(/c=solitaire/);
+  await expect(page).toHaveURL(/debug=1/);
+  await expect(page.getByTestId('config-reference')).not.toHaveText(reference!);
+  // Ouvrir l'adresse dans un autre onglet rouvre la même bague.
+  const other = await page.context().newPage();
+  await other.goto(page.url());
+  await ready(other);
+  await expect.poll(() => other.evaluate(() => window.__jr!.visibleNodes().every((n) => n.startsWith('A__')))).toBe(true);
+  await expect(other.getByRole('radio', { name: 'Platine', exact: true })).toHaveAttribute('aria-checked', 'true');
+  await expect(other.getByTestId('config-reference')).toHaveText(await page.getByTestId('config-reference').textContent() ?? '');
+  await other.close();
+  // Partager : copie le lien (Chromium ; Safari ouvre la feuille de partage du système).
+  if (browserName === 'chromium') {
+    await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+    await page.getByRole('button', { name: 'Partager cette bague' }).click();
+    await expect(page.getByTestId('share-status')).toContainText('Lien copié');
+    const copied = await page.evaluate(() => navigator.clipboard.readText());
+    expect(copied).toContain('m=platinum-950');
+    expect(copied).not.toContain('debug');
+  }
+});
+
 test('les vues prédéfinies déplacent la caméra', async ({ page }) => {
   await page.goto(URL);
   await ready(page);

@@ -1,5 +1,6 @@
 import type { ConfigState, ModelDefinition } from '@/lib/configurator/schema';
 import { configurationLines } from './request';
+import { configReference } from '@/lib/configurator/share';
 
 /**
  * Envoi d'une demande de devis par WhatsApp : lien « click to chat » (https://wa.me/<numéro>?text=…).
@@ -23,6 +24,7 @@ export function buildWhatsAppMessage(model: ModelDefinition, state: ConfigState,
   const message = (f.message ?? '').trim().slice(0, 1000);
   return [
     'Bonjour, je souhaite un devis pour ce bijou JR Diamond :',
+    `Référence : ${configReference(model.id, state)}`,
     ...configurationLines(model, state),
     ...(ringSize ? [`Taille de doigt : ${ringSize}`] : []),
     ...(name ? [`Nom : ${name}`] : []),

@@ -3,6 +3,7 @@ import { METALS } from '@/config/metals';
 import { DICTIONARIES, formatNumber } from '@/i18n/dictionaries';
 import { applyChange, defaultState, metalWeightEstimateG, stoneSummary } from '@/lib/configurator/logic';
 import { configuratorPath } from '@/lib/routes';
+import { configReference, stateToParams } from '@/lib/configurator/share';
 import { LOCALES, MetalId, type ConfigState, type Locale, type ModelDefinition } from '@/lib/configurator/schema';
 
 /* ---------- Limites (une seule source pour le formulaire et le serveur) ---------- */
@@ -147,8 +148,10 @@ export function buildQuoteEmail(
 ): { subject: string; text: string } {
   const lang: Record<Locale, string> = { fr: 'français', en: 'anglais', he: 'hébreu' };
   const comp = model.compositions.find((c) => c.id === state.composition)!;
+  const reference = configReference(model.id, state);
   const text = [
     'Nouvelle demande de devis',
+    `Référence de la configuration : ${reference} (la même que dans un message WhatsApp ou un lien partagé pour cette bague)`,
     '',
     '— Client —',
     `Nom : ${f.name}`,
@@ -160,7 +163,7 @@ export function buildQuoteEmail(
     '',
     '— Configuration —',
     ...configurationLines(model, state),
-    ...(siteUrl ? [`Page : ${siteUrl.replace(/\/$/, '')}${configuratorPath(f.locale, model.id)}`] : []),
+    ...(siteUrl ? [`Page (ouvre cette configuration) : ${siteUrl.replace(/\/$/, '')}${configuratorPath(f.locale, model.id)}?${stateToParams(state).toString()}`] : []),
     `Configuration brute : ${JSON.stringify(state)}`,
     '',
     '— Message —',
@@ -171,6 +174,6 @@ export function buildQuoteEmail(
     '',
     'Répondre directement à cet e-mail pour écrire au client.',
   ].join('\n');
-  const subject = `Devis ${model.name.fr} · ${comp.name.fr} · ${METALS[state.metal].name.fr} — ${f.name}`;
+  const subject = `Devis ${reference} · ${model.name.fr} · ${comp.name.fr} · ${METALS[state.metal].name.fr} — ${f.name}`;
   return { subject: subject.replace(/[\r\n]+/g, ' '), text };
 }

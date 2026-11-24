@@ -199,3 +199,13 @@ html[lang='he'] body *:not(.wordmark) {
 .site-footer p {
   margin: 0;
 }
+
+/* Coordonnées de l'atelier, quand elles sont renseignées dans Vercel. */
+.site-footer-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 22px;
+  margin-top: 12px;
+  font-style: normal;
+}

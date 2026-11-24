@@ -6,6 +6,7 @@ import type { ConfigState, Locale } from '@/lib/configurator/schema';
 import { getModel } from '@/models';
 import { checkPhotos, PHOTO_LIMITS, type QuoteError } from '@/lib/quote/request';
 import { buildWhatsAppLink, buildWhatsAppMessage, normalizeWhatsAppNumber } from '@/lib/quote/whatsapp';
+import { shareUrl } from '@/lib/configurator/share';
 import styles from './Configurator.module.css';
 
 type Status = { kind: 'idle' } | { kind: 'sending' } | { kind: 'sent' } | { kind: 'error'; message: string };
@@ -93,7 +94,9 @@ export default function QuoteForm({
     if (!WHATSAPP || !model) return;
     const data = new FormData(form);
     const get = (k: string) => String(data.get(k) ?? '');
-    const text = buildWhatsAppMessage(model, state, { name: get('name'), ringSize: get('ringSize'), message: get('message') }, window.location.href.split('?')[0]);
+    // Le lien joint restaure la bague composée (paramètres de configuration seulement).
+    const link = shareUrl(window.location.origin, window.location.pathname, state);
+    const text = buildWhatsAppMessage(model, state, { name: get('name'), ringSize: get('ringSize'), message: get('message') }, link);
     window.open(buildWhatsAppLink(WHATSAPP, text), '_blank', 'noopener');
   }
 

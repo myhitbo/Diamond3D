@@ -4,6 +4,7 @@
 - **Date** : 15/11/2026 (Chromium/Playwright)
 - **Appareils** : ordinateur (1366 x 900) et affichage iPhone 13 (émulation)
 - **Statut** : **partiel**. Le constructeur de bague gravée (bague hawaïenne « heirloom ») est testé jusqu'au panier. Pas de constructeur de bague de fiançailles avec pierre sur ce site (non cherché en profondeur : la fiche « Plumeria Petite Side Band » à diamant est une bague toute faite). Robots.txt : autorisé ; aucun blocage.
+- **Écart robots.txt (relevé le 24/11)** : le groupe `User-agent: *` du robots.txt de ce site interdit `/cart/` et `/cart.js` ; le rapport le disait « autorisé ». L'ajout au panier décrit ici a donc eu lieu sur une adresse interdite : les constats du panier portent **[P1]**, non revérifiés.
 - Légende : [V] vérifié (page lue ou contrôle actionné), [I] inféré, [S] supposé.
 
 ## Parcours
@@ -43,8 +44,8 @@ Page de départ (avant ouverture du panneau) : 76 contrôles sur ordinateur, 72 
 | Engraving & Customization Terms | accordéon | Texte : « final sale », pas d'échange, pas de modification après soumission, 3 à 6 semaines ; case à cocher | — | OK [V] |
 | Quantité − / + | boutons | Présents | — | Non cliqués |
 | ADD TO CART (formulaire vide) | bouton | 3 champs invalides signalés par le navigateur ; reste sur la fiche | — | OK, validation [V] |
-| ADD TO CART (formulaire rempli) | bouton | Ajout réussi ; panier : 1 article ; liste des choix (largeur, métal, poids, taille, motif, bord, police, type de lettres, fond) | $945,00 | OK [V] |
-| Panier : Remove, Is this a gift?, case « I agree to the Order Terms », CHECK OUT | boutons | Récapitulatif lu ; **CHECK OUT non actionné** | Sous-total $945,00 USD ; « Shipping, taxes, and discount codes are calculated at checkout » | Lu [V] |
+| ADD TO CART (formulaire rempli) | bouton | Ajout réussi ; panier : 1 article ; liste des choix (largeur, métal, poids, taille, motif, bord, police, type de lettres, fond) | $945,00 | OK [V] | [P1]
+| Panier : Remove, Is this a gift?, case « I agree to the Order Terms », CHECK OUT | boutons | Récapitulatif lu ; **CHECK OUT non actionné** | Sous-total $945,00 USD ; « Shipping, taxes, and discount codes are calculated at checkout » | Lu [V] | [P1]
 | Text Us Now / bulle « Aloha, have a question? » | bouton | Ouvre un SMS/chat ; non ouvert | — | Non testé (règle) |
 | expedited options are available here | lien | `/products/rush-service` : frais $150 par pièce ; 3, 6, 11 ou 16 jours ouvrés | +$150 | Lu [V] |
 | Menu (Shop Jewelry, Collections, How To Customize, Engraving Experience, Our Stores, Our History, FAQs) | liens | 7 liens dont `Engravingexperience.com` (site externe, non ouvert) | — | OK [V] pour les adresses internes |
@@ -85,8 +86,8 @@ Non testés : champ message intérieur, quantité, paiement, compte, recherche, 
 
 ## Points forts à retenir pour JR Diamond
 
-1. **Prix visible dans le bouton d'achat et mis à jour en temps réel** (bouton « ADD TO CART $1 271 » à 8 mm) : achat direct d'une bague sur mesure sans devis [V].
-2. **Achat en ligne réel pour du sur mesure** : validation obligatoire, récapitulatif des choix au panier, case de conditions (« final sale ») [V].
+1. **Prix visible dans le bouton d'achat et mis à jour en temps réel** (bouton « ADD TO CART $1 271 » à 8 mm) : achat direct d'une bague sur mesure sans devis [V]. [P1]
+2. **Achat en ligne réel pour du sur mesure** : validation obligatoire, récapitulatif des choix au panier, case de conditions (« final sale ») [V]. [P1]
 3. **Aperçu du nom avant achat** (modale « Preview Engraving ») : bonne idée, mais ici texte seul ; JR Diamond peut faire mieux avec la gravure posée sur le bijou [V].
 4. **Option express tarifée** ($150, 3 à 16 jours ouvrés) avec remboursement des frais en cas de retard : engagement concret sur le délai [V `/products/rush-service`].
 5. **Reprise de diamant « trade up »** : message de confiance à sens unique, clair [V].

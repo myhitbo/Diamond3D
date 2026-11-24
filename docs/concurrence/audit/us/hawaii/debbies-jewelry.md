@@ -4,6 +4,7 @@
 - **Date** : 15/11/2026 (audit réalisé sous Chromium/Playwright)
 - **Appareils** : ordinateur (1366 x 900) et affichage iPhone 13 (émulation)
 - **Statut** : **partiel**. Le constructeur « Design Your Hawaiian Heirloom Jewelry » (bague, bracelet, pendentif gravés) est testé en entier. Le site ne propose **pas de constructeur de bague de fiançailles** : la bague de fiançailles passe par une demande de devis (`/pages/commissions`) et une recherche de diamants (`/pages/diamond-search`). Robots.txt : tout autorisé (`Allow: /`), aucun blocage rencontré.
+- **Écart robots.txt (relevé le 24/11)** : le groupe `User-agent: *` du robots.txt de ce site interdit `/cart/` et `/cart.js` ; le rapport le disait « autorisé ». L'ajout au panier décrit ici a donc eu lieu sur une adresse interdite : les constats du panier portent **[P1]**, non revérifiés.
 - Légende : [V] vérifié (page lue ou contrôle actionné), [I] inféré, [S] supposé.
 
 ## Parcours
@@ -55,7 +56,7 @@ Page de départ : 46 contrôles visibles sur ordinateur, 42 sur iPhone (liste JS
 | Diamond Search : carats, prix (champs From/To) | champs | Présents ; non remplis | — | Non testé |
 | Advanced Filters | bouton | Révèle Table, Ratio, Polish, Symmetry, Fluorescence, Certificate (GIA/IGI) | — | OK [V] |
 | List / Grid ; Sort (4 tris) | boutons/select | Changement d'affichage OK ; tri : essai en texte échoué, tri non vérifié | — | Grid OK ; tri non vérifié |
-| Add to cart (pierre) | bouton | POST `/cart/add.js` = 200 ; bouton devient « Update cart » ; panier : 1 diamant $1 179,00 | $1,179 (pierre 0,70 ct E VS2 GIA) | OK [V] |
+| Add to cart (pierre) | bouton | POST `/cart/add.js` = 200 ; bouton devient « Update cart » ; panier : 1 diamant $1 179,00 | $1,179 (pierre 0,70 ct E VS2 GIA) | OK [V] | [P1]
 | Pages `/pages/commissions` | formulaire | Formulaire de demande (prénom, nom, e-mail ou téléphone, adresse facultative, description) | — | Lu ; non rempli |
 | Fiche produit bague (ex. `/products/hawaiian-ring-14k-…-queen-design`) | fiche | Prix « $870 », choix de taille 5 à 15, nom facultatif, « Customize this piece » ; boutons Wishlist, « Drop a hint » ; lien « Start with this design » | $870 (6 mm, pièce) | Lu ; non ajouté |
 
@@ -95,7 +96,7 @@ Non testés : Drop a hint, Wishlist (écriture de données), recherche soumise, 
 1. **Prix estimé en direct, expliqué par le poids d'or** : largeur et épaisseur font bouger le prix en environ 1 s ; chaque ligne du récapitulatif est visible (capture `ring1.jpg`, essais décrits plus haut). Met en évidence l'écart de « Sur devis » côté JR Diamond.
 2. **Tunnel honnête sur le prix** : « ESTIMATED » + « We confirm the design and the price before anything is charged » ; 5 étapes « What happens next » explicites (« Nothing is cut until you have signed it off ») [V].
 3. **Message sur le sur mesure** : « Nothing is charged and nothing is cut » ; refus de remboursement expliqué en une page avec cas par cas (avant démarrage, après démarrage, layaway) [V `/policies/refund-policy`].
-4. **Recherche de diamants intégrée avec filtres complets** (forme, couleur, pureté, taille, certificat, naturel/synthétique, 40 000 pierres), prix et ajout au panier réels [V].
+4. **Recherche de diamants intégrée avec filtres complets** (forme, couleur, pureté, taille, certificat, naturel/synthétique, 40 000 pierres), prix et ajout au panier réels [V]. [P1]
 5. **Pièce de monnaie comme échelle** (« Drawn to scale against a US quarter ») : aide à choisir une largeur [V].
 6. **Prix de l'or affichés en pied de page** : transparence sur la matière [V].
 7. **Délai court annoncé (7 à 14 jours ouvrés)**, proche de la promesse de JR Diamond de 14 jours ouvrés [V].

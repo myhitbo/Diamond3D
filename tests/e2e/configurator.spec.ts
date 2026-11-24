@@ -276,7 +276,7 @@ test.describe('lien partagé : la configuration dans l’adresse', () => {
     expect(new globalThis.URL(page.url()).searchParams.has('metal')).toBe(false);
     const historyLength = await page.evaluate(() => history.length);
     await page.getByRole('radio', { name: 'Or rose', exact: true }).click();
-    await expect.poll(() => new globalThis.URL(page.url()).searchParams.get('metal')).toBe('rose-gold-18k');
+    await expect.poll(() => new globalThis.URL(page.url()).searchParams.get('metal')).toBe('rose-gold-14k'); // titre par défaut : 14 k (atelier, 16/11)
     await page.getByRole('radio', { name: 'Alliance' }).click();
     await expect.poll(() => new globalThis.URL(page.url()).searchParams.get('composition')).toBe('band');
     expect(await page.evaluate(() => history.length)).toBe(historyLength);

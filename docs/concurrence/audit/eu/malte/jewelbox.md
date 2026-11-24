@@ -3,6 +3,7 @@
 - **Site** : Jewelbox, https://www.jewelboxmalta.com/ ; départ du constructeur : https://www.jewelboxmalta.com/apps/ring-builder
 - **Date** : 15/11/2026 · **Appareils** : ordinateur (Chromium 1366 px) ; iPhone 13 simulé pour les mesures de temps seulement
 - **Statut** : **partiel** (parcours complet jusqu'au panier vérifié sur ordinateur ; options de gemmes, d'alliances et affichage iPhone non parcourus à fond)
+- **Écart robots.txt (relevé le 24/11)** : le groupe `User-agent: *` du robots.txt de ce site autorise la page `/cart` mais interdit `/cart/` (donc `/cart/add`, appelé par le bouton d'ajout) et `/cart.js`. L'ajout au panier décrit ici a donc eu lieu sur une adresse interdite : les constats tirés du panier portent **[P1]**, non revérifiés.
 - Marques : V vérifié · I inféré · S supposé. Adresse : Merchants street n° 8, Valletta (V, pied de page).
 
 ## Parcours
@@ -13,8 +14,8 @@
 | 2. Fiche monture | Forme (9 icônes), métal (7 choix), taille de bague, bouton « Select Stone For Your Ring » (V) | `/apps/ring-builder/rings-details/?groupId=…&ringId=…` |
 | 3. Choix de la pierre | Six onglets : Natural Diamond, Natural Diamond (AI), Lab Grown Diamond, Lab Grown Diamond (AI), Gemstone, Complete Ring ; « AI-powered search » (V pour l'affichage des intitulés) | `/apps/ring-builder/diamonds?shape=round&minCarat=0.26&maxCarat=0.4` |
 | 4. Fiche du diamant | Dimensions, certificat (« View Certificate »), « Select this diamond » (V) | `/apps/ring-builder/diamonds-details?diamondId=…` |
-| 5. Bague complète | Récapitulatif monture + pierre, taille, « Modify » ×2, « Add to cart » (V) | `/apps/ring-builder/complete-ring` |
-| 6. Panier | Lignes, sous-total, estimation de livraison, « Check out » (V) ; paiement non ouvert | `/cart` |
+| 5. Bague complète | Récapitulatif monture + pierre, taille, « Modify » ×2, « Add to cart » (V) | `/apps/ring-builder/complete-ring` | [P1]
+| 6. Panier | Lignes, sous-total, estimation de livraison, « Check out » (V) ; paiement non ouvert | `/cart` | [P1]
 
 ## Contrôles vérifiés
 
@@ -47,8 +48,8 @@
 | « View Certificate » / « View Report » | lien | Présents ; non ouverts (domaine tiers) | — | non testé |
 | « Select this diamond » | bouton | Mène à `/complete-ring` : monture 650 € + pierre 182 € = **832 €** (V) | 832 € | OK |
 | « Modify » (monture ou pierre) | lien | Présents ; non cliqués | — | non testé |
-| « Add to cart » | bouton | Pastille de chargement puis redirection vers `/cart` après quelques secondes (V) | 832 € | OK, lent |
-| Panier : lignes, taille 7.5, sous-total | page | « ROUND LAB GROWN 0.27CT D VS1 » 182 € + monture 650 € = 832 € ; « Tax included and shipping calculated at checkout » ; devise EUR (V) | 832 € | OK |
+| « Add to cart » | bouton | Pastille de chargement puis redirection vers `/cart` après quelques secondes (V) | 832 € | OK, lent | [P1]
+| Panier : lignes, taille 7.5, sous-total | page | « ROUND LAB GROWN 0.27CT D VS1 » 182 € + monture 650 € = 832 € ; « Tax included and shipping calculated at checkout » ; devise EUR (V) | 832 € | OK | [P1]
 | Panier : « Get shipping estimates » (Malta) | champ | Présent, non utilisé | — | non testé |
 | Panier : « Message to Sellers » | champ | Présent, non rempli | — | non testé |
 | « Check out » | bouton | Non cliqué (limite de l'audit) | — | non testé |

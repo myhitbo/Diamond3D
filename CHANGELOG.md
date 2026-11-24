@@ -9,7 +9,8 @@
 - **Configurateur et formulaires** : or jaune 14 k par défaut ; réponse aux devis « sous 24 à 48 h ouvrées » ; taille européenne de référence, avec l'équivalent américain. `NEXT_PUBLIC_WHATSAPP_NUMBER` saisi dans Vercel (production et preview).
 - **Textes** (FR, EN, HE) : FAQ validée par l'atelier (sur mesure, paiement, livraison, entretien ; l'annulation reste « À confirmer » jusqu'à l'avis de l'avocat ; la livraison à l'étranger est retirée) ; pas de certificat systématique sous 0,50 ct ; or blanc sans nickel ; poinçon 585 ou 750 ; guide de la taille sans « taille israélienne » comme norme ; bijou de famille confirmé, avec l'apport à l'atelier et l'assurance de l'envoi. Nouveaux textes hébreux à faire relire.
 - Dossier de l'avocat : questions 44 à 47 (non-reprise du sur-mesure, clause de casse au dessertissage non publiée, osek patour, transport). Relance de l'atelier prête (`docs/atelier/2026-11-16_relance.md`, 11 questions).
-- Tests : TESTS_PLACEHOLDER
+- Image de l'accueil refaite (or jaune 14 k, métal par défaut).
+- Tests : 117 unitaires ; Chromium 242 (239 passés, 3 ignorés), dont l'audit d'accessibilité ; aucun échec. WebKit et Firefox non relancés.
 
 ## 0.5.0 — 2026-11-15 — Accueil, pages légales, accessibilité, pierres de couleur, lancement préparé
 

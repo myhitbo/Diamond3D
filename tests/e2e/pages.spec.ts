@@ -151,10 +151,10 @@ test('guide de la taille de doigt : tableau de correspondance lisible sur mobile
   await expect(page.getByRole('link', { name: /Or 14 ou 18 carats/ })).toBeVisible();
   await page.getByRole('link', { name: /Taille de doigt/ }).click();
   await expect(page).toHaveURL(/\/fr\/guides\/taille-de-doigt$/);
-  const table = page.getByRole('table', { name: /Tailles françaises/ });
-  await expect(table.getByRole('columnheader')).toHaveText(['France (tour, mm)', 'Diamètre (mm)', 'Israël', 'États-Unis (env.)']);
+  const table = page.getByRole('table', { name: /Tailles européennes/ });
+  await expect(table.getByRole('columnheader')).toHaveText(['Europe (tour, mm)', 'Diamètre (mm)', 'États-Unis (env.)']);
   await expect(table.locator('tbody tr')).toHaveCount(21);
-  await expect(table.getByRole('row', { name: /^52 / }).getByRole('cell')).toHaveText(['16,6', '12', '6']);
+  await expect(table.getByRole('row', { name: /^52 / }).getByRole('cell')).toHaveText(['16,6', '6']);
   await expect(page.getByRole('link', { name: /ISO 8653/ })).toBeVisible();
   expect(await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth)).toBeLessThanOrEqual(0);
 });
@@ -166,9 +166,9 @@ test('guide de la taille de doigt en anglais : tableau avec un point décimal', 
   await page.getByRole('link', { name: /Ring size/ }).click();
   await expect(page).toHaveURL(/\/en\/guides\/ring-size$/);
   await expect(page.getByText('Draft · guide awaiting review by the workshop')).toBeVisible();
-  const table = page.getByRole('table', { name: /French sizes/ });
-  await expect(table.getByRole('columnheader')).toHaveText(['France (circumference, mm)', 'Diameter (mm)', 'Israel', 'US (approx.)']);
-  await expect(table.getByRole('row', { name: /^52 / }).getByRole('cell')).toHaveText(['16.6', '12', '6']);
+  const table = page.getByRole('table', { name: /European sizes/ });
+  await expect(table.getByRole('columnheader')).toHaveText(['Europe (circumference, mm)', 'Diameter (mm)', 'US (approx.)']);
+  await expect(table.getByRole('row', { name: /^52 / }).getByRole('cell')).toHaveText(['16.6', '6']);
   await expect(page.getByText(/Facts checked on 14 November 2026/)).toBeVisible();
   await expect(page.getByRole('navigation', { name: 'Langue / Language' }).getByRole('link', { name: 'FR', exact: true })).toHaveAttribute(
     'href',

@@ -1,0 +1,59 @@
+# Suède : inventaire des joailliers qui vendent en ligne
+
+Recensement du 15 novembre 2026, pour l'étude de concurrence de JR Diamond en Europe. Ce fichier complète `docs/concurrence/2026-11-15_europe.md` (14 sites, aucun suédois) sans le refaire.
+
+Périmètre : joailliers établis en Suède qui vendent en ligne des bagues de fiançailles ou des alliances à des particuliers, avec au moins un de ces éléments : configurateur, visuel 3D ou 360°, sur mesure en ligne, prix affichés. Exclus : grandes maisons internationales, grands magasins, places de marché. Les marques nationales sont admises. Les sites étrangers qui servent la Suède (77 Diamonds, GLAMIRA, Grown Brilliance) sont notés en fin de fichier et non classés.
+
+Méthode :
+- Recherche web (Parallel Search, requêtes génériques en suédois), puis sonde Chromium (Playwright, identité par défaut, sans contournement) : statut, adresse finale, iframes, langues.
+- `robots.cjs` avant chaque adresse ouverte (y compris cartes, politiques et filtres). Une page toutes les 2 secondes au plus par site.
+- Aucun formulaire rempli, aucun compte créé, aucun chat ni WhatsApp ouvert, aucun paiement.
+
+Marques : **V** vérifié (page lue ou contrôle actionné le 15/11/2026, adresse en source) · **I** inféré · **S** supposé.
+
+## Ce qu'il faut retenir
+
+- **Terme pour le diamant synthétique : « labbodlad diamant » (« cultivé en laboratoire ») est l'usage commercial** chez Diamant Banken, Gold of Sweden, Ernst Forssell, Elegance Guld, Indo Nordic (V). Vigselbutiken écrit « LG-diamant » et précise que « lab grown » est « ibland » appelé « syntetiska diamanter » (V). **Le terme recommandé par la profession est « syntetisk »** : Guldsmedsmästarnas Riksförening (GR) et la Société gemmologique suédoise le recommandent, et GR cite la norme ISO 18323:2015 pour exclure « labbodlad » et « man made » (V, page de GR ; la lecture de la norme elle-même n'a pas été faite, donc la portée de la citation reste I). Aucune loi suédoise imposant le terme n'a été trouvée (I). Ernst Forssell écrit « labbodlad (även kallad syntetisk) » (V).
+- **Deux sites ont un constructeur de bague en ligne lisible** : Diamant Banken (3 étapes : monture, diamant, bague ; prix à chaque étape ; essayage virtuel) et, pour les alliances, Vigselbutiken (configurateur 3D de la société allemande Breuning, dans un cadre intégré). Gold of Sweden n'a pas de 3D mais une fiche à options (métal, naturel ou synthétique, carat, gravure) très proche de l'offre JR Diamond.
+- **Le configurateur de Vigselbutiken est servi par `konfigurator.breuning.de`**, dont `robots.txt` est illisible (réponse HTML) : traité comme bloqué, non ouvert (V). Le site de Vigselbutiken, lui, est autorisé.
+- **« Förlovningsring » (bague de fiançailles) désigne en Suède, par tradition, une alliance lisse en or portée par les deux fiancés** (V : GLAMIRA.se et le rayon « Förlovningsringar » de Vigselbutiken, qui ne contient que des anneaux lisses ; I pour la généralité). Les solitaires sont une catégorie à part (« solitärring », « enstensring »). Conséquence pour le catalogue : proposer la version lisse, pour deux personnes.
+- **Aucun des dix ne montre de photos ni de vidéos de fabrication d'une commande** (V pour Diamant Banken, Gold of Sweden, Vigselbutiken ; I pour les autres). Seule trace : Gold of Sweden et Ophira décrivent une CAO en 3D validée avant fabrication (V).
+- **Tous les prix sont TTC en couronnes (SEK)**, avec paiement Klarna ou Swish (V pour Diamant Banken, Gold of Sweden, Vigselbutiken, Indo Nordic, A.P. Shaps).
+- **Aucun site de la liste ne bloque les robots** sur sa propre adresse (V). Réserves : le configurateur Breuning (rang 3), les pages `/policies/` et `/cart` de Diamant Banken (INTERDIT, non ouvertes), un hCaptcha sur le formulaire de devis de Gold of Sweden (non déclenché).
+
+## Classement
+
+Intérêt pour JR Diamond, dans l'ordre : proximité du modèle (fabrication à la commande, naturel et synthétique, 14 et 18 carats, platine) ; qualité du parcours et lien image-objet ; transparence du prix ; preuves de fabrication ; offre en synthétique.
+
+Toutes les adresses de « Page de départ » ont répondu 200 dans Chromium le 15/11 (V), sauf mention contraire.
+
+| Rang | Acteur | Ville | Adresse | Page de départ | Configurateur | Blocage | Langues | Pourquoi |
+|---|---|---|---|---|---|---|---|---|
+| 1 | Diamant Banken (Ackumulera AB) | Göteborg (boîte postale, pas de boutique) (V) | https://www.diamantbanken.com/ | https://www.diamantbanken.com/pages/ring-builder (étape 1 « Välj en Infattning ») | **Oui** : 3 étapes (monture, diamant, bague), 24 montures, 10 formes, 4 métaux 18 k et platine 950, 108 062 diamants synthétiques et 63 829 naturels, prix à chaque étape, essayage virtuel, taille (V) | Aucun. `robots.txt` interdit `/cart` et `/policies/` (non ouverts) | Suédois ; sélecteur de région et de langue présent (V) ; autres langues non vérifiées | Seul vrai constructeur de bague suédois ouvert aux robots. Prix de la monture et de la pierre séparés, comme chez JR Diamond. Pierres en stock, pas fabriquées à la demande. Audité : `diamant-banken.md` |
+| 2 | Gold of Sweden (Guldsmedjan i Borås) | Borås (V) | https://www.goldofsweden.com/sv/ | https://www.goldofsweden.com/sv/petite-collection/1570-135734-diamantring-liljekonvalj-14k-roedguld.html (fiche) · sur mesure : https://www.goldofsweden.com/sv/egen-design | Non. Fiche à options : métal (14 k, 18 k, platine), diamants synthétiques ou naturels, carat 0,30 à 1,00, gravure ; 285 bagues au catalogue (V) | Aucun. hCaptcha sur le formulaire de devis | SV, EN, DE, DA ; SEK, DKK, EUR (V) | Fabrication à la commande en Suède, or 100 % recyclé, 14 k et 18 k, naturel ou synthétique au choix, IGI dès 0,30 ct (rond). Offre la plus proche de JR Diamond. Audité : `gold-of-sweden.md` |
+| 3 | Vigselbutiken (Vigselbutiken AB) | Ängelholm (V) | https://www.vigselbutiken.se/ | https://www.vigselbutiken.se/designa-din-egen-vigselring (configurateur d'alliances) | **Oui, d'un tiers** : « konfigurator.breuning.de », 3D, 1 ou 2 anneaux, profil, largeur, titre 585 ou 750, joints, diamants, gravure (V, d'après la page de présentation) | **Configurateur : bloqué** (robots.txt de Breuning illisible, non ouvert). Site : aucun | SV, DA, EN, FI (V) | Meilleur candidat pour l'alliance de kiddouchin : configurateur 3D, anneaux jumelés, essai gratuit à domicile. Alliances et anneaux lisses surtout. Non audité en parcours (configurateur bloqué) |
+| 4 | A.P. Shaps | Stockholm (Strandvägen 11) (V) | https://apshaps.se/ | https://apshaps.se/forlovning-vigsel/forlovningsringar/ · sur mesure : https://apshaps.se/var-butik/designa-ditt-egna-smycke/ | Non. Modèles avec bouton « Anpassa ditt smycke », contenu non ouvert (I) | Aucun | SV, EN (V) | Marque nationale haut de gamme, diamants naturels uniquement (« uteslutande naturliga ») (V), certificat GIA, 18 k et platine 950, prix « à partir de ». Contre-modèle du synthétique |
+| 5 | Ernst Forssell | Göteborg ; showrooms à Stockholm, Göteborg, Nääs Fabriker, Nya Hovås, Falkenberg (V) | https://www.ernstforssell.se/ | https://www.ernstforssell.se/collections/forlovningsringar | Non (V) | Aucun | SV (I) | Marque nationale (« svenskt hantverk sedan 40-talet »). Conseil neutre naturel ou synthétique, certificat IGI ou GIA dès 0,30 ct, modèle adaptable ou création sur rendez-vous (V) |
+| 6 | Lycka Juveler | Stockholm (Valhallavägen 114) (V) | https://lyckajuveler.se/forlovningsringar/ | https://lyckajuveler.se/forlovningsringar/ | Non | Aucun | SV (I) | Prix affichés (solitaires dès 13 900 kr, trois pierres 18 900 kr), quatre métaux sur chaque modèle, prêt d'une bague pour la demande. « Designa egen ring » ouvre la page de rendez-vous (V) |
+| 7 | Indo Nordic | Stockholm (Västerlånggatan 44) (V) | https://indonordic.se/ | https://indonordic.se/ | Non | Aucun | SV, EN (I) | Prix affichés (solitaires 7 998 à 12 998 kr), page « Labbodlade diamanter », paiement Klarna et Swish, lien « Designa din ring » (V) |
+| 8 | House of Jewelry | Stockholm (Västmannagatan 69, sur rendez-vous) (V) | https://www.houseofjewelry.se/ | https://www.houseofjewelry.se/ (rayon « Designa din egen ring ») | Non | Aucun | SV (I) | Bagues « à partir de » 9 000 à 22 500 kr, fabrication à Stockholm, consultation gratuite, rubrique « Hållbarhet » (V) |
+| 9 | Elegance Guld (Guldsmedjan Elegance) | Non trouvée (Nacka [S]) | https://eleganceguld.se/ | https://eleganceguld.se/labbodlade-diamanter | Non : texte « Anpassa din drömring » en 4 étapes (forme, monture, métal 18 k ou platine, gravure) ; prix non vus (V) | Aucun | SV (I) | Mise en avant du synthétique, or recyclé 18 k, fabriqué en Suède |
+| 10 | Ophira & Co | Stockholm (Valhallavägen) (V) | https://ophira.se/ | https://ophira.se/pages/egen-design | Non : formulaire de devis ; CAO 3D validée avant fabrication (V) | Aucun (Shopify) | SV (I) | Parcours sur mesure en 6 étapes (devis sous 48 h, CAO, cire, contrôle qualité contre la CAO), 4 à 6 semaines, GIA, 18 k et platine, naturels seulement |
+
+### Mentionnés, non classés
+
+- **Schalins** (schalins.com) : l'outil « RingTailor » (3D, prix en direct) existe seulement en boutique, sur iPad chez les revendeurs ; la page dit « Kan jag designa min egen ring på schalins.com ? Nej » (V).
+- **Cravingfor** (cravingfor.com/sv) : bagues en 18 k et platine, « création en 3D » avec leur aide, prix « à partir de » 12 995 kr pour une alliance d'homme (V, page de collection). Ville non vérifiée.
+- **Vigselring.nu** (vigselring.nu, Anders Fors Guldateljé) : atelier qui dessine en CAO avec le client, vidéo de fabrication d'une bague forgée, pas de prix ni de panier lus (V pour la page d'accueil).
+- **Guldfynd** (guldfynd.se) : accueil 200, aucun lien de configurateur trouvé (V) ; catalogue non exploré [S].
+- **Sites étrangers qui servent la Suède** : 77 Diamonds (`/se/forlovningsringar`, constructeur en 3 étapes, prix hors TVA), GLAMIRA.se (configurateur, retour 60 jours, gravure et livraison gratuites), Grown Brilliance (`se.grownbrilliance.com`, constructeur de bague synthétique) : 77 Diamonds est déjà couvert par l'inventaire européen (fiche n° 8) ; GLAMIRA et Grown Brilliance sont étrangers, hors périmètre (V pour les adresses).
+
+## Sources
+
+- Recherches : Parallel Search, requêtes « förlovningsring designa själv konfigurator », « labbodlad diamant förlovningsring », « vigselring konfigurator », « syntetisk diamant term » (15/11/2026).
+- https://guldsmedsmastarna.se/fakta-om/diamanter/vad-ar-skillnaden-mellan-syntetiska-och-naturliga-diamanter (terme « syntetisk » recommandé, ISO 18323:2015 citée) · https://guldsmedsmastarna.se/fakta-om/diamanter/syntetiska-diamanter-sa-funkar-det
+- https://www.diamantbanken.com/pages/ring-builder · /pages/vanliga-fragor · /pages/kontakt · /pages/om-oss
+- https://www.goldofsweden.com/sv/egen-design · /sv/42-foerlovningsringar · /sv/labbodlade-diamanter · /sv/content/10-frakt-return · /sv/content/11-betalning · /sv/content/16-hemlan-av-ring
+- https://www.vigselbutiken.se/designa-din-egen-vigselring · /forlovningsringar · /solitar · /kopvillkor · /vanliga-fragor · /lana-lanering · fiche https://www.vigselbutiken.se/catalog/product/view/id/5892/s/flemming-uziel-divine-idun-b217-100-med-lg-diamant
+- https://apshaps.se/forlovning-vigsel/forlovningsringar/ · https://www.ernstforssell.se/collections/forlovningsringar · https://lyckajuveler.se/forlovningsringar/ · https://indonordic.se/ · https://www.houseofjewelry.se/ · https://eleganceguld.se/labbodlade-diamanter · https://ophira.se/pages/egen-design · https://schalins.com/pages/designa-din-ring-med-schalins · https://cravingfor.com/sv/collections/mens-wedding-rings · https://vigselring.nu/
+- https://www.glamira.se/forlovningsringar · https://www.77diamonds.com/se/forlovningsringar · https://se.grownbrilliance.com/design-your-lab-grown-diamond-ring

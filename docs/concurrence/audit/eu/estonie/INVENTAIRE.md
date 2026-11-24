@@ -1,0 +1,32 @@
+# Inventaire des joailliers en ligne : Estonie
+
+Date : 15/11/2026 (contrôles faits depuis la session cloud). Légende : **[V]** vérifié (page lue ou contrôle actionné), **[I]** inféré, **[S]** supposé.
+Complète `docs/concurrence/2026-11-15_europe.md` (14 sites, aucun estonien). Aucun acteur estonien n'y figurait.
+
+## Terme pour le diamant synthétique en estonien [V]
+- Les sites estoniens n'emploient pas « sünteetiline teemant » : ils écrivent **« laboris kasvatatud teemant »** (« diamant cultivé en laboratoire »), **« labori teemant »** ou **« laboriteemant »**. Relevé sur keefirivunts.ee (« Labori teemantiga kihlasõrmused »), matikuld.ee (« laboris kasvatatud teemandiga »), kuldkroon.ee (« Labori teemantiga sõrmused ») et ejewels.ee (« Laboris kasvatatud »). Le mot « sünteetiline » est absent des pages d'accueil lues.
+- En anglais, les deux sites audités disent « lab-grown ». Aucun ne dit « synthetic ». Contrôle fait par recherche de texte dans le HTML des pages d'accueil. Pas de règle estonienne de libellé vérifiée ici [S].
+
+## Tableau (classement par intérêt pour JR Diamond)
+
+| rang | acteur | ville | adresse | page de départ | configurateur | blocage | langues | pourquoi |
+|---|---|---|---|---|---|---|---|---|
+| 1 | Keefirivunts | Tallinn (Suur-Karja 2, sur rendez-vous) | https://keefirivunts.ee/ [V 200] | https://keefirivunts.ee/en/shop/engagement-rings/solitaire/engagement-ring-grace [V] (liste : https://keefirivunts.ee/en/product-category/engagement-rings) | Non en 3D. Fiche à options : carat (5 paliers), métal (3), taille (14 à 24 mm), prix qui change avec le carat [V] | Aucun. robots.txt interdit seulement /en/cart et /en/checkout : panier non ouvert [V] | ET, EN, RU, FI | Atelier artisanal, un fondateur nommé, pierres synthétiques ou naturelles certifiées GIA/IGI, prix « dès » affichés, fabrication sur commande 3 à 4 semaines, avis Google 4,9 (48). Plus proche du positionnement « l'atelier en direct ». Commandes fermées jusqu'au 4 janvier [V]. **Audité.** |
+| 2 | MATIGOLD (Mati Kullaäri, PC & Program OÜ) | Tallinn (centre T1, Peterburi tee 2) | https://matikuld.ee/ [V 200 par intermittence] | https://matikuld.ee/en/product-category/jewellery/engagement-rings/?pa-kivid=lab-grown-diamonds&pa-kivid_operator=OR [V] ; alliances sur mesure : https://matikuld.ee/en/design-your-own-ring-2/ [V] | Oui pour les alliances (acredo), **seulement en boutique** : « During the in-store consultation, we use a ring configurator » [V]. En ligne : catalogue filtrable (forme, métal, synthétique ou naturel, nombre de pierres) | Aucun blocage de robots (robots.txt ouvert) [V]. **Connexions intermittentes** : curl 000 par moments, 502 du proxy sur le navigateur, feuilles de style non chargées en navigateur [V] | ET, EN | Plus grande bijouterie d'Estonie selon elle-même, 322 bagues de fiançailles et 212 alliances, filtre « lab-grown », certificat IGI lié, prix barrés -30 %. **Audité (partiel).** |
+| 3 | e-Jewels | Tallinn (Rotermanni 7) | https://www.ejewels.ee/ [V 200] | https://www.ejewels.ee/e-jewels-customized [V] | Pas de configurateur : page « e-Jewels Customized », dessins 3D réalisés en rendez-vous ou à distance, fabrication d'environ 3 semaines [V] | Aucun (robots autorisé) [V] | ET, EN, RU | Prix « de gros » comparés au « prix en bijouterie », 415 bijoux, mesureur de bague gratuit. Non audité (hors des 2 premiers). |
+| 4 | Kuldkroon | Tallinn (Rävala puiestee 6) | https://kuldkroon.ee/en [V 200] | https://www.kuldkroon.ee/en [V] | Non | Aucun (robots autorisé) [V] | ET, EN | Alliances (marques Ikaros, Gerstner, Furrer-Jacot, Aurodesign, d'après le menu), catégories « labori teemantiga sõrmused » et moissanite, prix souvent non affichés (« ask for a quote ») [V]. Non audité. |
+| 5 | Hyrv | Tallinn (Lai 35) | https://hyrv.co/ [V 200] | https://hyrv.co/wedding-engagement-rings-2 [V] | Non : co-conception avec l'atelier, livre de la création en option [V] | Aucun (robots autorisé) [V] | EN, ET | Atelier de création, pas de prix en ligne sur la page lue. Non audité. |
+| 6 | Goldsmith (goldsmith.store) | Tallinn (Ülemiste), Narva | https://goldsmith.store/ [V 200 par curl] | https://goldsmith.store/ (catégories Kihlasõrmused, Abielusõrmused) [I] | Non [I] | **Connexion coupée lors de la lecture du robots.txt** : traité comme bloqué par l'outil (INCONNU) [V] | ET | Boutique avec 200 modèles Breuning, paiement en 6 fois. Non ouvert. |
+| 7 | GOLD.ee (Tseetan-Gold OÜ) | Tallinn (C. R. Jakobsoni 4) | http://gold.ee/ [V 200 en HTTP] | http://gold.ee/?lang=en [V] | Non : commandes sur mesure, modélisation 3D de bijoux [V] | **Certificat TLS invalide sur www.gold.ee ; robots.txt illisible : traité comme bloqué** [V] | ET, EN | Atelier depuis 1994, pas de vente en ligne vérifiée. Non ouvert. |
+| 8 | Given | Tallinn (réseau balte) | https://www.given.ee/ [V 200] | https://www.given.ee/ [I] | Non [I] | Aucun (robots autorisé) [V] | ET, EN, RU, LV [I] | Chaîne balte de joaillerie. Non ouverte : catalogue non lu, vente en ligne de bagues de fiançailles non vérifiée [S]. |
+
+Écartés : Kochut (jewellery.kochut.org) : marque ukrainienne avec sélecteur de pays « Baltic », pas un acteur national [V] ; Sophygems et Silver Trust SIA : vendeurs sur la place de marché kaup24.ee (exclue) ; kaup24.ee, Kaubamaja : place de marché et grand magasin (exclus).
+
+## Résumé
+- **L'Estonie n'a aucun configurateur en ligne en 3D ni visuel 360° d'une bague de fiançailles** parmi les 8 acteurs examinés [V pour les deux audités, I pour les autres]. L'outil le plus proche (acredo, alliances) est réservé à la boutique de MATIGOLD.
+- Les deux sites audités affichent des prix en euros TTC et vendent des diamants synthétiques à côté des naturels. Détails dans `keefirivunts.md` et `matigold.md`.
+- Blocages : aucun site n'a opposé de défi (captcha, Cloudflare). Goldsmith et GOLD.ee sont marqués « inconnu » (robots.txt illisible) et n'ont pas été ouverts. La passerelle réseau de la session a aussi coupé matikuld.ee par intermittence.
+
+## Sources
+- Recherches web génériques (Parallel Search, WebSearch) du 15/11/2026 : « kihlasõrmused … Tallinn », « laboris kasvatatud teemant sõrmus Eesti ».
+- https://keefirivunts.ee/en , https://matikuld.ee/en , https://www.ejewels.ee/e-jewels-customized?___store=eng , https://www.kuldkroon.ee/en , https://hyrv.co/wedding-engagement-rings-2 , https://goldsmith.store/ , http://gold.ee/?lang=en , https://www.given.ee/ (lues le 15/11/2026, après contrôle `robots.cjs`).

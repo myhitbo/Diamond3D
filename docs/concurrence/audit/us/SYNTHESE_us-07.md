@@ -135,4 +135,4 @@ Temps mesurés depuis un centre de données, Chromium sans carte graphique, iPho
 ## Écarts robots.txt tranchés (session principale, 25/11)
 - JewelerOS : les appels `/api/` faits par la page à sa simple ouverture ne sont pas un écart (règle des auditeurs depuis us-04) ; seuls les appels déclenchés par un clic comptent, et ceux-là ont été coupés.
 - Premier (tri `?sortSpec=`), Zorells (mp4 sur un domaine tiers à robots.txt illisible), SVS (images Caratwise) : écarts mineurs signalés par les rapports eux-mêmes ; aucun constat n'en dépend, pas de marque [P1].
-- Elizabeth Diamond Company (inventaire de l'Ohio) et Britton (inventaire du North Dakota) : pages lues alors que robots.txt interdit nos agents. Ces sites ne sont pas audités ; les lignes d'inventaire qui en viennent portent désormais la valeur [P1] et ne doivent pas être reprises dans la comparaison.
+- Elizabeth Diamond Company (inventaire de l'Ohio) et Britton (inventaire du North Dakota) : pages lues alors que robots.txt interdit nos agents. Ces sites ne sont pas audités ; les lignes d’inventaire qui en viennent valent [P1] : ne pas les reprendre dans la comparaison.

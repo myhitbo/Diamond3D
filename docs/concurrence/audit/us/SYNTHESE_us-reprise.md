@@ -121,5 +121,5 @@ Les temps ont été mesurés une fois par cas, depuis le mandataire de la sessio
 - **Limites communes** : une seule fiche détaillée par site en général ; mesures de temps uniques ; iPhone émulé dans Chromium (pas Safari) ; aucun paiement, chat, WhatsApp ni formulaire ; avis non recoupés ; aucun rapport ne traite l'alliance de kiddouchin.
 
 ## Contrôle de la session principale (25/11)
-- Exeter : la requête `sort_by` est partie du thème de la page, sans clic de l'auditeur. Selon la règle commune, ce n'est pas un écart ; pas de marque [P1].
+- Exeter : un clic sur le filtre « Engagement Rings » a fait ajouter `sort_by` par le thème, une seule fois. C'est un écart mineur, signalé par le rapport ; aucun constat n'en dépend, donc pas de marque [P1].
 - Ces 13 rapports remplacent les rapports « bloqués » cités dans `SYNTHESE_us-01.md` (Schubach), `SYNTHESE_us-04.md` (Nelson Coleman, Little Treasury) et `SYNTHESE_us-06.md` (Lyght, Hamilton, Billig, Henry's, Cardin, Amidon). Bellman's, Jewelry Creations, Richters et Exeter sont des ajouts au New Hampshire.

@@ -202,13 +202,28 @@ test('pied de page : liens du site, guides en français et en anglais', async ({
   await footer.getByRole('link', { name: 'Bijou de famille' }).click();
   await expect(page).toHaveURL(/\/fr\/transformation$/);
   await page.goto('/en/faq');
-  await expect(page.getByRole('contentinfo').getByRole('link')).toHaveText(['Configurator', 'Family jewellery', 'Guides', 'FAQ', 'Accessibility statement', 'Privacy policy']);
+  // Liens du site seulement : les coordonnées de l'atelier (si renseignées dans Vercel) sont dans un bloc à part, testé plus bas.
+  const enNav = page.getByRole('contentinfo').getByRole('navigation');
+  await expect(enNav.getByRole('link')).toHaveText(['Configurator', 'Family jewellery', 'Guides', 'FAQ', 'Accessibility statement', 'Privacy policy']);
   await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Configurator' })).toHaveAttribute('href', '/en/configurator/ring-001');
   await expect(page.getByRole('contentinfo').getByRole('link', { name: 'Guides' })).toHaveAttribute('href', '/en/guides');
   await page.goto('/he/faq');
   // Hébreu : pas de guides ; déclaration d'accessibilité et politique de confidentialité comme ailleurs (voir legal.spec.ts).
-  await expect(page.getByRole('contentinfo').getByRole('link')).toHaveCount(5);
+  await expect(page.getByRole('contentinfo').getByRole('navigation').getByRole('link')).toHaveCount(5);
   await expect(page.locator('footer a[href*="/guides"]')).toHaveCount(0);
+});
+
+test('pied de page : coordonnées de l’atelier seulement si elles sont renseignées', async ({ page }) => {
+  await page.goto('/fr/faq');
+  const contact = page.getByTestId('footer-contact');
+  const whatsapp = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER;
+  const phone = process.env.NEXT_PUBLIC_CONTACT_PHONE;
+  if (!whatsapp && !phone && !process.env.NEXT_PUBLIC_CONTACT_EMAIL) {
+    await expect(contact).toHaveCount(0);
+    return;
+  }
+  if (whatsapp) await expect(contact.getByRole('link', { name: 'WhatsApp' })).toHaveAttribute('href', /^https:\/\/wa\.me\/\d+$/);
+  if (phone) await expect(contact.getByRole('link', { name: /Téléphone/ })).toHaveAttribute('href', /^tel:\+?\d+$/);
 });
 
 test('404 traduite : français hors langue et sous /fr, anglais, hébreu de droite à gauche ; statut 404', async ({ page }) => {

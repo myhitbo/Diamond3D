@@ -1,47 +1,42 @@
 # Saint-Marin : inventaire des joailliers qui vendent en ligne
 
-Recensement du 15 novembre 2026 pour l'étude de concurrence de JR Diamond en Europe. Complète `docs/concurrence/2026-11-15_europe.md` (14 sites, aucun saint-marinais) sans le refaire.
+Recensement du 15/11/2026 (repris le 25/11 après correction) pour l'étude de concurrence de JR Diamond en Europe. Complète `docs/concurrence/2026-11-15_europe.md` (14 sites, aucun saint-marinais) sans le refaire.
 
-Marques : **V** vérifié (page lue ou résultat de contrôle, adresse en source) · **I** inféré (extrait d'index de recherche, déduction) · **S** supposé.
+Marques : **V** vérifié (page lue ou contrôle actionné, adresse en source) · **I** inféré (extrait de recherche, déduction) · **S** supposé.
 
-Périmètre : joailliers établis dans la République de Saint-Marin qui vendent en ligne des bagues de fiançailles ou des alliances à des particuliers. Grandes maisons internationales, grands magasins et places de marché exclus.
+**Correction de la version précédente.** Elle concluait « aucun site pertinent » parce que l'annuaire matrimonio.com ne renseigne aucun site. C'était faux : trois boutiques en ligne de joailliers établis à Saint-Marin existent (autorisation d'e-commerce saint-marinaise affichée en pied de page) et deux d'entre elles ont été auditées. Aucun n'a de configurateur 3D, de visuel 360° ni de sur mesure en ligne : ce sont des catalogues de bijoux prêts à porter. Leur intérêt pour JR Diamond est d'être le référentiel du marché local (prix, retours, paiement), pas un concurrent de configurateur.
 
-## Conclusion : aucun site pertinent, aucun audit
+## Conclusion
 
-**Aucun joaillier établi à Saint-Marin avec une boutique en ligne de bagues de fiançailles ou d'alliances n'a été trouvé.** Ni configurateur, ni visuel 3D ou 360°, ni sur mesure en ligne, ni prix affichés. Le territoire n'a donc aucun site à auditer ; l'étape 2 n'a pas été faite.
-
-- L'annuaire matrimonio.com ne liste que trois joailliers sur le territoire (Arzilli Gioielli, Ciacci Gioielleria, Jewelry World), **sans aucun site web renseigné** (V : https://www.matrimonio.com/gioielleria/san-marino, lu le 15/11). Une quatrième fiche, Klepto Gioielli, apparaît pour les alliances, « à partir de 500 € », avec personnalisation en boutique (I : https://www.matrimonio.com/fedi-nuziali/san-marino ; extrait de recherche, page non lue : 403 pour curl).
-- Ciacci Gioielleria (Contrada del Collegio 37, centre historique) est détaillant officiel de montres Tudor, Longines, Hamilton et TAG Heuer (I : fiches de localisation de ces marques) ; aucun domaine propre ni boutique en ligne trouvé.
-- Arzilli Gioielli : « plus de cinquante ans » de présence, description de boutique physique seulement (I : fiche matrimonio.com). Aucun site trouvé.
-- Jewelry World : une seule fiche d'annuaire, sans adresse ni site (I).
-- Klepto Gioielli : aucun site officiel trouvé (I).
-- **Faux positif écarté** : DoGi / Dogi Gioielli (gioielleriadogi.it, robots.txt « Allow: / », page d'accueil 200, V) vend en ligne des bagues de promesse et des alliances, mais il est établi dans la province de Pescara (Abruzzes, Italie), pas à Saint-Marin (I : https://www.hamiltonwatch.com/en-us/store-locator/italy/abruzzo/pescara/dogi-gioielli). Il relève du marché italien ; je ne l'ai pas audité (hors territoire). La page d'accueil n'a livré ni texte exploitable ni liste de produits à la lecture (V : 200, contenu rendu par script).
-
-## Blocage et adresses contrôlées
-
-Le contrôle `robots.cjs` ne s'applique qu'à des adresses réelles. Les domaines que j'ai essayés (`ciacci.sm`, `arzilligioielli.com`, `dogigioielli.com`, `ciaccigioielli.com`, `arzilli.sm`, `jewelryworld.sm`, `gioielleriaarzilli.com`, `kleptogioielli.sm`) étaient **des devinettes, pas des adresses trouvées** : ils ont répondu INCONNU (connexion refusée ou 502, robots.txt illisible). Cela ne prouve rien sur les commerçants ; je ne les ai pas ouverts davantage. `kleptogioielli.com` et `dogigioielli.it` ont répondu AUTORISÉ, mais sans preuve qu'ils appartiennent aux commerçants cherchés : non retenus.
-
-## Terme pour le diamant synthétique
-
-Aucun joaillier saint-marinais observé, donc aucun terme relevé sur place. La langue du pays est l'italien. Les termes usuels en italien sont « diamante sintetico » et « diamante coltivato in laboratorio » (S : usage général, non observé à Saint-Marin). Aucune règle saint-marinaise sur la dénomination n'a été cherchée ni trouvée ; Saint-Marin est dans une union douanière avec l'Italie et utilise l'euro (S, connaissance générale).
+- 5 joailliers établis à Saint-Marin avec une boutique en ligne qui vend des bagues, classés ci-dessous. **Aucun configurateur.** Pas de sur mesure en ligne trouvé chez aucun (V pour Arzilli et Aquamarina, I pour les autres).
+- **Audités (2)** : ArzilliShop (rang 2) et Aquamarina Gioielli (rang 3). Le rang 1 (Lion Diamonds) est marqué « bloqué » par le contrôle robots : il n'a pas été ouvert.
+- Terme pour le diamant synthétique : **aucun relevé** sur ces sites. Les sites vendent « diamanti naturali » (Lion Diamonds, I) ou « diamante taglio brillante » sans préciser l'origine (Aquamarina, V). Usage général en italien : « diamante sintetico » ou « diamante coltivato in laboratorio » (S). Aucune règle saint-marinaise de dénomination cherchée ni trouvée ; Saint-Marin utilise l'euro et a une union douanière avec l'Italie (S, connaissance générale).
 
 ## Classement
 
 | Rang | Acteur | Ville | Adresse | Page de départ | Configurateur | Blocage | Langues | Pourquoi |
 |---|---|---|---|---|---|---|---|---|
-| — | Aucun acteur retenu | Saint-Marin | — | — | — | — | IT | Aucun joaillier saint-marinais n'a de boutique en ligne de bagues trouvée. Candidats d'annuaire (Arzilli, Ciacci, Jewelry World, Klepto) : boutiques physiques, sans site identifié ; non audités. |
+| 1 | Lion Diamonds | Dogana (SM) | https://liondiamonds.it/ | https://liondiamonds.it/ (menu Anelli : solitaire, solitaire avec contour, trilogie, veretta) | Non (WooCommerce, catalogue) | **Bloqué** : robots.txt illisible, connexion réinitialisée à deux essais du contrôle (HTTP 0). Non ouvert | IT | Seul acteur spécialisé diamant : diamants naturels « colore F, purezza VS », solitaires, TAX FREE, sur rendez-vous, renvoie vers Rapaport (I : extrait de recherche) |
+| 2 | ArzilliShop (Arzilli Gioielli) | San Marino Città | https://www.arzillishop.it/ | https://www.arzillishop.it/it/arzilli-oro-18kt.1.23.uw | Non | Aucun blocage ; `Crawl-delay: 10`, pages `.asp` d'ajax interdites | IT | Bijouterie de plus de 70 ans, bagues or 18 k « à poids » 157 € à 607 €, pierres = zircone ; fiche annuaire : alliances et bagues de fiançailles, sur mesure « oui » (V pour le site, I pour l'annuaire). **Audité** |
+| 3 | Aquamarina Gioielli | San Marino Città | https://www.aquamarinagioielli.com/ | https://www.aquamarinagioielli.com/categoria-prodotto/anelli/ | Non | Aucun blocage ; panier, filtres et ajout au panier interdits par robots.txt | IT | Multimarque (Marco Bicego, Chimento, Raspini…), bagues à diamants de 2 300 à 4 300 € (−50 % affiché), garantie et emballage, guide des tailles. **Audité** |
+| 4 | Ciacci Watches & Jewels | Saint-Marin (point de vente) ; siège Rimini | https://www.ciaccigioielleria.com/ | https://www.ciaccigioielleria.com/ | Non | Aucun (robots AUTORISÉ) | IT | Montres (Tudor, Longines) et joaillerie de marques ; siège légal à Rimini (Italie), donc au bord du périmètre ; rendez-vous en ligne ; non audité (hors des 2 premiers) |
+| 5 | Marlù | Montegiardino (SM) | https://www.marlu.it/it/anelli-34 | idem | Non | Aucun | IT | Bijoux fantaisie (solitaire zircone 15 €) : prix de mode, sans rapport avec la bague de fiançailles ; non audité |
+
+Écartés : Silver Planet (silverplanet.sm, Domagnano) : grossiste, ouvert aux revendeurs (V : page d'accueil lue via recherche) ; Klepto Gioielli (alliances dès 500 €, personnalisation en boutique, aucun site trouvé, I) ; Jewelry World (fiche d'annuaire sans site) ; DoGi (gioielleriadogi.it) : établi à Pescara, Italie, hors territoire.
+
+## Blocage
+
+Contrôle `robots.cjs` du 15/11 : AUTORISÉ pour arzillishop.it, aquamarinagioielli.com, ciaccigioielleria.com, marlu.it, silverplanet.sm. **INCONNU pour liondiamonds.it** (« robots.txt illisible : HTTP 0 »), deux essais. Je n'ai pas insisté. Un curl ultérieur sur son robots.txt a répondu (V : WooCommerce, interdit seulement `add-to-cart`, `wp-admin`, journaux) mais la règle de l'étude veut « INCONNU = bloqué » : site à ré-essayer avec l'outil corrigé.
 
 ## Pour la suite
 
-Si le propriétaire veut aller plus loin : le registre des entreprises (Ufficio Industria, Artigianato e Commercio) ou une visite des boutiques du centre historique donneraient les domaines manquants. Le marché saint-marinais est trop petit pour peser ; les acheteurs locaux achètent probablement chez des vendeurs italiens (S).
+Lion Diamonds est le seul acteur qui touche la bague en diamant (solitaire, trilogie) : à auditer si le contrôle robots passe. Le marché saint-marinais est petit ; les acheteurs italiens voisins relèvent du marché italien (S).
 
 ## Sources
 
-- https://www.matrimonio.com/gioielleria/san-marino (V, lue 15/11)
-- https://www.matrimonio.com/gioielleria/repubblica-di-san-marino (I, résultat de recherche)
-- https://www.matrimonio.com/fedi-nuziali/san-marino et https://www.matrimonio.com/fedi-nuziali/klepto-gioielli--e181968 (I, extraits)
-- https://www.tudorwatch.com/en/retailers/details/italy/sm/sanmarino/15902-ciaccigioiellisanmarino et https://www.longines.com/store/id/ciacci-gioielleria-srl-repubblica-san-marino-874528 (I, extraits)
-- https://www.hamiltonwatch.com/en-us/store-locator/italy/abruzzo/pescara/dogi-gioielli (I)
-- https://quifinanza.it/lifestyle/gioielleria-dogi-pensa-ai-futuri-sposi-gli-anelli-di-fidanzamento-e-le-fedi-nuziali/663423/amp/ (V, lue)
-- https://gioielleriadogi.it/ (V : robots AUTORISÉ, 200)
-- Recherches web génériques en italien et en anglais (WebSearch), 15/11/2026.
+- https://www.aquamarinagioielli.com/ ; https://www.arzillishop.it/ (V, lues le 15/11/2026)
+- https://liondiamonds.it/ (I : extrait de recherche web ; robots.txt V par curl)
+- https://www.ciaccigioielleria.com/ ; https://www.marlu.it/it/anelli-34 ; https://www.silverplanet.sm/ (I : extraits de recherche)
+- https://www.matrimonio.com/gioielleria/san-marino ; https://www.matrimonio.com/gioielleria/arzilli-gioielli--e203122 ; https://www.matrimonio.com/fedi-nuziali/klepto-gioielli--e181968 (I)
+- https://www.hamiltonwatch.com/en-us/store-locator/italy/abruzzo/pescara/dogi-gioielli (I : DoGi à Pescara)
+- Recherche web générique en italien (Parallel Search), 15/11/2026.

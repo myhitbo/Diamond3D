@@ -1,5 +1,7 @@
 # Audit : Royal Jewelers (Fargo, Dakota du Nord)
 
+> **[P1] pour tout le rapport (relevé le 25/11)** : le robots.txt du site interdit tout aux agents Claude (`Disallow: /` dans un groupe nominatif ClaudeBot / anthropic-ai). L'outil de contrôle ne lisait que le groupe `*` (défaut corrigé le 25/11) : l'audit l'a suivi à tort. Constats gardés pour mémoire, valeur [P1], jamais repris comme vérifiés.
+
 - **Site** : Royal Jewelers
 - **Adresse** : https://www.royaljewelersfargo.com ; page de départ https://www.royaljewelersfargo.com/create-your-ring
 - **Date** : 15/11/2026 (date de l'étude ; contrôles exécutés à la session du 25/11/2026)

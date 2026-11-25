@@ -1,5 +1,7 @@
 # Audit : Apex Jewelry Design
 
+> **[P1] pour tout le rapport (relevé le 25/11)** : le robots.txt du site interdit tout aux agents Claude (`Disallow: /` dans un groupe nominatif ClaudeBot / anthropic-ai). L'outil de contrôle ne lisait que le groupe `*` (défaut corrigé le 25/11) : l'audit l'a suivi à tort. Constats gardés pour mémoire, valeur [P1], jamais repris comme vérifiés.
+
 - **Site** : Apex Jewelry Design (Los Angeles, Jewelry District, 607 S Hill St, Suite 850)
 - **Adresse** : https://apexjewelrydesign.com (départ : https://apexjewelrydesign.com/shop/engagement-rings)
 - **Date** : 15/11/2026

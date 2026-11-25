@@ -1,5 +1,7 @@
 # Audit : DiamondJools (Athènes)
 
+> **[P1] pour tout le rapport (relevé le 25/11)** : le robots.txt du site interdit tout aux agents Claude (`Disallow: /` dans un groupe nominatif ClaudeBot / anthropic-ai). L'outil de contrôle ne lisait que le groupe `*` (défaut corrigé le 25/11) : l'audit l'a suivi à tort. Constats gardés pour mémoire, valeur [P1], jamais repris comme vérifiés.
+
 - **Site** : https://www.diamondjools.gr/ (atelier « in-house » ; boutiques à Athènes [V : en-tête « Σχεδιασμένα & κατασκευασμένα στην Αθήνα »])
 - **Page de départ auditée** : https://www.diamondjools.gr/monopetra/ftiakse-to-diko-sou/settings
 - **Date** : 15/11/2026 (contrôles faits dans la session du 24/11)

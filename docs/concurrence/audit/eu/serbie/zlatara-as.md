@@ -1,5 +1,7 @@
 # Audit : Zlatara AS (Novi Sad, Belgrade)
 
+> **[P1] pour tout le rapport (relevé le 25/11)** : le robots.txt du site interdit tout aux agents Claude (`Disallow: /` dans un groupe nominatif ClaudeBot / anthropic-ai). L'outil de contrôle ne lisait que le groupe `*` (défaut corrigé le 25/11) : l'audit l'a suivi à tort. Constats gardés pour mémoire, valeur [P1], jamais repris comme vérifiés.
+
 - **Site** : https://www.zlatara-as.rs/ (Wedding Centar Zlatara AS ; boutiques à Novi Sad, Jevrejska 34, et Novi Beograd, Belvil ; depuis 1991 selon l'accueil [V])
 - **Page de départ** : fiche de bague à variantes https://www.zlatara-as.rs/product/classics-prsten-k191-roze-zlato/ (pas de configurateur) ; catalogue https://www.zlatara-as.rs/kategorija/verenicko-prstenje/
 - **Date** : 15/11/2026. **Appareils** : Chromium ordinateur (1366×900) et affichage iPhone 13.

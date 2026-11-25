@@ -136,3 +136,5 @@ Temps mesurés depuis un centre de données, Chromium sans carte graphique, iPho
   - Missouri : Vinca, Serene Setting (sur mesure à distance), Adam Foster, Betz et CornerStone (JewelerOS), Elleard B. Heffern.
 - **Bloqués dès l'inventaire** [Inv] : Barmakian et M. Flynn (Cloudflare 403 ; M. Flynn interdit aussi ClaudeBot), Jensen (403), Paul Medawar (Cloudflare), DeVries (robots.txt fermé aux robots d'IA), Britt et la vitrine de W.P. Shelton (Stuller `Disallow: /`), catalogue de Traditional (`/verify.html`), accueil de jeweleros.com (Cloudflare). À voir à la main.
 - **Limites communes** : une mesure par cas, iPhone émulé dans Chromium (pas Safari), pas de GPU ; aucun paiement, chat, WhatsApp ni formulaire ; avis hors site non recoupés ; alliance de kiddouchin non recherchée.
+
+- **Noe's Jewelry : [P1] pour tout le rapport (25/11)** : robots.txt `Disallow: /` nominatif pour les agents Claude, manqué par l'outil de contrôle (défaut corrigé le 25/11). Ses constats sortent des décomptes [V] de cette synthèse.

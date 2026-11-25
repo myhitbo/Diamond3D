@@ -136,3 +136,5 @@ Temps mesurés depuis un centre de données, Chromium sans carte graphique, iPho
 - JewelerOS : les appels `/api/` faits par la page à sa simple ouverture ne sont pas un écart (règle des auditeurs depuis us-04) ; seuls les appels déclenchés par un clic comptent, et ceux-là ont été coupés.
 - Premier (tri `?sortSpec=`), Zorells (mp4 sur un domaine tiers à robots.txt illisible), SVS (images Caratwise) : écarts mineurs signalés par les rapports eux-mêmes ; aucun constat n'en dépend, pas de marque [P1].
 - Elizabeth Diamond Company (inventaire de l'Ohio) et Britton (inventaire du North Dakota) : pages lues alors que robots.txt interdit nos agents. Ces sites ne sont pas audités ; les lignes d’inventaire qui en viennent valent [P1] : ne pas les reprendre dans la comparaison.
+
+- **Royal Jewelers : [P1] pour tout le rapport (25/11)** : robots.txt `Disallow: /` nominatif pour les agents Claude, manqué par l'outil de contrôle (défaut corrigé le 25/11). Ses constats sortent des décomptes [V] de cette synthèse.

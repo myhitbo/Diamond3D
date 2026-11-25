@@ -125,3 +125,5 @@ Marché, d'après les inventaires : aucun joaillier espagnol, portugais, slovèn
 ## Contrôle robots.txt des paniers (session principale, 24/11)
 
 Le robots.txt de chaque site dont le rapport décrit un ajout au panier a été relu. Jewelbox et Met Diamond autorisent la page `/cart` mais interdisent `/cart/`, donc `/cart/add` appelé par le bouton d'ajout : écart non signalé par leurs rapports [V]. DiamondJools interdit tout chemin `/cart…` ; le tiroir a très probablement été rempli par un tel chemin [I]. Les constats de panier de ces trois sites portent désormais **[P1]** dans leurs rapports. Victor Azzopardi, Makriadis, Zlatarna Sterle et Zlatarne Holc : aucun écart trouvé.
+
+- **DiamondJools : [P1] pour tout le rapport (25/11)** : robots.txt `Disallow: /` nominatif pour les agents Claude, manqué par l'outil de contrôle (défaut corrigé le 25/11). Ses constats sortent des décomptes [V] de cette synthèse.

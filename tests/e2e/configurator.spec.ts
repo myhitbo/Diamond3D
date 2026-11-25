@@ -27,14 +27,14 @@ test('le changement de métal modifie le matériau, pas la géométrie', async (
   await page.goto(URL);
   await ready(page);
   const nodesBefore = await page.evaluate(() => window.__jr!.visibleNodes());
-  expect(await page.evaluate(() => window.__jr!.metalColor())).toBe('#f0cc86');
+  expect(await page.evaluate(() => window.__jr!.metalColor())).toBe('#e9c98e'); // or jaune 14 carats, métal par défaut (atelier, 16/11)
   await page.getByRole('radio', { name: 'Or rose', exact: true }).click();
-  await expect.poll(() => page.evaluate(() => window.__jr!.metalColor())).toBe('#eebba0');
-  await expect(page.getByRole('radio', { name: 'Or rose', exact: true })).toHaveAttribute('aria-checked', 'true');
-  // Passage en 14 carats : même couleur choisie, autre titre.
-  await page.getByRole('radiogroup', { name: 'Titre de l’or' }).getByRole('radio', { name: '14 carats' }).click();
   await expect.poll(() => page.evaluate(() => window.__jr!.metalColor())).toBe('#eab39a');
-  await expect(page.getByText('Or rose 14 carats').first()).toBeVisible();
+  await expect(page.getByRole('radio', { name: 'Or rose', exact: true })).toHaveAttribute('aria-checked', 'true');
+  // Passage en 18 carats : même couleur choisie, autre titre.
+  await page.getByRole('radiogroup', { name: 'Titre de l’or' }).getByRole('radio', { name: '18 carats' }).click();
+  await expect.poll(() => page.evaluate(() => window.__jr!.metalColor())).toBe('#eebba0');
+  await expect(page.getByText('Or rose 18 carats').first()).toBeVisible();
   expect(await page.evaluate(() => window.__jr!.visibleNodes())).toEqual(nodesBefore);
   // Le platine n'a pas de titre d'or.
   await page.getByRole('radio', { name: 'Platine', exact: true }).click();
@@ -87,16 +87,112 @@ test('les formes non modélisées sont proposées « sur demande » et pré-remp
   await expect(stoneGroup.getByRole('radio', { name: /Marquise/ })).toHaveAttribute('aria-checked', 'true');
 });
 
+test('les pierres de couleur sont proposées « sur demande » et pré-remplissent le devis', async ({ page }) => {
+  await page.goto(URL);
+  const stones = page.getByRole('group', { name: 'Autres pierres' });
+  await expect(stones.getByRole('button')).toHaveCount(4);
+  await stones.getByRole('button', { name: /Émeraude/ }).click();
+  await expect(page.getByRole('heading', { name: 'Demande de devis' })).toBeVisible();
+  const message = page.getByLabel('Message');
+  await expect(message).toHaveValue('Je souhaite ce bijou avec une émeraude naturelle en pierre centrale.');
+  // Forme et pierre se cumulent ; au clavier comme à la souris.
+  await page.getByRole('group', { name: 'Autres formes' }).getByRole('button', { name: /Ovale/ }).focus();
+  await page.keyboard.press('Enter');
+  await expect(message).toHaveValue('Je souhaite ce bijou avec une émeraude naturelle en pierre centrale, de forme : Ovale.');
+  // Origine « synthétique » : l'émeraude reste naturelle, le message le dit des diamants.
+  await page.getByRole('radio', { name: 'Synthétique' }).click();
+  await expect(message).toHaveValue(
+    'Je souhaite ce bijou avec une émeraude naturelle en pierre centrale, de forme : Ovale. Les autres pierres restent des diamants synthétiques.',
+  );
+  await stones.getByRole('button', { name: /Diamant de couleur/ }).focus();
+  await page.keyboard.press('Space');
+  await expect(message).toHaveValue('Je souhaite ce bijou avec un diamant de couleur en pierre centrale, de forme : Ovale.');
+  // La 3D ne change pas.
+  await expect(page.getByRole('radiogroup', { name: 'Pierre centrale' }).getByRole('radio', { name: /Marquise/ })).toHaveAttribute('aria-checked', 'true');
+  // Fermer le devis efface les demandes.
+  await page.getByRole('button', { name: 'Annuler' }).click();
+  await stones.getByRole('button', { name: /Rubis/ }).click();
+  await expect(message).toHaveValue('Je souhaite ce bijou avec un rubis naturel en pierre centrale. Les autres pierres restent des diamants synthétiques.');
+});
+
+test('le message proposé suit l’origine et la composition sans déplacer la page ; seul un bouton « sur demande » la fait défiler', async ({ page }) => {
+  // Défilement instantané : la position se lit sans attendre la fin d'une animation.
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto(URL);
+  await page.getByRole('group', { name: 'Autres pierres' }).getByRole('button', { name: /Émeraude/ }).click();
+  const message = page.getByLabel('Message');
+  await expect(message).toHaveValue('Je souhaite ce bijou avec une émeraude naturelle en pierre centrale.');
+  const frames = () => page.evaluate(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))));
+  const scrollY = () => page.evaluate(() => window.scrollY);
+
+  // Souris : l'origine change le message, la page ne bouge pas.
+  const labGrown = page.getByRole('radio', { name: 'Synthétique' });
+  await labGrown.scrollIntoViewIfNeeded();
+  let before = await scrollY();
+  await labGrown.click();
+  await expect(message).toHaveValue('Je souhaite ce bijou avec une émeraude naturelle en pierre centrale. Les autres pierres restent des diamants synthétiques.');
+  await frames();
+  expect(await scrollY()).toBe(before);
+  await expect(labGrown).toBeInViewport();
+  // Clavier : les flèches du groupe changent l'origine, le choix qui a le focus reste à l'écran.
+  before = await scrollY();
+  await page.keyboard.press('ArrowLeft');
+  const natural = page.getByRole('radio', { name: 'Naturel' });
+  await expect(natural).toBeFocused();
+  await expect(message).toHaveValue('Je souhaite ce bijou avec une émeraude naturelle en pierre centrale.');
+  await frames();
+  expect(await scrollY()).toBe(before);
+  await expect(natural).toBeInViewport();
+
+  // Alliance seule (pas de pierre centrale) : la proposition, non retouchée, disparaît ; elle revient avec la pierre centrale.
+  const band = page.getByRole('radio', { name: 'Alliance' });
+  await band.scrollIntoViewIfNeeded();
+  before = await scrollY();
+  await band.click();
+  await expect(message).toHaveValue('');
+  await frames();
+  expect(await scrollY()).toBe(before);
+  await page.getByRole('radio', { name: 'Ensemble', exact: true }).click();
+  await expect(message).toHaveValue('Je souhaite ce bijou avec une émeraude naturelle en pierre centrale.');
+
+  // Demande explicite : le formulaire, déjà ouvert, revient à l'écran.
+  await page.getByRole('group', { name: 'Autres formes' }).getByRole('button', { name: /Ovale/ }).click();
+  await expect(message).toHaveValue('Je souhaite ce bijou avec une émeraude naturelle en pierre centrale, de forme : Ovale.');
+  await expect(page.getByRole('heading', { name: 'Demande de devis' })).toBeInViewport();
+});
+
+test('pierres sur demande en hébreu', async ({ page }) => {
+  await page.goto('/he/configurator/ring-001');
+  const stones = page.getByRole('group', { name: 'אבנים אחרות' });
+  await expect(stones.getByRole('button')).toHaveCount(4);
+  await stones.getByRole('button', { name: /אזמרגד/ }).click();
+  await expect(page.getByRole('heading', { name: 'בקשת הצעת מחיר' })).toBeVisible();
+  await expect(page.getByLabel('הודעה')).toHaveValue('אני מעוניין/ת בתכשיט זה עם אזמרגד טבעי כאבן מרכזית.');
+});
+
 test('en-tête : aucun lien sur deux lignes', async ({ page }) => {
   for (const locale of ['fr', 'en', 'he']) {
     await page.goto(`/${locale}/configurateur/ring-001`);
-    const link = page.locator('.site-nav a').first();
-    const box = (await link.boundingBox())!;
-    expect(box.height, locale).toBeLessThan(30);
-    const header = (await page.locator('.site-header').boundingBox())!;
-    // Une seule rangée : environ 60 px sur téléphone, 80 px sur tablette et ordinateur (marges plus larges).
-    expect(header.height, locale).toBeLessThan(100);
-    await expect(link).toHaveAccessibleName(/Questions fréquentes|FAQ|שאלות נפוצות/);
+    // Tablette et téléphone : menu replié derrière le bouton « Menu » (élément details).
+    const menu = page.locator('.site-header details.menu');
+    if (await menu.isVisible()) {
+      await menu.locator('summary').click();
+      await expect(menu).toHaveAttribute('open', '');
+    }
+    const links = page.locator('.site-header nav a:visible');
+    // Configurateur, bijou de famille, guides (sauf en hébreu), FAQ, puis les trois langues.
+    expect(await links.count(), locale).toBe(locale === 'he' ? 6 : 7);
+    // Une seule ligne par lien : hauteur du texte inférieure à 1,6 fois la taille de la police.
+    const lines = await links.evaluateAll((els) =>
+      els.map((e) => {
+        const cs = getComputedStyle(e);
+        const text = e.getBoundingClientRect().height - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom) - parseFloat(cs.borderBottomWidth);
+        return { name: e.textContent, ratio: text / parseFloat(cs.fontSize) };
+      }),
+    );
+    for (const l of lines) expect(l.ratio, `${locale} ${l.name}`).toBeLessThan(1.6);
+    // Nom accessible = texte affiché (WCAG 2.5.3).
+    await expect(links.first()).toHaveAccessibleName(/^(Configurateur|Configurator|עיצוב תכשיט)$/);
   }
 });
 
@@ -115,37 +211,8 @@ test('réinitialiser revient à la configuration initiale', async ({ page }) => 
   await page.getByRole('radio', { name: 'Platine', exact: true }).click();
   await page.getByRole('radio', { name: 'Solitaire' }).click();
   await page.getByRole('button', { name: 'Réinitialiser' }).click();
-  await expect.poll(() => page.evaluate(() => window.__jr!.metalColor())).toBe('#f0cc86');
+  await expect.poll(() => page.evaluate(() => window.__jr!.metalColor())).toBe('#e9c98e');
   expect(await page.evaluate(() => window.__jr!.visibleNodes())).toHaveLength(8);
-});
-
-test('la configuration suit dans l’adresse et un lien la rouvre', async ({ page, browserName }) => {
-  await page.goto(URL);
-  await ready(page);
-  const reference = await page.getByTestId('config-reference').textContent();
-  await page.getByRole('radio', { name: 'Platine', exact: true }).click();
-  await page.getByRole('radio', { name: 'Solitaire' }).click();
-  await expect(page).toHaveURL(/m=platinum-950/);
-  await expect(page).toHaveURL(/c=solitaire/);
-  await expect(page).toHaveURL(/debug=1/);
-  await expect(page.getByTestId('config-reference')).not.toHaveText(reference!);
-  // Ouvrir l'adresse dans un autre onglet rouvre la même bague.
-  const other = await page.context().newPage();
-  await other.goto(page.url());
-  await ready(other);
-  await expect.poll(() => other.evaluate(() => window.__jr!.visibleNodes().every((n) => n.startsWith('A__')))).toBe(true);
-  await expect(other.getByRole('radio', { name: 'Platine', exact: true })).toHaveAttribute('aria-checked', 'true');
-  await expect(other.getByTestId('config-reference')).toHaveText(await page.getByTestId('config-reference').textContent() ?? '');
-  await other.close();
-  // Partager : copie le lien (Chromium ; Safari ouvre la feuille de partage du système).
-  if (browserName === 'chromium') {
-    await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
-    await page.getByRole('button', { name: 'Partager cette bague' }).click();
-    await expect(page.getByTestId('share-status')).toContainText('Lien copié');
-    const copied = await page.evaluate(() => navigator.clipboard.readText());
-    expect(copied).toContain('m=platinum-950');
-    expect(copied).not.toContain('debug');
-  }
 });
 
 test('les vues prédéfinies déplacent la caméra', async ({ page }) => {
@@ -187,4 +254,67 @@ test('pas de défilement horizontal', async ({ page }) => {
 test('page 404 pour un modèle inconnu', async ({ page }) => {
   const res = await page.goto('/fr/configurateur/inexistant');
   expect(res?.status()).toBe(404);
+});
+
+test.describe('lien partagé : la configuration dans l’adresse', () => {
+  test('une adresse avec configuration rouvre les mêmes choix ; une valeur inconnue est ignorée', async ({ page }) => {
+    await page.goto('/fr/configurateur/ring-001?debug=1&composition=solitaire&metal=platinum-950&origin=lab-grown&stone-center=inconnue');
+    await ready(page);
+    await expect(page.getByRole('radio', { name: 'Solitaire' })).toHaveAttribute('aria-checked', 'true');
+    await expect(page.getByRole('radio', { name: 'Platine', exact: true })).toHaveAttribute('aria-checked', 'true');
+    await expect(page.getByRole('radio', { name: 'Synthétique' })).toHaveAttribute('aria-checked', 'true');
+    await expect.poll(() => page.evaluate(() => window.__jr!.visibleNodes().every((n) => n.startsWith('A__')))).toBe(true);
+    // L'adresse est réécrite avec la variante valide, et garde `debug`.
+    await expect.poll(() => new globalThis.URL(page.url()).searchParams.get('stone-center')).toBe('marquise-6x3');
+    expect(new globalThis.URL(page.url()).searchParams.get('debug')).toBe('1');
+  });
+
+  test('l’adresse suit les choix, sans nouvelle entrée d’historique', async ({ page }) => {
+    await page.goto(URL);
+    await ready(page);
+    // Arrivée sans configuration : l'adresse reste nue.
+    expect(new globalThis.URL(page.url()).searchParams.has('metal')).toBe(false);
+    const historyLength = await page.evaluate(() => history.length);
+    await page.getByRole('radio', { name: 'Or rose', exact: true }).click();
+    await expect.poll(() => new globalThis.URL(page.url()).searchParams.get('metal')).toBe('rose-gold-14k'); // titre par défaut : 14 k (atelier, 16/11)
+    await page.getByRole('radio', { name: 'Alliance' }).click();
+    await expect.poll(() => new globalThis.URL(page.url()).searchParams.get('composition')).toBe('band');
+    expect(await page.evaluate(() => history.length)).toBe(historyLength);
+    // Rechargement : mêmes choix.
+    await page.reload();
+    await ready(page);
+    await expect(page.getByRole('radio', { name: 'Alliance' })).toHaveAttribute('aria-checked', 'true');
+    await expect(page.getByRole('radio', { name: 'Or rose', exact: true })).toHaveAttribute('aria-checked', 'true');
+    // Réinitialiser remet aussi l'adresse aux choix par défaut.
+    await page.getByRole('button', { name: 'Réinitialiser' }).click();
+    await expect.poll(() => new globalThis.URL(page.url()).searchParams.get('composition')).toBe('set');
+  });
+
+  test('« Partager » copie un lien qui rouvre la configuration, sans les paramètres techniques', async ({ page, context, browserName }) => {
+    test.skip(browserName !== 'chromium', 'droits du presse-papiers accordés par Playwright dans Chromium seulement');
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+    await page.addInitScript(() => Object.defineProperty(navigator, 'share', { value: undefined }));
+    await page.goto(URL);
+    await ready(page);
+    await page.getByRole('radio', { name: 'Platine', exact: true }).click();
+    await page.getByRole('button', { name: 'Partager cette configuration' }).click();
+    await expect(page.getByText('Lien copié. Il rouvre cette bague avec les mêmes choix.')).toBeVisible();
+    const link = new globalThis.URL(await page.evaluate(() => navigator.clipboard.readText()));
+    expect(link.pathname).toBe('/fr/configurateur/ring-001');
+    expect(link.searchParams.get('metal')).toBe('platinum-950');
+    expect(link.searchParams.has('debug')).toBe(false);
+  });
+
+  test('presse-papiers refusé : le lien s’affiche, sélectionné, pour une copie à la main', async ({ page }) => {
+    await page.addInitScript(() => {
+      Object.defineProperty(navigator, 'share', { value: undefined });
+      Object.defineProperty(navigator, 'clipboard', { value: { writeText: () => Promise.reject(new Error('refusé')) } });
+    });
+    await page.goto(URL);
+    await ready(page);
+    await page.getByRole('button', { name: 'Partager cette configuration' }).click();
+    const field = page.getByLabel('Copiez ce lien pour retrouver ou partager cette configuration :');
+    await expect(field).toBeFocused();
+    expect(new globalThis.URL(await field.inputValue()).searchParams.get('composition')).toBe('set');
+  });
 });

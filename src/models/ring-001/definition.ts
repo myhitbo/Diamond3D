@@ -6,7 +6,8 @@ import asset from './asset.json';
  * Modèle pilote issu de Ring.3dm (ensemble de deux bagues).
  *
  * Seules les options réellement présentes dans le fichier CAO sont proposées.
- * Les autres formes de pierre sont listées comme indisponibles, avec leur raison.
+ * Les autres formes de pierre sont listées comme indisponibles, avec leur raison ; elles et les pierres de couleur
+ * se demandent dans le devis.
  */
 export const ring001 = {
   id: 'ring-001',
@@ -45,7 +46,7 @@ export const ring001 = {
   metals: {
     // Atelier, 3/11 : or 14 k et 18 k (jaune, blanc, rose) et platine ; pas d'argent.
     options: ['yellow-gold-14k', 'white-gold-14k', 'rose-gold-14k', 'yellow-gold-18k', 'white-gold-18k', 'rose-gold-18k', 'platinum-950'],
-    default: 'yellow-gold-18k',
+    default: 'yellow-gold-14k', // atelier, 16/11 : or jaune 14 k par défaut
     availabilityConfirmed: true,
   },
   stoneSlots: [
@@ -79,6 +80,8 @@ export const ring001 = {
         { shape: 'emerald', reason: 'requires_dedicated_head' },
         { shape: 'princess', reason: 'requires_dedicated_head' },
       ],
+      // Atelier, 22/10 : diamants de couleur ; émeraude, saphir et rubis naturels. Aucun matériau 3D dédié : sur demande.
+      stonesOnRequest: ['colored-diamond', 'emerald', 'sapphire', 'ruby'],
     },
   ],
   diamondOrigins: { options: ['natural', 'lab-grown'], default: 'natural', affectsRendering: false },

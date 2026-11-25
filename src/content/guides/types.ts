@@ -34,8 +34,8 @@ export type Guide = {
 
 /**
  * Correspondance des tailles de bague, calculée plutôt que recopiée :
- * - taille française = tour intérieur en mm (ISO 8653:2016) ; diamètre = tour / π ;
- * - taille israélienne = taille française − 40 (tableaux de bijoutiers israéliens) ;
+ * - taille européenne (France, Europe, Israël ; système de l'atelier, 16/11) = tour intérieur en mm (ISO 8653:2016) ;
+ *   diamètre = tour / π. La « taille israélienne = européenne − 40 » de certains tableaux n'est plus présentée comme la norme ;
  * - taille américaine ≈ (tour − 36,5) / 2,55, arrondie au quart (échelle nord-américaine : 0,032 po de diamètre par taille).
  * Le diamètre s'écrit avec une virgule en français, un point en anglais.
  */
@@ -45,11 +45,10 @@ export function ringSizeRow(circumferenceMm: number, locale: GuideLocale = 'fr')
   const whole = Math.floor(us);
   const diameter = (circumferenceMm / Math.PI).toFixed(1);
   return {
-    fr: String(circumferenceMm),
+    eu: String(circumferenceMm),
     diameterMm: locale === 'fr' ? diameter.replace('.', ',') : diameter,
-    il: String(circumferenceMm - 40),
     us: `${whole}${QUARTERS[Math.round((us - whole) * 4)]}`,
   };
 }
-/** Tailles françaises du tableau : 46 à 66. */
+/** Tailles européennes du tableau : 46 à 66. */
 export const SIZE_RANGE = Array.from({ length: 21 }, (_, i) => 46 + i);

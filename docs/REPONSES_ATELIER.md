@@ -6,6 +6,61 @@ Légende : **[V]** vérifié · **[I]** inféré · **[?]** à confirmer.
 
 ---
 
+## 16 novembre 2026 — Yonathan Cohen (réponses au message du 14/11, et WhatsApp)
+
+### Sources
+- Fichier de réponses joint par le propriétaire : **pas reçu dans la session qui a écrit cette section**. À recopier tel quel dans `docs/atelier/2026-11-16_reponses.txt`. Les réponses ci-dessous viennent du **résumé écrit par le propriétaire** dans sa consigne du 16/11. [V] veut donc dire : écrit dans ce résumé ou dans les messages WhatsApp. Il faudra les comparer au fichier dès qu'il sera archivé.
+- Messages WhatsApp du 16/11, recopiés dans le même fichier :
+  - 10 h 37 : « Diamdor », « חפ 345837116 », « Essek patour » ;
+  - 11 h 27 : il reste osek patour « le temps que ça marche », puis passe en société au-delà du plafond de chiffre d'affaires ;
+  - 11 h 28 : « juste pas de prix automatique ».
+
+### Correspondance avec les 22 points du message du 14/11
+
+| Point | Question (résumé) | Réponse | Statut |
+|---|---|---|---|
+| 1 | Règle de bénéfice (fixe + 25 %, bornes) | Refusée : aucun prix ni bénéfice calculé automatiquement. Chaque prix est fixé à la main par Yonathan, modèle par modèle. | [V] |
+| 2 | Plafond pour un diamant naturel | Refusé : aucun plafond. | [V] |
+| 3 | Taux dollar → ₪ | Refusé : aucune conversion automatique. | [V] |
+| 4 | Prix du platine | 280 ₪/g de métal + 100 ₪/g de façon (≈ 380 ₪/g). | [V] |
+| 5 | Grille de prix des pierres | Pas de réponse dans le résumé. Sans objet si chaque prix est fixé à la main. | [?] / [I] |
+| 6 | Polissage et rhodiage : un ou deux frais | Deux : polissage ≈ 10 $ (or jaune), rhodiage ≈ 10 $ de plus (or blanc). Supplément possible pour les pièces complexes (rivière). | [V] |
+| 7 | Métal par défaut 14 k | Oui : or jaune 14 k. | [V] |
+| 8 | Poids réels de la marquise et des 16 rondes, couleur et pureté | Sans réponse. | [?] |
+| 9 | Qui vend : nom légal, numéro, adresse | « Diamdor », osek patour (עוסק פטור), n° 345837116. Adresse : sans réponse. | [V] (nom et numéro), [?] (adresse) |
+| 10 | Paiement : carte en ligne, en plusieurs fois, Bit | Carte bancaire en ligne et Bit. Paiement en plusieurs fois : sans réponse. | [V] / [?] |
+| 11 | Annulation : pas de retour sauf défaut ; première mise à taille offerte | Réponse de la FAQ `annulation` validée. La non-reprise du sur-mesure reste soumise à l'avocat. | [V] (atelier), [?] (droit) |
+| 12 | Livraison Israël ; France plus tard | Israël : coursier (frais selon la ville, en général 150 à 200 ₪, fixés dans le devis) ou retrait à l'atelier de la Bourse. France : sans réponse. | [V] / [?] |
+| 13 | Numéro WhatsApp et e-mail des devis | WhatsApp : +972 55-255-0455. E-mail : « en création ». | [V] / [?] |
+| 14 | Délai de réponse à un devis | Sous 24 à 48 h ouvrées. | [V] |
+| 15 | Plage de tailles, baguier | Sans réponse. | [?] |
+| 16 | 5 réponses de la FAQ | Validées : `sur-mesure`, `paiement`, `annulation`, `livraison`, `entretien`. Livraison à l'étranger non confirmée. | [V] |
+| 17 | Relecteur hébreu ; terme imposé ; poinçon obligatoire | Terme imposé pour le synthétique : sans réponse. Poinçon : l'atelier poinçonne ses bagues (point 20), sans dire si c'est obligatoire. | [?] / [I] |
+| 18 | Planche avant/après des griffes | Validée. | [V] |
+| 19 | Bijou de famille | Confirmé : rien n'est démonté sans accord ; l'or récupéré pèse un peu moins ; les pierres fragiles peuvent casser ; photos des étapes sur demande. Remise du bijou : apport à l'atelier recommandé ; si le client organise l'envoi, l'assurance est à sa charge ; si l'atelier organise un envoi international, il prend l'assurance en charge. Clause « le sertisseur décline toute responsabilité en cas de casse » : non publiée, soumise à l'avocat. | [V] |
+| 20 | Guides : nickel, poinçon, certificat, tailles, dureté | Or blanc sans nickel ; bagues poinçonnées 585 ou 750. Sous 0,50 ct, pas de certificat *systématique* : couleur et pureté définies avec le client au devis. Tailles européennes (50, 51, 52…), « aussi utilisées en Israël ». Dureté 14 k / 18 k : sans réponse. | [V] / [?] |
+| 21 | Fichiers `.3dm` et photos studio | Sans réponse. | [?] |
+| 22 | Logo, photos dans chaque métal | Sans réponse. | [?] |
+
+### Ce qui est acquis
+- **Aucun prix automatique** [V] : ni prix « à partir de », ni bénéfice calculé, ni plafond, ni conversion dollar → ₪. Chaque prix est fixé à la main par Yonathan pour la pièce. Sans prix validé par lui, le site affiche « Sur devis ». Le moteur `src/lib/pricing/engine.ts` est abandonné, ni branché ni supprimé.
+- **Statut** [V] : osek patour (עוסק פטור), donc pas de TVA aujourd'hui. Passage en société quand le plafond de chiffre d'affaires sera dépassé. Le site affiche la mention qui correspond au réglage `vatStatus` (`src/config/business.ts`).
+- **Repères internes**, jamais affichés : platine 280 + 100 ₪/g ; polissage ≈ 10 $ ; rhodiage ≈ 10 $ de plus ; supplément pour une pièce complexe [V]. Voir `PRICING_RULES.md`.
+- Métal par défaut : or jaune 14 k [V]. Délai de réponse aux devis : 24 à 48 h ouvrées [V]. Téléphone et WhatsApp : +972 55-255-0455 [V]. Paiement par carte en ligne et par Bit [V]. Livraison en Israël par coursier ou retrait à la Bourse [V].
+- Or blanc sans nickel, poinçon 585 ou 750 [V]. Tailles européennes [V].
+- Planche avant/après des griffes validée [V].
+
+### Points d'attention
+- **Numéro** [I] : Yonathan écrit « חפ » (numéro de société), puis « Essek patour ». Un osek patour n'a pas de ח.פ. : son numéro est en principe celui de sa carte d'identité. 345837116 ne commence pas par 51, comme les numéros de société. Le site l'affiche comme numéro d'osek patour.
+- **Nom légal** [I] : pour un osek patour, le nom légal est en principe celui du titulaire. « Diamdor » serait alors un nom commercial. Nom du titulaire à demander.
+- **Plafond de l'osek patour** (vérifié le 25/11, sources concordantes qui citent le tableau des montants de TVA de l'autorité fiscale, gov.il/he/pages/vat-rate-amount-new : Keep, Slate, Peko, OptiPay, cabinet Haddad) : **122 833 ₪ de chiffre d'affaires en 2026** (120 000 ₪ en 2024 et 2025), revalorisé chaque 1er janvier selon l'indice des prix. Il se mesure sur le **chiffre d'affaires**, pas sur le bénéfice : le prix entier de la bague compte, or et pierres compris. Échéance [I] : avec des bagues vendues entre 5 000 et 10 000 ₪, le plafond est atteint vers 12 à 25 bagues par an ; une bague en diamant naturel de 1 ct peut à elle seule en prendre une bonne part. Le dépassement oblige à passer osek mourché (TVA de 18 %) en cours d'année, au moment même où il se produit ; le bureau de la TVA doit être prévenu dans les 15 jours (règlement d'enregistrement, article 8, selon AITERRA). Le joaillier n'est pas dans les listes de professions tenues d'être osek mourché dès le premier shekel [I : listes partielles des sources]. Au passage en société, il faudra changer `vatStatus`, le nom légal et le numéro, et rouvrir le compte du prestataire de paiement au nom de la société.
+- **Paiement intégral sur le site** (3/11) [I] : sans prix automatique, le paiement suit le devis (devis → prix fixé par Yonathan → lien de paiement), comme le prévoyait `PAIEMENT.md`.
+
+### Encore sans réponse
+Poids réels de la marquise (8), paiement en plusieurs fois (10), France (12), e-mail des devis (13, « en création »), plage de tailles et baguier (15), terme hébreu imposé pour le synthétique (17), dureté 14 k / 18 k (20), fichiers et logo (21-22), adresse, contact accessibilité, nom légal du titulaire. Relance : `docs/atelier/2026-11-16_relance.md`.
+
+---
+
 ## 4 novembre 2026 — Yonathan Cohen (WhatsApp, réponse à la relance prix)
 
 ### Messages reçus (verbatim)

@@ -1,24 +1,26 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import SiteHeader from '@/components/site/SiteHeader';
+import SiteHeader, { MAIN_ID } from '@/components/site/SiteHeader';
 import { FAQ, allFaqItems } from '@/content/faq';
 import { DICTIONARIES } from '@/i18n/dictionaries';
 import { LOCALES, type Locale } from '@/lib/configurator/schema';
-import { configuratorPath, languageAlternates } from '@/lib/routes';
+import { notFoundMetadata, pageMetadata } from '@/lib/metadata';
+import { configuratorPath, languageAlternates, localizedPath } from '@/lib/routes';
 import styles from './faq.module.css';
 
 type Params = Promise<{ locale: string }>;
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { locale } = await params;
-  if (!LOCALES.includes(locale as Locale)) return {};
+  if (!LOCALES.includes(locale as Locale)) return notFoundMetadata(locale);
   const t = DICTIONARIES[locale as Locale];
-  return {
+  return pageMetadata(locale as Locale, {
     title: t.faqTitle,
     description: t.faqLede,
-    alternates: { languages: languageAlternates('/faq') },
-  };
+    path: localizedPath(locale as Locale, '/faq'),
+    languages: languageAlternates('/faq'),
+  });
 }
 
 /** Données structurées FAQPage : seulement les réponses validées (pas les « à confirmer »). */
@@ -46,7 +48,7 @@ export default async function FaqPage({ params }: { params: Params }) {
   return (
     <>
       <SiteHeader locale={locale} path="/faq" />
-      <main className={styles.page}>
+      <main id={MAIN_ID} className={styles.page}>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd(locale)).replace(/</g, '\\u003c') }} />
         <header className={styles.intro}>
           <h1 className={styles.title}>{t.faqTitle}</h1>

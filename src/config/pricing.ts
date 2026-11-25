@@ -1,6 +1,10 @@
 import type { PriceParams } from '@/lib/pricing/engine';
 
 /**
+ * ABANDONNÉ, décision de l'atelier du 16/11/2026 : aucun prix automatique, chaque prix est fixé à la main par Yonathan
+ * dans un devis (docs/PRICING_RULES.md). Ce fichier et `src/lib/pricing/engine.ts` restent pour l'historique : ne pas
+ * les brancher sur le site sans une nouvelle décision de l'atelier.
+ *
  * Paramètres de prix communiqués par l'atelier les 3 et 4/11/2026 (docs/PRICING_RULES.md).
  * Les `null` sont les points encore manquants : tant qu'il en reste, le moteur
  * répond « incomplete » et le site affiche « Sur devis ».
@@ -35,6 +39,8 @@ export const PRICE_PARAMS: PriceParams = {
   },
   // Proposé : taux représentatif de la Banque d'Israël, mis à jour chaque jour ouvré. Non validé.
   usdToIls: null,
-  vatRate: 0.18, // TVA Israël depuis le 1/1/2025
+  // Historique : TVA israélienne de 18 % (depuis le 1/1/2025). Sans objet aujourd'hui : l'atelier est osek patour (16/11),
+  // il ne facture pas de TVA. Réglage du site : `vatStatus` dans `src/config/business.ts`.
+  vatRate: 0.18,
   weightUncertainty: 0.05, // densités et pertes indisponibles chez l'atelier
 };

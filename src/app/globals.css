@@ -5,16 +5,50 @@
   --ink: #1f1c18;
   --muted: #6d665c;
   --line: #e1d9cb;
+  /* Or décoratif (traits, barre de chargement) : 3,4:1 sur l'ivoire, trop pâle pour du texte. */
   --gold: #9c7f4c;
+  /* Or des textes : 5,2:1 sur l'ivoire, 4,7:1 sur la crème (seuil WCAG du texte courant : 4,5:1). */
+  --gold-text: #7d6232;
   --gold-soft: #c9b38a;
+  /* Indicateur de focus : 4,4:1 sur l'ivoire (seuil des éléments non textuels : 3:1). */
   --focus: #8a6d3b;
-  --font-display: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  /* Bandeaux sombres (en-tête, premier écran, pied de page, scène 3D). Contrastes mesurés sur --noir (#0c0b09) :
+     --ivory 17,9:1 ; --on-noir-muted 7,6:1 ; --champagne 10,7:1 (texte et traits). */
+  --noir: #0b0a08;
+  --noir-soft: #16130e;
+  --line-noir: rgba(217, 192, 143, 0.22);
+  --on-noir-muted: #a9a194;
+  --champagne: #d9c08f;
+  /* Bouton d'appel sur fond sombre : texte --noir sur or, 9,6:1. */
+  --gold-fill: #c9a96e;
+  /* Or « feuille » : dégradé métallique des grands titres, filets et boutons. Sur fond sombre, la teinte la plus foncée
+     (#a88347) donne 5,6:1 : lisible même hors grand texte. Le texte garde une couleur pleine (--champagne) pour les outils
+     de contrôle et les navigateurs sans background-clip. */
+  --foil: linear-gradient(105deg, #a88347 0%, #e8d3a2 24%, #b8915a 46%, #f3e4bd 64%, #b08a4e 84%, #dcc18a 100%);
+  --foil-line: linear-gradient(90deg, transparent, #a88347 18%, #f3e4bd 50%, #a88347 82%, transparent);
+  /* Grain léger des fonds sombres (bruit SVG, aucune requête). */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 .95 0 0 0 0 .85 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --font-display: var(--font-bodoni), 'Bodoni Moda', Georgia, serif;
   --font-text: var(--font-jost), 'Helvetica Neue', Arial, sans-serif;
   color-scheme: light;
 }
 
 * {
   box-sizing: border-box;
+}
+
+/* Texte réservé aux lecteurs d'écran (description de la vue 3D) : rogné sur place, sans décalage hors écran
+   (un décalage élargirait la zone de défilement des pages en hébreu). */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
 }
 
 html,
@@ -24,7 +58,7 @@ body {
   background: var(--ivory);
   color: var(--ink);
   font-family: var(--font-text);
-  font-weight: 300;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -35,94 +69,331 @@ button {
 }
 
 :focus-visible {
-  outline: 1px solid var(--focus);
+  outline: 2px solid var(--focus);
   outline-offset: 3px;
 }
 
 .site-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 22px clamp(16px, 4vw, 48px);
-  border-bottom: 1px solid var(--line);
-  background: var(--ivory);
+  position: relative;
+  z-index: 20;
+  background: var(--noir);
+  color: var(--ivory);
 }
 
-.wordmark {
-  font-family: var(--font-display);
-  font-size: 22px;
-  font-weight: 500;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
+/* Texte en or « feuille » (grands titres) : couleur pleine de repli, dégradé découpé dans les lettres quand c'est possible. */
+.foil {
+  color: var(--champagne);
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .foil {
+    background: var(--foil);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* Filet doré sous l'en-tête, plus intense au centre. */
+.site-header::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 1px;
+  background: var(--foil-line);
+  opacity: 0.7;
+}
+
+/* Bandeaux sombres : indicateur de focus clair (le --focus brun disparaîtrait sur le noir). */
+.site-header :focus-visible,
+.site-footer :focus-visible,
+.on-noir :focus-visible {
+  outline-color: var(--champagne);
+}
+
+/* Liens d'évitement (en-tête) : hors de la mise en page, cachés tant qu'ils n'ont pas le focus du clavier. */
+.skip-links {
+  position: absolute;
+  top: 8px;
+  inset-inline-start: 8px;
+  z-index: 100;
+}
+
+.skip-links a {
+  display: inline-block;
+  margin-inline-end: 8px;
+  padding: 10px 16px;
+  background: var(--ink);
+  color: var(--ivory);
+  font-size: 15px;
   text-decoration: none;
-  color: var(--ink);
+}
+
+.skip-links a:not(:focus) {
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
   white-space: nowrap;
 }
 
-.tagline {
+/* Bandeau supérieur : la signature de la maison, en petites capitales (ordinateur et tablette). */
+.topbar {
   margin: 0;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  color: var(--muted);
+  padding: 9px 16px;
+  border-bottom: 1px solid var(--line-noir);
+  font-size: 10.5px;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
   text-align: center;
+  color: var(--on-noir-muted);
+}
+
+/* Rangée principale : menu | monogramme et nom au centre | langues. */
+.header-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  padding: 14px clamp(16px, 4vw, 56px);
+}
+
+.wordmark {
+  /* Cible d'au moins 24 px de haut, même sur mobile (WCAG 2.5.8). */
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding-block: 2px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.34em;
+  /* L'espacement s'ajoute après la dernière lettre, à droite (nom en lettres latines, même en hébreu) : compensé pour que
+     le nom reste centré sous le monogramme. */
+  margin-right: -0.34em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ivory);
+  white-space: nowrap;
+}
+
+/* Monogramme : losange doré et initiales (décoratif, le nom du lien reste « JR Diamond »). */
+.monogram {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  color: var(--champagne);
+}
+
+.site-nav {
+  justify-self: start;
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2vw, 32px);
+  font-size: 11.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.site-nav a,
+.menu-panel a {
+  /* Cible d'au moins 24 px de haut (WCAG 2.5.8), sur une seule ligne. */
+  display: inline-block;
+  padding: 5px 0;
+  color: var(--ivory);
+  text-decoration: none;
+  white-space: nowrap;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.site-nav a:hover,
+.menu-panel a:hover,
+.lang a:hover {
+  color: var(--champagne);
+}
+
+.site-nav a[aria-current='page'],
+.menu-panel a[aria-current='page'] {
+  color: var(--champagne);
+  border-bottom-color: var(--champagne);
 }
 
 .lang {
+  justify-self: end;
   display: flex;
-  gap: 12px;
-  font-size: 12px;
-  letter-spacing: 0.14em;
+  gap: 14px;
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .lang a {
-  color: var(--muted);
+  /* Cible d'au moins 24 × 24 px (WCAG 2.2, critère 2.5.8) : « FR » seul ne fait que 20 px de large. */
+  display: inline-block;
+  min-width: 24px;
+  color: var(--on-noir-muted);
+  text-align: center;
   text-decoration: none;
-  padding: 4px 0;
+  padding: 5px 0;
 }
 
-.lang a[aria-current='page'] {
-  color: var(--ink);
-  border-bottom: 1px solid var(--gold);
+.lang a[aria-current] {
+  color: var(--champagne);
+  border-bottom: 1px solid var(--champagne);
+}
+
+/* Menu des petits écrans : bouton « Menu » (élément details, sans JavaScript) et panneau sous l'en-tête. */
+.menu {
+  display: none;
+  justify-self: start;
+}
+
+.menu summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  /* Cible d'au moins 24 × 24 px même quand seul l'icône est affiché (téléphone). */
+  min-width: 32px;
+  min-height: 32px;
+  padding: 4px 0;
+  font-size: 11.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ivory);
+  cursor: pointer;
+  list-style: none;
+}
+
+.menu summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Trois traits (décoratifs), qui deviennent une croix menu ouvert. */
+.menu-icon {
+  position: relative;
+  width: 20px;
+  height: 11px;
+  border-block: 1px solid currentColor;
+}
+
+.menu-icon::after {
+  content: '';
+  position: absolute;
+  inset: 4px 0 auto;
+  height: 1px;
+  background: currentColor;
+}
+
+.menu[open] .menu-icon {
+  border-color: transparent;
+}
+
+.menu[open] .menu-icon::before,
+.menu[open] .menu-icon::after {
+  content: '';
+  position: absolute;
+  inset: 4px 0 auto;
+  height: 1px;
+  background: currentColor;
+  transform: rotate(45deg);
+}
+
+.menu[open] .menu-icon::before {
+  transform: rotate(-45deg);
+}
+
+.menu-panel {
+  position: absolute;
+  inset: 100% 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 20px clamp(16px, 4vw, 56px) 28px;
+  background: var(--noir);
+  border-top: 1px solid var(--line-noir);
+  border-bottom: 1px solid var(--line-noir);
+  font-family: var(--font-display);
+  font-size: 22px;
+}
+
+.menu-panel a {
+  padding: 8px 0;
+}
+
+/* Tablette et petit ordinateur : menu repliable (en dessous de 1 140 px, le menu en ligne déborderait sur le nom). */
+@media (max-width: 1140px) {
+  .site-nav {
+    display: none;
+  }
+  .menu {
+    display: block;
+  }
 }
 
 @media (max-width: 720px) {
-  .site-header {
-    padding: 14px 16px;
-  }
-  .tagline {
+  .topbar {
     display: none;
   }
+  .header-row {
+    padding: 12px 16px;
+    gap: 10px;
+  }
   .wordmark {
-    font-size: 18px;
+    flex-direction: row;
+    gap: 10px;
+    font-size: 16px;
+    letter-spacing: 0.24em;
+    margin-right: -0.24em;
+  }
+  .monogram {
+    width: 28px;
+    height: 28px;
+  }
+  .lang {
+    gap: 10px;
+  }
+  .menu-label {
+    /* Libellé « Menu » masqué sur téléphone : l'icône reste, le nom accessible aussi (aria-label du résumé). */
+    display: none;
+  }
+  /* Colonnes à la taille de leur contenu sur les côtés : le nom se centre dans l'espace restant sans toucher aux langues. */
+  .header-row {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+  .wordmark {
+    justify-self: center;
   }
 }
 
+@media (max-width: 400px) {
+  .wordmark {
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    margin-right: -0.18em;
+  }
+}
+
+/* Très petits écrans (320 px) : l'en-tête tient sur une ligne sans le monogramme, qui reste dans le pied de page. */
+@media (max-width: 380px) {
+  .site-header .monogram {
+    display: none;
+  }
+}
+
+/* Réduction des animations demandée par le système : ni transition ni animation, défilement instantané. */
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *,
+  *::before,
+  *::after {
     transition: none !important;
+    animation: none !important;
+    scroll-behavior: auto !important;
   }
-}
-
-.site-nav {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.site-nav > nav:first-child a {
-  color: var(--muted);
-  text-decoration: none;
-  padding: 4px 0;
-}
-
-.site-nav > nav:first-child a[aria-current='page'] {
-  color: var(--ink);
-  border-bottom: 1px solid var(--gold);
 }
 
 /* Hébreu : polices dédiées ; pas d'espacement de lettres ni de capitales (sans effet en hébreu). */
@@ -131,73 +402,83 @@ html[lang='he'] {
   --font-text: var(--font-assistant), 'Assistant', Arial, sans-serif;
 }
 
-html[lang='he'] .wordmark {
+html[lang='he'] .wordmark,
+html[lang='he'] .footer-brand {
   /* Le nom de marque reste en lettres latines. */
-  font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  font-family: var(--font-bodoni), 'Bodoni Moda', Georgia, serif;
 }
 
 /* L'espacement des lettres, élégant en latin, rend l'hébreu illisible. */
-html[lang='he'] body *:not(.wordmark) {
+html[lang='he'] body *:not(.wordmark):not(.footer-brand) {
   letter-spacing: 0 !important;
 }
 
-/* En-tête : rien ne passe à la ligne ; libellé court de la FAQ sur mobile. */
-.site-nav a {
-  white-space: nowrap;
-}
-
-.nav-short {
-  display: none;
-}
-
-@media (max-width: 720px) {
-  .nav-long {
-    display: none;
-  }
-  .nav-short {
-    display: inline;
-  }
-  .site-nav {
-    gap: 14px;
-  }
-  .wordmark {
-    letter-spacing: 0.22em;
-  }
-}
-
-/* Pied de page commun. */
+/* Pied de page commun : bandeau sombre, monogramme, liens, note. */
 .site-footer {
-  margin-top: 48px;
-  padding: 28px clamp(16px, 4vw, 48px) 36px;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
+  position: relative;
+  margin-top: 0;
+  padding: 88px clamp(16px, 4vw, 56px) 48px;
+  background: radial-gradient(ellipse 60% 80% at 50% 0%, #1d1810 0%, var(--noir) 70%);
+  color: var(--on-noir-muted);
   font-size: 13px;
   text-align: center;
+}
+
+.site-footer::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 1px;
+  background: var(--foil-line);
+  opacity: 0.7;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  margin: 0 0 40px;
+  font-family: var(--font-display);
+  font-size: 26px;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--ivory);
+}
+
+.footer-brand .monogram {
+  width: 64px;
+  height: 64px;
 }
 
 .site-footer nav {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 10px 26px;
-  margin-bottom: 14px;
-  font-size: 12px;
-  letter-spacing: 0.14em;
+  gap: 10px 30px;
+  margin: 0 auto 26px;
+  max-width: 960px;
+  padding-bottom: 26px;
+  border-bottom: 1px solid var(--line-noir);
+  font-size: 11px;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
 .site-footer a {
-  color: var(--ink);
+  display: inline-block;
+  color: var(--ivory);
   text-decoration: none;
   padding: 6px 0;
 }
 
 .site-footer a:hover {
-  border-bottom: 1px solid var(--gold);
+  color: var(--champagne);
 }
 
 .site-footer p {
   margin: 0;
+  letter-spacing: 0.06em;
 }
 
 /* Coordonnées de l'atelier, quand elles sont renseignées dans Vercel. */

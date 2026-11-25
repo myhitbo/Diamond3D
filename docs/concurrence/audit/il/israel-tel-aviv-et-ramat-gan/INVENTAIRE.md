@@ -42,6 +42,19 @@ Toutes les adresses de la colonne « Page de départ » ont répondu 200 le 15/1
 | 9 | Rozenbaum | Ramat Gan (Zisman Shalom 3) | https://www.rozenbaumj.co.il/ | https://www.rozenbaumj.co.il/product-category/engagement-ring/ | Non : fourchettes de prix par modèle, par exemple « שמש », solitaire rond, de 2 900 à 9 800 ₪ (V) | Cloudflare sans défi (V) | HE | Note 5,0 sur 150 avis, affichée (V). Fabricant depuis 1974 (V) ; propose de partir d'un croquis (I, extrait d'index) |
 | 10 | Inbar Jewelry | Tel-Aviv (Dizengoff 237) | https://www.inbarj.com/ | https://www.inbarj.com/ (rubrique bagues de fiançailles) | Non : catalogue et commande personnalisée (V) | aucun (V) | HE | Seul joaillier de Tel-Aviv même retenu ici. Bagues de fiançailles dès 5 000 ₪, **24 paiements**, page « processus de fabrication d'une bague » (V) |
 
+### Statut d'audit (mise à jour du 16/11/2026)
+
+| Acteur | Statut | Rapport |
+|---|---|---|
+| DAZZ, Shiree Odiz, B-Gem | audités le 15/11 (complets) | `dazz.md`, `shiree-odiz.md`, `b-gem.md` |
+| Diamony | **complet** (essayage en réalité augmentée non testé : il faut une caméra ; `/legal/shipping-returns` interdite, non lue) | `diamony.md` |
+| XLAB Diamonds | **partiel** : les scripts de la fiche sont dans `/wp-content/plugins/`, interdit par le robots.txt et bloqué ; prix lus dans les données de la page ; panier non vérifié | `xlab-diamonds.md` |
+| Joolme | **complet jusqu'au récapitulatif** : constructeur en 4 étapes (`stage=1` à `4`) ; ajout au panier non réalisé (`/cart/add.js` interdit) | `joolme.md` |
+| Levy's Jewelry | **partiel** : fiche et tiroir de choix de pierre parcourus ; ajout au panier non réalisé (`/cart/add.js` interdit) | `levys-jewelry.md` |
+| Rozenbaum | **complet jusqu'au panier** (volet et page « סל קניות ») | `rozenbaum.md` |
+| Love Diamonds | **bloqué** : le robots.txt du 16/11 interdit `ClaudeBot` (`Disallow: /`) ; non audité | `love-diamonds.md` |
+| Inbar Jewelry | **complet** pour ce qu'offre le site (catalogue sans prix ni panier) | `inbar-jewelry.md` |
+
 ### Terme hébreu du diamant synthétique
 
 - **« יהלום מעבדה » / « יהלומי מעבדה »** (diamant de laboratoire), sur tous les sites lus qui en vendent : DAZZ, Diamony, XLAB, Levy's, Rozenbaum, menus de Shiree Odiz (V).

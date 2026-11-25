@@ -1,118 +1,116 @@
-# Audit de site : Diamony (DiamoNY)
+# Audit : Diamony (DiamoNY), studio numérique de joaillerie sur mesure
 
-- **Site** : Diamony / DiamoNY, « studio numérique » d'un designer joaillier (aucune adresse de boutique indiquée), clientèle dans tout Israël. Territoire : Tel-Aviv et Ramat Gan.
-- **Adresse** : https://diamony.me/ ; page de départ : https://diamony.me/collections/rings/engagement
-- **Date** : 15/11/2026 (chargements espacés de 2 s au moins)
-- **Appareils** : Chromium ordinateur 1366×900 (locale he-IL) et affichage iPhone 13 (Playwright)
-- **Statut : partiel.** Pas de configurateur ni de panier : le site est un catalogue avec devis par WhatsApp, téléphone ou visio. Pas d'essayage AR testé (caméra requise), `/legal/shipping-returns` non ouverte (robots.txt).
-- **robots.txt** (relu, autorisé) : `Disallow: /admin, /studio-admin, /api, /legal/shipping-returns`. Toutes les pages ouvertes ont été vérifiées AUTORISÉES avec l'outil. À l'ouverture d'une fiche, la page appelle d'elle-même `/api/vip/me` (requête de la page, pas un clic). Aucun bouton menant à `/api` n'a été actionné.
-- Marquage : (V) vérifié, (I) inféré, (S) supposé.
+| | |
+|---|---|
+| Site | DiamoNY, « studio numérique » ; créateur nommé : Nitzan Yaakobi (page `/page/about`) ; « depuis 2010 » (V). Aucune adresse de boutique : rendez-vous en visio ou par WhatsApp (V) |
+| Page de départ | https://diamony.me/collections/rings/engagement, puis la fiche https://diamony.me/jewelry/women-collection/women-rings/ring-0017-טבעת-יהלומים-עלמה (« עלמה », pas de constructeur : les options sont sur la fiche) |
+| Date | 16/11/2026 |
+| Appareils | Chromium headless 1366 × 900 (locale he-IL) ; émulation iPhone 13 (Playwright) |
+| Statut | **complet** pour le parcours catalogue et fiche. Pas de panier ni de paiement : on part vers WhatsApp ou une visio (V). Essayage en réalité augmentée **non testé** (il faut une caméra : seule la boîte de dialogue qui le précède a été lue) |
+| robots.txt | `User-Agent: *` : `Allow: /` ; interdits `/admin`, `/studio-admin`, `/api`, `/legal/shipping-returns`. Aucun `Crawl-delay` (V). La page `/legal/shipping-returns` **n'a pas été ouverte** ; ses règles figurent dans `/legal/site-policy` (autorisée). Le navigateur a tenté `/api/vip/me` : la requête a été **bloquée** par la règle de l'audit (V) |
+
+Marques : **V** vérifié (contrôle actionné ou page lue, adresse indiquée) · **I** inféré · **S** supposé.
 
 ## Parcours
 
-Il n'y a pas de constructeur. Parcours réel (V) :
+| Étape | Options proposées | Effet sur le prix | Effet sur l'image |
+|---|---|---|---|
+| 1. Collection « טבעות אירוסין » | environ 30 modèles (liens de la page), chacun avec deux prix « החל מ » : **יהלום מעבדה** et **יהלום טבעי** ; mention « בהזמנה » (fait sur commande) ; de 2 800 à 9 800 ₪ au total des prix « dès » (V). Sous-catégories : bagues de diamants, de pierres de couleur, en or, en perles | — | — |
+| 2. Fiche | couleur d'or : 14 K jaune, 14 K blanc, 14 K rouge (radios) ; type de diamant : laboratoire ou naturel (radios A et B, chacune avec son prix « dès ») ; « carat moyen 0,45 » (V) | **aucun** : 3 100 ₪ (laboratoire) et 6 200 ₪ (naturel) restent affichés, quelle que soit la couleur d'or (V) | change : une photo par couleur d'or (V) ; le choix laboratoire ou naturel ne change ni prix ni photo (V) |
+| 3. Contact | WhatsApp, visio (« תיאום פגישת וידאו לייעוץ »), e-mail ; pas de bouton d'achat (V) | — | — |
 
-| Étape | Page | Options |
-|---|---|---|
-| 1. Catalogue | `/collections/rings/engagement` | environ 21 bagues listées avec prix « à partir de » laboratoire et naturel ; cœur (favoris) et bouton « מדידה על היד » (essayage) sur chaque carte ; aucun filtre, aucun tri |
-| 2. Fiche bague | `/jewelry/women-collection/women-rings/<bague>` | couleur d'or (3), type de pierre (laboratoire / naturel), photos, vidéo, 4 pastilles pédagogiques (taille, couleur, pureté, carat), essayage AR, favoris |
-| 3. Contact | boutons de la fiche | « Planifier une visio de conseil » (`/contact`), WhatsApp avec message pré-rempli (nom, référence RING-006, type de pierre, prix, lien) |
-| 4. Panier | `/cart` | pas un panier : page « conseil personnel » (WhatsApp, téléphone 054-629-0534, liste de souhaits) |
-| 5. Suite hors site | visio / WhatsApp | esquisse 3D, validation, acompte de 500 ₪, fabrication, livraison (selon `/legal/site-policy`) |
+Le prix n'est jamais fixe : « à partir de » pour un carat « moyen » (V). Le prix exact vient après la **séance de conception** avec esquisse 3D (V, `/` et `/page/about`).
 
 ## Contrôles vérifiés
 
-Ordinateur : 160 contrôles listés sur le catalogue, 108 sur la fiche ; iPhone : 153 sur le catalogue (controls.cjs). Fiche testée : « Alma » (https://diamony.me/jewelry/women-collection/women-rings/ring-0017-טבעת-יהלומים-עלמה).
-
 | Libellé | Type | Effet observé | Prix | État |
 |---|---|---|---|---|
-| 14K צהוב / לבן / אדום (pastilles) | radio | change la photo principale et la vidéo (3 jeux de médias différents, V) ; ne change **pas** la ligne « צבע זהב », qui reste « 14K לבן » même avec le jaune ou le rouge choisi | inchangé (₪3,100) | fonctionne pour l'image, libellé faux |
-| יהלום מעבדה (A) / יהלום טבעי (B) | radio | la case B se coche ; l'image, la ligne « סוג אבן » (« יהלום ») et le prix en surimpression restent ceux du laboratoire | prix affiché sur la photo inchangé (₪3 100) alors que la carte B annonce « à partir de ₪6,200 » | sélection sans effet visible (V, capture) |
-| תמונה 1 / תמונה 2 / וידאו 3 | onglets | photo 1, photo 2, vidéo MP4 (balise `<video>`) | aucun | fonctionnent |
-| פריט הבא / פריט קודם | flèches | passent photo 1 et 2 | aucun | fonctionnent |
-| חיתוך / צבע / ניקיון / קראט | boutons | affichent un texte pédagogique (CUT, COLOR, CLARITY, CARAT) ; lien « למד עוד » vers `/blog/diamond-cut-grade-guide` | aucun | fonctionnent (contenu générique, pas le grade de la pierre) |
-| ↓ קרא עוד | bouton | déplie la description (texte passe à ~6 250 caractères sur la page) | aucun | fonctionne |
-| מדידה על היד (fiche et chaque carte) | bouton | annoncé : AR dans le navigateur du téléphone, QR code sur ordinateur, traitement local | aucun | **non testé** : caméra requise, QR non généré pour éviter un appel possible à `/api` (S) |
-| Cœur « הוספת … לרשימת המשאלות » | bouton | passe en « הסרת … » (aria-pressed true) ; liste visible sur `/favorites` | aucun | fonctionne (stockage local I) |
-| תיאום פגישת וידאו לייעוץ | bouton | mène vers `/contact` (non cliqué ; cible lue dans la page) | aucun | non cliqué |
-| WHATSAPP (fiche, pied de page, panier) | lien | ouvre wa.me/972546290534 avec texte pré-rempli (nom, RING-006, pierre, prix, URL) | aucun | non ouvert (domaine tiers, pas de chat) |
-| Téléphone / mailto | liens | tel:0546290534 ; diamonyme@gmail.com | aucun | non actionnés |
-| VIP | bouton | mène à `/the-lounge` : « The Vault », champ code d'accès, sans compte public | aucun | page lue, rien saisi |
-| ביקורת קודמת / הבאה | boutons | carrousel d'avis Google (compteur « 1 / 26 », V) | aucun | non cliqués |
-| Liens « קרא את הביקורת … בגוגל » | liens | vers maps.app.goo.gl | aucun | non ouverts |
-| Cookies : אשר הכל / דחה הכל / התאמה אישית | boutons | bandeau ; « אשר הכל » fermé pour les tests | aucun | fonctionne |
-| תפריט נגישות (icône) | bouton | menu d'accessibilité + page « הצהרת נגישות » | aucun | présent, non ouvert |
-| Menu : התכשיטים שלנו, עיצוב אישי, אודות, בלוג, צור קשר, מדריך מידות, סרטוני המותג, למי זה מתאים, מבצעים | liens | pages 200 (`/size-guide`, `/brand-videos`, `/page/about`, `/contact`, `/guides`) lues | aucun | fonctionnent (`/suitable-for`, `/guides`, `/blog`, `/kmpyyn-vlntyyn-chdsh` non ouvertes) |
-| Filtres de pierres (taille, couleur, pureté, prix, certificat) | n/a | **absents** : pas de pierres vendues séparément | n/a | sans objet |
-| Taille de doigt, gravure, monture, pavage, corps de bague, carat réglable | n/a | **absents** de la fiche (taille à confirmer en visio ; carat fixe par modèle, « 0.45 קרט ») | n/a | sans objet |
-| Ajout au panier, paiement | n/a | **pas de bouton** : « הרכישה בסטודיו מתבצעת בליווי אישי » (`/cart`) | n/a | sans objet |
-| `/legal/shipping-returns` (liens pied de page) | lien | non ouvert (robots.txt) | n/a | interdit |
+| דחה הכל / אשר הכל / התאמה אישית | bandeau de cookies | « דחה הכל » ferme le bandeau (V) | — | fonctionne |
+| 14K צהוב / לבן / אדום | radios | la photo principale change à chaque clic ; le libellé « צבע זהב » suit (V) | inchangé | fonctionne |
+| יהלום מעבדה / יהלום טבעי | radios A / B | se cochent ; **aucun changement visible** de prix ni d'image (les deux prix sont déjà à l'écran) (V) | inchangé | fonctionne, sans effet |
+| חיתוך · צבע · ניקיון · קראט | boutons | ouvrent des cartes d'information sur les 4 C (« CUT · DIAMONY », avec « למד עוד ») ; la boîte n'a pas été relue après chaque clic (V : texte de la fiche) | — | fonctionne |
+| תמונה 1, 2 · וידאו 3 | onglets de la galerie | présents ; la vidéo est visible sur la fiche. Ils n'ont pas pu être actionnés (hors de l'écran, délai dépassé) (V) | — | non actionnés |
+| פריט הבא / קודם | boutons | navigation entre modèles (V : contrôles) | — | non actionnés |
+| הוספה לרשימת המשאלות (cœur) | bouton | liste de souhaits (`/favorites`) (V : contrôles) | — | non actionné |
+| **מדידה על היד** (fiche et chaque carte) | bouton | **ordinateur** : fenêtre « scannez le code » avec un QR, et la possibilité de changer le carat et la forme du diamant dans l'essayage. **iPhone** : fenêtre « nous demanderons l'accès à la caméra arrière » ; le bouton suivant (accès caméra) n'a **pas** été actionné (V) | — | fenêtre lue ; essayage non testé |
+| WhatsApp (fiche) | lien wa.me | message pré-rempli : « bonjour, je voudrais des détails sur cet article : טבעת יהלומים עלמה » ; **la couleur d'or et le type de diamant choisis ne sont pas dans le message** (V, lien lu, **non ouvert**) | — | non ouvert |
+| תיאום פגישת וידאו לייעוץ | bouton | prise de rendez-vous visio (V : contrôle présent) | — | non actionné (données personnelles) |
+| VIP | bouton | club VIP avec « coffre » personnel et crédit (V : `/legal/site-policy`) | — | non ouvert (compte) |
+| ניהול קובצי Cookie · תפריט נגישות | boutons | présents sur chaque page ; déclaration d'accessibilité liée en pied de page (V) | — | non actionnés |
+| diamonyme@gmail.com | lien mailto | — | — | non actionné |
+
+Absents de la fiche (V) : taille de doigt, gravure, choix du carat, panier, comparaison, calcul de prix, certificat nommé, 3D interactive, financement.
 
 ## Options disponibles
 
-- **Or** : 14 k jaune, blanc, rose (libellé « אדום » = rouge) sur les fiches. La page « À propos » annonce aussi 18 k, sans bouton pour le choisir (V).
-- **Pierre** : « יהלום מעבדה » (laboratoire) ou « יהלום טבעי » (naturel), prix « à partir de » côte à côte ; autres pierres (saphir, rubis, émeraude) annoncées sur la page « À propos » (V).
-- **Carat** : fixe par modèle (Alma : 0,45 ct moyen) ; pas de choix.
-- **Essayage AR** : 12 formes de pierre et carat réglable, d'après la page `/virtual-try-on` (lue, non testé). Environ une dizaine de bagues « mesurables » listées.
-- **Prix du catalogue** (environ 21 bagues, V) : laboratoire à partir de 2 800 à 5 200 ₪ ; naturel à partir de 5 800 à 8 900 ₪ environ.
-- **Personnalisation** : sur mesure via visio, esquisse 3D, acompte (voir ci-dessous).
-- **Autres univers** : bijoux femme, homme, pendentifs, boucles, bracelets (accueil, V). Pas de page d'alliance de kiddouchin repérée (non cherchée).
+- **Métal** : or 14 K jaune, blanc, rouge sur la fiche ; la page « à propos » annonce « 14 K et 18 K » (V). Pas de platine annoncé (V).
+- **Pierre** : laboratoire ou naturel sur chaque bague ; pierres de couleur dans la rubrique « אבני חן » (V). Le texte de la fiche « עלמה » décrit un « diamant naturel de 0,45 ct, avec certificat gemmologique » alors que les deux prix sont affichés : la fiche ne dit pas si le certificat vaut aussi pour le laboratoire (V ; lecture de l'incohérence : I).
+- **Formes** : une forme par modèle (rond, marquise, émeraude, ovale…) ; le choix de la forme passe par un autre modèle (V : noms des fiches).
+- **Taille de doigt** : guide `/size-guide` ; aucune taille dans le parcours (V).
 
 ## Prix, délais, retours, garanties
 
-Source principale : https://diamony.me/legal/site-policy (mise à jour 09/08/2026, V).
+Source : `/legal/site-policy`, mise à jour le 09/08/2026 (V). `/legal/shipping-returns` interdite, non lue.
 
-- **Prix** : « à partir de » seulement, TTC non précisé sur les fiches (I : prix de détail israéliens ; mention « TTC » non relevée). Aucune décomposition (métal, pierre, façon). Prix naturel affiché mais non sélectionnable sur la fiche (voir défauts).
-- **Délai** : contradictoire (V). 7 jours ouvrés « de fabrication » sur l'accueil, la fiche (« מיוצר במיוחד עבורך · עד 7 ימי עסקים לייצור ») et la FAQ de la page « À propos » ; **14 jours ouvrés** à partir de l'approbation de l'esquisse et du paiement de l'acompte dans la politique du site. Hors vendredi, samedi et jours de fête ; réserves de « force majeure » (guerre, urgence sécuritaire, chaîne d'approvisionnement).
-- **Acompte** : 500 ₪ à la validation de la simulation 3D (V, politique).
-- **Livraison** : 50 ₪, gratuite dès 1 200 ₪ ; jusqu'à 4 jours ouvrés après fabrication ; assurée (V, politique).
-- **Retours** : bijoux de stock jusqu'à 3 000 ₪ : 14 jours, non portés, emballage et étiquette, frais d'annulation légaux (5 % ou 100 ₪, le plus bas). **Sur mesure : ni annulation ni retour**, y compris après validation de l'esquisse 3D, gravure ou taille spéciale ; exception « à la discrétion de la direction » (V).
-- **Garantie** : 12 mois sur défauts de fabrication ; chute de diamants latéraux (jusqu'à 0,05 ct) due au sertissage les 12 premiers mois ; nettoyage, polissage et contrôle des griffes **gratuits à vie**. Exclusions : usure normale (dont rhodium), chocs, produits chimiques, perte ou vol ; réparation par un tiers annule la garantie (V).
-- **Certificats** : la fiche Alma écrit « chaque diamant est accompagné d'un certificat gemmologique » ; le pied de page de l'accueil affiche une pastille « GIA » ; page « À propos » : diamants naturels avec certificat international (V). Pas de certificat IGI ni de seuil en carats trouvé.
-- **Synthétique** : libellé hébreu **« יהלום מעבדה »** (diamant de laboratoire), sur les cartes, fiches et boutons. « סינתטי » non observé (V).
-- **Devise / TVA** : ₪ seulement ; TVA non mentionnée sur les pages lues (S).
-- **Langues** : hébreu uniquement (V). **Moyens de paiement** : aucun affiché (le paiement se règle hors site).
+- **Prix** : « à partir de » par modèle et par type de diamant, TTC non précisé sur les fiches (I). Aucun détail du prix (V).
+- **Acompte** : 500 ₪ à l'approbation de l'esquisse 3D, « confirmation finale du début de fabrication » (V).
+- **Délai : trois chiffres**. La fiche et l'accueil disent « jusqu'à 7 jours ouvrés de fabrication » ; la politique dit « livraison sous **14 jours ouvrés** à compter de l'approbation de l'esquisse et du paiement de l'acompte » ; vendredis, samedis, veilles de fête et fêtes en sont exclus (V).
+- **Livraison** : 50 ₪, gratuite au-dessus de 1 200 ₪, jusqu'à 4 jours ouvrés après la fabrication (V).
+- **Retours** (V) :
+  - bijoux « de rayon » jusqu'à 3 000 ₪ : retour sous 14 jours, frais d'annulation légaux (5 % ou 100 ₪, le plus bas) ;
+  - **sur-mesure : « annulation et retour impossibles selon la loi »**, y compris après l'esquisse 3D, la gravure ou une taille spéciale ; geste commercial possible « à la discrétion exclusive de la direction ».
+- **Garantie** : 12 mois sur les défauts de fabrication ; sertissage des pierres de côté (jusqu'à 0,05 ct) 12 mois ; **nettoyage, repolissage et contrôle des griffes gratuits à vie** ; garantie perdue si un tiers touche au bijou (V).
+- **Club VIP** : remise de 7 à 10 % selon le montant, autour de dates choisies ; non automatique : le client la demande avant la commande (V).
 
 ## Confiance et service
 
-- **Avis** : 26 avis Google environ (« 1 / 26 », V), note « 5.0 Google » sur l'accueil ; clients de Ashkelon, Rishon LeZion, Sderot, Beer Yaakov, dates de mars à août 2026. Avis cités comme Google mais non vérifiés auprès de Google.
-- **Preuves de fabrication** : page « Process » en 5 étapes (rencontre, esquisse 3D, ajustements, coulée et orfèvrerie, sertissage et remise) ; page `/brand-videos` (« coulisses de l'orfèvrerie », 4 vidéos listées) ; une vidéo par fiche (I : rendu produit, contenu non analysé). Pas de suivi de commande.
-- **Service** : visio, WhatsApp, téléphone, mail ; guide des tailles complet (ISO 44 à 70, diamètre intérieur, équivalence US) ; FAQ ; programme VIP (réduction de 7 à 10 % autour de dates choisies, crédit de magasin non convertible), appliquée **sur demande avant commande** (V, politique).
-- **Identité** : designer nommé sur « À propos » ; créé en 2010 d'après le pied de page (V). Accessibilité : déclaration et menu dédié (V).
+- **Libellé du synthétique** : « יהלום מעבדה » (V).
+- **Avis** : bandeau « 5,0 Google » et une douzaine d'avis datés (mars à août 2026), avec la ville et l'initiale ; villes : Ashkelon, Rishon LeZion, Beer Yaakov, Sderot… (V). Pas d'adresse d'atelier.
+- **Preuves de fabrication** : cinq étapes décrites (réunion, esquisse 3D, mise à jour, fonte, sertissage et remise) ; aucune photo de fabrication relevée dans le parcours ; la rubrique « סרטוני המותג » (`/brand-videos`) existe (V : lien), non ouverte.
+- **Contenu** : guides (diamants, tailles), blog, page « pour qui » (`/suitable-for`) qui compare le sur-mesure à l'achat en boutique, un témoignage « bientôt publié » (V).
+- **Service** : WhatsApp (+972 54…), e-mail, visio ; déclaration d'accessibilité en pied de page (V).
+
+## Temps d'apparition du visuel principal (V ; une passe, machine partagée)
+
+| Page | Ordinateur | iPhone 13 (émulé) |
+|---|---|---|
+| Accueil | — | LCP 1,2 s |
+| Collection | LCP 2,4 s ; charge complète 3,9 s | — |
+| Fiche « עלמה » | LCP 4,0 s ; charge complète 7,7 s | charge complète 4,4 s |
 
 ## Points forts à retenir pour JR Diamond
 
-1. **Prix laboratoire et naturel côte à côte dès la liste** (ex. Alma 3 100 ₪ / 6 200 ₪), simple à comprendre ; preuve : carte du catalogue et fiche, 15/11.
-2. **Essayage AR sans application ni photo envoyée**, argument de confidentialité clair ; preuve : `/virtual-try-on` (texte lu, non testé).
-3. **Politique chiffrée et lisible** : acompte 500 ₪, livraison 50 ₪ (gratuite dès 1 200 ₪), garantie 12 mois et entretien gratuit à vie ; preuve : `/legal/site-policy`.
-4. **Esquisse 3D validée avant fabrication** présentée comme étape clé (page « À propos ») ; JR Diamond va plus loin (3D tirée du fichier de fabrication).
-5. **Temps de chargement du visuel principal rapide** : image visible en 0,9 s sur ordinateur et sur iPhone (mesure Playwright, 1 passage).
-6. **Guide des tailles** avec table ISO et tailles US ; WhatsApp pré-rempli avec référence et lien du produit.
+1. **Laboratoire et naturel côte à côte, avec le prix « dès » de chacun, sur la fiche et la carte** (3 100 contre 6 200 ₪ pour « עלמה ») [V]. C'est la comparaison que JR Diamond ne montre pas encore. Le prix de départ est le premier acte de confiance [I].
+2. **Essayage en réalité augmentée sans application** : texte rassurant (« traitement sur l'appareil, aucune image envoyée ») et choix du carat et de la forme dans l'essayage [V pour la page et la fenêtre ; le fonctionnement réel n'a pas été testé]. À rapprocher du rendu 3D de JR Diamond, qui peut proposer la même chose à terme (I).
+3. **Conditions écrites en entier, y compris l'exclusion du sur-mesure** et ce qu'elle couvre (sketch 3D approuvé, gravure) [V] : même question juridique que pour JR Diamond (exception du « fabriqué sur mesure », dossier de l'avocat).
+4. **Service à vie** : nettoyage, repolissage et contrôle des griffes gratuits [V]. Argument d'atelier, facile à copier.
+5. **Promesse de livraison datée du début de fabrication, avec exclusions listées** (vendredi, samedi, fêtes, guerre) [V] : honnête sur le point où les délais glissent (voir les forums de `docs/concurrence/forums/`).
+6. **Acompte de 500 ₪ à l'esquisse** : la structure « esquisse gratuite, acompte, fabrication » est celle du parcours « devis puis lien de paiement » de `docs/PAIEMENT.md` [V pour Diamony ; l'application : I].
 
 ## Défauts observés
 
-1. **Délai contradictoire** : 7 jours (accueil, fiche, FAQ) contre 14 jours + 500 ₪ d'acompte (politique) (V).
-2. **Choix « יהלום טבעי » sans effet** : le prix affiché sur la photo reste 3 100 ₪, la ligne de pierre ne change pas ; le texte de la fiche vante un « יהלום טבעי » de 0,45 ct alors que l'option par défaut est laboratoire (V).
-3. **Libellé de métal faux** : « צבע זהב : 14K לבן » même avec l'or jaune sélectionné ; le texte de description cite aussi l'or blanc alors que la photo par défaut est jaune (V, capture).
-4. Pas de configurateur : taille, gravure, carat et forme de pierre ne se choisissent pas en ligne ; pas d'achat en ligne, ni panier (V).
-5. Boutons pédagogiques (taille, couleur, pureté, carat) sans lien avec la pierre réellement vendue (V).
-6. Pas d'indication TTC, pas de prix du sur-mesure, pas de décomposition (V).
-7. Pas d'anglais, pas de moyens de paiement affichés (V).
-8. Politique de retour sur mesure très stricte sans exception claire pour l'immigrant ou la taille (V).
-9. Page de livraison/retours distincte interdite aux robots : une partie des conditions n'a pas pu être lue (voir limites).
+1. **Trois délais** : 7 jours (accueil et fiche), 14 jours (politique), plus l'attente de l'esquisse [V]. Le client ne sait pas lequel retenir.
+2. **Les choix de la fiche ne changent pas le prix** (or, laboratoire ou naturel) ; il n'y a pas de prix pour la configuration choisie, seulement un « dès » [V].
+3. **Le message WhatsApp ne contient que le nom du modèle** : ni couleur d'or, ni type de diamant [V]. L'atelier doit redemander ce que le client vient de choisir.
+4. **Pas de taille de doigt dans le parcours**, pas de gravure, pas de carat [V].
+5. **Description contradictoire** : « diamant naturel de 0,45 ct, certificat » sur la fiche, avec un prix laboratoire à côté [V].
+6. **Pas d'adresse physique** : un acheteur israélien ne sait pas où est l'atelier [V]. Contraire à « l'atelier en direct » de JR Diamond.
+7. **Pas de photo de fabrication** malgré les cinq étapes décrites [V].
+8. **Lenteur de la fiche** : charge complète de 7,7 s sur ordinateur [V ; une passe].
+9. **Fenêtre de cookies** à chaque page et appels vers `/api/…` interdits par le robots.txt sur le site même : sans effet pour le visiteur [V].
 
 ## Limites de l'audit
 
-- Page `/legal/shipping-returns` **interdite par robots.txt, non ouverte** ; les conditions de livraison/retour viennent de `/legal/site-policy` (autorisée) et peuvent différer.
-- Essayage AR (caméra, QR) **non testé** ; clic « Planifier une visio », WhatsApp, avis Google et téléphone non cliqués (règle : pas de chat ni de formulaire).
-- Seule la fiche Alma a été actionnée à fond ; les 20 autres bagues, les univers homme et autres bijoux n'ont été vus que par la liste (V : prix, liens).
-- Lecture du compteur « 26 » d'avis par le carrousel (I). Temps de chargement : un passage par appareil, proxy cloud, non représentatif d'un réseau mobile israélien.
-- Mesure sur iPhone en émulation Chromium, pas sur appareil réel. Contrôle d'un éventuel panier : `/cart` est une page de conseil, pas un panier.
+- `/legal/shipping-returns` (interdite) non lue ; les conditions viennent de `/legal/site-policy`, qui peut différer [I].
+- Essayage AR : seules les fenêtres d'accès ont été lues, ni la caméra ni le rendu sur la main n'ont été testés.
+- Visio, WhatsApp, e-mail, club VIP : non ouverts. Galerie (photos 2 et vidéo 3) non actionnée.
+- La fiche n'a été étudiée que pour un modèle (« עלמה ») ; les autres sont supposés construits de même (I).
+- iPhone émulé avec Chromium (pas un vrai Safari) ; temps sur machine partagée, une passe.
 
 ## Sources
 
-- https://diamony.me/robots.txt (15/11/2026)
-- https://diamony.me/collections/rings/engagement (V, ordinateur et iPhone)
-- https://diamony.me/jewelry/women-collection/women-rings/ring-0017-טבעת-יהלומים-עלמה (V, ordinateur et iPhone)
-- https://diamony.me/virtual-try-on · https://diamony.me/size-guide · https://diamony.me/legal/site-policy · https://diamony.me/cart · https://diamony.me/page/about · https://diamony.me/contact · https://diamony.me/favorites · https://diamony.me/brand-videos · https://diamony.me/the-lounge · https://diamony.me/
-- Captures et listes de contrôles (hors dépôt) : `/tmp/claude-0/-home-user-Diamond3D/57de8dfc-6345-5431-aee3-02f728d49ba4/scratchpad/audit/il/diamony/`
+- https://diamony.me/robots.txt
+- https://diamony.me/ · /collections/rings/engagement · /virtual-try-on · /suitable-for · /page/about · /legal/site-policy
+- https://diamony.me/jewelry/women-collection/women-rings/ring-0017-טבעת-יהלומים-עלמה
+- Inventaire : `INVENTAIRE.md` (essayage AR, prix laboratoire et naturel)
+- Captures et journaux (hors dépôt) : `scratchpad/il/out/diamony/`

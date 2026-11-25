@@ -39,7 +39,7 @@ public/models/<id>/<id>.glb   src/models/<id>/geometry.json   src/models/<id>/as
 
 - **Pièces** (`A`, `B`, …) : bijoux physiques distincts contenus dans un fichier CAO.
 - **Compositions** : quelles pièces sont affichées (ex. solitaire, alliance, ensemble). Change réellement la géométrie.
-- **Emplacements de pierre** (`stoneSlots`) : chaque variante est un ensemble de nœuds 3D (pierre et tête compatible) qui remplace le précédent. Les formes non modélisées sont déclarées `unavailableShapes`, avec leur raison, et ne sont jamais simulées.
+- **Emplacements de pierre** (`stoneSlots`) : chaque variante est un ensemble de nœuds 3D (pierre et tête compatible) qui remplace le précédent. Les formes non modélisées sont déclarées `unavailableShapes`, avec leur raison, et les pierres non modélisées `stonesOnRequest` (diamant de couleur ; émeraude, saphir et rubis naturels) ; ni les unes ni les autres ne sont simulées : un bouton « sur demande » ouvre le devis avec un message pré-rempli (`buildRequestMessage`), la 3D ne change pas.
 - **Métal** : matériau uniquement ; la géométrie ne change pas.
 - **Origine du diamant** : `affectsRendering: false`, information de certificat et de prix.
 - **Prix** : `mode: 'quote'` est la seule valeur acceptée par le schéma tant que des règles réelles n'existent pas.

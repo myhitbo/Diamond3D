@@ -239,7 +239,7 @@ export const GUIDES_EN: Guide[] = [
         title: 'At JR Diamond',
         list: [
           'From 0.50 carat, the stone comes with its certificate: GIA for a natural diamond, IGI for a lab-grown diamond.',
-          'Below 0.50 carat, like the marquise of about 0.25 carat in our first model, there is no certificate. The workshop films the stone so that you can see it before you choose it.',
+          'Below 0.50 carat, like the marquise of about 0.25 carat in our first model, a certificate is not automatic. The workshop films the stone so that you can see it before you choose it.',
           'The configurator shows the estimated weight of the stone. Colour and clarity are chosen with the workshop, in the quote.',
         ],
       },
@@ -295,14 +295,14 @@ export const GUIDES_EN: Guide[] = [
         title: 'White gold, rose gold',
         paragraphs: [
           'Rose gold owes its colour to copper. White gold is a pale alloy, often plated with rhodium for a bright white; that layer wears and can be redone.',
-          'Some white golds contain nickel, others palladium and no nickel. If you are allergic to nickel, say so in your request: the workshop will tell you which alloy it uses.',
+          'Some white golds contain nickel, others palladium and no nickel. The workshop’s white gold contains no nickel.',
         ],
       },
       {
         id: 'atelier',
         title: 'At JR Diamond',
         paragraphs: [
-          'The workshop works with 14 and 18 karat gold, in yellow, white and rose, as well as platinum. It does not work with silver. In the configurator, choose the colour, then the karat: the estimated metal weight changes with it.',
+          'The workshop works with 14 and 18 karat gold, in yellow, white and rose, as well as platinum. It does not work with silver. Its rings are hallmarked 585 (14 karat) or 750 (18 karat). In the configurator, choose the colour, then the karat: the estimated metal weight changes with it.',
           'Our advice: take 18 karat if you want the richest yellow and the largest share of gold. Take 14 karat for a lighter, less expensive ring with the same look.',
         ],
       },
@@ -325,15 +325,15 @@ export const GUIDES_EN: Guide[] = [
     id: 'taille',
     slug: 'ring-size',
     title: 'Ring size: getting it right',
-    description: 'A ring size is a finger’s circumference in millimetres. How to measure it, the traps to avoid, and how French, Israeli and US sizes compare.',
+    description: 'A ring size is a finger’s circumference in millimetres. How to measure it, the traps to avoid, and how European and US sizes compare.',
     verified: '2026-11-14',
     sections: [
       {
         id: 'le-chiffre',
         title: 'What the number means',
         paragraphs: [
-          'In France, the size of a ring is its inner circumference in millimetres: a size 52 ring measures 52 mm around, about 16.6 mm across. This is the rule of the international standard ISO 8653.',
-          'In Israel, jewellers often use a size 40 lower: Israeli size 12 is French size 52. The United States has its own scale. The table below converts between them.',
+          'In France and across Europe, the size of a ring is its inner circumference in millimetres: a size 52 ring measures 52 mm around, about 16.6 mm across. This is the rule of the international standard ISO 8653. These European sizes are also used in Israel, and they are our workshop’s system.',
+          'The United States has its own scale; the table below converts between them. In Israel you may also come across a size 40 lower (12 for 52), for example in the Gindi Gold and B144 charts listed in the sources: if in doubt, say which system you mean, or give the millimetres.',
         ],
       },
       {
@@ -360,11 +360,11 @@ export const GUIDES_EN: Guide[] = [
         id: 'correspondances',
         title: 'Size conversion table',
         table: {
-          caption: 'French sizes, inner diameter, Israeli and US sizes',
-          head: ['France (circumference, mm)', 'Diameter (mm)', 'Israel', 'US (approx.)'],
+          caption: 'European sizes, inner diameter and US equivalent',
+          head: ['Europe (circumference, mm)', 'Diameter (mm)', 'US (approx.)'],
           rows: SIZE_RANGE.map((c) => {
             const r = ringSizeRow(c, 'en');
-            return [r.fr, r.diameterMm, r.il, r.us];
+            return [r.eu, r.diameterMm, r.us];
           }),
         },
         after: [
@@ -375,8 +375,8 @@ export const GUIDES_EN: Guide[] = [
         id: 'atelier',
         title: 'At JR Diamond',
         paragraphs: [
-          'Our first model is drawn in French size 51½, an inner diameter of 16.4 mm. The workshop makes it in your size; the 3D preview stays at the drawn size.',
-          'Give your size in the quote request, in whichever system you know: 52, 12 in Israeli sizing, US 6, or “not sure”. The first resizing is free.',
+          'Our first model is drawn in European size 51½, an inner diameter of 16.4 mm. The workshop makes it in your size; the 3D preview stays at the drawn size.',
+          'Give your European size in the quote request (52, for example), or its US equivalent (6), or “not sure”. The first resizing is free.',
           'A band set with stones all the way round is hard to resize: for that one, measure with particular care.',
         ],
       },

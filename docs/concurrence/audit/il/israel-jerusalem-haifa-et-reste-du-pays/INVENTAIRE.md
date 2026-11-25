@@ -44,6 +44,18 @@ Classement par intérêt pour JR Diamond [I] : configurateur ou options en ligne
 - **Tachshitei Alice** (Beer-Sheva depuis 1984) : https://alice.jewelry/ répond 200, mais la page est vide sans JavaScript [V] ; non approfondi.
 - Hors territoire, rencontrés en route : Doron Merav (Bourse, https://www.doronmerav.co.il/), Ziv-Or (Bourse), Rimon (Herzliya), Yoram Shlain (Petah Tikva), Sayag (Bourse), IDT et BrillRings (sites russes de la Bourse) [V ou E].
 
+### Statut d'audit (mise à jour du 16/11/2026)
+
+| Acteur | Statut | Rapport |
+|---|---|---|
+| L'Émeraude Paris, Alpha Gold, Lavi | audités le 15/11 | `lemeraude-paris.md`, `alpha-gold.md`, `lavi-jewellry.md` |
+| Danny Eliav | **partiel** : catalogue (flux `products.json`), fiche et politique lus ; ajout au panier non réalisé (`/cart/add.js` interdit) | `danny-eliav.md` |
+| Berman Designers | **partiel** : fiche, FAQ et conditions lues ; ajout au panier non réalisé (`/cart/add` interdit) | `berman-designers.md` |
+| Jerusalem Jeweler | **complet jusqu'au panier** (`/cart/`) | `jerusalem-jeweler.md` |
+| Eli Paz | **bloqué** : accueil lu avec curl (200), puis **403** sur la fiche produit dans le navigateur ; aucun nouvel essai | `eli-paz.md` |
+| La Perla | **complet jusqu'au panier** (`/cart/`) ; l'adresse « Harakon 9, Ramat Gan » figure en pied de page (l'inventaire n'en donnait pas) | `la-perla.md` |
+| Baltinester, uDiamonds | non audités : robots.txt qui interdit `ClaudeBot` (voir plus haut) | — |
+
 ## Terme employé pour le diamant synthétique
 
 | Site | Terme | Preuve |

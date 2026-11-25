@@ -64,10 +64,10 @@ describe('guides', () => {
       for (const g of GUIDES[locale]) for (const s of g.sections) if (s.table) for (const r of s.table.rows) expect(r).toHaveLength(s.table.head.length);
   });
 
-  it('tailles de bague : ISO 8653, taille israélienne = ISO − 40, taille américaine au quart, décimale selon la langue', () => {
-    expect(ringSizeRow(52)).toEqual({ fr: '52', diameterMm: '16,6', il: '12', us: '6' });
-    expect(ringSizeRow(52, 'en')).toEqual({ fr: '52', diameterMm: '16.6', il: '12', us: '6' });
-    expect(ringSizeRow(46)).toEqual({ fr: '46', diameterMm: '14,6', il: '6', us: '3¾' });
+  it('tailles de bague : taille européenne ISO 8653 (référence de l’atelier), taille américaine au quart, décimale selon la langue', () => {
+    expect(ringSizeRow(52)).toEqual({ eu: '52', diameterMm: '16,6', us: '6' });
+    expect(ringSizeRow(52, 'en')).toEqual({ eu: '52', diameterMm: '16.6', us: '6' });
+    expect(ringSizeRow(46)).toEqual({ eu: '46', diameterMm: '14,6', us: '3¾' });
     expect(ringSizeRow(50).us).toBe('5¼');
     expect(ringSizeRow(48).us).toBe('4½');
     expect(ringSizeRow(62).us).toBe('10');

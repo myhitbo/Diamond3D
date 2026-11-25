@@ -3,7 +3,7 @@ import { getModel, MODELS } from '@/models';
 import { defaultState } from '@/lib/configurator/logic';
 import { buildQuoteEmail, checkPhotos, fieldsFromForm, parseQuote, PHOTO_LIMITS } from '@/lib/quote/request';
 import { buildWhatsAppLink, buildWhatsAppMessage, normalizeWhatsAppNumber } from '@/lib/quote/whatsapp';
-import { mailerStatus } from '@/lib/quote/mailer';
+import { mailerStatus, smtpOptions } from '@/lib/quote/mailer';
 
 const model = MODELS['ring-001'];
 const valid = () => ({
@@ -96,6 +96,8 @@ describe('demande de devis : e-mail', () => {
     expect(text).toContain('Gravure « J & M »');
     expect(text).toContain('Métal : ');
     expect(text).toContain('https://jr.example/fr/configurateur/ring-001');
+    // Le lien de la page rouvre la configuration demandée (paramètres de l'adresse).
+    expect(text).toContain(`https://jr.example/fr/configurateur/ring-001?composition=${r.state.composition}&metal=${r.state.metal}&origin=${r.state.diamondOrigin}`);
     expect(text).toContain('main.jpg (2 Ko)');
     expect(text).toContain(JSON.stringify(r.state));
   });
@@ -153,5 +155,14 @@ describe('demande de devis : configuration de l’envoi', () => {
     expect(mailerStatus({ SMTP_HOST: 'h', QUOTE_TO: 't@x.y', QUOTE_FROM: 'f@x.y' })).toBe('smtp');
     expect(mailerStatus({ SMTP_HOST: 'h' })).toBe('unconfigured');
     expect(mailerStatus({})).toBe('unconfigured');
+  });
+
+  it('connexion SMTP toujours chiffrée : TLS direct sur le port 465, STARTTLS imposé ailleurs', () => {
+    expect(smtpOptions({ SMTP_HOST: 'h' })).toMatchObject({ port: 587, secure: false, requireTLS: true });
+    expect(smtpOptions({ SMTP_HOST: 'h', SMTP_PORT: '465' })).toMatchObject({ port: 465, secure: true, requireTLS: false });
+    expect(smtpOptions({ SMTP_HOST: 'h', SMTP_PORT: '2525', SMTP_SECURE: '1' })).toMatchObject({ secure: true, requireTLS: false });
+    expect(smtpOptions({ SMTP_HOST: 'h', SMTP_PORT: '465', SMTP_SECURE: '0' })).toMatchObject({ secure: false, requireTLS: true });
+    expect(smtpOptions({ SMTP_HOST: 'h', SMTP_USER: 'u', SMTP_PASS: 'p' }).auth).toEqual({ user: 'u', pass: 'p' });
+    expect(smtpOptions({ SMTP_HOST: 'h' }).auth).toBeUndefined();
   });
 });

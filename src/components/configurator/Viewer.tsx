@@ -1,6 +1,6 @@
 'use client';
 
-import { Component, Suspense, useEffect, useLayoutEffect, useMemo, useRef, type ReactNode } from 'react';
+import { Component, Suspense, useEffect, useLayoutEffect, useMemo, useRef, type KeyboardEvent, type MutableRefObject, type ReactNode } from 'react';
 import * as THREE from 'three';
 import { Canvas, useThree } from '@react-three/fiber';
 import { CameraControls, ContactShadows, Environment, MeshRefractionMaterial, PerformanceMonitor, useGLTF } from '@react-three/drei';
@@ -26,6 +26,12 @@ const FOV = 28;
 const M_TO_MM = new THREE.Matrix4().makeScale(1000, 1000, 1000);
 // Valeurs de CameraControls.ACTION (camera-controls) : rotation, travelling avant, gestes tactiles.
 const ACTION = { NONE: 0, ROTATE: 1, DOLLY: 16, TOUCH_ROTATE: 64, TOUCH_DOLLY: 1024 } as const;
+/** Pas du clavier : 15° par flèche, 15 % de la distance de départ par appui sur + ou −. */
+const KEY_ANGLE = (15 * Math.PI) / 180;
+const KEY_DOLLY = 0.15;
+
+/** Touche du clavier sur la vue 3D ; renvoie vrai si elle a été traitée (le défilement de la page est alors empêché). */
+type KeyHandler = (key: string) => boolean;
 
 export type ViewerProps = {
   url: string;
@@ -36,6 +42,10 @@ export type ViewerProps = {
   quality: Quality;
   debug?: boolean;
   label: string;
+  /** Identifiants des textes qui décrivent la vue (configuration affichée, touches du clavier). */
+  describedBy?: string;
+  /** Classe de la zone 3D (indicateur de focus). */
+  className?: string;
   onReady?: () => void;
   onQualityDrop?: () => void;
 };
@@ -60,7 +70,7 @@ function bakeToFloat(src: THREE.BufferGeometry, m: THREE.Matrix4): THREE.BufferG
 }
 
 function useStudio() {
-  return useMemo(() => ({ metal: createStudioEnvironment(512, 'metal'), gem: createStudioEnvironment(512, 'gem') }), []);
+  return useMemo(() => ({ metal: createStudioEnvironment(1024, 'metal'), gem: createStudioEnvironment(512, 'gem') }), []);
 }
 
 function Model({ url, nodes, visible, metal, quality, debug, onReady, env }: ViewerProps & { env: THREE.Texture }) {
@@ -141,9 +151,10 @@ function Model({ url, nodes, visible, metal, quality, debug, onReady, env }: Vie
   );
 }
 
-function Rig({ view, debug, radius }: { view: ViewerProps['view']; debug?: boolean; radius: number }) {
+function Rig({ view, debug, radius, keysRef }: { view: ViewerProps['view']; debug?: boolean; radius: number; keysRef: MutableRefObject<KeyHandler | null> }) {
   const ref = useRef<CameraControls>(null);
   const distance = radius / Math.sin(((FOV / 2) * Math.PI) / 180);
+  // Réduction des animations demandée par le système : changements de vue instantanés, sans inertie après un glisser.
   const reduced = useMemo(() => typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches, []);
 
   useEffect(() => {
@@ -154,6 +165,32 @@ function Rig({ view, debug, radius }: { view: ViewerProps['view']; debug?: boole
   }, [view, distance, reduced]);
 
   const invalidate = useThree((s) => s.invalidate);
+
+  // Clavier (WCAG 2.1.1) : les flèches tournent comme un glisser dans le même sens, + et − zooment, 0 revient à la vue 3/4.
+  // Le sens des flèches ne s'inverse pas en hébreu : c'est un mouvement dans l'espace, pas un sens de lecture.
+  useEffect(() => {
+    keysRef.current = (key) => {
+      const c = ref.current;
+      if (!c) return false;
+      const animate = !reduced;
+      if (key === 'ArrowLeft') void c.rotate(KEY_ANGLE, 0, animate);
+      else if (key === 'ArrowRight') void c.rotate(-KEY_ANGLE, 0, animate);
+      else if (key === 'ArrowUp') void c.rotate(0, KEY_ANGLE, animate);
+      else if (key === 'ArrowDown') void c.rotate(0, -KEY_ANGLE, animate);
+      else if (key === '+' || key === '=') void c.dolly(distance * KEY_DOLLY, animate);
+      else if (key === '-' || key === '−') void c.dolly(-distance * KEY_DOLLY, animate);
+      else if (key === '0' || key === 'Home') {
+        const d = new THREE.Vector3(...VIEWS.hero).normalize().multiplyScalar(distance);
+        void c.setLookAt(d.x, d.y, d.z, 0, 0, 0, animate);
+      } else return false;
+      invalidate();
+      return true;
+    };
+    return () => {
+      keysRef.current = null;
+    };
+  }, [keysRef, distance, reduced, invalidate]);
+
   useEffect(() => {
     if (!debug) return;
     setProbe({
@@ -163,6 +200,7 @@ function Rig({ view, debug, radius }: { view: ViewerProps['view']; debug?: boole
         invalidate();
       },
       cameraDistance: () => ref.current?.distance ?? NaN,
+      cameraAngles: () => ({ azimuth: ref.current?.azimuthAngle ?? NaN, polar: ref.current?.polarAngle ?? NaN }),
     });
   }, [debug, invalidate]);
 
@@ -174,8 +212,8 @@ function Rig({ view, debug, radius }: { view: ViewerProps['view']; debug?: boole
       maxDistance={distance * 2}
       minPolarAngle={0.05}
       maxPolarAngle={Math.PI - 0.05}
-      smoothTime={0.3}
-      draggingSmoothTime={0.08}
+      smoothTime={reduced ? 0 : 0.3}
+      draggingSmoothTime={reduced ? 0 : 0.08}
       truckSpeed={0}
       mouseButtons={{ left: ACTION.ROTATE, middle: ACTION.DOLLY, right: ACTION.NONE, wheel: ACTION.DOLLY }}
       touches={{ one: ACTION.TOUCH_ROTATE, two: ACTION.TOUCH_DOLLY, three: ACTION.NONE }}
@@ -209,6 +247,11 @@ class LoadBoundary extends Component<{ fallback: (retry: () => void) => ReactNod
 export default function Viewer(props: ViewerProps & { errorFallback: (retry: () => void) => ReactNode; radiusMm: number; shadowYMm: number }) {
   const env = useStudio();
   const shadowKey = props.visible.join('|');
+  const keysRef = useRef<KeyHandler | null>(null);
+  const onKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
+    if (e.altKey || e.ctrlKey || e.metaKey) return;
+    if (keysRef.current?.(e.key)) e.preventDefault();
+  };
 
   return (
     <LoadBoundary url={props.url} fallback={props.errorFallback}>
@@ -217,8 +260,14 @@ export default function Viewer(props: ViewerProps & { errorFallback: (retry: () 
         dpr={props.quality === 'high' ? [1, 2] : [1, 1.25]}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance', toneMapping: THREE.NeutralToneMapping, preserveDrawingBuffer: !!props.debug }}
         camera={{ fov: FOV, near: 2, far: 1000, position: [50, 40, 50] }}
+        // Zone focalisable (Tab) : les flèches, + et − y pilotent la caméra. Nom court ; la description (configuration affichée,
+        // touches) est lue à la suite. Tab et Maj + Tab ne sont jamais interceptés : pas de piège au clavier.
         aria-label={props.label}
+        aria-describedby={props.describedBy}
         role="img"
+        tabIndex={0}
+        className={props.className}
+        onKeyDown={onKeyDown}
       >
         {/* Ne bascule en rendu simplifié que si l'appareil reste nettement sous 24 images/s. */}
         <PerformanceMonitor bounds={() => [24, 50]} iterations={8} threshold={0.8} onDecline={props.onQualityDrop} />
@@ -237,7 +286,7 @@ export default function Viewer(props: ViewerProps & { errorFallback: (retry: () 
             color="#4a3b26"
           />
         </Suspense>
-        <Rig view={props.view} debug={props.debug} radius={props.radiusMm} />
+        <Rig view={props.view} debug={props.debug} radius={props.radiusMm} keysRef={keysRef} />
         <DebugInfo debug={props.debug} />
       </Canvas>
     </LoadBoundary>

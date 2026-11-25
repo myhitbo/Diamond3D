@@ -1,8 +1,26 @@
 import { describe, expect, it } from 'vitest';
 import { ring001 } from '@/models/ring-001/definition';
 import { METALS } from '@/config/metals';
-import type { ModelDefinition } from '@/lib/configurator/schema';
-import { applyChange, defaultState, metalFamilies, metalTitres, metalVolumeMm3, metalWeightEstimateG, pickMetal, stoneSummary, validateModel, visibleNodes } from '@/lib/configurator/logic';
+import { DICTIONARIES } from '@/i18n/dictionaries';
+import { LOCALES, type ModelDefinition } from '@/lib/configurator/schema';
+import {
+  applyChange,
+  buildRequestMessage,
+  configFromParams,
+  configToParams,
+  defaultState,
+  fixedStoneCount,
+  hasConfigParams,
+  metalFamilies,
+  metalTitres,
+  metalVolumeMm3,
+  metalWeightEstimateG,
+  pickMetal,
+  shareUrl,
+  stoneSummary,
+  validateModel,
+  visibleNodes,
+} from '@/lib/configurator/logic';
 
 const clone = (): ModelDefinition => structuredClone(ring001) as ModelDefinition;
 
@@ -62,10 +80,13 @@ describe('règles de changement', () => {
 
 describe('estimations', () => {
   const s0 = defaultState(ring001);
+  it('métal par défaut : or jaune 14 k (atelier, 16/11)', () => {
+    expect(s0.metal).toBe('yellow-gold-14k');
+  });
   it('poids = volume STL × densité nominale', () => {
     expect(metalVolumeMm3(ring001, s0)).toBeCloseTo(153.48 + 135.4, 2);
     const w = metalWeightEstimateG(ring001, { ...s0, composition: 'solitaire' });
-    expect(w).toBeCloseTo((153.48 / 1000) * METALS['yellow-gold-18k'].density.nominalGcm3, 6);
+    expect(w).toBeCloseTo((153.48 / 1000) * METALS['yellow-gold-14k'].density.nominalGcm3, 6);
   });
   it('récapitule les pierres visibles', () => {
     const g = stoneSummary(ring001, { ...s0, composition: 'solitaire' });
@@ -114,7 +135,7 @@ describe('couleur et titre du métal', () => {
   it('garde le titre en changeant de couleur, et retombe sur le seul titre possible', () => {
     expect(pickMetal(ring001, 'white', '14k')).toBe('white-gold-14k');
     expect(pickMetal(ring001, 'platinum', '14k')).toBe('platinum-950');
-    expect(pickMetal(ring001, 'yellow', 'platinum')).toBe('yellow-gold-18k'); // titre du métal par défaut
+    expect(pickMetal(ring001, 'yellow', 'platinum')).toBe('yellow-gold-14k'); // titre du métal par défaut (atelier, 16/11)
   });
 
   it('chaque métal du catalogue a une couleur et un titre cohérents avec son identifiant', () => {
@@ -126,6 +147,118 @@ describe('couleur et titre du métal', () => {
 
   it('le 14 carats pèse moins que le 18 carats pour la même bague', () => {
     const s0 = defaultState(ring001);
-    expect(metalWeightEstimateG(ring001, { ...s0, metal: 'yellow-gold-14k' })).toBeLessThan(metalWeightEstimateG(ring001, s0));
+    expect(metalWeightEstimateG(ring001, { ...s0, metal: 'yellow-gold-14k' })).toBeLessThan(metalWeightEstimateG(ring001, { ...s0, metal: 'yellow-gold-18k' }));
+  });
+});
+
+describe('formes et pierres « sur demande »', () => {
+  const s0 = defaultState(ring001);
+  const labGrown = { ...s0, diamondOrigin: 'lab-grown' as const };
+  const fr = DICTIONARIES.fr;
+
+  it('propose le diamant de couleur, l’émeraude, le saphir et le rubis sur la pierre centrale', () => {
+    expect(ring001.stoneSlots[0].stonesOnRequest).toEqual(['colored-diamond', 'emerald', 'sapphire', 'ruby']);
+  });
+
+  it('compte les diamants qui restent autour de la pierre centrale', () => {
+    expect(fixedStoneCount(ring001, s0)).toBe(16); // 6 autour de la marquise + 10 sur l’alliance
+    expect(fixedStoneCount(ring001, { ...s0, composition: 'solitaire' })).toBe(6);
+  });
+
+  it('sans demande, aucun message', () => {
+    expect(buildRequestMessage(fr, ring001, s0, {})).toBeUndefined();
+  });
+
+  it('forme seule : message inchangé', () => {
+    expect(buildRequestMessage(fr, ring001, s0, { shape: 'oval' })).toBe('Je souhaite ce bijou avec une pierre centrale de forme : Ovale.');
+  });
+
+  it('pierre seule, puis pierre et forme : les deux demandes figurent dans le message', () => {
+    expect(buildRequestMessage(fr, ring001, s0, { stone: 'emerald' })).toBe('Je souhaite ce bijou avec une émeraude naturelle en pierre centrale.');
+    expect(buildRequestMessage(fr, ring001, s0, { stone: 'sapphire', shape: 'oval' })).toBe(
+      'Je souhaite ce bijou avec un saphir naturel en pierre centrale, de forme : Ovale.',
+    );
+    expect(buildRequestMessage(DICTIONARIES.en, ring001, s0, { stone: 'ruby', shape: 'pear' })).toBe(
+      'I would like this piece with a natural ruby as the centre stone, in this shape: Pear.',
+    );
+    expect(buildRequestMessage(DICTIONARIES.he, ring001, s0, { stone: 'emerald' })).toBe('אני מעוניין/ת בתכשיט זה עם אזמרגד טבעי כאבן מרכזית.');
+  });
+
+  it('origine « synthétique » : la pierre de couleur reste naturelle, le message le dit des autres diamants', () => {
+    expect(buildRequestMessage(fr, ring001, labGrown, { stone: 'emerald' })).toBe(
+      'Je souhaite ce bijou avec une émeraude naturelle en pierre centrale. Les autres pierres restent des diamants synthétiques.',
+    );
+    expect(buildRequestMessage(DICTIONARIES.en, ring001, labGrown, { stone: 'sapphire' })).toBe(
+      'I would like this piece with a natural sapphire as the centre stone. The other stones remain lab-grown diamonds.',
+    );
+    expect(buildRequestMessage(DICTIONARIES.he, ring001, labGrown, { stone: 'ruby' })).toBe(
+      'אני מעוניין/ת בתכשיט זה עם אודם טבעי כאבן מרכזית. שאר האבנים נשארות יהלומי מעבדה.',
+    );
+    for (const locale of LOCALES) {
+      for (const stone of ['emerald', 'sapphire', 'ruby'] as const) {
+        for (const shape of [undefined, 'emerald', 'round'] as const) {
+          const text = buildRequestMessage(DICTIONARIES[locale], ring001, labGrown, { stone, shape })!;
+          expect(text, `${locale} ${stone} ${shape}`).not.toMatch(/(émeraude|saphir|rubis)\s+synthétique|lab-grown (emerald|sapphire|ruby)|(אזמרגד|ספיר|אודם) מעבדה/i);
+        }
+      }
+    }
+  });
+
+  it('composition sans pierre centrale (alliance seule) : aucun message, la demande revient avec la pierre centrale', () => {
+    const band = { ...s0, composition: 'band' };
+    expect(ring001.stoneSlots.some((slot) => ring001.compositions.find((c) => c.id === 'band')!.pieces.includes(slot.piece))).toBe(false);
+    expect(buildRequestMessage(fr, ring001, band, { stone: 'emerald', shape: 'oval' })).toBeUndefined();
+    expect(buildRequestMessage(fr, ring001, band, { shape: 'oval' })).toBeUndefined();
+    expect(buildRequestMessage(fr, ring001, { ...band, composition: 'solitaire' }, { stone: 'emerald' })).toBe(
+      'Je souhaite ce bijou avec une émeraude naturelle en pierre centrale.',
+    );
+  });
+
+  it('diamant de couleur : il suit l’origine choisie, sans phrase sur les autres pierres', () => {
+    expect(buildRequestMessage(fr, ring001, labGrown, { stone: 'colored-diamond' })).toBe('Je souhaite ce bijou avec un diamant de couleur en pierre centrale.');
+    expect(buildRequestMessage(DICTIONARIES.en, ring001, s0, { stone: 'colored-diamond' })).toBe(
+      'I would like this piece with a coloured diamond as the centre stone.',
+    );
+  });
+
+  it('pas de phrase sur les autres diamants s’il n’y en a pas', () => {
+    const m = clone();
+    for (const part of m.geometry.pieces.A.parts) if (part.node === 'A__gem_side') part.stones = [];
+    const solitaire = { ...labGrown, composition: 'solitaire' };
+    expect(fixedStoneCount(m, solitaire)).toBe(0);
+    expect(buildRequestMessage(fr, m, solitaire, { stone: 'ruby' })).toBe('Je souhaite ce bijou avec un rubis naturel en pierre centrale.');
+  });
+});
+
+describe('configuration dans l’adresse (lien partagé)', () => {
+  it('aller-retour : l’adresse rend exactement la configuration', () => {
+    const s = applyChange(ring001, defaultState(ring001), { composition: 'solitaire', metal: 'rose-gold-18k', diamondOrigin: 'lab-grown' });
+    expect(s.composition).toBe('solitaire');
+    const p = configToParams(ring001, s);
+    expect(p.get('composition')).toBe('solitaire');
+    expect(p.get('metal')).toBe('rose-gold-18k');
+    expect(p.get('origin')).toBe('lab-grown');
+    expect(configFromParams(ring001, new URLSearchParams(p.toString()))).toEqual(s);
+  });
+
+  it('ignore une valeur non prévue, une à une, sans perdre les autres', () => {
+    const s = configFromParams(ring001, new URLSearchParams('composition=solitaire&metal=silver-925&origin=imitation&stone-center=xxl'));
+    expect(s).toEqual({ ...defaultState(ring001), composition: 'solitaire' });
+    expect(configFromParams(ring001, new URLSearchParams(''))).toEqual(defaultState(ring001));
+  });
+
+  it('reconnaît une adresse qui porte une configuration', () => {
+    expect(hasConfigParams(ring001, new URLSearchParams('debug=1&quality=low'))).toBe(false);
+    expect(hasConfigParams(ring001, new URLSearchParams('metal=platinum-950'))).toBe(true);
+    expect(hasConfigParams(ring001, new URLSearchParams('stone-center=marquise-6x3'))).toBe(true);
+  });
+
+  it('lien à partager : garde la page, retire les autres paramètres et l’ancre', () => {
+    const s = applyChange(ring001, defaultState(ring001), { metal: 'platinum-950' });
+    const u = new URL(shareUrl(ring001, s, 'https://jr.example/he/configurator/ring-001?debug=1&quality=low#quote-form'));
+    expect(u.origin + u.pathname).toBe('https://jr.example/he/configurator/ring-001');
+    expect(u.hash).toBe('');
+    expect([...u.searchParams.keys()].sort()).toEqual(['composition', 'metal', 'origin', 'stone-center']);
+    expect(u.searchParams.get('metal')).toBe('platinum-950');
   });
 });

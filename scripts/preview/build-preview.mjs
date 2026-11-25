@@ -38,7 +38,9 @@ await build({
   entryNames: 'app',
   alias: { '@': './src', 'next/dynamic': './preview/next-dynamic-shim.tsx' },
   loader: { '.glb': 'binary', '.module.css': 'local-css' },
-  define: { 'process.env.NODE_ENV': '"production"' },
+  // Pas de `process` dans le navigateur : toute variable lue par le code client doit être remplacée ici.
+  // Pas de devis dans la préversion, donc pas de numéro WhatsApp.
+  define: { 'process.env.NODE_ENV': '"production"', 'process.env.NEXT_PUBLIC_WHATSAPP_NUMBER': 'undefined' },
   tsconfig: 'tsconfig.json',
   logLevel: 'warning',
 });
@@ -46,15 +48,18 @@ await build({
 // 3. Page unique : polices Google (autorisées par claude.ai), CSS et JS intégrés.
 const css = readFileSync(`${DIST}/app.css`, 'utf8');
 const js = readFileSync(`${DIST}/app.js`, 'utf8').replace(/<\/script/gi, '<\\/script');
+// Une variable oubliée dans `define` ne casse pas la construction mais la page (« process is not defined »).
+const leftover = [...new Set(js.match(/process\.env\.\w+/g) ?? [])];
+if (leftover.length) throw new Error(`Variables à remplacer dans define (préversion) : ${leftover.join(', ')}`);
 const html = `<title>Configurateur JR Diamond</title>
 <meta name="description" content="Préversion privée du configurateur 3D JR Diamond">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Jost:wght@300;400&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..500;1,6..96,400&family=Jost:wght@300;400&display=swap">
 <style>
 ${css}
 /* Préversion claude.ai : polices chargées par lien, univers ivoire unique (identité de marque, pas de thème sombre). */
-:root { --font-cormorant: 'Cormorant Garamond'; --font-jost: 'Jost'; color-scheme: light; }
+:root { --font-bodoni: 'Bodoni Moda'; --font-jost: 'Jost'; color-scheme: light; }
 html, body { background: var(--ivory); }
 </style>
 <div id="root"></div>

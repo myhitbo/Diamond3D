@@ -1,9 +1,31 @@
 # Règles de tarification
 
-**État au 4 novembre 2026 : structure connue, bénéfice à valider, taux de change et platine manquants.** Le configurateur affiche toujours « Sur devis ». Le schéma (`pricing.mode`) n'accepte aucune autre valeur tant que les points de la section « Manque » ne sont pas réglés.
+**Décision de l'atelier du 16 novembre 2026 : aucun prix automatique.** Chaque prix est fixé à la main par Yonathan, modèle par modèle, dans un devis. Sans prix validé par lui, le site affiche « Sur devis ». L'atelier refuse :
+- tout prix ou bénéfice calculé automatiquement ;
+- tout plafond ;
+- toute conversion dollar → ₪ automatique ;
+- tout prix « à partir de ».
 
-Source des montants : synthèse de l'atelier du 3/11/2026 (`docs/REPONSES_ATELIER.md`). Tous les montants sont **indicatifs** et hors TVA.
+Le moteur `src/lib/pricing/engine.ts` est **abandonné** (décision de l'atelier du 16/11). Il n'est ni branché ni supprimé. Les sections qui suivent la partie « Repères internes » décrivent ce moteur et l'état au 4/11 : elles restent pour l'historique, sans valeur de règle.
 
+Statut fiscal (16/11) : osek patour (עוסק פטור), donc pas de TVA aujourd'hui. Le passage en société se fera au-delà du plafond de chiffre d'affaires. Réglage du site : `vatStatus` dans `src/config/business.ts`.
+
+## Repères internes (16/11), jamais affichés sur le site
+
+Ces montants aident à préparer un devis. Le prix reste fixé par Yonathan. Source : réponses du 16/11 (`docs/REPONSES_ATELIER.md`).
+
+| Repère | Montant |
+|---|---|
+| Platine | 280 ₪/g de métal + 100 ₪/g de façon, soit ≈ 380 ₪/g |
+| Polissage | ≈ 10 $ (or jaune) |
+| Rhodiage | ≈ 10 $ de plus (or blanc) |
+| Pièce complexe (rivière, par exemple) | supplément possible, fixé au devis |
+
+---
+
+*Historique : état au 4 novembre 2026 (structure connue, bénéfice à valider, taux de change et platine manquants). Tous les montants sont indicatifs. Le calcul ci-dessous prévoyait une TVA de 18 %, sans objet tant que l'atelier est osek patour.*
+
+Source des montants : synthèse de l'atelier du 3/11/2026 (`docs/REPONSES_ATELIER.md`).
 ## Structure du prix (communiquée par l'atelier)
 
 ```
@@ -25,7 +47,7 @@ prix TTC = prix HT × (1 + TVA)
 | Or 14 k, coût d'achat | 270–280 (selon le cours) | ILS/g |
 | Or 18 k, prix facturé au particulier | 470–480 | ILS/g |
 | Or 18 k, prix facturé aux professionnels | 500–550 | ILS/g |
-| Platine | **non communiqué** | — |
+| Platine | non communiqué au 4/11 ; 16/11 : 280 + 100 ₪/g (voir « Repères internes ») | — |
 | Maquette 3D | 10 | USD |
 | Impression 3D | 20–25 | USD |
 | Reprise de fonte et polissage | 10 | USD/g |
@@ -81,7 +103,7 @@ Exemple de référence (2,5 g d'or 14 k, diamant synthétique 1 ct, taux de 3,7 
 
 Question ouverte : avec un diamant **naturel** de 1 ct (plusieurs milliers de dollars), le plafond de 3 000 ₪ convient-il, ou faut-il une catégorie à part ?
 
-## Manque, avant tout prix calculé
+## Manque, avant tout prix calculé (sans objet depuis le 16/11)
 
 1. ~~Postes en USD : coût ou prix client ?~~ Prix boutique ; bénéfice à part (4/11).
 2. ~~Double comptage~~ : métal et fabrication facturés séparément (4/11) [I]. Reste le doute signalé entre polissage final et rhodiage.
@@ -93,11 +115,14 @@ Question ouverte : avec un diamant **naturel** de 1 ct (plusieurs milliers de do
 8. **Arrondi** et **durée de validité** d'un prix.
 9. **Vingt configurations de référence** chiffrées à la main pour tester le moteur.
 
-## Affichage prévu
+## Affichage prévu (abandonné le 16/11)
 
 Avec une marge variable, le site affiche un **prix indicatif** (« à partir de … », fourchette), puis l'atelier le **confirme** dans le devis. Le prix devient « calculé » seulement pour les modèles simples dont la marge est fixée. Paiement : intégral à la commande sur le site, acompte de 50 % (30 % si le client hésite) pour les commandes passées directement à l'atelier.
 
-## Moteur de prix (4/11, non branché sur le site)
+## Moteur de prix (4/11) : abandonné, décision de l'atelier du 16/11
+
+Ni branché ni supprimé. Ne pas le brancher sans une nouvelle décision de l'atelier.
+
 
 - Code : `src/lib/pricing/engine.ts` ; paramètres de l'atelier : `src/config/pricing.ts` ; tests : `tests/unit/pricing.test.ts`.
 - Sortie : prix indicatif en ₪, hors taxe et TTC (TVA 18 %), sous forme de fourchette, avec le détail par poste, et un prix « à partir de » (bas de fourchette TTC, arrondi à la dizaine inférieure).

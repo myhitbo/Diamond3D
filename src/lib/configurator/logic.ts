@@ -1,4 +1,4 @@
-import { ModelDefinition, type ConfigState, type MetalFamily, type MetalId, type MetalTitre } from './schema';
+import { ModelDefinition, type ConfigState, type MetalFamily, type MetalId, type MetalTitre, type RequestStone, type StoneShape } from './schema';
 import { METALS } from '@/config/metals';
 
 export function defaultState(m: ModelDefinition): ConfigState {
@@ -61,6 +61,49 @@ export function stoneSummary(m: ModelDefinition, s: ConfigState): StoneGroup[] {
     }
   }
   return [...groups.values()];
+}
+
+/** Pierres visibles hors des emplacements configurables : les diamants qui accompagnent la pierre centrale. */
+export function fixedStoneCount(m: ModelDefinition, s: ConfigState): number {
+  const inSlots = slotNodes(m);
+  return activePieces(m, s)
+    .flatMap((p) => m.geometry.pieces[p].parts)
+    .filter((x) => !inSlots.has(x.node))
+    .reduce((n, x) => n + (x.stones?.length ?? 0), 0);
+}
+
+/** Choix « sur demande », hors modèle 3D : une forme et une pierre peuvent se cumuler ; la 3D ne change pas. */
+export type StoneRequest = { shape?: StoneShape; stone?: RequestStone };
+
+/** Phrases du message pré-rempli, une série par langue (dictionnaires, clé `requestMessage`). */
+export type RequestTexts = {
+  shape: (shape: string) => string;
+  stone: (stone: string, shape?: string) => string;
+  stones: Record<RequestStone, string>;
+  labGrownOthers: string;
+};
+
+/**
+ * Message pré-rempli du devis pour une demande « sur demande » (rien si aucune demande).
+ * Rien non plus quand la composition choisie n'a pas de pierre centrale (alliance seule) : la demande porte sur la pierre
+ * centrale, et le message contredirait la configuration jointe. Elle revient si la personne repasse à une composition qui en a une.
+ * L'émeraude, le saphir et le rubis proposés sont naturels : l'origine choisie ne vaut que pour les diamants.
+ * En « synthétique », le message le dit des autres pierres, sans jamais qualifier la pierre de couleur de synthétique.
+ * Le diamant de couleur suit l'origine choisie, déjà écrite dans la configuration jointe.
+ */
+export function buildRequestMessage(
+  t: { shapes: Record<StoneShape, string>; requestMessage: RequestTexts },
+  m: ModelDefinition,
+  s: ConfigState,
+  r: StoneRequest,
+): string | undefined {
+  const pieces = m.compositions.find((c) => c.id === s.composition)?.pieces ?? [];
+  if (!m.stoneSlots.some((slot) => pieces.includes(slot.piece))) return undefined;
+  const shape = r.shape && t.shapes[r.shape];
+  if (!r.stone) return shape && t.requestMessage.shape(shape);
+  const text = t.requestMessage.stone(t.requestMessage.stones[r.stone], shape);
+  const labGrownOthers = r.stone !== 'colored-diamond' && s.diamondOrigin === 'lab-grown' && fixedStoneCount(m, s) > 0;
+  return labGrownOthers ? `${text} ${t.requestMessage.labGrownOthers}` : text;
 }
 
 /** Applique un changement en refusant toute valeur non prévue par la définition. */
@@ -141,4 +184,50 @@ export function pickMetal(m: ModelDefinition, family: MetalFamily, titre: MetalT
   const ids = m.metals.options.filter((id) => METALS[id].family === family);
   const byTitre = (t: MetalTitre) => ids.find((id) => METALS[id].titre === t);
   return byTitre(titre) ?? byTitre(METALS[m.metals.default].titre) ?? ids[0];
+}
+
+/*
+ * Configuration dans l'adresse de la page : un lien partagé (WhatsApp, e-mail du devis) rouvre la même bague, sans compte.
+ * Paramètres courts et lisibles ; aucune donnée personnelle, seulement les choix du configurateur.
+ */
+const SLOT_PARAM = 'stone-';
+export const CONFIG_PARAMS = ['composition', 'metal', 'origin'] as const;
+
+/** Paramètres d'adresse qui décrivent la configuration (tous les choix, même ceux par défaut, pour qu'un lien reste stable). */
+export function configToParams(m: ModelDefinition, s: ConfigState): URLSearchParams {
+  const p = new URLSearchParams({ composition: s.composition, metal: s.metal, origin: s.diamondOrigin });
+  for (const slot of m.stoneSlots) p.set(`${SLOT_PARAM}${slot.id}`, s.stones[slot.id]);
+  return p;
+}
+
+/** Configuration lue dans l'adresse : chaque valeur absente ou non prévue par le modèle est ignorée, une à une. */
+export function configFromParams(m: ModelDefinition, params: URLSearchParams): ConfigState {
+  let s = defaultState(m);
+  const tryChange = (change: Partial<ConfigState>) => (s = applyChange(m, s, change));
+  const composition = params.get('composition');
+  if (composition) tryChange({ composition });
+  const metal = params.get('metal');
+  if (metal) tryChange({ metal: metal as MetalId });
+  const origin = params.get('origin');
+  if (origin) tryChange({ diamondOrigin: origin as ConfigState['diamondOrigin'] });
+  for (const slot of m.stoneSlots) {
+    const v = params.get(`${SLOT_PARAM}${slot.id}`);
+    if (v) tryChange({ stones: { [slot.id]: v } });
+  }
+  return s;
+}
+
+/** Vrai si l'adresse porte au moins un paramètre de configuration. */
+export const hasConfigParams = (m: ModelDefinition, params: URLSearchParams) =>
+  CONFIG_PARAMS.some((k) => params.has(k)) || m.stoneSlots.some((slot) => params.has(`${SLOT_PARAM}${slot.id}`));
+
+/**
+ * Adresse à partager : la page sans ses autres paramètres (`debug`, `quality`…), avec la configuration.
+ * `pageUrl` : adresse absolue de la page (par exemple `window.location.href`).
+ */
+export function shareUrl(m: ModelDefinition, s: ConfigState, pageUrl: string): string {
+  const u = new URL(pageUrl);
+  u.search = configToParams(m, s).toString();
+  u.hash = '';
+  return u.toString();
 }

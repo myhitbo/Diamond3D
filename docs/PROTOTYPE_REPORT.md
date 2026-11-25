@@ -40,7 +40,7 @@ Légende : **[V]** vérifié par un test ou une mesure exécutés · **[E]** est
 
 ## C. Mesures de performances
 
-Environnement : Chromium sans GPU, rendu WebGL **logiciel** (SwiftShader), serveur de production local.
+Mesures du 20 octobre 2026. Environnement : Chromium sans GPU, rendu WebGL **logiciel** (SwiftShader), serveur de production local.
 
 | Mesure | Ordinateur 1440×900 | Mobile émulé (Pixel 7 / iPhone 13) |
 |---|---|---|
@@ -51,9 +51,85 @@ Environnement : Chromium sans GPU, rendu WebGL **logiciel** (SwiftShader), serve
 | JavaScript total de l'application (gzip, tous fragments) | 528 Ko [V] | idem |
 | Modèle 3D | 191 Ko (135 Ko si le serveur le compresse en gzip) [V] | idem |
 
-**Non mesuré.** La campagne complète (`scripts/perf/measure.mjs` : processeur ralenti ×4, réseau « 4G lente », images par seconde en rotation, trois passes par scénario) a été interrompue à deux reprises avant de produire un résultat. Aucun chiffre de fluidité ni de chargement sur réseau lent n'est donc fourni. La commande est prête à être relancée.
+### Campagne complète du 15 novembre 2026
 
-**Ordre de grandeur.** À 1,6 Mbit/s, 191 Ko de modèle et 217 Ko de moteur 3D représentent environ 2 s de transfert supplémentaire [E].
+Interrompue deux fois en octobre, la campagne `scripts/perf/measure.mjs` a été relancée le 15/11. Elle est allée au bout : 3 scénarios × 3 passes, aucun échec, 1 min 25 s.
+
+**Conditions**
+- Build de production du commit `ab30e41`, servi en local par `next start` (sans CDN), cache du navigateur désactivé.
+- Chromium 153 sans écran, rendu WebGL **logiciel** (SwiftShader, sans GPU).
+- Machine virtuelle à **4 processeurs** (Xeon 2,3 GHz), sans autre charge pendant la mesure.
+- Valeurs médianes de 3 passes. Fichier brut : `perf/2026-11-15_measure.json`, avec le détail de chaque passe dans `raw`.
+
+**Scénarios**
+- **Ordinateur** : fenêtre 1440×900, densité 1, sans ralentissement.
+- **Mobile, rendu complet** :
+  - profil Pixel 7 de Playwright (412×839, densité 2,625, plafonnée à 2 par le rendu) ;
+  - processeur ralenti ×4 ;
+  - réseau « 4G lente » (profil de Lighthouse : 150 ms de latence, 1,6 Mbit/s).
+- **Mobile, rendu simplifié** : mêmes réglages, avec `?quality=low` (pierres en miroir à facettes, densité 1,25).
+
+| Mesure (médiane de 3 passes) [V] | Ordinateur | Mobile, rendu complet | Mobile, rendu simplifié |
+|---|---|---|---|
+| Premier affichage (FCP) | 0,24 s | 0,68 s | 0,74 s |
+| `DOMContentLoaded` | 0,06 s | 0,46 s | 0,49 s |
+| Début du téléchargement du modèle 3D | 0,69 s | 4,98 s | 5,22 s |
+| Durée du téléchargement du modèle 3D | 0,01 s | 0,82 s | 0,81 s |
+| **Première image 3D**, depuis la navigation | **2,2 s** | **6,5 s** | **6,7 s** |
+| Initialisation du configurateur → première image 3D | 2,05 s | 3,6 s | 3,9 s |
+| **Images par seconde en rotation** (plancher logiciel) | **3,1** | **2,4** | **11,3** |
+| Intervalle entre deux images, 95e centile | 667 ms | 550 ms | 167 ms |
+| Densité de pixels du rendu | 1 | 2 | 1,25 |
+| Appels de dessin / triangles | 9 / 27 359 | 9 / 27 359 | 9 / 27 359 |
+| Qualité à la fin des 3 s de rotation | complète (3 passes sur 3) | complète (3 sur 3) | simplifiée (3 sur 3) |
+| Volume transféré | 828 Ko | 828 Ko | 828 Ko |
+
+**Volume transféré**, le même dans les trois scénarios :
+- JavaScript : 520 Ko ;
+- modèle 3D : 136 Ko (fichier de 190 Ko, compressé par le serveur local) ;
+- polices : 128 Ko ;
+- autres : 28 Ko (non détaillé par le script) ;
+- CSS : 8,5 Ko ;
+- HTML : 7 Ko.
+
+**Lecture**
+- Sur « 4G lente », la 3D apparaît vers 6,5 s [V].
+  - Le modèle n'est demandé qu'au bout d'environ 5 s [V]. C'est le code 3D qui le demande ; or ce code est chargé à la demande (`next/dynamic`), et il faut d'abord qu'il arrive et s'exécute [E].
+  - Suivent 0,8 s de téléchargement du modèle, puis environ 0,7 s de décodage, de compilation et de première image [V].
+- Le rendu simplifié ne raccourcit pas le chargement : 6,7 s contre 6,5 s ici, l'inverse lors de la première campagne du jour (6,4 s contre 6,6 s) [V]. Il sert à la fluidité : 4,7 fois plus d'images par seconde que le rendu complet sur le même mobile émulé [V].
+- Le basculement automatique vers le rendu simplifié (sous 24 images/s) ne s'est déclenché pendant aucune des 3 s de rotation [V]. Les chiffres du rendu complet sont donc bien ceux du rendu complet.
+- Piste, non faite [E] : demander le modèle plus tôt, en préchargement. Avant la 5e seconde, le réseau n'est pas occupé en continu : au plus 690 Ko (tout sauf le modèle) arrivent avant, soit environ 3,4 s de transfert au débit émulé. Une partie des 0,8 s de téléchargement du modèle pourrait donc être gagnée.
+- Autre piste [E] : les polices (128 Ko) pèsent presque autant que le modèle.
+
+**Limites**
+- **Images par seconde** :
+  - c'est un **plancher pessimiste**, pas une mesure d'appareil réel : rendu logiciel SwiftShader sans GPU, sur 4 processeurs ;
+  - le rapport entre rendu complet et rendu simplifié est plus parlant que les valeurs elles-mêmes ;
+  - les valeurs varient d'une campagne à l'autre : sur ordinateur, 1,7 à 1,9 images/s lors de la première campagne du jour (passes retenues), 2,1 à 3,4 ici.
+- **Processeur** : le ralentissement ×4 demandé à Chromium vaut environ ×2,6 sur une boucle de calcul (contrôle ponctuel) [V]. Il ne reproduit ni la mémoire, ni le GPU, ni la chauffe d'un vrai téléphone.
+- **Réseau** :
+  - il est émulé par Chromium, requête par requête, avec un serveur local ;
+  - le temps de réponse du serveur, 5 à 10 ms, ne contient pas la latence émulée : Chromium retarde la livraison de la réponse, pas cet horodatage. La latence se retrouve dans les temps suivants [V] ;
+  - la production sur Vercel n'est pas mesurée ici : Speed Insights le fera après de vraies visites.
+- **Première campagne du même jour** (`perf/2026-11-15_measure-premiere-campagne.json`) :
+  - mêmes ordres de grandeur sur mobile : première image 3D de 6,3 à 6,7 s, 2,2 à 2,4 images/s en rendu complet, 10,9 à 12,2 en rendu simplifié ;
+  - sur ordinateur, passes retenues : première image 3D de 1,3 à 1,8 s ;
+  - sa troisième passe sur ordinateur n'est pas retenue : elle a tourné pendant une vérification du code (4,3 images/s, 5 appels de dessin relevés au lieu de 9). Le tableau vient donc de la seconde campagne, faite sans autre charge.
+- **Comparaison avec le 20/10** : le tableau du 20/10 donne 0,78 à 0,94 s de l'initialisation du configurateur à la première image 3D sur ordinateur ; le 15/11, sur les 5 passes retenues des deux campagnes, 1,0 à 2,1 s. Cause non établie : la page a beaucoup changé depuis, et le rendu logiciel varie fortement d'une passe à l'autre.
+- **Lecture du fichier brut** : `model3dReadyMs` est l'instant où le script voit la 3D prête. Sur mobile ralenti, il dépasse d'environ 1 s la première image réelle (`firstFrameAtMs`, utilisée dans le tableau), à cause du délai de scrutation du script.
+
+**Pourquoi les campagnes d'octobre s'étaient interrompues**
+- Établi le 15/11 sur l'ancien `serve-and-run.sh` [V] :
+  - si le port 3100 était tenu par un serveur qui ne répondait plus, l'attente du serveur se figeait sans fin (requête sans délai) ;
+  - s'il était tenu par un ancien `next-server`, la mesure partait sans prévenir sur l'ancien serveur, donc peut-être sur un ancien build, et le nouveau serveur échouait en silence (journal jeté) ;
+  - un arrêt du script (SIGTERM) laissait tourner la mesure et son Chromium ; un arrêt forcé (SIGKILL) laissait aussi le serveur et le port occupé ;
+  - `measure.mjs` n'affichait rien avant la fin d'un scénario et n'écrivait son fichier qu'à la toute fin : une interruption perdait tout.
+- Cause probable [E] : une campagne lancée dans une commande à délai limité (2 min par défaut), puis arrêtée à ce délai. Le même rapport signale aussi une suite navigateur interrompue (D). Aucun journal d'octobre n'est conservé dans le dépôt : ce n'est pas vérifiable.
+- Corrigé le 15/11 :
+  - `serve-and-run.sh` refuse un port occupé, attend le serveur 60 s au plus, garde son journal et arrête serveur et mesure à la sortie, y compris sur signal ;
+  - la mesure affiche sa progression passe par passe et réécrit le fichier après chaque passe ;
+  - chaque passe est bornée à 4 min et refaite en cas d'échec.
+- Les grandeurs mesurées n'ont pas changé. Champs ajoutés : `firstFrameAtMs`, la qualité de rendu avant et après la rotation, les appels de dessin après la rotation, le total transféré et le détail de chaque passe.
 
 **À faire sur appareils réels** [T] : iPhone (Safari), Android milieu de gamme, et un ordinateur avec GPU. Les mesures logicielles ne disent rien de la fluidité sur GPU réel.
 

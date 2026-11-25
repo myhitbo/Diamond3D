@@ -1,14 +1,28 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import { useCallback, useEffect, useMemo, useReducer, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { useProgress } from '@react-three/drei';
 import { getModel } from '@/models';
 import { METALS } from '@/config/metals';
 import { DICTIONARIES, formatNumber } from '@/i18n/dictionaries';
 import type { ConfigState, Locale, ModelDefinition } from '@/lib/configurator/schema';
-import { applyChange, defaultState, metalFamilies, metalTitres, metalWeightEstimateG, pickMetal, stoneSummary, visibleNodes } from '@/lib/configurator/logic';
-import { configReference, hasConfigParams, shareUrl, stateFromParams, withConfig } from '@/lib/configurator/share';
+import {
+  applyChange,
+  buildRequestMessage,
+  configFromParams,
+  configToParams,
+  defaultState,
+  hasConfigParams,
+  metalFamilies,
+  metalTitres,
+  metalWeightEstimateG,
+  pickMetal,
+  shareUrl,
+  stoneSummary,
+  visibleNodes,
+  type StoneRequest,
+} from '@/lib/configurator/logic';
 import type { Quality, ViewName } from './Viewer';
 import { initProbe, setProbe } from './debugProbe';
 import DiagnosticPanel from './DiagnosticPanel';
@@ -18,7 +32,7 @@ import styles from './Configurator.module.css';
 // Le moteur 3D n'est chargé qu'à l'affichage du configurateur : il ne pèse pas sur le reste du site.
 const Viewer = dynamic(() => import('./Viewer'), { ssr: false });
 
-type Action = { type: 'change'; change: Partial<ConfigState> } | { type: 'restore'; state: ConfigState } | { type: 'reset' };
+type Action = { type: 'change'; change: Partial<ConfigState> } | { type: 'reset' };
 
 function sceneFraming(m: ModelDefinition) {
   const all = Object.values(m.geometry.pieces).flatMap((p) => p.parts.map((x) => x.boundsMm));
@@ -29,6 +43,27 @@ function sceneFraming(m: ModelDefinition) {
   // Repère Rhino : Z vers le haut, donc la hauteur à l'écran est l'étendue en Z.
   return { radiusMm, shadowYMm: -(size[2] / 2 + 0.3) };
 }
+
+/**
+ * Groupe de boutons radio au clavier (motif « radio group » de l'ARIA APG) : un seul arrêt de tabulation par groupe, le choix
+ * en cours ; les flèches passent au choix voisin et le sélectionnent, comme des boutons radio natifs. En hébreu, gauche et
+ * droite suivent le sens de lecture (la flèche gauche va au choix suivant, affiché à gauche).
+ */
+function radioKeys(e: KeyboardEvent<HTMLElement>) {
+  const radios = Array.from(e.currentTarget.querySelectorAll<HTMLElement>('[role="radio"]'));
+  const i = radios.indexOf(e.target as HTMLElement);
+  if (i < 0) return;
+  const rtl = getComputedStyle(e.currentTarget).direction === 'rtl';
+  const step: Partial<Record<string, number>> = { ArrowDown: 1, ArrowUp: -1, ArrowRight: rtl ? -1 : 1, ArrowLeft: rtl ? 1 : -1 };
+  const j = e.key === 'Home' ? 0 : e.key === 'End' ? radios.length - 1 : step[e.key] !== undefined ? (i + step[e.key]! + radios.length) % radios.length : -1;
+  if (j < 0) return;
+  e.preventDefault();
+  radios[j].focus();
+  radios[j].click();
+}
+
+/** Arrêt de tabulation d'un bouton radio : le choix en cours (ou le premier si aucun n'est choisi). */
+const radioTabIndex = (checked: boolean, index: number, anyChecked: boolean) => (checked || (!anyChecked && index === 0) ? 0 : -1);
 
 function hasWebGL() {
   try {
@@ -57,7 +92,7 @@ export default function Configurator({
   // La préversion autonome n'a que cette page : pas de liens vers les guides du site.
   const guideLinks = quoteEnabled ? t.guideLinks : null;
   const [state, dispatch] = useReducer(
-    (s: ConfigState, a: Action) => (a.type === 'reset' ? defaultState(model) : a.type === 'restore' ? a.state : applyChange(model, s, a.change)),
+    (s: ConfigState, a: Action) => (a.type === 'reset' ? defaultState(model) : applyChange(model, s, a.change)),
     model,
     defaultState,
   );
@@ -70,11 +105,12 @@ export default function Configurator({
   const [quality, setQuality] = useState<Quality>('high');
   const [debug, setDebug] = useState(false);
   const [quoteOpen, setQuoteOpen] = useState(false);
-  /** Forme non modélisée demandée par un bouton « sur demande » : pré-remplit le message du devis. */
-  const [requestedShape, setRequestedShape] = useState<string | null>(null);
-  const [shareStatus, setShareStatus] = useState<'idle' | 'copied' | 'failed'>('idle');
-  /** Faux jusqu'à la lecture de l'adresse : évite d'y écrire la configuration par défaut avant de l'avoir lue. */
-  const urlRead = useRef(false);
+  /** Forme ou pierre non modélisées demandées par un bouton « sur demande » : pré-remplissent le message du devis. */
+  const [request, setRequest] = useState<StoneRequest>({});
+  /** Nombre de clics sur un bouton « sur demande » : seul ce geste fait défiler la page jusqu'au formulaire déjà ouvert. */
+  const [requestCount, setRequestCount] = useState(0);
+  /** Résultat du bouton « partager » : lien copié, ou lien affiché à copier à la main (presse-papiers refusé). */
+  const [shared, setShared] = useState<{ status: 'idle' | 'copied' | 'fallback'; link: string }>({ status: 'idle', link: '' });
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
@@ -83,22 +119,27 @@ export default function Configurator({
     if (probe) initProbe();
     setDebug(probe);
     if (q.get('quality') === 'low') setQuality('low');
+    // Lien partagé : la configuration de l'adresse remplace celle par défaut (valeurs non prévues ignorées).
+    if (hasConfigParams(model, q)) dispatch({ type: 'change', change: configFromParams(model, q) });
     setWebgl(hasWebGL());
     /* eslint-enable react-hooks/set-state-in-effect */
-    // Un lien partagé ou une page rechargée rouvre la bague telle qu'elle avait été composée.
-    if (hasConfigParams(q)) dispatch({ type: 'restore', state: stateFromParams(model, q) });
   }, [diagnostic, model]);
 
-  // La configuration suit dans l'adresse (sans nouvelle entrée d'historique) : recharger ou copier l'adresse la garde.
+  // L'adresse suit la configuration (sans nouvelle entrée d'historique) : recharger ou copier la barre d'adresse la conserve.
+  // Une adresse arrivée sans configuration reste nue tant que rien n'a changé.
+  const urlWritten = useRef(false);
   useEffect(() => {
-    if (!urlRead.current) {
-      urlRead.current = true;
-      return;
+    try {
+      const u = new URL(window.location.href);
+      const atDefault = JSON.stringify(state) === JSON.stringify(defaultState(model));
+      if (!urlWritten.current && atDefault && !hasConfigParams(model, u.searchParams)) return;
+      urlWritten.current = true;
+      for (const [k, v] of configToParams(model, state)) u.searchParams.set(k, v);
+      if (u.href !== window.location.href) window.history.replaceState(window.history.state, '', u.href);
+    } catch {
+      // Page sans historique modifiable (préversion dans un cadre isolé) : le bouton « partager » reste disponible.
     }
-    window.history.replaceState(window.history.state, '', withConfig(window.location.href, state));
-    // Un nouveau choix efface l'avis « lien copié ».
-    setShareStatus('idle');
-  }, [state]);
+  }, [model, state]);
 
   useEffect(() => {
     if (debug) setProbe({ quality });
@@ -108,37 +149,54 @@ export default function Configurator({
   const visible = useMemo(() => visibleNodes(model, state), [model, state]);
   const framing = useMemo(() => sceneFraming(model), [model]);
   const metal = METALS[state.metal];
-  const pieces = model.compositions.find((c) => c.id === state.composition)!.pieces;
+  const composition = model.compositions.find((c) => c.id === state.composition)!;
+  const pieces = composition.pieces;
   const centerSlot = model.stoneSlots.find((s) => pieces.includes(s.piece));
   const centerVariant = centerSlot?.variants.find((v) => v.id === state.stones[centerSlot.id]);
   const stones = stoneSummary(model, state);
   const weight = metalWeightEstimateG(model, state);
+  const stoneLine = (g: (typeof stones)[number]) =>
+    `${g.count} × ${t.shapes[g.shape as keyof typeof t.shapes]} ${g.sizesMm.map((x) => (locale === 'fr' ? x.replace('.', ',') : x)).join(' – ')} ${t.mm}` +
+    (centerVariant?.nominalCarat && g.shape === centerVariant.shape && g.count === 1 ? ` · ≈ ${formatNumber(locale, centerVariant.nominalCarat.value, 2)} ct` : '');
+  // Équivalent textuel de la vue 3D (WCAG 1.1.1) : ce qu'elle montre, mis à jour à chaque choix et annoncé poliment.
+  const viewerDescription = [
+    `${model.name[locale]}.`,
+    `${t.composition}${t.colon}${composition.name[locale]}. ${composition.description[locale]}`,
+    `${t.metal}${t.colon}${metal.name[locale]}.`,
+    `${t.stones}${t.colon}${stones.map(stoneLine).join(t.semicolon)}.`,
+    `${t.origin}${t.colon}${t.origins[state.diamondOrigin]}.`,
+  ].join(' ');
   const onReady = useCallback(() => setReady(true), []);
   const onQualityDrop = useCallback(() => setQuality('low'), []);
 
-  const reference = configReference(model.id, state);
-
   const share = async () => {
-    const url = shareUrl(window.location.origin, window.location.pathname, state);
+    const link = shareUrl(model, state, window.location.href);
     if (navigator.share) {
       try {
-        await navigator.share({ title: t.shareTitle, text: `${model.name[locale]} · ${t.reference} ${reference}`, url });
+        await navigator.share({ title: model.name[locale], url: link });
+        setShared({ status: 'idle', link });
         return;
       } catch (e) {
-        if ((e as Error).name === 'AbortError') return;
+        if ((e as Error)?.name === 'AbortError') return;
       }
     }
     try {
-      await navigator.clipboard.writeText(url);
-      setShareStatus('copied');
+      await navigator.clipboard.writeText(link);
+      setShared({ status: 'copied', link });
     } catch {
-      setShareStatus('failed');
+      setShared({ status: 'fallback', link });
     }
   };
 
   const reset = () => {
     dispatch({ type: 'reset' });
     setView((v) => ({ name: 'hero', nonce: v.nonce + 1 }));
+  };
+  // Une forme et une pierre se cumulent : chaque bouton remplace seulement son propre choix.
+  const ask = (change: StoneRequest) => {
+    setRequest((r) => ({ ...r, ...change }));
+    setRequestCount((n) => n + 1);
+    setQuoteOpen(true);
   };
 
   return (
@@ -156,6 +214,8 @@ export default function Configurator({
             quality={quality}
             debug={debug}
             label={t.canvasLabel}
+            describedBy="viewer-description viewer-keys"
+            className={styles.canvas}
             radiusMm={framing.radiusMm}
             shadowYMm={framing.shadowYMm}
             onReady={onReady}
@@ -170,9 +230,19 @@ export default function Configurator({
             )}
           />
         ) : null}
+        {webgl && (
+          <>
+            <p id="viewer-description" className="visually-hidden" aria-live="polite" aria-atomic="true">
+              {viewerDescription}
+            </p>
+            <p id="viewer-keys" className="visually-hidden">
+              {t.canvasKeys}
+            </p>
+          </>
+        )}
         {!ready && webgl !== false && <Loader label={t.loading} />}
         <div className={styles.stageBar}>
-          <div className={styles.views} role="group" aria-label="Vues">
+          <div className={styles.views} role="group" aria-label={t.viewsLabel}>
             {(Object.keys(t.views) as ViewName[]).map((v) => (
               <button
                 key={v}
@@ -189,8 +259,8 @@ export default function Configurator({
         </div>
       </section>
 
-      <aside className={styles.panel}>
-
+      {/* Panneau des choix : contenu principal de la page (titre, options, devis), pas un contenu annexe : pas d'`aside`. */}
+      <div className={styles.panel}>
         {diagnostic && <DiagnosticPanel locale={locale} />}
         <p className={styles.eyebrow}>{t.eyebrow}</p>
         <h1 className={styles.title}>{model.name[locale]}</h1>
@@ -207,12 +277,12 @@ export default function Configurator({
             value={state.composition}
             onChange={(composition) => dispatch({ type: 'change', change: { composition } })}
           />
-          <p className={styles.note}>{model.compositions.find((c) => c.id === state.composition)!.description[locale]}</p>
+          <p className={styles.note}>{composition.description[locale]}</p>
         </Field>
 
         <Field title={t.metal} aside={metal.name[locale]}>
-          <div className={styles.swatches} role="radiogroup" aria-label={t.metal}>
-            {metalFamilies(model).map((family) => {
+          <div className={styles.swatches} role="radiogroup" aria-label={t.metal} onKeyDown={radioKeys}>
+            {metalFamilies(model).map((family, i) => {
               const id = pickMetal(model, family, metal.titre);
               return (
                 <button
@@ -220,6 +290,7 @@ export default function Configurator({
                   type="button"
                   role="radio"
                   aria-checked={metal.family === family}
+                  tabIndex={radioTabIndex(metal.family === family, i, true)}
                   aria-label={t.metalFamilies[family]}
                   title={t.metalFamilies[family]}
                   className={styles.swatch}
@@ -286,30 +357,26 @@ export default function Configurator({
             )}
             {centerSlot.otherSizesOnRequest && <p className={styles.note}>{t.otherSizesNote}</p>}
             {centerSlot.unavailableShapes.length > 0 && (
-              <div className={styles.onRequest}>
-                <p className={styles.onRequestTitle} id="other-shapes-title">
-                  {t.otherShapes}
-                </p>
-                <div className={styles.choices} role="group" aria-labelledby="other-shapes-title">
-                  {centerSlot.unavailableShapes.map((u) => (
-                    <button
-                      key={u.shape}
-                      type="button"
-                      className={styles.choiceOnRequest}
-                      disabled={!quoteEnabled}
-                      aria-controls={quoteEnabled ? 'quote-form' : undefined}
-                      onClick={() => {
-                        setRequestedShape(t.shapes[u.shape]);
-                        setQuoteOpen(true);
-                      }}
-                    >
-                      {t.shapes[u.shape]}
-                      <span className={styles.onRequestTag}>{t.onRequest}</span>
-                    </button>
-                  ))}
-                </div>
-                <p className={styles.note}>{t.otherShapesNote}</p>
-              </div>
+              <OnRequest
+                id="other-shapes-title"
+                title={t.otherShapes}
+                note={t.otherShapesNote}
+                tag={t.onRequest}
+                enabled={quoteEnabled}
+                options={centerSlot.unavailableShapes.map((u) => ({ id: u.shape, label: t.shapes[u.shape] }))}
+                onPick={(shape) => ask({ shape })}
+              />
+            )}
+            {centerSlot.stonesOnRequest.length > 0 && (
+              <OnRequest
+                id="other-stones-title"
+                title={t.otherStones}
+                note={t.otherStonesNote}
+                tag={t.onRequest}
+                enabled={quoteEnabled}
+                options={centerSlot.stonesOnRequest.map((stone) => ({ id: stone, label: t.requestStones[stone] }))}
+                onPick={(stone) => ask({ stone })}
+              />
             )}
           </Field>
         )}
@@ -335,7 +402,9 @@ export default function Configurator({
             <p className={styles.note}>{t.sizeNote}</p>
             {guideLinks && (
               <p className={styles.note}>
-                <a href={guideLinks.size.href}>{guideLinks.size.label}</a>
+                <a href={guideLinks.size.href} className={styles.standaloneLink}>
+                  {guideLinks.size.label}
+                </a>
               </p>
             )}
           </Field>
@@ -348,7 +417,7 @@ export default function Configurator({
           <dl className={styles.summaryList}>
             <div>
               <dt>{t.composition}</dt>
-              <dd>{model.compositions.find((c) => c.id === state.composition)!.name[locale]}</dd>
+              <dd>{composition.name[locale]}</dd>
             </div>
             <div>
               <dt>{t.metal}</dt>
@@ -359,11 +428,7 @@ export default function Configurator({
               <dd>
                 {stones.map((g) => (
                   <span key={g.shape} className={styles.stoneLine}>
-                    {g.count} × {t.shapes[g.shape as keyof typeof t.shapes]} {g.sizesMm.map((x) => (locale === 'fr' ? x.replace('.', ',') : x)).join(' – ')}{' '}
-                    {t.mm}
-                    {centerVariant?.nominalCarat && g.shape === centerVariant.shape && g.count === 1
-                      ? ` · ≈ ${formatNumber(locale, centerVariant.nominalCarat.value, 2)} ct`
-                      : ''}
+                    {stoneLine(g)}
                   </span>
                 ))}
               </dd>
@@ -407,20 +472,33 @@ export default function Configurator({
               </p>
             </>
           )}
-          <button type="button" className={styles.secondary} onClick={share}>
-            {t.share}
-          </button>
-          <p className={styles.note} aria-live="polite" data-testid="share-status">
-            {shareStatus === 'copied' ? t.shareCopied : shareStatus === 'failed' ? t.shareFailed : ''}
+          <div className={styles.summaryActions}>
+            <button type="button" className={styles.textButton} onClick={share}>
+              {t.share}
+            </button>
+            <button type="button" className={styles.textButton} onClick={reset}>
+              {t.reset}
+            </button>
+          </div>
+          {/* Région annoncée poliment (pas `role=status` : réservé ici à l'indicateur de chargement de la 3D). */}
+          <p aria-live="polite" className={styles.note}>
+            {shared.status === 'copied' && t.shareCopied}
           </p>
-          <p className={styles.note} data-testid="config-reference">
-            {t.reference}
-            {t.colon}
-            <span dir="ltr">{reference}</span>
-          </p>
-          <button type="button" className={styles.textButton} onClick={reset}>
-            {t.reset}
-          </button>
+          {shared.status === 'fallback' && (
+            <p className={styles.note}>
+              <label htmlFor="share-link">{t.shareFallback}</label>
+              <input
+                id="share-link"
+                className={styles.shareLink}
+                type="text"
+                readOnly
+                dir="ltr"
+                value={shared.link}
+                onFocus={(e) => e.currentTarget.select()}
+                autoFocus
+              />
+            </p>
+          )}
         </section>
 
         {quoteEnabled && (
@@ -431,10 +509,11 @@ export default function Configurator({
                 locale={locale}
                 state={state}
                 t={t.quote}
-                suggestedMessage={requestedShape ? t.shapeRequestMessage(requestedShape) : undefined}
+                suggestedMessage={buildRequestMessage(t, model, state, request)}
+                scrollRequest={requestCount}
                 onClose={() => {
                   setQuoteOpen(false);
-                  setRequestedShape(null);
+                  setRequest({});
                 }}
               />
             )}
@@ -471,7 +550,7 @@ export default function Configurator({
           </dl>
           <p className={styles.note}>{t.caratNote}</p>
         </details>
-      </aside>
+      </div>
     </div>
   );
 }
@@ -479,9 +558,9 @@ export default function Configurator({
 function Field({ title, aside, children }: { title: string; aside?: string; children: ReactNode }) {
   return (
     <section className={styles.field}>
+      {/* Espace entre les deux parties : sans lui, le nom du titre colle les mots (« MétalOr jaune »). */}
       <h2 className={styles.fieldTitle}>
-        <span>{title}</span>
-        {aside && <span className={styles.fieldAside}>{aside}</span>}
+        <span>{title}</span> {aside && <span className={styles.fieldAside}>{aside}</span>}
       </h2>
       {children}
     </section>
@@ -500,12 +579,67 @@ function Choices<T extends string>({
   onChange: (id: T) => void;
 }) {
   return (
-    <div className={styles.choices} role="radiogroup" aria-label={label}>
-      {options.map((o) => (
-        <button key={o.id} type="button" role="radio" aria-checked={value === o.id} className={styles.choice} onClick={() => onChange(o.id)}>
+    <div className={styles.choices} role="radiogroup" aria-label={label} onKeyDown={radioKeys}>
+      {options.map((o, i) => (
+        <button
+          key={o.id}
+          type="button"
+          role="radio"
+          aria-checked={value === o.id}
+          tabIndex={radioTabIndex(value === o.id, i, options.some((x) => x.id === value))}
+          className={styles.choice}
+          onClick={() => onChange(o.id)}
+        >
           {o.label}
         </button>
       ))}
+    </div>
+  );
+}
+
+/**
+ * Choix non modélisés (formes, pierres) : boutons en pointillés qui ouvrent le devis avec un message pré-rempli.
+ * Ce ne sont pas des options du configurateur (la 3D ne change pas) : un groupe de boutons, pas un groupe radio.
+ */
+function OnRequest<T extends string>({
+  id,
+  title,
+  note,
+  tag,
+  enabled,
+  options,
+  onPick,
+}: {
+  id: string;
+  title: string;
+  note: string;
+  tag: string;
+  /** Faux dans la préversion autonome : pas de devis, boutons inactifs. */
+  enabled: boolean;
+  options: { id: T; label: string }[];
+  onPick: (id: T) => void;
+}) {
+  return (
+    <div className={styles.onRequest}>
+      <p className={styles.onRequestTitle} id={id}>
+        {title}
+      </p>
+      <div className={styles.choices} role="group" aria-labelledby={id}>
+        {options.map((o) => (
+          <button
+            key={o.id}
+            type="button"
+            className={styles.choiceOnRequest}
+            disabled={!enabled}
+            aria-controls={enabled ? 'quote-form' : undefined}
+            onClick={() => onPick(o.id)}
+          >
+            {o.label}
+            <span className={styles.onRequestTag}>{tag}</span>
+          </button>
+        ))}
+      </div>
+      <p className={styles.note}>{note}</p>
     </div>
   );
 }

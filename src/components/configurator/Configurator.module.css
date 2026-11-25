@@ -1,5 +1,5 @@
 .shell {
-  --header-h: 73px;
+  --header-h: 137px;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(340px, 420px);
   align-items: start;
@@ -13,7 +13,9 @@
   top: 0;
   height: calc(100svh - var(--header-h));
   min-height: 520px;
-  background: radial-gradient(ellipse at 50% 42%, var(--paper) 0%, var(--ivory) 55%, var(--cream) 100%);
+  /* Écrin sombre : le métal et les pierres ressortent ; même fond que le premier écran de l'accueil. */
+  background: radial-gradient(ellipse 70% 65% at 50% 44%, #29231a 0%, #14120e 55%, var(--noir) 100%);
+  color: var(--ivory);
   overflow: hidden;
   touch-action: none;
 }
@@ -21,6 +23,12 @@
 .stage canvas {
   display: block;
   outline: none;
+}
+
+/* Vue 3D au clavier (flèches, + et −) : l'indicateur de focus est tracé à l'intérieur, la scène rognant ce qui dépasse. */
+.canvas:focus-visible {
+  outline: 2px solid var(--champagne);
+  outline-offset: -6px;
 }
 
 .stageBar {
@@ -38,9 +46,9 @@
   display: flex;
   gap: 4px;
   padding: 4px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--line-noir);
   border-radius: 999px;
-  background: rgba(251, 249, 245, 0.82);
+  background: rgba(23, 21, 15, 0.78);
   backdrop-filter: blur(6px);
   pointer-events: auto;
 }
@@ -52,21 +60,29 @@
   border-radius: 999px;
   font-size: 12px;
   letter-spacing: 0.08em;
-  color: var(--muted);
+  color: var(--on-noir-muted);
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
+.viewButton:hover {
+  color: var(--ivory);
+}
+
+.viewButton:focus-visible {
+  outline-color: var(--champagne);
+}
+
 .viewButton[aria-pressed='true'] {
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--gold-fill);
+  color: var(--noir);
 }
 
 .hint {
   margin: 0;
   font-size: 11px;
   letter-spacing: 0.1em;
-  color: var(--muted);
+  color: var(--on-noir-muted);
 }
 
 .loader {
@@ -84,20 +100,20 @@
   font-family: var(--font-display);
   font-size: 18px;
   font-style: italic;
-  color: var(--muted);
+  color: var(--on-noir-muted);
 }
 
 .loaderTrack {
   width: 140px;
   height: 1px;
-  background: var(--line);
+  background: var(--line-noir);
   overflow: hidden;
 }
 
 .loaderBar {
   display: block;
   height: 100%;
-  background: var(--gold);
+  background: var(--champagne);
   transform-origin: left center;
   transition: transform 0.3s ease;
 }
@@ -117,7 +133,7 @@
   margin: 0;
   padding: 24px;
   text-align: center;
-  color: var(--muted);
+  color: var(--on-noir-muted);
 }
 
 /* ---------- Panneau ---------- */
@@ -130,19 +146,20 @@
 }
 
 .eyebrow {
-  margin: 0 0 14px;
+  margin: 0 0 18px;
   font-size: 11px;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--gold-text);
 }
 
 .title {
   margin: 0;
   font-family: var(--font-display);
-  font-size: clamp(30px, 3vw, 40px);
+  font-size: clamp(34px, 3.2vw, 46px);
   font-weight: 400;
-  line-height: 1.1;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
 }
 
 .lede {
@@ -160,7 +177,7 @@
   border-radius: 999px;
   font-size: 11px;
   letter-spacing: 0.06em;
-  color: var(--gold);
+  color: var(--gold-text);
 }
 
 .field {
@@ -196,24 +213,27 @@
 }
 
 .choice {
-  min-height: 40px;
-  padding: 8px 16px;
+  min-height: 44px;
+  padding: 10px 20px;
   border: 1px solid var(--line);
-  border-radius: 2px;
-  background: transparent;
+  border-radius: 0;
+  background: var(--paper);
   font-size: 13px;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   cursor: pointer;
   transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .choice:hover {
-  border-color: var(--gold-soft);
+  border-color: var(--gold);
 }
 
+/* Choix en cours : plein noir, filet doré dessous (texte --ivory sur --noir, 17,9:1). */
 .choice[aria-checked='true'] {
-  border-color: var(--ink);
-  background: var(--paper);
+  border-color: var(--noir);
+  background: var(--noir);
+  color: var(--ivory);
+  box-shadow: inset 0 -2px 0 var(--gold-fill);
 }
 
 /* Formes non modélisées : cliquables (ouvrent le devis), mais visiblement à part des choix réels. */
@@ -275,7 +295,7 @@
 }
 
 .swatch[aria-checked='true'] {
-  box-shadow: 0 0 0 3px var(--ivory), 0 0 0 4px var(--ink);
+  box-shadow: 0 0 0 3px var(--ivory), 0 0 0 4px var(--gold);
 }
 
 .note {
@@ -291,6 +311,12 @@
   text-underline-offset: 3px;
 }
 
+/* Lien seul sur sa ligne (guide de la taille) : cible d'au moins 24 px de haut (WCAG 2.5.8). */
+.note .standaloneLink {
+  display: inline-block;
+  padding-block: 3px;
+}
+
 .value {
   margin: 0;
   font-size: 14px;
@@ -303,12 +329,14 @@
 }
 
 .details summary {
+  /* Cible d'au moins 24 px de haut (WCAG 2.5.8). */
+  padding-block: 4px;
   cursor: pointer;
   color: var(--muted);
   list-style-position: inside;
 }
 
-aside > .details {
+.panel > .details {
   margin-top: 28px;
   padding-top: 22px;
   border-top: 1px solid var(--line);
@@ -376,15 +404,21 @@ aside > .details {
 
 .primary {
   width: 100%;
-  min-height: 48px;
+  min-height: 54px;
   margin-top: 18px;
-  border: 1px solid var(--ink);
-  background: var(--ink);
-  color: var(--paper);
+  border: 1px solid var(--noir);
+  background: var(--noir);
+  color: var(--ivory);
   font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   cursor: pointer;
+}
+
+.primary:hover:not(:disabled) {
+  border-color: var(--gold-fill);
+  background: var(--foil);
+  color: var(--noir);
 }
 
 .primary:disabled {
@@ -406,6 +440,24 @@ aside > .details {
   cursor: pointer;
 }
 
+.summaryActions {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 24px;
+}
+
+.shareLink {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 8px;
+  border: 1px solid var(--muted);
+  background: var(--paper);
+  color: var(--ink);
+  font: inherit;
+  font-size: 13px;
+}
+
 /* ---------- Mobile : scène fixe en haut, options défilantes dessous ---------- */
 
 @media (max-width: 900px) {
@@ -420,6 +472,12 @@ aside > .details {
     height: 54svh;
     min-height: 320px;
     border-bottom: 1px solid var(--line);
+  }
+
+  /* La scène reste collée en haut de l'écran : le navigateur doit amener l'élément qui reçoit le focus (Tab) sous elle, pas
+     derrière elle (WCAG 2.2, critère 2.4.11). Même marge pour les ancres et le défilement vers le formulaire de devis. */
+  :global(html):has(.stage) {
+    scroll-padding-top: calc(max(54svh, 320px) + 12px);
   }
 
   .stageBar {
@@ -503,6 +561,9 @@ textarea.input {
 
 .file {
   max-width: 100%;
+  /* Cible d'au moins 24 px de haut (WCAG 2.5.8) : le champ de fichier natif n'en fait que 21. */
+  min-height: 44px;
+  padding-block: 10px;
   font: inherit;
   font-size: 13px;
   letter-spacing: normal;
@@ -515,6 +576,8 @@ textarea.input {
   grid-template-columns: auto 1fr;
   gap: 10px;
   align-items: start;
+  /* Étiquette cliquable d'au moins 24 px de haut, même sur une seule ligne (WCAG 2.5.8). */
+  padding-block: 3px;
   font-size: 13px;
   line-height: 1.5;
 }
@@ -544,11 +607,41 @@ textarea.input {
 .error {
   margin: 0;
   padding: 10px 12px;
-  border-left: 2px solid #9b2c2c;
+  border-inline-start: 2px solid #9b2c2c;
   background: #fbefec;
   color: #7a1f1f;
   font-size: 13px;
   line-height: 1.5;
+}
+
+.error p,
+.error ul {
+  margin: 0;
+}
+
+.error ul {
+  padding-inline-start: 18px;
+}
+
+/* Champ avec aide ou message d'erreur : l'étiquette (qui englobe le contrôle), puis les messages. */
+.fieldGroup {
+  display: grid;
+  gap: 6px;
+}
+
+.fieldGroup > .note {
+  margin: 0;
+}
+
+/* Erreur d'un champ : texte (pas seulement la couleur), 7,9:1 sur le fond du formulaire. */
+.fieldError {
+  color: #8f2424;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.input[aria-invalid='true'] {
+  border-color: #9b2c2c;
 }
 
 /* Page cachée /diagnostic */

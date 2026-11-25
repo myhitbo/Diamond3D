@@ -24,10 +24,10 @@ describe('FAQ', () => {
     }
   });
 
-  it('aucun montant de prix hors la mise à taille communiquée par l’atelier', () => {
+  it('aucun prix de bijou : seuls les montants communiqués par l’atelier pour la mise à taille et la livraison (16/11)', () => {
     for (const i of allFaqItems())
       for (const l of LOCALES)
-        for (const p of i.a[l]) if (/[€$₪]/.test(p)) expect(i.id, p).toBe('mise-a-taille');
+        for (const p of i.a[l]) if (/[€$₪]/.test(p)) expect(['mise-a-taille', 'livraison'], `${i.id} : ${p}`).toContain(i.id);
   });
 
   it('le mot « laboratoire » ne qualifie jamais un diamant en français (décret 2002-65)', () => {

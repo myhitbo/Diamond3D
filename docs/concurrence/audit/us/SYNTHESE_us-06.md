@@ -116,3 +116,5 @@ Temps mesurés depuis un centre de données, Chromium sans carte graphique, iPho
   - New Hampshire : Bellman (copie de la maquette remise au client, 2-3 semaines), Jewelry Creations, Richters, Exeter : tous bloqués en 403 ; Newbury (modèle 3D par e-mail, cire à essayer) ; Naser (`verify.html`).
   - New Jersey : Thomas Jewelers (grille métal × pierre, 745 à 1 160 $) ; Casale (3 000-7 000 $, 2-3 semaines) ; Prestige (catalogue 100 % synthétique étiqueté) ; Yanina, Salermo (JewelerOS) ; Corinne. Berman bloqué (503).
 - **Limites communes** : une mesure de temps par cas, iPhone émulé dans Chromium (pas Safari), pas de GPU ; aucun paiement, chat, WhatsApp ni formulaire ; avis non recoupés ; alliance de kiddouchin non recherchée ; aucun site audité au complet.
+
+- **Reprise du 25/11** : les sites marqués « bloqués » ici à cause du relais réseau ont été réaudités ; voir `SYNTHESE_us-reprise.md`, qui prime pour eux.

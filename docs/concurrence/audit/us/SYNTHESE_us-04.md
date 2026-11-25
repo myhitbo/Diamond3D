@@ -125,3 +125,5 @@ Temps mesurés depuis un centre de données, Chromium sans carte graphique, iPho
   - Maryland : Dickinson (Punchmark par la pierre, « Inquire Now »), Empire (JewelerOS), Colonial (Cloudflare), Sergio's (assistant « Start a Project »), Saxon's (fabrication expliquée), Smyth.
 - **Bloqués dès l'inventaire** [Inv] : Merkley Kendrick et Genesis (robots.txt fermé aux robots d'IA), Boudreaux's, Lee Michaels, Adler's, Designs by Aaron, Colonial ; catalogues Thinkspace derrière une page de vérification (Monmouth, Michelson, Pattons, Cut, Ramsey's). À auditer à la main.
 - **Limites communes** : une mesure par cas, iPhone émulé dans Chromium (pas Safari), pas de GPU, machine parfois chargée (Nick T. Arnold : 9 à 80 s par clic) ; aucun paiement, chat, WhatsApp ni formulaire ; avis hors site non recoupés ; alliance de kiddouchin non recherchée.
+
+- **Reprise du 25/11** : les sites marqués « bloqués » ici à cause du relais réseau ont été réaudités ; voir `SYNTHESE_us-reprise.md`, qui prime pour eux.

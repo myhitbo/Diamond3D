@@ -111,3 +111,5 @@ Temps mesurés depuis un centre de données, Chromium sans carte graphique, iPho
 - **Limites communes** : une mesure par cas, iPhone émulé dans Chromium (pas Safari), aucun paiement, chat, WhatsApp ni formulaire ; avis hors site rarement recoupés.
 
 - **Apex Jewelry Design : [P1] pour tout le rapport (25/11)** : robots.txt `Disallow: /` nominatif pour les agents Claude, manqué par l'outil de contrôle (défaut corrigé le 25/11). Ses constats sortent des décomptes [V] de cette synthèse.
+
+- **Reprise du 25/11** : les sites marqués « bloqués » ici à cause du relais réseau ont été réaudités ; voir `SYNTHESE_us-reprise.md`, qui prime pour eux.

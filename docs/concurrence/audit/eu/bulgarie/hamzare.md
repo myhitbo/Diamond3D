@@ -1,5 +1,7 @@
 # Audit Hamzare (hamzare.com), Sofia
 
+> **[P1] pour tout le rapport (tranché le 25/11)** : le robots.txt du site interdit tout à ClaudeBot, anthropic-ai et Claude-Web (`Disallow: /`, revérifié le 25/11). L'audit a suivi à tort le groupe `*`. Les constats sont gardés pour mémoire mais valent [P1] : jamais repris comme vérifiés.
+
 - **Site** : Hamzare, https://www.hamzare.com/ (société Solaris Circle EOOD, Sofia ; même groupe que DiamondTrade, vendeur de diamants B2B) [V : `/policies/refund-policy`, `/pages/about`]
 - **Page de départ** : https://www.hamzare.com/collections/engagement-rings puis fiche https://www.hamzare.com/products/solitaire-ring-3
 - **Date** : 15/11/2026 (session du 24/11 pour la rédaction)

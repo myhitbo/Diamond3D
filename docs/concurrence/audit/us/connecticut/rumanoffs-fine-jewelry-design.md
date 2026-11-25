@@ -1,5 +1,7 @@
 # Audit : Rumanoff's Fine Jewelry & Design (Hamden, Connecticut)
 
+> **[P1] pour tout le rapport (tranché le 25/11)** : le robots.txt du site interdit tout à ClaudeBot, anthropic-ai et Claude-Web (`Disallow: /`, revérifié le 25/11). L'audit a suivi à tort le groupe `*`. Les constats sont gardés pour mémoire mais valent [P1] : jamais repris comme vérifiés.
+
 - **Site** : Rumanoff's Jewelers, https://www.rumanoffs.com/
 - **Page de départ** : https://www.rumanoffs.com/create-your-ring
 - **Date** : 15/11/2026 (mesures du 24/11)

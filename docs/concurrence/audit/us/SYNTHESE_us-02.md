@@ -119,3 +119,5 @@ Temps mesurés depuis un centre de données, Chromium sans carte graphique, iPho
 
 ## Tranché par le propriétaire (25/11)
 - Rumanoff's : robots.txt `Disallow: /` pour ClaudeBot, anthropic-ai et Claude-Web. Tous les constats de ce site valent [P1] et sortent des décomptes [V] de cette synthèse.
+
+- **Lenox Jewelers : [P1] pour les constats du constructeur (25/11)** : robots.txt qui interdit tout aux agents Claude, sur le domaine voisin ou sur le domaine du constructeur ; manqué par l'outil de contrôle (corrigé le 25/11). Ces constats sortent des décomptes [V].

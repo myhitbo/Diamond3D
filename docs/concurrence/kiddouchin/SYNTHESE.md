@@ -1,5 +1,7 @@
 # Alliance de kiddouchin (טבעת קידושין) : synthèse Israël, États-Unis, France
 
+> **Baltinester : faits en [P1] (relevé le 25/11)** : www.baltinesterjewelry.com interdit tout aux agents Claude ; les pages ont été lues sur baltinesterjewelry.com, sans cette règle. Par prudence, tout fait attribué à Baltinester vaut [P1] et n'est pas repris comme vérifié.
+
 25 novembre 2026. Tirée des trois rapports vérifiés `2026-11-25_il.md`, `_us.md`, `_fr.md` (seuls les faits qui ont survécu à leur section « Vérification »), de notre guide (`src/content/guides/fr.ts`, guide `kiddouchin`) et de `src/config/pricing.ts`. Aucune page n'a été rouverte pour cette synthèse.
 Marques : **[V]** page lue dans le navigateur par l'auteur ou le vérificateur du rapport cité (adresse dans le rapport) · **[ext]** extrait de moteur, page non ouverte ou bloquée · **[I]** inféré · **[S]** supposé. Les règles religieuses citées sont celles que publient vendeurs et sites rabbiniques : **elles ne sont pas validées par un rabbin**.
 

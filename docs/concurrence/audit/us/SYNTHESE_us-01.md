@@ -113,3 +113,5 @@ Temps mesurés depuis un centre de données, Chromium sans carte graphique, iPho
 - **Apex Jewelry Design : [P1] pour tout le rapport (25/11)** : robots.txt `Disallow: /` nominatif pour les agents Claude, manqué par l'outil de contrôle (défaut corrigé le 25/11). Ses constats sortent des décomptes [V] de cette synthèse.
 
 - **Reprise du 25/11** : les sites marqués « bloqués » ici à cause du relais réseau ont été réaudités ; voir `SYNTHESE_us-reprise.md`, qui prime pour eux.
+
+- **USA Jewels : [P1] pour tout le rapport (25/11)** : robots.txt qui interdit tout aux agents Claude, sur le domaine voisin ou sur le domaine du constructeur ; manqué par l'outil de contrôle (corrigé le 25/11). Ces constats sortent des décomptes [V].

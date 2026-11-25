@@ -1,5 +1,7 @@
 # Audit : USA Jewels & Timepieces, constructeur « Design Your Own » (Ketchikan, Alaska ; siège en Floride)
 
+> **[P1] pour tout le rapport (relevé le 25/11)** : le site sert sur son domaine voisin (usajewels.com) un robots.txt qui interdit tout aux agents Claude ; l'adresse lue n'avait pas cette règle. Par prudence, constats gardés pour mémoire, valeur [P1], jamais repris comme vérifiés.
+
 | | |
 |---|---|
 | Site | USA Jewels & Timepieces : https://www.usajewels.com/ (boutique à Ketchikan, atelier et siège à Deerfield Beach, Floride) |

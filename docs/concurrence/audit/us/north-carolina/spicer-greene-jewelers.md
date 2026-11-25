@@ -1,5 +1,7 @@
 # Audit : Spicer Greene Jewelers (Asheville, Hendersonville, Caroline du Nord)
 
+> **[P1] pour les constats du constructeur (relevé le 25/11)** : le constructeur est servi par `digitalminingco.com`, dont le robots.txt interdit tout aux agents Claude (`Disallow: /`) ; il a été actionné. Les constats qui en viennent valent [P1] ; le reste du rapport garde sa valeur.
+
 - **Site** : Spicer Greene Jewelers, https://spicergreene.com/
 - **Page de départ** : https://spicergreene.com/pages/diamond-bar?ose=false#page/ring-builder-settings-mounts/
 - **Date** : 15/11/2026 (consigne) ; mesures faites le 25/11/2026

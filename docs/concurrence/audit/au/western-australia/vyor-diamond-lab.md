@@ -1,5 +1,7 @@
 # Audit : VYOR Diamond Lab
 
+> **[P1] pour tout le rapport (relevé le 25/11)** : le site sert sur son domaine voisin (www.vyor.com.au) un robots.txt qui interdit tout aux agents Claude ; l'adresse lue n'avait pas cette règle. Par prudence, constats gardés pour mémoire, valeur [P1], jamais repris comme vérifiés.
+
 - **Site** : VYOR Diamond Lab (ex Diamond Lab), Wembley (Perth), Australie-Occidentale
 - **Adresse** : https://vyor.com.au/ (départ : https://vyor.com.au/collections/engagement-rings ; fiche testée : https://vyor.com.au/products/tulip-marquise-pave-cathedral-solitaire-ring)
 - **Date** : 15/11/2026

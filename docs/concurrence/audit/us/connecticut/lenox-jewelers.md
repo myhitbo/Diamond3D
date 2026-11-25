@@ -1,5 +1,7 @@
 # Audit : Lenox Jewelers (Fairfield, Connecticut)
 
+> **[P1] pour les constats du constructeur (relevé le 25/11)** : le constructeur est servi par `portal.mesh3d.com`, dont le robots.txt interdit tout aux agents Claude (`Disallow: /`) ; il a été actionné. Les constats qui en viennent valent [P1] ; le reste du rapport garde sa valeur.
+
 - **Site** : Lenox Jewelers, https://lenox-jewelers.com/
 - **Page de départ** : https://lenox-jewelers.com/pages/design-the-one (« Design The One »)
 - **Date** : 15/11/2026 (mesures refaites le 24/11 pour le configurateur)

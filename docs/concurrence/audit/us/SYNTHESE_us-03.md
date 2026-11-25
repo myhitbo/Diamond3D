@@ -122,3 +122,5 @@ Temps mesurés depuis un centre de données, Chromium sans carte graphique, iPho
   - Iowa : Rosalee (synthétique, « starting at $2500 », création à distance), Nelson, Greenberg's (Caratwise), Ginsberg.
 - **Bloqués dès l'inventaire** [Inv] : Simmons (Cloudflare 403), Hal Davis, James & Sons, Herteen & Stocker, Josephs (robots.txt fermé à ClaudeBot), Sam's et Peter Franklin (Cloudflare), Diamonds by Appointment (module Stuller `Disallow: /`). À auditer à la main.
 - **Limites communes** : une mesure par cas, iPhone émulé dans Chromium (pas Safari), pas de GPU ; aucun paiement, chat, WhatsApp ni formulaire ; paniers vus vides ou non atteints sur 14 sites ; alliances de kiddouchin non recherchées en Illinois et en Indiana [Inv] ; avis hors site non recoupés.
+
+- **Alloy Custom Jewelers : [P1] pour tout le rapport (25/11)** : robots.txt qui interdit tout aux agents Claude, sur le domaine voisin ou sur le domaine du constructeur ; manqué par l'outil de contrôle (corrigé le 25/11). Ces constats sortent des décomptes [V].

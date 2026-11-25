@@ -1,5 +1,7 @@
 # Alloy Custom Jewelers (Cedar Falls, Iowa)
 
+> **[P1] pour tout le rapport (relevé le 25/11)** : le site sert sur son domaine voisin (www.alloycustomjewelers.com) un robots.txt qui interdit tout aux agents Claude ; l'adresse lue n'avait pas cette règle. Par prudence, constats gardés pour mémoire, valeur [P1], jamais repris comme vérifiés.
+
 - **Site** : https://alloycustomjewelers.com/ ; configurateur « Design Your Ring » : https://alloycustomjewelers.com/pages/design-your-ring (la page de départ indiquée, `/pages/ring-studio`, est un catalogue de montures avec filtres ; le constructeur 3D est derrière « Build / Open the ring builder »).
 - **Date** : 15/11/2026 (audit réalisé le 24/11/2026 dans l'environnement de l'étude). **Appareils** : Chromium ordinateur 1366×900 ; affichage iPhone 13 (Playwright).
 - **Statut** : **partiel**. Parcours du configurateur complet jusqu'à la taille de doigt ; la porte « prix + diamant » (nom et mobile exigés) n'a pas été franchie (règle : aucune donnée personnelle) ; le panier n'a pas été ouvert (voir Limites).

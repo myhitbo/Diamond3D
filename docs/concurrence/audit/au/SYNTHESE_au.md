@@ -131,3 +131,5 @@ Repères de prix [V] : monture 14 k de 1 199 (ROA) à 3 119 (Monroe Yorke) ; bag
 ## Contrôle de la session principale (25/11)
 - Rings of Australia : les requêtes `/cart.js` et `/cart/update.js` sont émises par la page à son ouverture, sans clic d'ajout ; ce n'est pas un écart selon la règle commune, pas de marque [P1].
 - EverettBrookes : robots.txt revérifié avec curl sans en-tête de navigateur, toujours 403 ; le blocage est réel, ce n'est pas l'ancien défaut de l'outil.
+
+- **VYOR : [P1] pour tout le rapport (25/11)** : robots.txt qui interdit tout aux agents Claude, sur le domaine voisin ou sur le domaine du constructeur ; manqué par l'outil de contrôle (corrigé le 25/11). Ces constats sortent des décomptes [V].

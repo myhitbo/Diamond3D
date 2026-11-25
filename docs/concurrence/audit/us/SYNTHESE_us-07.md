@@ -138,3 +138,5 @@ Temps mesurés depuis un centre de données, Chromium sans carte graphique, iPho
 - Elizabeth Diamond Company (inventaire de l'Ohio) et Britton (inventaire du North Dakota) : pages lues alors que robots.txt interdit nos agents. Ces sites ne sont pas audités ; les lignes d’inventaire qui en viennent valent [P1] : ne pas les reprendre dans la comparaison.
 
 - **Royal Jewelers : [P1] pour tout le rapport (25/11)** : robots.txt `Disallow: /` nominatif pour les agents Claude, manqué par l'outil de contrôle (défaut corrigé le 25/11). Ses constats sortent des décomptes [V] de cette synthèse.
+
+- **Spicer Greene : [P1] pour les constats du constructeur (25/11)** : robots.txt qui interdit tout aux agents Claude, sur le domaine voisin ou sur le domaine du constructeur ; manqué par l'outil de contrôle (corrigé le 25/11). Ces constats sortent des décomptes [V].

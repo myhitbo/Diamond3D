@@ -9,7 +9,7 @@
 - **Configurateur et formulaires** : or jaune 14 k par défaut ; réponse aux devis « sous 24 à 48 h ouvrées » ; taille européenne de référence, avec l'équivalent américain.
 - **Textes** (FR, EN, HE) : FAQ validée par l'atelier (sur mesure, paiement, livraison, entretien ; l'annulation reste « À confirmer » jusqu'à l'avis de l'avocat ; la livraison à l'étranger est retirée) ; pas de certificat systématique sous 0,50 ct ; or blanc sans nickel ; poinçon 585 ou 750 ; guide de la taille sans « taille israélienne » comme norme ; bijou de famille confirmé, avec l'apport à l'atelier et l'assurance de l'envoi. Nouveaux textes hébreux à faire relire.
 - Dossier de l'avocat : questions 44 à 47 (non-reprise du sur-mesure, clause de casse au dessertissage non publiée, osek patour, transport). Relance de l'atelier prête (`docs/atelier/2026-11-16_relance.md`, 11 questions).
-- Fusion avec la refonte et les versions de l'accueil (24/11). Tests : 121 tests unitaires ; Chromium 300 (297 passés, 3 ignorés), dont l'audit d'accessibilité ; WebKit, Firefox et pipeline CAO non relancés ; deux tests d'autres sessions alignés sur l'or 14 k par défaut.
+- Fusion avec la refonte et les versions de l'accueil (24/11). Tests : 121 tests unitaires ; Chromium 300 (297 passés, 3 ignorés), dont l'audit d'accessibilité ; le 25/11, WebKit iPhone, iPad et Firefox 362 passés et 55 ignorés, pipeline CAO 9 sur 9 ; plafond de l'osek patour vérifié (122 833 ₪ en 2026) ; deux tests d'autres sessions alignés sur l'or 14 k par défaut.
 
 ## 2026-11-20 — Trois versions de l'accueil, bague pilotée par le défilement
 

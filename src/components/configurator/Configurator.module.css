@@ -1101,7 +1101,9 @@
 }
 
 /* --- Version 5 : verre et lumière. Plaques translucides arrondies sur un fond de lumière dorée ;
-   le choix en cours s'éclaire d'un liseré d'or et porte une perle d'or dans son coin --- */
+   le choix en cours s'éclaire d'un liseré d'or et porte une perle d'or dans son coin.
+   Pas de `backdrop-filter` : derrière les plaques il n'y a qu'un dégradé doux, que le flou ne change pas à l'œil, et une
+   vingtaine de plaques floutées figeaient le rendu de WebKit (tests iPhone du 26/11 : clics jamais « stables ») --- */
 
 [data-buttons='5'] .panel {
   background:
@@ -1121,8 +1123,6 @@
   border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: 18px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0.4) 100%);
-  -webkit-backdrop-filter: blur(14px) saturate(1.2);
-  backdrop-filter: blur(14px) saturate(1.2);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(156, 127, 76, 0.2), 0 12px 22px -14px rgba(120, 95, 50, 0.5);
   color: var(--ink);
 }
@@ -1158,8 +1158,6 @@
   border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: 20px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.34) 100%);
-  -webkit-backdrop-filter: blur(14px) saturate(1.2);
-  backdrop-filter: blur(14px) saturate(1.2);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(156, 127, 76, 0.18), 0 12px 22px -14px rgba(120, 95, 50, 0.45);
 }
 
@@ -1198,8 +1196,6 @@
   border-color: rgba(255, 255, 255, 0.9);
   border-radius: 999px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.42) 100%);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
   box-shadow: inset 0 1px 0 #ffffff, 0 8px 16px -12px rgba(120, 95, 50, 0.5);
   font-family: var(--font-display);
   font-size: 15px;
@@ -1218,8 +1214,6 @@
   border-color: rgba(255, 255, 255, 0.95);
   border-radius: 24px;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.5) 100%);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  backdrop-filter: blur(16px) saturate(1.2);
   box-shadow: inset 0 1px 0 #ffffff, 0 26px 40px -26px rgba(120, 95, 50, 0.6);
 }
 
@@ -1298,6 +1292,11 @@
 /* La barre fixe ne recouvre pas la fin de la page. */
 .withStyleBar {
   padding-bottom: 72px;
+}
+
+/* Ni un élément qui reçoit le focus ou que l'on fait défiler jusqu'à lui (WCAG 2.4.11, focus non masqué) : il s'arrête au-dessus de la barre. */
+.withStyleBar :where(a, button, input, textarea, select, summary, [role='radio'], [tabindex]) {
+  scroll-margin-bottom: 88px;
 }
 
 .showcase {

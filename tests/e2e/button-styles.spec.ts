@@ -32,6 +32,17 @@ test('le paramètre « boutons » choisit le style ; la barre change le style et
   await expect(page).toHaveURL(/boutons=5/);
 });
 
+test('la barre de comparaison ne masque pas un élément amené en bas de l’écran (focus non masqué, WCAG 2.4.11)', async ({ page }) => {
+  await page.goto('/fr/configurateur/ring-002?boutons=2');
+  const bar = page.getByRole('group', { name: 'Style des boutons' });
+  await expect(bar).toBeVisible();
+  for (const target of [page.getByRole('radio', { name: /Platine/ }), page.getByRole('radio', { name: /Synthétique/ })]) {
+    await target.evaluate((el) => el.scrollIntoView({ block: 'end' }));
+    const [t, b] = await Promise.all([target.boundingBox(), bar.boundingBox()]);
+    expect(t!.y + t!.height).toBeLessThanOrEqual(b!.y);
+  }
+});
+
 test('valeur inconnue : aspect d’origine, barre affichée pour choisir', async ({ page }) => {
   await page.goto('/fr/configurateur/ring-001?boutons=9');
   await expect(page.locator('[data-buttons]')).toHaveAttribute('data-buttons', '1');

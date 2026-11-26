@@ -326,6 +326,8 @@ def premier(text):
             break
         out += ch
     marks = r'(?:V|I|S|Inv|Vc|P1|T|E)'
+    # une marque suivie d'une remarque (« [S : peut-être pas le prix du joaillier] ») devient une parenthèse en clair
+    out = re.sub(r'\[(?:V|I|S)\s*:\s*([^\]]+)\]', lambda m: '(' + m.group(1).strip() + ')', out)
     out = re.sub(r'\s*\[' + marks + r'(?:\s*,\s*' + marks + r')*\]', '', out).strip()
     return out[0].upper() + out[1:] if out else '—'
 

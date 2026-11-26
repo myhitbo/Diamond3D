@@ -321,7 +321,8 @@ def premier(text):
         elif ch == ';' and depth == 0:
             break
         out += ch
-    out = re.sub(r'\s*\[(V|I|S|Inv|Vc|P1|T|E)\]', '', out).strip()
+    marks = r'(?:V|I|S|Inv|Vc|P1|T|E)'
+    out = re.sub(r'\s*\[' + marks + r'(?:\s*,\s*' + marks + r')*\]', '', out).strip()
     return out[0].upper() + out[1:] if out else '—'
 
 
@@ -347,8 +348,10 @@ def annexe():
             star = '<sup>a</sup>' if d['identification'] else ''
             mark = '<sup>b</sup>' if d['site'] in ECARTES else ''
             cls = ' a-bloque' if d['bloque'] else ''
-            items.append(f'<p class="a-site{cls}"><b>{e(d["site"])}</b>{star}{mark} <span class="a-st">{statut(d)}</span><br>{e(premier(d["visuel"]))}. '
-                         f'<span class="a-prix">Prix : {e(minuscule(premier(d["prix"])))}.</span></p>')
+            vu = 'Site bloqué, non visité' if d['bloque'] else premier(d['visuel'])
+            label = "Prix, d'après l'inventaire" if d['bloque'] else 'Prix'
+            items.append(f'<p class="a-site{cls}"><b>{e(d["site"])}</b>{star}{mark} <span class="a-st">{statut(d)}</span><br>{e(vu)}. '
+                         f'<span class="a-prix">{label} : {e(minuscule(premier(d["prix"])))}.</span></p>')
     intro = (f'  <p class="small a-intro">Les {total} joailliers relevés dans les 50 États, quatre par État le plus souvent. Pour chacun : ce qu\'on voit sur le site, puis le prix relevé, '
              'dans les mots des synthèses d\'audit. Aucun n\'est photographié ici. <sup>a</sup> Demande aux agents de s\'identifier. '
              '<sup>b</sup> Le site interdit nos agents : rapport écarté, ou conservé par décision.</p>\n')

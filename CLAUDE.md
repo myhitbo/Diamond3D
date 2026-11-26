@@ -51,6 +51,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
   - poids de la marquise « ≈ 0,25 ct, à confirmer » ;
   - métal par défaut : or jaune 14 k (atelier, 16/11) ;
   - poids du métal ± 5 %, délai « 14 jours ouvrés », prix « Sur devis », réponse au devis « sous 24 à 48 h ouvrées ».
+  - le 26/11 : note sous le prix réécrite (prix fixé par l'atelier dans un devis, sous 24 à 48 h) ; « La première mise à taille est offerte » sous la taille ; champs facultatifs « Pour quelle date ? » et « Budget indicatif » dans le devis (e-mail, WhatsApp, politique de confidentialité) ; sur téléphone, lien « Demander un devis » dans la scène collée en haut (`.stageQuote`, une barre collée en bas recouvrait des choix).
 - **Rendu des pierres** : en rendu simplifié (appareils lents), miroir à facettes. Avant, des taches blanches donnaient l'impression que « les diamants disparaissent ». Le rendu ne bascule que sous 24 images/s.
 - **Version hébreu** (`/he/…`) : sens droite-à-gauche, polices Frank Ruhl Libre et Assistant. Traduction faite par l'IA, **relecture native à faire**.
 - **Formulaire de devis** (phase 4, version légère, 13/11) : FR/EN/HE, route `POST /api/devis`, envoi SMTP à l'atelier avec photos jointes, sans base de données ; accord facultatif de publication des photos et vidéos de fabrication. Variables : `.env.example`. Sans SMTP configuré : réponse 503, message « indisponible ». Tests en envoi simulé (`QUOTE_DRY_RUN=1`).

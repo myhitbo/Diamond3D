@@ -522,6 +522,342 @@
         1366,
         860
       ]
+    },
+    {
+      "id": "th_dazz",
+      "site": "DAZZ",
+      "pays": "Israël",
+      "url": "https://dazzdiamonds.co.il/il/build",
+      "date": "2026-11-15",
+      "src": "audit/il/dazz/dazzdiamonds_co_il_il_build.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        725
+      ]
+    },
+    {
+      "id": "th_lavi",
+      "site": "Lavi Jewellry",
+      "pays": "Israël",
+      "url": "https://lavijewellry.com/",
+      "date": "2026-11-15",
+      "src": "audit/il/lavi-jewelry/catalogue_d.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        725
+      ]
+    },
+    {
+      "id": "th_louisa",
+      "site": "Louisa Jewelry",
+      "pays": "Israël",
+      "url": "https://louisa.co.il/ru/",
+      "date": "2026-11-25",
+      "src": "audit/il/louisa-jewelry/louisa_co_il_ru_product_category_rings_D7_98_D7_91_D7_A2_D7_95_D7_AA_D7_90_D7_99.jpg",
+      "crop": [
+        0,
+        0,
+        1368,
+        726
+      ]
+    },
+    {
+      "id": "th_lemeraude",
+      "site": "L'Émeraude Paris",
+      "pays": "Israël",
+      "url": "https://lemeraude-paris.com/sur-mesure",
+      "date": "2026-11-15",
+      "src": "audit/il/lemeraude-paris-netanya/cfg_initial_d.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        725
+      ]
+    },
+    {
+      "id": "th_daskalo",
+      "site": "Daskalo Diamonds",
+      "pays": "Israël",
+      "url": "https://daskalodiamonds.com/",
+      "date": "2026-11-25",
+      "src": "audit/il/daskalo/prod_d.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        725
+      ]
+    },
+    {
+      "id": "th_jj",
+      "site": "Jerusalem Jeweler",
+      "pays": "Israël",
+      "url": "https://jerusalemjeweler.com/",
+      "date": "2026-11-25",
+      "src": "audit/il/jerusalem-jeweler/prod_d.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        725
+      ]
+    },
+    {
+      "id": "th_laperla",
+      "site": "La Perla Jewelry",
+      "pays": "Israël",
+      "url": "https://lpj.co.il/",
+      "date": "2026-11-25",
+      "src": "audit/il/la-perla/prod_d.jpg",
+      "crop": [
+        0,
+        0,
+        1381,
+        733
+      ]
+    },
+    {
+      "id": "th_idt",
+      "site": "IDT – Israel Diamond Trade",
+      "pays": "Israël",
+      "url": "https://diamonds-israel.com/",
+      "date": "2026-11-25",
+      "src": "audit/il/idt-israel-diamond-trade/diamonds_israel_com_.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        725
+      ]
+    },
+    {
+      "id": "th_bgem",
+      "site": "B-Gem",
+      "pays": "Israël",
+      "url": "https://b-gem.com/",
+      "date": "2026-11-15",
+      "src": "audit/il/b-gem/t_diamonds.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        725
+      ]
+    },
+    {
+      "id": "th_xlab",
+      "site": "XLAB Diamonds",
+      "pays": "Israël",
+      "url": "https://www.xlabdiamonds.co.il/",
+      "date": "2026-11-15",
+      "src": "audit/il/xlab-diamonds/www_xlabdiamonds_co_il_product_D7_98_D7_91_D7_A2_D7_AA_D7_99_D7_94_D7_9C_D7_95_D.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        725
+      ]
+    },
+    {
+      "id": "th_mondiamant",
+      "site": "MonDiamant",
+      "pays": "France",
+      "url": "https://www.mondiamant.com/177-solitaire-dana-rond-or-blanc.html",
+      "date": "2026-11-26",
+      "src": "fresh/fr_mondiamant_d.png",
+      "crop": [
+        0,
+        0,
+        2560,
+        1359
+      ]
+    },
+    {
+      "id": "th_histoiredor",
+      "site": "Histoire d'Or",
+      "pays": "France",
+      "url": "https://www.histoiredor.com/",
+      "date": "2026-11-26",
+      "src": "fresh/fr_histoiredor_d.png",
+      "crop": [
+        0,
+        0,
+        2560,
+        1359
+      ]
+    },
+    {
+      "id": "th_alliancier",
+      "site": "L'Alliancier",
+      "pays": "France",
+      "url": "https://www.alliancier.com/configurateur-alliance-3d/",
+      "date": "2026-11-26",
+      "src": "fresh/fr_alliancier_d.png",
+      "crop": [
+        0,
+        361,
+        2560,
+        1359
+      ]
+    },
+    {
+      "id": "th_bonnot",
+      "site": "Bonnot Paris",
+      "pays": "France",
+      "url": "https://www.bonnot-paris.com/creer-avec-studio-bonnot",
+      "date": "2026-11-26",
+      "src": "fresh/fr_bonnot_d.png",
+      "crop": [
+        0,
+        0,
+        2560,
+        1359
+      ]
+    },
+    {
+      "id": "th_courbet",
+      "site": "Courbet",
+      "pays": "France",
+      "url": "https://www.courbet.com/page/creation-bague-fiancailles",
+      "date": "2026-11-26",
+      "src": "fresh/fr_courbet_d.png",
+      "crop": [
+        0,
+        0,
+        2560,
+        1359
+      ]
+    },
+    {
+      "id": "th_gemmyo",
+      "site": "Gemmyo",
+      "pays": "France",
+      "url": "https://www.gemmyo.com/bague-or-blanc-18-cts-diamant-lady-0-7-ct.html",
+      "date": "2026-11-26",
+      "src": "fresh/fr_gemmyo_d.png",
+      "crop": [
+        0,
+        0,
+        2560,
+        1359
+      ]
+    },
+    {
+      "id": "th_bluenile",
+      "site": "Blue Nile",
+      "pays": "États-Unis",
+      "url": "https://www.bluenile.com/engagement-rings",
+      "date": "2026-11-15",
+      "src": "audit/us/blue-nile/www_bluenile_com_engagement_rings.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        725
+      ]
+    },
+    {
+      "id": "th_vrai",
+      "site": "VRAI",
+      "pays": "États-Unis",
+      "url": "https://www.vrai.com/",
+      "date": "2026-11-15",
+      "src": "audit/us/vrai/v2/a_end_d.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        725
+      ]
+    },
+    {
+      "id": "th_cleanorigin",
+      "site": "Clean Origin",
+      "pays": "États-Unis",
+      "url": "https://www.cleanorigin.com/engagement/",
+      "date": "2026-11-15",
+      "src": "audit/us/clean-origin/pdp-desk.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        725
+      ]
+    },
+    {
+      "id": "th_rarecarat",
+      "site": "Rare Carat",
+      "pays": "États-Unis",
+      "url": "https://www.rarecarat.com/setting-search",
+      "date": "2026-11-15",
+      "src": "audit/us/rare-carat/d03_setting_top.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        725
+      ]
+    },
+    {
+      "id": "rarecarat_3d",
+      "site": "Rare Carat",
+      "pays": "États-Unis",
+      "url": "https://www.rarecarat.com/diamond-search",
+      "date": "2026-11-15",
+      "src": "audit/us/rare-carat/d16_diamond_3d.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        860
+      ]
+    },
+    {
+      "id": "th_keyzar",
+      "site": "Keyzar",
+      "pays": "États-Unis",
+      "url": "https://keyzarjewelry.com/",
+      "date": "2026-11-15",
+      "src": "audit/us/keyzar/shots/p1_product.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        725
+      ]
+    },
+    {
+      "id": "bluenile_ships",
+      "site": "Blue Nile",
+      "pays": "États-Unis",
+      "url": "https://www.bluenile.com/engagement-rings/design-your-own-ring/…",
+      "date": "2026-11-15",
+      "src": "audit/us/blue-nile/www_bluenile_com_engagement_rings_design_your_own_ring_classic_four_prong_solita_mobile.jpg",
+      "crop": [
+        0,
+        3330,
+        1170,
+        560
+      ]
+    },
+    {
+      "id": "gemmyo_noel",
+      "site": "Gemmyo",
+      "pays": "France",
+      "url": "https://www.gemmyo.com/bague-or-blanc-18-cts-diamant-lady-0-7-ct.html",
+      "date": "2026-11-26",
+      "src": "fresh/gemmyo_full.png",
+      "crop": [
+        0,
+        2960,
+        1170,
+        560
+      ]
     }
   ]
 }

@@ -124,6 +124,7 @@ Sources : fiche et `/pages/returns-exchanges-resizes` (V).
 - iPhone : seules les pages d'étape 3 ont été chargées ; le constructeur n'a pas été refait sur iPhone.
 - Rendez-vous, WhatsApp, formulaire d'e-mail : non ouverts.
 - iPhone émulé avec Chromium (pas un vrai Safari) ; temps sur machine partagée, une passe.
+- **Ajout du 26/11/2026** : le site publie un `agents.md` (texte généré par Shopify) qui demande aux agents de s'identifier (Web Bot Auth). Cet audit, fait dans un navigateur automatisé sans cette identification, ne l'avait pas lu. Le 26/11, une fiche a été rouverte une fois pour une capture destinée au PDF de présentation, avant la lecture de ce fichier : capture supprimée, non utilisée. Relevé complet : `docs/concurrence/audit/AGENTS_MD_2026-11-26.md`.
 
 ## Sources
 

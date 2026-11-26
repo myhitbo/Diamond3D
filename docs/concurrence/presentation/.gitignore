@@ -1,0 +1,5 @@
+# Images (captures de sites tiers et captures du prototype), polices téléchargées et PDF produit : hors du dépôt public.
+img/
+fonts/
+dist/
+.etude.impression.html

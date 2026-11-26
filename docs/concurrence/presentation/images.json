@@ -1,0 +1,359 @@
+{
+  "note": "Sources des images du PDF. « audit/ » = capture prise pendant l'audit du site (dossier de travail, hors dépôt) ; « fresh/ » = capture refaite le 26/11/2026 ; « own/ » = capture du prototype servi en local ; « repo: » = fichier du dépôt. Recadrage en pixels de l'image d'origine : x, y, largeur, hauteur (0 = jusqu'au bord). Règle : une capture d'un site tiers n'est montrée que si son robots.txt autorise la page (groupes « * » et agents Claude, domaine voisin compris) et si ni agents.md ni llms.txt n'exigent une identification des agents (contrôle du 26/11/2026). Écartés pour cette raison : Shiree Odiz, Joolme, Levy's, Arnold & Co, Monroe Yorke, Solomon, June Rings, Luther's, DovEggs.",
+  "images": [
+    {
+      "id": "dazz_builder",
+      "site": "DAZZ",
+      "pays": "Israël",
+      "url": "https://dazzdiamonds.co.il/il/build",
+      "date": "2026-11-15",
+      "src": "audit/il/dazz/t_build_m.jpg",
+      "crop": [
+        0,
+        0,
+        1170,
+        1992
+      ]
+    },
+    {
+      "id": "dazz_whatsapp",
+      "site": "DAZZ",
+      "pays": "Israël",
+      "url": "https://dazzdiamonds.co.il/il/build",
+      "date": "2026-11-15",
+      "src": "audit/il/dazz/t_recap_m.jpg",
+      "crop": [
+        0,
+        0,
+        1170,
+        1992
+      ]
+    },
+    {
+      "id": "cullen_pdp",
+      "site": "Cullen Jewellery",
+      "pays": "Australie",
+      "url": "https://cullenjewellery.com/",
+      "date": "2026-11-25",
+      "src": "audit/au/cullen/m_pdp.jpg",
+      "crop": [
+        0,
+        110,
+        1170,
+        1882
+      ]
+    },
+    {
+      "id": "cullen_desktop",
+      "site": "Cullen Jewellery",
+      "pays": "Australie",
+      "url": "https://cullenjewellery.com/",
+      "date": "2026-11-25",
+      "src": "audit/au/cullen/pdp_two.jpg",
+      "crop": [
+        150,
+        180,
+        1216,
+        530
+      ]
+    },
+    {
+      "id": "cullen_date",
+      "site": "Cullen Jewellery",
+      "pays": "Australie",
+      "url": "https://cullenjewellery.com/",
+      "date": "2026-11-25",
+      "src": "audit/au/cullen/m_b1.jpg",
+      "crop": [
+        0,
+        150,
+        1170,
+        1842
+      ]
+    },
+    {
+      "id": "nanea_price",
+      "site": "NANEA",
+      "pays": "Arménie",
+      "url": "https://nanea.am/en/ring/luminous-halo",
+      "date": "2026-11-26",
+      "src": "fresh/nanea_full.png",
+      "crop": [
+        0,
+        6050,
+        1170,
+        1900
+      ]
+    },
+    {
+      "id": "lemeraude_3d",
+      "site": "L'Émeraude Paris",
+      "pays": "Israël",
+      "url": "https://lemeraude-paris.com/sur-mesure",
+      "date": "2026-11-15",
+      "src": "audit/il/lemeraude-paris-netanya/config_mobile.jpg",
+      "crop": [
+        0,
+        0,
+        1170,
+        1720
+      ]
+    },
+    {
+      "id": "haejin_card",
+      "site": "Haejin Jewelry",
+      "pays": "États-Unis",
+      "url": "https://haejinjewelry.com/jewish-wedding-bands-williamsburg",
+      "date": "2026-11-26",
+      "src": "fresh/haejin_how.png",
+      "crop": [
+        776,
+        190,
+        672,
+        748
+      ]
+    },
+    {
+      "id": "lavi_band",
+      "site": "Lavi",
+      "pays": "Israël",
+      "url": "https://lavijewellry.com/wedding-rings/",
+      "date": "2026-11-26",
+      "src": "fresh/lavi_list_f1.png",
+      "crop": [
+        60,
+        1070,
+        550,
+        870
+      ]
+    },
+    {
+      "id": "louisa_micro",
+      "site": "Louisa Jewelry",
+      "pays": "Israël",
+      "url": "https://louisa.co.il/ru/product/…",
+      "date": "2026-11-26",
+      "src": "fresh/louisa_micro_full.png",
+      "crop": [
+        110,
+        720,
+        950,
+        640
+      ]
+    },
+    {
+      "id": "aharoni_gallery",
+      "site": "Aharoni Jewellery",
+      "pays": "Australie",
+      "url": "https://www.aharoni-jewellery.com/",
+      "date": "2026-11-25",
+      "src": "audit/au/aharoni-jewellery/gal.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        600
+      ]
+    },
+    {
+      "id": "gemmyo_pdp",
+      "site": "Gemmyo",
+      "pays": "France",
+      "url": "https://www.gemmyo.com/bague-or-blanc-18-cts-diamant-lady-0-7-ct.html",
+      "date": "2026-11-26",
+      "src": "fresh/gemmyo_full.png",
+      "crop": [
+        0,
+        1840,
+        1170,
+        1900
+      ]
+    },
+    {
+      "id": "bluenile_pdp",
+      "site": "Blue Nile",
+      "pays": "États-Unis",
+      "url": "https://www.bluenile.com/engagement-rings/design-your-own-ring/…",
+      "date": "2026-11-15",
+      "src": "audit/us/blue-nile/www_bluenile_com_engagement_rings_design_your_own_ring_classic_four_prong_solita_mobile.jpg",
+      "crop": [
+        0,
+        2190,
+        1170,
+        1880
+      ]
+    },
+    {
+      "id": "own_config_desktop",
+      "site": "JR Diamond",
+      "pays": "prototype",
+      "url": "/fr/configurateur/ring-001",
+      "date": "2026-11-26",
+      "src": "own/own_config_desktop.png",
+      "crop": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "own_config_phone",
+      "site": "JR Diamond",
+      "pays": "prototype",
+      "url": "/fr/configurateur/ring-001",
+      "date": "2026-11-26",
+      "src": "own/own_config_phone.png",
+      "crop": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "own_he_phone",
+      "site": "JR Diamond",
+      "pays": "prototype",
+      "url": "/he/configurator/ring-001",
+      "date": "2026-11-26",
+      "src": "own/own_he_phone.png",
+      "crop": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "own_summary",
+      "site": "JR Diamond",
+      "pays": "prototype",
+      "url": "/fr/configurateur/ring-001",
+      "date": "2026-11-26",
+      "src": "own/own_summary.png",
+      "crop": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "own_quote",
+      "site": "JR Diamond",
+      "pays": "prototype",
+      "url": "/fr/configurateur/ring-001",
+      "date": "2026-11-26",
+      "src": "own/own_quote.png",
+      "crop": [
+        0,
+        1040,
+        1047,
+        1180
+      ]
+    },
+    {
+      "id": "own_home_phone",
+      "site": "JR Diamond",
+      "pays": "prototype",
+      "url": "/fr",
+      "date": "2026-11-26",
+      "src": "own/own_home_phone.png",
+      "crop": [
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "id": "render_hero",
+      "site": "JR Diamond",
+      "pays": "rendu",
+      "url": "public/images/rendus/ring-001-hero-cycles.webp",
+      "date": "2026-11-20",
+      "src": "repo:public/images/rendus/ring-001-hero-cycles.webp",
+      "crop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "bg": "#0b0a08"
+    },
+    {
+      "id": "render_detail",
+      "site": "JR Diamond",
+      "pays": "rendu",
+      "url": "public/images/rendus/ring-001-marquise-detail-cycles.webp",
+      "date": "2026-11-20",
+      "src": "repo:public/images/rendus/ring-001-marquise-detail-cycles.webp",
+      "crop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "bg": "#0b0a08"
+    },
+    {
+      "id": "render_jaune",
+      "site": "JR Diamond",
+      "pays": "rendu",
+      "url": "public/images/rendus/ring-001-or-jaune-cycles.webp",
+      "date": "2026-11-20",
+      "src": "repo:public/images/rendus/ring-001-or-jaune-cycles.webp",
+      "crop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "bg": "#0b0a08"
+    },
+    {
+      "id": "render_solitaire",
+      "site": "JR Diamond",
+      "pays": "rendu",
+      "url": "public/images/rendus/ring-001-solitaire-cycles.webp",
+      "date": "2026-11-20",
+      "src": "repo:public/images/rendus/ring-001-solitaire-cycles.webp",
+      "crop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "bg": "#0b0a08"
+    },
+    {
+      "id": "own_price",
+      "site": "JR Diamond",
+      "pays": "prototype",
+      "url": "/fr/configurateur/ring-001",
+      "date": "2026-11-26",
+      "src": "own/own_summary.png",
+      "crop": [
+        0,
+        860,
+        1047,
+        520
+      ]
+    },
+    {
+      "id": "cullen_warranty",
+      "site": "Cullen Jewellery",
+      "pays": "Australie",
+      "url": "https://cullenjewellery.com/",
+      "date": "2026-11-25",
+      "src": "audit/au/cullen/m_b1.jpg",
+      "crop": [
+        0,
+        1600,
+        1170,
+        392
+      ]
+    }
+  ]
+}

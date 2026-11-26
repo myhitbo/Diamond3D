@@ -1,0 +1,1167 @@
+/* PDF de l'étude de concurrence JR Diamond : pages A5 debout, lisibles sur un téléphone sans zoom.
+   Identité du site : noir, ivoire, or ; titres en Bodoni Moda, texte et chiffres en Jost. */
+
+@page {
+  size: 148mm 210mm;
+  margin: 0;
+}
+
+:root {
+  --ivory: #f7f3ec;
+  --cream: #efe8dc;
+  --paper: #fbf9f5;
+  --ink: #1f1c18;
+  --muted: #6d665c;
+  --line: #e1d9cb;
+  --gold: #9c7f4c;
+  --gold-text: #7d6232;
+  --gold-fill: #c9a96e;
+  --champagne: #d9c08f;
+  --noir: #0b0a08;
+  --noir-soft: #16130e;
+  --on-noir-muted: #a9a194;
+  /* Graphiques : une seule teinte (or), piste = pas plus clair de la même rampe ; texte des valeurs à l'encre, jamais à la couleur des données. */
+  --viz-fill: #7d6232;
+  --viz-track: #e9dfc8;
+  --viz-fill-dark: #c9a96e;
+  --viz-track-dark: #3a3222;
+  --display: 'Bodoni Moda', Georgia, serif;
+  --text: 'Jost', 'Helvetica Neue', Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: #d8d2c6;
+}
+
+body {
+  font-family: var(--text);
+  font-size: 9.2pt;
+  line-height: 1.45;
+  color: var(--ink);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  counter-reset: page;
+}
+
+/* ---------- Page ---------- */
+
+.page {
+  position: relative;
+  width: 148mm;
+  height: 210mm;
+  padding: 13mm 12mm 15mm;
+  overflow: hidden;
+  background: var(--paper);
+  page-break-after: always;
+  break-after: page;
+  counter-increment: page;
+}
+
+.page:last-child {
+  page-break-after: auto;
+  break-after: auto;
+}
+
+.page.dark {
+  background: var(--noir);
+  color: var(--ivory);
+}
+
+.page.cream {
+  background: var(--ivory);
+}
+
+.folio {
+  position: absolute;
+  left: 12mm;
+  right: 12mm;
+  bottom: 7mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 6.2pt;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.dark .folio {
+  color: var(--on-noir-muted);
+}
+
+.folio .num::after {
+  content: counter(page);
+}
+
+.folio .num {
+  font-size: 7.4pt;
+  letter-spacing: 0.06em;
+}
+
+/* ---------- Texte ---------- */
+
+.kicker {
+  margin: 0 0 3.2mm;
+  font-size: 6.6pt;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+
+.dark .kicker {
+  color: var(--champagne);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 500;
+  font-optical-sizing: auto;
+  letter-spacing: -0.012em;
+}
+
+h1 {
+  font-size: 33pt;
+  line-height: 1.02;
+}
+
+h2 {
+  font-size: 21pt;
+  line-height: 1.08;
+}
+
+h2 em,
+h1 em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+h3 {
+  font-size: 12.5pt;
+  line-height: 1.15;
+}
+
+/* Or plein : un dégradé découpé sur le texte laisse des filets dans le PDF. */
+.foil {
+  color: var(--gold-fill);
+}
+
+p {
+  margin: 0 0 2.4mm;
+}
+
+.lede {
+  margin-top: 3.4mm;
+  font-size: 10.4pt;
+  line-height: 1.42;
+  color: var(--ink);
+}
+
+.dark .lede {
+  color: var(--ivory);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.dark .muted {
+  color: var(--on-noir-muted);
+}
+
+.small {
+  font-size: 7.6pt;
+  line-height: 1.4;
+}
+
+.tiny {
+  font-size: 6.6pt;
+  line-height: 1.38;
+}
+
+strong,
+b {
+  font-weight: 600;
+}
+
+.rule {
+  width: 14mm;
+  height: 0.35mm;
+  margin: 4mm 0;
+  background: var(--gold);
+}
+
+.dark .rule {
+  background: var(--gold-fill);
+}
+
+ul.plain {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+ul.dots {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+ul.dots li {
+  position: relative;
+  margin: 0 0 1.7mm;
+  padding-inline-start: 4.2mm;
+}
+
+ul.dots li::before {
+  content: '';
+  position: absolute;
+  left: 0.4mm;
+  top: 1.75mm;
+  width: 1.5mm;
+  height: 1.5mm;
+  background: var(--gold);
+  transform: rotate(45deg);
+}
+
+.dark ul.dots li::before {
+  background: var(--gold-fill);
+}
+
+/* ---------- Numéro de constat ---------- */
+
+.constat {
+  display: flex;
+  align-items: baseline;
+  gap: 3mm;
+  margin-bottom: 3mm;
+}
+
+.constat .n {
+  font-family: var(--display);
+  font-size: 30pt;
+  line-height: 0.8;
+  font-style: italic;
+  color: var(--gold);
+}
+
+.dark .constat .n {
+  color: var(--gold-fill);
+}
+
+.constat .kicker {
+  margin: 0;
+}
+
+/* ---------- Captures ---------- */
+
+.shots {
+  display: flex;
+  gap: 5mm;
+  align-items: flex-start;
+}
+
+.shot {
+  position: relative;
+  margin: 0;
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.frame {
+  position: relative;
+  overflow: hidden;
+  border: 0.3mm solid rgba(31, 28, 24, 0.16);
+  border-radius: 3.6mm;
+  background: #fff;
+  box-shadow: 0 1.4mm 4.5mm rgba(11, 10, 8, 0.16);
+}
+
+.dark .frame {
+  border-color: rgba(217, 192, 143, 0.28);
+  box-shadow: 0 1.6mm 6mm rgba(0, 0, 0, 0.6);
+}
+
+.frame.flat {
+  border-radius: 1.6mm;
+}
+
+.frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.shot figcaption {
+  margin-top: 2.2mm;
+  font-size: 7pt;
+  line-height: 1.36;
+  color: var(--muted);
+}
+
+.dark .shot figcaption {
+  color: var(--on-noir-muted);
+}
+
+.shot figcaption b {
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.dark .shot figcaption b {
+  color: var(--ivory);
+}
+
+/* Repère posé sur une capture : cadre + étiquette. Coordonnées en % de la capture. */
+.mark {
+  position: absolute;
+  border: 0.55mm solid #b3472b;
+  border-radius: 1.6mm;
+  box-shadow: 0 0 0 0.35mm rgba(255, 255, 255, 0.85);
+}
+
+.mark span {
+  position: absolute;
+  left: -0.55mm;
+  bottom: calc(100% + 0.6mm);
+  padding: 0.5mm 1.6mm 0.6mm;
+  border-radius: 0.9mm;
+  background: #b3472b;
+  color: #fff;
+  font-size: 5.8pt;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.mark.below span {
+  bottom: auto;
+  top: calc(100% + 0.6mm);
+}
+
+.mark.right span {
+  left: auto;
+  right: -0.55mm;
+}
+
+/* ---------- « Chez JR Diamond » ---------- */
+
+.chez {
+  position: relative;
+  margin-top: 4.5mm;
+  padding: 3.4mm 4mm 3.2mm 5.2mm;
+  background: var(--ivory);
+  border-inline-start: 0.9mm solid var(--gold);
+}
+
+.cream .chez {
+  background: var(--paper);
+}
+
+.dark .chez {
+  background: var(--noir-soft);
+  border-color: var(--gold-fill);
+}
+
+.chez .label {
+  display: block;
+  margin-bottom: 1.4mm;
+  font-size: 6.2pt;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+
+.dark .chez .label {
+  color: var(--champagne);
+}
+
+.chez p {
+  margin: 0 0 1.5mm;
+  font-size: 8.4pt;
+  line-height: 1.42;
+}
+
+.chez p:last-child {
+  margin-bottom: 0;
+}
+
+/* État : pastille de forme différente + mot, jamais la couleur seule. */
+.etat {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2mm;
+  margin-inline-end: 1.2mm;
+  padding: 0.25mm 1.8mm 0.35mm 1.4mm;
+  border: 0.25mm solid currentColor;
+  border-radius: 3mm;
+  font-size: 6.2pt;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  vertical-align: 0.2mm;
+}
+
+.etat::before {
+  content: '';
+  width: 1.5mm;
+  height: 1.5mm;
+}
+
+.etat.fait {
+  color: #2f6b3a;
+}
+
+.etat.fait::before {
+  background: currentColor;
+  border-radius: 50%;
+}
+
+.etat.afaire {
+  color: #8a5a12;
+}
+
+.etat.afaire::before {
+  border: 0.3mm solid currentColor;
+  border-radius: 50%;
+}
+
+.etat.attend {
+  color: #5d5a8a;
+}
+
+.etat.attend::before {
+  background: currentColor;
+  transform: rotate(45deg) scale(0.85);
+}
+
+.dark .etat.fait {
+  color: #8fd19a;
+}
+
+.dark .etat.afaire {
+  color: #e7bf78;
+}
+
+.dark .etat.attend {
+  color: #b9b6e6;
+}
+
+/* ---------- Chiffres ---------- */
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3mm;
+  margin: 5mm 0 5.5mm;
+}
+
+.stat {
+  padding-top: 2.2mm;
+  border-top: 0.3mm solid var(--line);
+}
+
+.dark .stat {
+  border-color: rgba(217, 192, 143, 0.3);
+}
+
+.stat .v {
+  display: block;
+  font-family: var(--text);
+  font-size: 19pt;
+  font-weight: 600;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+.stat .l {
+  display: block;
+  margin-top: 0.8mm;
+  font-size: 6.9pt;
+  line-height: 1.3;
+  color: var(--muted);
+}
+
+.dark .stat .l {
+  color: var(--on-noir-muted);
+}
+
+.hero-fig {
+  font-family: var(--text);
+  font-weight: 600;
+  font-size: 92pt;
+  line-height: 0.82;
+  letter-spacing: -0.03em;
+}
+
+/* Liste de jauges : un nom, une barre, un chiffre par ligne ; barres alignées. */
+.meters {
+  display: grid;
+  gap: 1.9mm;
+  margin: 3.5mm 0 0;
+}
+
+.meter {
+  display: grid;
+  grid-template-columns: 46mm 1fr 15mm;
+  align-items: center;
+  column-gap: 3mm;
+  font-size: 7.9pt;
+  line-height: 1.2;
+}
+
+.meters.wide .meter {
+  grid-template-columns: 58mm 1fr 15mm;
+}
+
+.meter .m-bar {
+  position: relative;
+  height: 2.5mm;
+  background: var(--viz-track);
+  border-radius: 0 1.1mm 1.1mm 0;
+}
+
+.meter .m-bar i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background: var(--viz-fill);
+  border-radius: 0 1.1mm 1.1mm 0;
+}
+
+.dark .meter .m-bar {
+  background: var(--viz-track-dark);
+}
+
+.dark .meter .m-bar i {
+  background: var(--viz-fill-dark);
+}
+
+.meter .m-fig {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+  white-space: nowrap;
+}
+
+.meter.zero .m-name,
+.meter.zero .m-fig {
+  font-weight: 600;
+}
+
+.meter .m-name small {
+  color: var(--muted);
+  font-size: 6.6pt;
+}
+
+.dark .meter .m-name small {
+  color: var(--on-noir-muted);
+}
+
+.viz-title {
+  margin: 0 0 0.6mm;
+  font-size: 8.4pt;
+  font-weight: 600;
+}
+
+.viz-sub {
+  margin: 0;
+  font-size: 6.9pt;
+  color: var(--muted);
+}
+
+.dark .viz-sub {
+  color: var(--on-noir-muted);
+}
+
+/* ---------- Cartes ---------- */
+
+.cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3.2mm;
+}
+
+.card {
+  padding: 3.2mm 3.4mm 3mm;
+  background: #fff;
+  border: 0.25mm solid var(--line);
+  border-radius: 1.4mm;
+}
+
+.cream .card {
+  background: var(--paper);
+}
+
+.dark .card {
+  background: var(--noir-soft);
+  border-color: rgba(217, 192, 143, 0.22);
+}
+
+.card h3 {
+  margin-bottom: 1.3mm;
+  font-size: 10.6pt;
+}
+
+.card p {
+  margin: 0;
+  font-size: 7.9pt;
+  line-height: 1.4;
+}
+
+.card .who {
+  display: block;
+  margin-top: 1.3mm;
+  font-size: 6.4pt;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.dark .card .who {
+  color: var(--on-noir-muted);
+}
+
+.quote {
+  position: relative;
+  padding: 3mm 3.4mm 2.8mm 7mm;
+  background: var(--noir-soft);
+  border-radius: 1.4mm;
+}
+
+.quote::before {
+  content: '«';
+  position: absolute;
+  left: 2mm;
+  top: 0.4mm;
+  font-family: var(--display);
+  font-size: 17pt;
+  color: var(--gold-fill);
+}
+
+.quote q {
+  display: block;
+  quotes: none;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 9.6pt;
+  line-height: 1.26;
+  color: var(--ivory);
+}
+
+.quote .src {
+  display: block;
+  margin-top: 1.2mm;
+  font-size: 6pt;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--on-noir-muted);
+}
+
+.quote .rep {
+  display: block;
+  margin-top: 1.6mm;
+  padding-top: 1.4mm;
+  border-top: 0.25mm solid rgba(217, 192, 143, 0.25);
+  font-size: 7.4pt;
+  line-height: 1.36;
+  color: var(--champagne);
+}
+
+/* ---------- Tableau d'actions ---------- */
+
+.actions {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 8.2pt;
+  line-height: 1.34;
+}
+
+.actions th {
+  padding: 0 0 1.4mm;
+  text-align: start;
+  font-size: 6.2pt;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+  border-bottom: 0.3mm solid var(--gold);
+}
+
+.actions td {
+  padding: 1.5mm 2mm 1.5mm 0;
+  vertical-align: top;
+  border-bottom: 0.25mm solid var(--line);
+}
+
+.actions td:first-child {
+  width: 6mm;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 10pt;
+  color: var(--gold);
+}
+
+.actions td:last-child {
+  padding-right: 0;
+  width: 25mm;
+  color: var(--muted);
+  font-size: 6.9pt;
+}
+
+/* ---------- Divers ---------- */
+
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5mm;
+}
+
+.mono {
+  font-family: 'DejaVu Sans Mono', monospace;
+  font-size: 6.6pt;
+}
+
+.he {
+  font-family: 'Frank Ruhl Libre', 'Assistant', serif;
+}
+
+.bleed {
+  position: absolute;
+  inset: 0;
+}
+
+.bleed img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.3mm 1.8mm 0.45mm;
+  border: 0.25mm solid currentColor;
+  border-radius: 3mm;
+  font-size: 6pt;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ---------- Couverture ---------- */
+
+.cover {
+  padding: 0;
+}
+
+.cover-img {
+  position: absolute;
+  inset: 21mm 0 auto 0;
+  height: 112mm;
+}
+
+.cover-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 0;
+}
+
+.cover-img::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 26mm;
+  background: linear-gradient(to bottom, rgba(11, 10, 8, 0), var(--noir) 92%);
+}
+
+.cover-brand {
+  position: absolute;
+  top: 11mm;
+  left: 12mm;
+  display: flex;
+  align-items: center;
+  gap: 2.6mm;
+  font-family: var(--display);
+  font-size: 10.5pt;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--champagne);
+}
+
+.cover-brand svg,
+.back-foot svg {
+  width: 8.5mm;
+  height: 8.5mm;
+  color: var(--gold-fill);
+}
+
+.cover-text {
+  position: absolute;
+  left: 12mm;
+  right: 12mm;
+  bottom: 12mm;
+}
+
+.cover-text h1 {
+  font-size: 31pt;
+}
+
+.cover-text .lede {
+  max-width: 108mm;
+}
+
+.cover-foot {
+  margin-top: 5mm;
+  padding-top: 3mm;
+  border-top: 0.25mm solid rgba(217, 192, 143, 0.3);
+}
+
+/* ---------- L'essentiel ---------- */
+
+.five {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: five;
+}
+
+.five li {
+  position: relative;
+  margin: 0;
+  padding: 2.6mm 9mm 2.6mm 9.5mm;
+  border-top: 0.25mm solid var(--line);
+  counter-increment: five;
+  font-size: 8.9pt;
+  line-height: 1.4;
+}
+
+.five li:last-child {
+  border-bottom: 0.25mm solid var(--line);
+}
+
+.five li::before {
+  content: counter(five);
+  position: absolute;
+  left: 0.5mm;
+  top: 1.4mm;
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 17pt;
+  color: var(--gold);
+}
+
+.go {
+  font-size: 6.4pt;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+  white-space: nowrap;
+}
+
+.five .go {
+  position: absolute;
+  right: 0;
+  top: 3.1mm;
+}
+
+.dark .go {
+  color: var(--champagne);
+}
+
+/* ---------- Méthode ---------- */
+
+.steps {
+  display: grid;
+  gap: 3mm;
+  margin-top: 5mm;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 9mm 1fr;
+  align-items: start;
+  font-size: 8.9pt;
+  line-height: 1.42;
+}
+
+.step .sn {
+  font-family: var(--display);
+  font-style: italic;
+  font-size: 19pt;
+  line-height: 0.95;
+  color: var(--gold);
+}
+
+/* ---------- Le zéro ---------- */
+
+.zero-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: end;
+  column-gap: 5mm;
+  margin-top: 2mm;
+}
+
+.zero-row h2 {
+  padding-bottom: 2mm;
+}
+
+/* ---------- Déjà fait ---------- */
+
+.done li {
+  position: relative;
+  margin: 0 0 2.4mm;
+  padding-inline-start: 15.5mm;
+  font-size: 8.4pt;
+  line-height: 1.4;
+}
+
+.done li .etat {
+  position: absolute;
+  left: 0;
+  top: 0.35mm;
+  margin: 0;
+}
+
+/* ---------- Sources ---------- */
+
+.src-list li {
+  display: grid;
+  margin: 0;
+  padding: 2.3mm 0;
+  border-top: 0.25mm solid rgba(217, 192, 143, 0.25);
+  font-size: 8.6pt;
+}
+
+.src-list li:last-child {
+  border-bottom: 0.25mm solid rgba(217, 192, 143, 0.25);
+}
+
+.src-list .mono {
+  margin-top: 0.5mm;
+  color: var(--champagne);
+}
+
+.src-list i {
+  margin-top: 0.6mm;
+  font-style: normal;
+  font-size: 7.4pt;
+  color: var(--on-noir-muted);
+}
+
+.back-foot {
+  position: absolute;
+  left: 12mm;
+  right: 12mm;
+  bottom: 15mm;
+  display: flex;
+  align-items: center;
+  gap: 3.5mm;
+  font-size: 8pt;
+  line-height: 1.4;
+}
+
+.back-foot p {
+  margin: 0;
+}
+
+h3 .tag {
+  margin-inline-start: 1.5mm;
+  font-family: var(--text);
+  color: var(--gold-text);
+  vertical-align: 0.5mm;
+}
+
+.dark h3 .tag {
+  color: var(--champagne);
+}
+
+/* ---------- Ajouts de la mise en page du 26/11 ---------- */
+
+/* Puces en petit corps : losange recalé sur la première ligne. */
+ul.dots.small li {
+  margin-bottom: 1.4mm;
+  padding-inline-start: 3.6mm;
+}
+
+ul.dots.small li::before {
+  top: 1.35mm;
+  width: 1.3mm;
+  height: 1.3mm;
+}
+
+ul.dots.three {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 4mm;
+}
+
+ul.dots.three li {
+  margin-bottom: 0;
+}
+
+/* Bande de vignettes (page « méthode »). */
+.strip {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 2.2mm;
+  margin-top: 5mm;
+}
+
+.strip .frame {
+  aspect-ratio: 9 / 12;
+  border-radius: 1.5mm;
+  box-shadow: 0 0.8mm 2.4mm rgba(11, 10, 8, 0.14);
+}
+
+/* Jauges plus aérées (page Israël). */
+.meters.roomy {
+  gap: 2.35mm;
+}
+
+.meters.roomy .meter {
+  font-size: 8.2pt;
+}
+
+.meters.roomy .meter .m-bar {
+  height: 2.7mm;
+}
+
+/* Citations en grand (page forums). */
+.cards.big {
+  gap: 3.4mm;
+}
+
+.cards.big .quote {
+  padding: 3.4mm 3.6mm 3.2mm 7.4mm;
+}
+
+.cards.big .quote q {
+  font-size: 10.6pt;
+  line-height: 1.24;
+}
+
+.cards.big .quote .rep {
+  font-size: 7.8pt;
+}
+
+/* Repère sans étiquette : la légende sous la capture l'explique. */
+.mark:empty {
+  box-shadow: 0 0 0 0.35mm rgba(255, 255, 255, 0.85), 0 0 2.4mm rgba(179, 71, 43, 0.35);
+}
+
+/* Repère numéroté : pastille sur le bord droit du cadre, reprise dans la légende (aucune étiquette sur la capture). */
+.mark b {
+  position: absolute;
+  right: -1.85mm;
+  top: 50%;
+  width: 3.7mm;
+  height: 3.7mm;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: #b3472b;
+  box-shadow: 0 0 0 0.3mm rgba(255, 255, 255, 0.9);
+  color: #fff;
+  font-size: 6.2pt;
+  font-weight: 700;
+  line-height: 3.7mm;
+  text-align: center;
+}
+
+.nb {
+  display: inline-block;
+  width: 3.2mm;
+  height: 3.2mm;
+  border-radius: 50%;
+  background: #b3472b;
+  color: #fff;
+  font-style: normal;
+  font-size: 5.6pt;
+  font-weight: 700;
+  line-height: 3.2mm;
+  text-align: center;
+  vertical-align: 0.15mm;
+}
+
+/* Capture et légende côte à côte. */
+.shot.side {
+  display: grid;
+  grid-template-columns: 72mm 1fr;
+  column-gap: 4.5mm;
+  align-items: center;
+}
+
+.shot.side figcaption {
+  margin-top: 0;
+}
+
+/* Tuiles de chiffres en deux colonnes, dans une colonne de texte. */
+.stats.compact {
+  grid-template-columns: 1fr 1fr;
+  gap: 2.4mm 4mm;
+  margin: 2.6mm 0 3.6mm;
+}
+
+.stats.compact .stat {
+  display: grid;
+  grid-template-columns: 8.5mm 1fr;
+  align-items: center;
+  padding-top: 1.6mm;
+}
+
+.stats.compact .stat .v {
+  font-size: 16pt;
+}
+
+.stats.compact .stat .l {
+  margin-top: 0;
+}
+
+.stat .v small {
+  font-size: 9.5pt;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--muted);
+}
+
+.dark .stat .v small {
+  color: var(--on-noir-muted);
+}
+
+ul.dots.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 5mm;
+}
+
+ul.dots.pair li {
+  margin-bottom: 0;
+}
+
+/* Colonne des chiffres élargie quand une valeur porte « au moins ». */
+.meters.roomy .meter {
+  grid-template-columns: 58mm 1fr 21mm;
+}
+
+.mark.top b {
+  right: auto;
+  left: 50%;
+  top: -1.85mm;
+  transform: translateX(-50%);
+}

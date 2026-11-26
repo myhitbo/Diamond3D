@@ -137,3 +137,5 @@ Diamant naturel de 1 ct dans les autres styles, forme ronde (V) : DAZZ 28 250 �
 - https://dazzdiamonds.co.il/il/visit?p=solitaire-ring-round&gold=white&dt=lab-grown&ct=1&from=build
 - https://dazzdiamonds.co.il/il/prices · https://dazzdiamonds.co.il/il/terms · https://dazzdiamonds.co.il/il/faq
 - Inventaire national : `docs/concurrence/2026-11-15_israel.md` (version anglaise, délai d'environ 10 jours)
+
+**Relevé du 26/11 (captures du PDF, cookies refusés par « לא תודה »).** À l'étape de la pierre et dans le récapitulatif, une ligne sous l'image dit « מוצג להמחשה · המחיר לפי המשקל שבחרתם » (montré pour illustration, le prix suit le poids choisi) (V) ; l'image reste la même de 1 à 4 ct (fichier `2.webp`) (V). Cette ligne n'est pas notée dans le relevé du 15/11, où le bandeau avait été fermé par « אישור ».

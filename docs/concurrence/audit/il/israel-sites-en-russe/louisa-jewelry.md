@@ -129,3 +129,5 @@ Relevé `controls.cjs` : fiche 80 contrôles (ordinateur), 75 (iPhone) ; catégo
 - https://louisa.co.il/ru/cart/ (panier, V) ; https://louisa.co.il/robots.txt (V)
 - Inventaire du territoire : `INVENTAIRE.md` du même dossier (alliances de kiddouchin, 25/11/2026)
 - Scripts et captures : `/tmp/claude-0/-home-user-Diamond3D/57de8dfc-6345-5431-aee3-02f728d49ba4/scratchpad/audit/il/louisa-jewelry/`
+
+**Relevé du 26/11 (captures du PDF).** Le bandeau n'offre que « Я ПОНЯЛ » et une croix : pas de refus (V). Aucun clic ; la capture de la page des bagues est cadrée au-dessus du bandeau.

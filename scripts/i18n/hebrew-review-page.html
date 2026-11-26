@@ -1,0 +1,798 @@
+<title>Relecture de l'hébreu</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Assistant:wght@400;600&family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Jost:wght@400;500&display=swap">
+<style>
+  /* Mise en page : un outil sur une colonne. En-tête collé (progression, choix de la page du site), une carte par texte
+     (français, puis hébreu à relire), deux gestes (« Correct », « À corriger »), puis la liste des textes de la page. */
+  :root {
+    --bg: #f7f3ec;
+    --surface: #fbf9f5;
+    --fg: #1f1c18;
+    --muted: #6d665c;
+    --line: #e1d9cb;
+    --accent: #7d6232;
+    --primary: #0b0a08;
+    --on-primary: #f7f3ec;
+    --ok: #2c6646;
+    --ok-soft: #e3efe6;
+    --fix: #93431a;
+    --fix-soft: #f6e6da;
+    --font-display: 'Bodoni Moda', Georgia, 'Times New Roman', serif;
+    --font-text: 'Jost', 'Helvetica Neue', Arial, sans-serif;
+    --font-hebrew: 'Assistant', 'Arial Hebrew', 'David', Arial, sans-serif;
+    --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b0a08;
+      --surface: #16130e;
+      --fg: #f7f3ec;
+      --muted: #a9a194;
+      --line: #3a3326;
+      --accent: #d9c08f;
+      --primary: #c9a96e;
+      --on-primary: #0b0a08;
+      --ok: #86c9a1;
+      --ok-soft: #17291f;
+      --fix: #e9a877;
+      --fix-soft: #2e1e12;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0b0a08;
+    --surface: #16130e;
+    --fg: #f7f3ec;
+    --muted: #a9a194;
+    --line: #3a3326;
+    --accent: #d9c08f;
+    --primary: #c9a96e;
+    --on-primary: #0b0a08;
+    --ok: #86c9a1;
+    --ok-soft: #17291f;
+    --fix: #e9a877;
+    --fix-soft: #2e1e12;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-text);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0 0 auto;
+    height: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    background: var(--bg);
+  }
+  .page {
+    max-width: 680px;
+    margin: 0 auto;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-block: 0 56px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  button, select, textarea, input { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* En-tête collé */
+  .top {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-block: 10px 12px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--line);
+  }
+  .brand {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 18px;
+    margin-bottom: -8px;
+  }
+  .brand h1 {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+  .brand span {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+  .progress { display: flex; flex-direction: column; gap: 6px; }
+  .progress p { margin: 0; font-size: 14px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .progress strong { color: var(--fg); font-weight: 500; }
+  .bar { height: 4px; background: var(--line); }
+  .bar i { display: block; height: 100%; width: 0; background: var(--accent); transition: width 0.25s ease; }
+  .pick { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
+  .pick select {
+    flex: 1 1 220px;
+    min-width: 0;
+    min-height: 44px;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 0;
+    background: var(--surface);
+  }
+  .only { display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 4px 14px; border-top: 1px solid var(--line); font-size: 14px; }
+  .only input { width: 20px; height: 20px; accent-color: var(--accent); }
+  .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  /* Bandeaux d'état */
+  .notice {
+    margin: 0;
+    padding: 10px 12px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    font-size: 14px;
+    color: var(--muted);
+  }
+  .notice.warn { border-color: var(--fix); color: var(--fix); background: var(--fix-soft); }
+
+  /* Mode d'emploi */
+  details.help { border: 1px solid var(--line); background: var(--surface); }
+  details.help summary { min-height: 44px; padding: 10px 14px; cursor: pointer; font-size: 14px; }
+  details.help ol { margin: 0; padding: 0 14px 14px 34px; display: flex; flex-direction: column; gap: 6px; font-size: 15px; }
+
+  /* Carte du texte en cours */
+  .card {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 18px 16px 16px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .meta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 12px; }
+  .meta p { margin: 0; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 2px 10px;
+    border: 1px solid currentColor;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .pill.ok { color: var(--ok); background: var(--ok-soft); }
+  .pill.fix { color: var(--fix); background: var(--fix-soft); }
+  .block { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  .block h2 {
+    margin: 0;
+    font-family: var(--font-text);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .fr { margin: 0; font-size: 16px; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .he {
+    margin: 0;
+    padding: 12px 14px;
+    border-inline-start: 2px solid var(--accent);
+    background: var(--bg);
+    font-family: var(--font-hebrew);
+    font-size: 20px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  .he.fixed { border-inline-start-color: var(--fix); }
+  .key { margin: 0; font-family: var(--font-mono); font-size: 11px; color: var(--muted); overflow-wrap: anywhere; }
+  .hint { margin: 0; font-size: 14px; color: var(--muted); }
+  .remark { margin: 0; font-size: 15px; }
+  .remark b { font-weight: 500; }
+
+  .actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 50px;
+    padding: 10px 14px;
+    border: 1px solid var(--fg);
+    border-radius: 0;
+    background: transparent;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+  }
+  .btn:disabled { opacity: 0.5; cursor: default; }
+  .btn.primary { border-color: var(--primary); background: var(--primary); color: var(--on-primary); }
+  .btn.quiet { min-height: 44px; border-color: var(--line); font-size: 14px; color: var(--muted); }
+  .nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .nav .btn { flex: 0 1 auto; }
+  .nav .clear { flex: 1 1 auto; border: 0; text-decoration: underline; text-underline-offset: 3px; }
+
+  .editor { display: flex; flex-direction: column; gap: 12px; }
+  .editor label { font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+  .editor textarea, .editor input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--fg);
+    border-radius: 0;
+    background: var(--bg);
+  }
+  .editor textarea { min-height: 150px; font-family: var(--font-hebrew); font-size: 20px; line-height: 1.7; resize: vertical; }
+  .editor .field { display: flex; flex-direction: column; gap: 6px; }
+  .saved { min-height: 20px; margin: 0; font-size: 14px; color: var(--ok); }
+  .saved.err { color: var(--fix); }
+
+  /* Page terminée */
+  .done { align-items: flex-start; }
+  .done h2 { margin: 0; font-family: var(--font-display); font-size: 26px; font-weight: 400; }
+  .done p { margin: 0; color: var(--muted); }
+
+  /* Liste des textes de la page */
+  .list { border: 1px solid var(--line); background: var(--surface); }
+  .list summary { min-height: 48px; padding: 12px 14px; cursor: pointer; font-size: 15px; }
+  .list ol { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); }
+  .list li + li { border-top: 1px solid var(--line); }
+  .list button {
+    display: grid;
+    grid-template-columns: 14px 38px minmax(0, 1fr);
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 48px;
+    padding: 8px 14px;
+    border: 0;
+    background: transparent;
+    text-align: start;
+    cursor: pointer;
+  }
+  .list button[aria-current="true"] { background: var(--bg); }
+  .dot { width: 10px; height: 10px; border: 1px solid var(--muted); border-radius: 50%; }
+  .dot.ok { border-color: var(--ok); background: var(--ok); }
+  .dot.fix { border-color: var(--fix); background: var(--fix); }
+  .num { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .excerpt { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 15px; }
+
+  /* Export */
+  .tools { display: flex; flex-direction: column; gap: 10px; }
+  .tools p { margin: 0; font-size: 14px; color: var(--muted); }
+  .tools textarea {
+    width: 100%;
+    min-height: 180px;
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 0;
+    background: var(--surface);
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+  @media (prefers-reduced-motion: reduce) { .bar i { transition: none; } }
+</style>
+
+<div class="page">
+  <header class="brand">
+    <h1>Relecture de l'hébreu</h1>
+    <span>JR Diamond</span>
+  </header>
+
+  <div class="top">
+    <div class="progress">
+      <p id="progress-text" aria-live="polite">Chargement des textes…</p>
+      <div class="bar" aria-hidden="true"><i id="progress-bar"></i></div>
+    </div>
+    <div class="pick">
+      <label class="visually-hidden" for="section">Page du site</label>
+      <select id="section" disabled></select>
+    </div>
+  </div>
+
+  <p class="notice" id="storage-note" hidden></p>
+
+  <details class="help" id="help">
+    <summary>Comment relire</summary>
+    <ol>
+      <li>Lisez le français, puis l'hébreu : c'est l'hébreu que le visiteur israélien verra.</li>
+      <li>Si l'hébreu est juste et naturel, touchez « Correct ».</li>
+      <li>Sinon touchez « À corriger », modifiez le texte, ajoutez une remarque si elle aide, puis enregistrez.</li>
+      <li>Tout s'enregistre au fur et à mesure : vous pouvez fermer la page et reprendre plus tard.</li>
+      <li>Quand une page du site est finie, dites-le à Claude : il reporte vos corrections dans le site.</li>
+    </ol>
+  </details>
+
+  <main id="main" aria-live="polite">
+    <p class="notice" id="loading">Chargement des 523 textes…</p>
+
+    <article class="card" id="card" hidden>
+      <div class="meta">
+        <p id="position"></p>
+        <span class="pill" id="status" hidden></span>
+      </div>
+      <div class="block">
+        <h2>Français</h2>
+        <p class="fr" id="fr"></p>
+      </div>
+      <div class="block">
+        <h2 id="he-label">Hébreu à relire</h2>
+        <p class="he" id="he" dir="rtl" lang="he"></p>
+      </div>
+      <div class="block" id="fixed-block" hidden>
+        <h2>Votre correction</h2>
+        <p class="he fixed" id="fixed" dir="rtl" lang="he"></p>
+        <p class="remark" id="remark" hidden></p>
+      </div>
+      <p class="hint" id="template-hint" hidden>Phrase à trous : ⟨1⟩, ⟨2⟩ sont remplacés à l'écran par une valeur (un nombre, un nom). Gardez-les dans votre correction, à l'endroit qui convient en hébreu.</p>
+      <p class="hint" id="stale-hint" hidden>Le texte du site a changé depuis votre réponse : merci de le relire.</p>
+      <p class="key" id="key"></p>
+
+      <div class="actions" id="actions">
+        <button type="button" class="btn primary" id="ok">Correct</button>
+        <button type="button" class="btn" id="fix">À corriger</button>
+      </div>
+
+      <form class="editor" id="editor" hidden>
+        <div class="field">
+          <label for="correction">Hébreu corrigé</label>
+          <textarea id="correction" dir="rtl" lang="he" spellcheck="false"></textarea>
+        </div>
+        <div class="field">
+          <label for="note">Remarque pour Claude (facultatif)</label>
+          <input type="text" id="note" autocomplete="off" placeholder="Ex. trop littéral, on dit plutôt…">
+        </div>
+        <div class="actions">
+          <button type="submit" class="btn primary" id="save">Enregistrer</button>
+          <button type="button" class="btn" id="cancel">Annuler</button>
+        </div>
+      </form>
+
+      <p class="saved" id="saved" role="status"></p>
+
+      <div class="nav">
+        <button type="button" class="btn quiet" id="prev">Précédent</button>
+        <button type="button" class="btn quiet clear" id="clear" hidden>Effacer ma réponse</button>
+        <button type="button" class="btn quiet" id="next">Suivant</button>
+      </div>
+    </article>
+
+    <section class="card done" id="done" hidden>
+      <h2 id="done-title">Page terminée</h2>
+      <p id="done-text"></p>
+      <button type="button" class="btn primary" id="done-next">Page suivante</button>
+    </section>
+  </main>
+
+  <details class="list" id="list" hidden>
+    <summary id="list-summary">Tous les textes de cette page</summary>
+    <label class="only" for="only-left"><input type="checkbox" id="only-left"> Seulement ce qui reste à relire</label>
+    <ol id="list-items"></ol>
+  </details>
+
+  <section class="tools" id="tools" hidden>
+    <button type="button" class="btn" id="export">Copier mes corrections</button>
+    <p id="export-note">Le texte copié reprend chaque correction avec son numéro : à coller dans la conversation avec Claude si besoin.</p>
+    <textarea id="export-text" readonly hidden aria-label="Mes corrections"></textarea>
+  </section>
+</div>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const COLLECTION = 'relecture';
+  const LOCAL_KEY = 'relecture-hebreu-reponses';
+  const POSITION_KEY = 'relecture-hebreu-position';
+
+  const state = {
+    items: [],
+    sections: [],        // [{ name, items }]
+    section: 0,
+    index: 0,
+    reviews: new Map(),  // identifiant du texte -> { status, he, note, original, ... }
+    storage: 'pending',  // 'pending' | 'db' | 'local'
+    col: null,
+    synced: false,
+    busy: false,
+    editing: false,
+    finished: false,
+  };
+
+  /* ---------- Mémoire de l'appareil (position de lecture, et réponses si la base n'est pas joignable) ---------- */
+  const readLocal = (key) => {
+    try { return JSON.parse(localStorage.getItem(key) || 'null'); } catch { return null; }
+  };
+  const writeLocal = (key, value) => {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* stockage refusé : la page marche sans */ }
+  };
+
+  /* ---------- Données ---------- */
+  const current = () => state.sections[state.section]?.items[state.index];
+  const reviewOf = (item) => state.reviews.get(item.doc);
+  const isStale = (item, review) => !!review && typeof review.original === 'string' && review.original !== item.he;
+  const isDone = (item) => { const r = reviewOf(item); return !!r && !isStale(item, r); };
+  const doneIn = (section) => section.items.filter(isDone).length;
+
+  async function loadItems() {
+    const res = await fetch('textes.json');
+    if (!res.ok) throw new Error('textes.json : ' + res.status);
+    state.items = await res.json();
+    const byName = new Map();
+    for (const item of state.items) {
+      if (!byName.has(item.section)) byName.set(item.section, { name: item.section, items: [] });
+      byName.get(item.section).items.push(item);
+    }
+    state.sections = [...byName.values()];
+    const pos = readLocal(POSITION_KEY);
+    if (pos && Number.isInteger(pos.section) && state.sections[pos.section]) {
+      state.section = pos.section;
+      state.index = Math.min(Math.max(0, pos.index | 0), state.sections[pos.section].items.length - 1);
+    }
+  }
+
+  /* ---------- Enregistrement des réponses ---------- */
+  function useLocal(message) {
+    state.storage = 'local';
+    state.col = null;
+    const saved = readLocal(LOCAL_KEY);
+    if (saved && typeof saved === 'object') state.reviews = new Map(Object.entries(saved));
+    const note = $('storage-note');
+    note.textContent = message;
+    note.classList.add('warn');
+    note.hidden = false;
+    render();
+  }
+
+  async function connect() {
+    let db = null;
+    try { db = window.claude && window.claude.use ? await window.claude.use('db') : null; } catch { db = null; }
+    if (!db) {
+      return useLocal('Enregistrement en ligne indisponible ici : vos réponses restent sur cet appareil. Utilisez « Copier mes corrections » pour les transmettre.');
+    }
+    state.storage = 'db';
+    state.col = db.collection(COLLECTION);
+    const note = $('storage-note');
+    const slow = setTimeout(() => {
+      if (state.synced) return;
+      note.textContent = 'Vos réponses déjà enregistrées ne sont pas encore arrivées. Vous pouvez commencer ; elles s’afficheront dès que possible.';
+      note.hidden = false;
+    }, 10000);
+    state.col.limit(1000).onSnapshot(
+      (snap) => {
+        state.reviews = new Map(snap.docs.map((d) => [d.id, d.data() || {}]));
+        if (!snap.metadata.fromCache) {
+          state.synced = true;
+          clearTimeout(slow);
+          note.hidden = true;
+        }
+        render();
+      },
+      () => {
+        clearTimeout(slow);
+        useLocal('La liaison avec l’enregistrement en ligne est coupée : vos nouvelles réponses restent sur cet appareil. Utilisez « Copier mes corrections » pour les transmettre.');
+      },
+    );
+    render();
+  }
+
+  async function saveReview(item, review) {
+    const body = {
+      n: item.id,
+      key: item.key,
+      section: item.section,
+      status: review.status,
+      he: review.he || '',
+      note: review.note || '',
+      original: item.he,
+      fr: item.fr,
+      at: new Date().toISOString(),
+    };
+    if (state.storage === 'db') await state.col.doc(item.doc).set(body);
+    state.reviews.set(item.doc, body);
+    if (state.storage === 'local') writeLocal(LOCAL_KEY, Object.fromEntries(state.reviews));
+  }
+
+  async function clearReview(item) {
+    if (state.storage === 'db') await state.col.doc(item.doc).delete();
+    state.reviews.delete(item.doc);
+    if (state.storage === 'local') writeLocal(LOCAL_KEY, Object.fromEntries(state.reviews));
+  }
+
+  /* ---------- Affichage ---------- */
+  function renderProgress() {
+    const total = state.items.length;
+    const done = state.items.filter(isDone).length;
+    const fixes = state.items.filter((it) => isDone(it) && reviewOf(it).status === 'fix').length;
+    const text = $('progress-text');
+    text.textContent = '';
+    const strong = document.createElement('strong');
+    strong.textContent = done + ' sur ' + total;
+    text.append(strong, ' textes relus · ', String(fixes), fixes > 1 ? ' corrections' : ' correction');
+    $('progress-bar').style.width = (total ? (100 * done) / total : 0) + '%';
+  }
+
+  function renderSections() {
+    const select = $('section');
+    const focused = document.activeElement === select;
+    select.textContent = '';
+    state.sections.forEach((s, i) => {
+      const option = document.createElement('option');
+      option.value = String(i);
+      option.textContent = s.name + ' (' + doneIn(s) + '/' + s.items.length + ')';
+      select.append(option);
+    });
+    select.value = String(state.section);
+    select.disabled = false;
+    if (focused) select.focus();
+  }
+
+  function renderList() {
+    const section = state.sections[state.section];
+    const list = $('list-items');
+    list.textContent = '';
+    const onlyLeft = $('only-left').checked;
+    section.items.forEach((item, i) => {
+      if (onlyLeft && isDone(item) && i !== state.index) return;
+      const li = document.createElement('li');
+      const button = document.createElement('button');
+      button.type = 'button';
+      if (i === state.index && !state.finished) button.setAttribute('aria-current', 'true');
+      const review = isDone(item) ? reviewOf(item) : null;
+      const dot = document.createElement('span');
+      dot.className = 'dot' + (review ? ' ' + review.status : '');
+      const num = document.createElement('span');
+      num.className = 'num';
+      num.textContent = item.id;
+      const excerpt = document.createElement('span');
+      excerpt.className = 'excerpt';
+      excerpt.textContent = item.fr || item.he;
+      const label = document.createElement('span');
+      label.className = 'visually-hidden';
+      label.textContent = review ? (review.status === 'ok' ? ' (correct)' : ' (corrigé)') : ' (à relire)';
+      button.append(dot, num, excerpt, label);
+      button.addEventListener('click', () => go(i, true));
+      li.append(button);
+      list.append(li);
+    });
+    $('list-summary').textContent = 'Tous les textes de « ' + section.name + ' » (' + doneIn(section) + '/' + section.items.length + ')';
+    $('list').hidden = false;
+  }
+
+  function renderCard() {
+    const section = state.sections[state.section];
+    const item = current();
+    $('loading').hidden = true;
+    $('card').hidden = state.finished;
+    $('done').hidden = !state.finished;
+    if (state.finished) {
+      const left = state.items.length - state.items.filter(isDone).length;
+      $('done-title').textContent = left ? '« ' + section.name + ' » est relue' : 'Tout est relu';
+      $('done-text').textContent = left
+        ? 'Il reste ' + left + (left > 1 ? ' textes' : ' texte') + ' dans les autres pages du site.'
+        : 'Les ' + state.items.length + ' textes ont une réponse. Dites-le à Claude : il reporte vos corrections dans le site.';
+      $('done-next').hidden = !left;
+      return;
+    }
+    const review = reviewOf(item);
+    const stale = isStale(item, review);
+    $('position').textContent = 'Texte ' + (state.index + 1) + ' sur ' + section.items.length + ' · n° ' + item.id;
+    const pill = $('status');
+    pill.hidden = !review || stale;
+    if (review && !stale) {
+      pill.className = 'pill ' + review.status;
+      pill.textContent = review.status === 'ok' ? 'Correct' : 'Corrigé';
+    }
+    $('fr').textContent = item.fr || '(pas de texte français en regard : mention propre à la version hébraïque)';
+    $('he').textContent = item.he;
+    $('he-label').textContent = review && review.status === 'fix' && !stale ? 'Hébreu actuel du site' : 'Hébreu à relire';
+    const fixed = review && review.status === 'fix' && !stale;
+    $('fixed-block').hidden = !fixed;
+    if (fixed) {
+      $('fixed').textContent = review.he;
+      const remark = $('remark');
+      remark.hidden = !review.note;
+      remark.textContent = '';
+      if (review.note) {
+        const b = document.createElement('b');
+        b.textContent = 'Remarque : ';
+        remark.append(b, review.note);
+      }
+    }
+    $('template-hint').hidden = !item.template;
+    $('stale-hint').hidden = !stale;
+    $('key').textContent = item.key;
+    const waiting = state.storage === 'pending';
+    $('actions').hidden = state.editing;
+    $('editor').hidden = !state.editing;
+    $('ok').disabled = $('fix').disabled = $('save').disabled = waiting || state.busy;
+    $('fix').textContent = fixed ? 'Modifier' : 'À corriger';
+    $('clear').hidden = !review || state.editing;
+    $('clear').disabled = state.busy;
+    $('prev').disabled = state.index === 0;
+    $('next').disabled = state.index >= section.items.length - 1;
+  }
+
+  function render() {
+    if (!state.items.length) return;
+    renderProgress();
+    renderSections();
+    renderCard();
+    renderList();
+    $('tools').hidden = false;
+  }
+
+  function say(message, isError) {
+    const el = $('saved');
+    el.textContent = message;
+    el.classList.toggle('err', !!isError);
+  }
+
+  /* ---------- Navigation ---------- */
+  function go(index, scroll) {
+    state.index = index;
+    state.editing = false;
+    state.finished = false;
+    say('');
+    writeLocal(POSITION_KEY, { section: state.section, index: state.index });
+    render();
+    if (scroll) $('card').scrollIntoView({ block: 'start', behavior: 'auto' });
+  }
+
+  function nextToReview() {
+    const items = state.sections[state.section].items;
+    for (let k = 1; k <= items.length; k += 1) {
+      const i = (state.index + k) % items.length;
+      if (!isDone(items[i])) return i;
+    }
+    return -1;
+  }
+
+  function advance() {
+    const i = nextToReview();
+    if (i === -1) {
+      state.finished = true;
+      state.editing = false;
+      render();
+      return;
+    }
+    go(i, false);
+  }
+
+  /* ---------- Gestes ---------- */
+  async function answer(review, message) {
+    const item = current();
+    if (!item || state.busy) return;
+    state.busy = true;
+    renderCard();
+    try {
+      await saveReview(item, review);
+      state.busy = false;
+      say(message);
+      advance();
+      say('N° ' + item.id + ' : ' + message);
+    } catch {
+      state.busy = false;
+      renderCard();
+      say('L’enregistrement n’a pas abouti. Vérifiez la connexion et réessayez.', true);
+    }
+  }
+
+  $('ok').addEventListener('click', () => answer({ status: 'ok' }, 'enregistré comme correct.'));
+  $('fix').addEventListener('click', () => {
+    const item = current();
+    const review = reviewOf(item);
+    $('correction').value = review && review.status === 'fix' && !isStale(item, review) ? review.he : item.he;
+    $('note').value = review && review.note ? review.note : '';
+    state.editing = true;
+    say('');
+    renderCard();
+    $('correction').focus();
+  });
+  $('cancel').addEventListener('click', () => {
+    state.editing = false;
+    renderCard();
+  });
+  $('editor').addEventListener('submit', (event) => {
+    event.preventDefault();
+    const item = current();
+    const he = $('correction').value.trim();
+    const note = $('note').value.trim();
+    if (!he) return say('Écrivez l’hébreu corrigé, ou touchez « Annuler ».', true);
+    if (he === item.he && !note) return say('Le texte est identique à celui du site : modifiez-le, ajoutez une remarque, ou touchez « Annuler » puis « Correct ».', true);
+    state.editing = false;
+    answer({ status: 'fix', he, note }, 'correction enregistrée.');
+  });
+  $('clear').addEventListener('click', async () => {
+    const item = current();
+    if (!item || state.busy) return;
+    state.busy = true;
+    renderCard();
+    try {
+      await clearReview(item);
+      say('Réponse effacée.');
+    } catch {
+      say('L’effacement n’a pas abouti. Réessayez.', true);
+    }
+    state.busy = false;
+    render();
+  });
+  $('prev').addEventListener('click', () => go(Math.max(0, state.index - 1), false));
+  $('next').addEventListener('click', () => go(Math.min(state.sections[state.section].items.length - 1, state.index + 1), false));
+  $('section').addEventListener('change', (event) => {
+    state.section = Number(event.target.value) || 0;
+    const items = state.sections[state.section].items;
+    const first = items.findIndex((it) => !isDone(it));
+    go(first === -1 ? 0 : first, false);
+  });
+  $('only-left').addEventListener('change', renderList);
+  $('done-next').addEventListener('click', () => {
+    const n = state.sections.length;
+    for (let k = 1; k <= n; k += 1) {
+      const s = (state.section + k) % n;
+      const first = state.sections[s].items.findIndex((it) => !isDone(it));
+      if (first !== -1) {
+        state.section = s;
+        go(first, true);
+        return;
+      }
+    }
+  });
+
+  /* ---------- Export ---------- */
+  function exportText() {
+    const fixes = state.items.filter((it) => isDone(it) && reviewOf(it).status === 'fix');
+    const oks = state.items.filter((it) => isDone(it) && reviewOf(it).status === 'ok').length;
+    const lines = ['Relecture de l’hébreu : ' + fixes.length + ' corrections, ' + oks + ' textes corrects, ' + (state.items.length - fixes.length - oks) + ' à relire.', ''];
+    for (const item of fixes) {
+      const r = reviewOf(item);
+      lines.push('N° ' + item.id + ' · ' + item.key, 'FR : ' + (item.fr || '(sans français)'), 'Actuel : ' + item.he, 'Corrigé : ' + r.he);
+      if (r.note) lines.push('Remarque : ' + r.note);
+      lines.push('');
+    }
+    return lines.join('\n');
+  }
+  $('export').addEventListener('click', () => {
+    const text = exportText();
+    const area = $('export-text');
+    const fallback = () => {
+      area.value = text;
+      area.hidden = false;
+      area.focus();
+      area.select();
+      $('export-note').textContent = 'Copie automatique impossible ici : sélectionnez le texte ci-dessous et copiez-le.';
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => { $('export-note').textContent = 'Copié. Collez-le dans la conversation avec Claude.'; }, fallback);
+    } else {
+      fallback();
+    }
+  });
+
+  /* ---------- Démarrage ---------- */
+  loadItems().then(
+    () => {
+      render();
+      connect();
+    },
+    () => {
+      $('loading').textContent = 'Les textes n’ont pas pu être chargés. Rechargez la page.';
+      $('loading').classList.add('warn');
+      $('progress-text').textContent = 'Textes indisponibles';
+    },
+  );
+})();
+</script>

@@ -256,6 +256,13 @@ export default function Configurator({
             ))}
           </div>
           <p className={styles.hint}>{t.hint}</p>
+          {/* Téléphone : la scène reste collée en haut de l'écran ; ce raccourci y reste avec elle et mène au récapitulatif et au devis
+              sans recouvrir les choix (une barre collée en bas masquait des boutons, critère 2.5.8). */}
+          {quoteEnabled && (
+            <a className={styles.stageQuote} href="#summary-title" data-testid="sticky-quote">
+              {t.requestQuote}
+            </a>
+          )}
         </div>
       </section>
 

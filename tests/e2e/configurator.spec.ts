@@ -318,3 +318,17 @@ test.describe('lien partagé : la configuration dans l’adresse', () => {
     expect(new globalThis.URL(await field.inputValue()).searchParams.get('composition')).toBe('set');
   });
 });
+
+test('raccourci « Demander un devis » dans la scène collée en haut, sur téléphone seulement', async ({ page }, testInfo) => {
+  await page.goto(URL);
+  const sticky = page.getByTestId('sticky-quote');
+  if (testInfo.project.name === 'desktop') {
+    await expect(sticky).toBeHidden();
+    return;
+  }
+  await expect(sticky).toBeVisible();
+  await page.mouse.wheel(0, 1200);
+  await expect(sticky).toBeInViewport();
+  await sticky.click();
+  await expect(page.getByRole('heading', { name: 'Votre configuration' })).toBeInViewport();
+});

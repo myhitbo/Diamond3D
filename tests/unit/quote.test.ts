@@ -141,6 +141,23 @@ describe('demande de devis : WhatsApp', () => {
     const sans = buildWhatsAppMessage(r.model, r.state, {});
     expect(sans).not.toContain('Nom :');
     expect(sans).not.toContain('Taille de doigt :');
+    expect(sans).not.toContain('Pour quelle date :');
+    expect(sans).not.toContain('Budget indicatif :');
+  });
+
+  it('date souhaitée et budget : facultatifs, repris dans le message WhatsApp et dans l’e-mail', () => {
+    const r = parseQuote({ ...valid(), wantedDate: 'fiançailles le 14 février', budget: '5 000 à 7 000 ₪' }, getModel);
+    if (!r.ok) throw new Error('demande invalide');
+    const wa = buildWhatsAppMessage(r.model, r.state, { wantedDate: ' fiançailles\nle 14 février ', budget: '5 000 à 7 000 ₪' });
+    expect(wa).toContain('Pour quelle date : fiançailles le 14 février');
+    expect(wa).toContain('Budget indicatif : 5 000 à 7 000 ₪');
+    const { text } = buildQuoteEmail(r.model, r.state, r.fields, []);
+    expect(text).toContain('Pour quelle date : fiançailles le 14 février');
+    expect(text).toContain('Budget indicatif : 5 000 à 7 000 ₪');
+    const vide = parseQuote(valid(), getModel);
+    if (!vide.ok) throw new Error('demande invalide');
+    expect(buildQuoteEmail(vide.model, vide.state, vide.fields, []).text).toContain('Pour quelle date : —');
+    expect(parseQuote({ ...valid(), budget: 'x'.repeat(61) }, getModel).ok).toBe(false);
   });
 
   it('lien wa.me encodé', () => {

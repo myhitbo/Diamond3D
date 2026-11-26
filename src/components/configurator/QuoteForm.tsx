@@ -113,7 +113,7 @@ export default function QuoteForm({
     if (!WHATSAPP || !model) return;
     const data = new FormData(form);
     const get = (k: string) => String(data.get(k) ?? '');
-    const text = buildWhatsAppMessage(model, state, { name: get('name'), ringSize: get('ringSize'), message: get('message') }, shareUrl(model, state, window.location.href));
+    const text = buildWhatsAppMessage(model, state, { name: get('name'), ringSize: get('ringSize'), wantedDate: get('wantedDate'), budget: get('budget'), message: get('message') }, shareUrl(model, state, window.location.href));
     window.open(buildWhatsAppLink(WHATSAPP, text), '_blank', 'noopener');
   }
 
@@ -173,6 +173,14 @@ export default function QuoteForm({
         <label className={styles.label}>
           {t.fieldNames.ringSize}
           <input className={styles.input} name="ringSize" maxLength={40} placeholder={t.ringSizePlaceholder} />
+        </label>
+        <label className={styles.label}>
+          {t.fieldNames.wantedDate}
+          <input className={styles.input} name="wantedDate" maxLength={80} placeholder={t.wantedDatePlaceholder} />
+        </label>
+        <label className={styles.label}>
+          {t.fieldNames.budget}
+          <input className={styles.input} name="budget" maxLength={60} placeholder={t.budgetPlaceholder} />
         </label>
         <label className={styles.label}>
           {t.fieldNames.message}

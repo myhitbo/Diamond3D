@@ -1,5 +1,7 @@
 /* PDF de l'étude de concurrence JR Diamond : pages A5 debout, lisibles sur un téléphone sans zoom.
-   Identité du site : noir, ivoire, or ; titres en Bodoni Moda, texte et chiffres en Jost. */
+   Esprit « maison de joaillerie » : noir, ivoire, or ; titres en Bodoni Moda (Didone), texte en Jost ;
+   cadre et filets or, cartouches, repères en losange (la forme du monogramme).
+   Chaque page règle ses couleurs par des variables (--bg, --fg, --soft, --rule, --accent, --hair) : une page sombre n'a pas de règles à part. */
 
 @page {
   size: 148mm 210mm;
@@ -7,25 +9,22 @@
 }
 
 :root {
-  --ivory: #f7f3ec;
-  --cream: #efe8dc;
-  --paper: #fbf9f5;
-  --ink: #1f1c18;
-  --muted: #6d665c;
-  --line: #e1d9cb;
-  --gold: #9c7f4c;
-  --gold-text: #7d6232;
-  --gold-fill: #c9a96e;
-  --champagne: #d9c08f;
   --noir: #0b0a08;
-  --noir-soft: #16130e;
+  --noir-soft: #17140f;
+  --ivory: #f6f1e7;
+  --paper: #fcfaf5;
+  --ink: #1d1a16;
+  --muted: #6d665b;
+  --line: #e2dacb;
+  --gold: #a8884f;
+  --gold-text: #7a5f2e;
+  --gold-fill: #c9a96e;
+  --champagne: #dcc594;
   --on-noir-muted: #a9a194;
-  /* Graphiques : une seule teinte (or), piste = pas plus clair de la même rampe ; texte des valeurs à l'encre, jamais à la couleur des données. */
-  --viz-fill: #7d6232;
-  --viz-track: #e9dfc8;
-  --viz-fill-dark: #c9a96e;
-  --viz-track-dark: #3a3222;
-  --display: 'Bodoni Moda', Georgia, serif;
+  /* Graphiques : une seule teinte (or) ; piste = pas plus clair de la même rampe ; valeurs à l'encre du texte. */
+  --viz-fill: #7a5f2e;
+  --viz-track: #eadfc6;
+  --display: 'Bodoni Moda', 'Didot', Georgia, serif;
   --text: 'Jost', 'Helvetica Neue', Arial, sans-serif;
 }
 
@@ -42,23 +41,33 @@ body {
 
 body {
   font-family: var(--text);
-  font-size: 9.2pt;
-  line-height: 1.45;
+  font-size: 9.1pt;
+  font-weight: 400;
+  line-height: 1.46;
   color: var(--ink);
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
   counter-reset: page;
 }
 
-/* ---------- Page ---------- */
+/* ================= Page ================= */
 
 .page {
+  --bg: var(--paper);
+  --fg: var(--ink);
+  --soft: var(--muted);
+  --rule: var(--line);
+  --accent: var(--gold-text);
+  --hair: var(--gold);
+  --fill: var(--viz-fill);
+  --track: var(--viz-track);
   position: relative;
   width: 148mm;
   height: 210mm;
   padding: 13mm 12mm 15mm;
   overflow: hidden;
-  background: var(--paper);
+  background: var(--bg);
+  color: var(--fg);
   page-break-after: always;
   break-after: page;
   counter-increment: page;
@@ -69,55 +78,138 @@ body {
   break-after: auto;
 }
 
-.page.dark {
-  background: var(--noir);
-  color: var(--ivory);
+.page.cream {
+  --bg: var(--ivory);
 }
 
-.page.cream {
-  background: var(--ivory);
+.page.dark {
+  --bg: var(--noir);
+  --fg: #f4efe5;
+  --soft: var(--on-noir-muted);
+  --rule: rgba(220, 197, 148, 0.22);
+  --accent: var(--champagne);
+  --hair: var(--gold-fill);
+  --fill: var(--gold-fill);
+  --track: #3a3222;
+}
+
+/* Filet de tête : un trait or et un losange, dans la marge haute. */
+.page::before {
+  content: '';
+  position: absolute;
+  top: 7mm;
+  left: 12mm;
+  right: 12mm;
+  border-top: 0.15mm solid var(--hair);
+  opacity: 0.7;
+}
+
+.page::after {
+  content: '';
+  position: absolute;
+  top: 7mm;
+  left: 50%;
+  width: 1.7mm;
+  height: 1.7mm;
+  margin: -0.85mm 0 0 -0.85mm;
+  border: 0.15mm solid var(--hair);
+  background: var(--bg);
+  transform: rotate(45deg);
+}
+
+.cover::before,
+.cover::after,
+.opener::before,
+.opener::after {
+  content: none;
 }
 
 .folio {
   position: absolute;
   left: 12mm;
   right: 12mm;
-  bottom: 7mm;
+  bottom: 6.6mm;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  font-size: 6.2pt;
-  letter-spacing: 0.16em;
+  font-size: 5.6pt;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--soft);
 }
 
-.dark .folio {
-  color: var(--on-noir-muted);
+.folio .num {
+  font-family: var(--display);
+  font-size: 9.4pt;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+}
+
+.folio .num::before {
+  content: '';
+  display: inline-block;
+  width: 6mm;
+  margin-inline-end: 2mm;
+  border-top: 0.15mm solid var(--hair);
+  vertical-align: 1.1mm;
 }
 
 .folio .num::after {
   content: counter(page);
 }
 
-.folio .num {
-  font-size: 7.4pt;
-  letter-spacing: 0.06em;
+/* Cadre à double filet des pages de titre. */
+.cadre {
+  position: absolute;
+  inset: 5.5mm;
+  border: 0.2mm solid rgba(201, 169, 110, 0.8);
+  pointer-events: none;
 }
 
-/* ---------- Texte ---------- */
+.cadre::after {
+  content: '';
+  position: absolute;
+  inset: 1mm;
+  border: 0.12mm solid rgba(201, 169, 110, 0.42);
+}
+
+/* Ornement : un filet et un losange. Pas de dégradé : sous une rotation, le moteur d'impression en fait un calque d'une page entière (10 Mo de plus). */
+.orn {
+  position: relative;
+  width: 40mm;
+  height: 0;
+  margin: 5.8mm auto;
+  border-top: 0.15mm solid var(--hair);
+}
+
+.orn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 1.9mm;
+  height: 1.9mm;
+  margin: -1.02mm 0 0 -0.95mm;
+  background: var(--hair);
+  box-shadow: 0 0 0 1.3mm var(--bg);
+  transform: rotate(45deg);
+}
+
+/* Cul-de-lampe : clôt une liste de fiches ou un chapitre. */
+.orn.fin {
+  margin: 9mm auto 0;
+}
+
+/* ================= Texte ================= */
 
 .kicker {
-  margin: 0 0 3.2mm;
-  font-size: 6.6pt;
+  margin: 0 0 3.4mm;
+  font-size: 6.2pt;
   font-weight: 500;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: var(--gold-text);
-}
-
-.dark .kicker {
-  color: var(--champagne);
+  color: var(--accent);
 }
 
 h1,
@@ -125,29 +217,30 @@ h2,
 h3 {
   margin: 0;
   font-family: var(--display);
-  font-weight: 500;
+  font-weight: 400;
   font-optical-sizing: auto;
   letter-spacing: -0.012em;
 }
 
 h1 {
-  font-size: 33pt;
-  line-height: 1.02;
+  font-size: 30pt;
+  line-height: 1.04;
 }
 
 h2 {
-  font-size: 21pt;
+  font-size: 21.5pt;
   line-height: 1.08;
 }
 
-h2 em,
-h1 em {
+h1 em,
+h2 em {
   font-style: italic;
-  font-weight: 400;
+  color: var(--accent);
 }
 
 h3 {
   font-size: 12.5pt;
+  font-weight: 500;
   line-height: 1.15;
 }
 
@@ -163,20 +256,12 @@ p {
 .lede {
   margin-top: 3.4mm;
   font-size: 10.4pt;
-  line-height: 1.42;
-  color: var(--ink);
-}
-
-.dark .lede {
-  color: var(--ivory);
+  font-weight: 300;
+  line-height: 1.44;
 }
 
 .muted {
-  color: var(--muted);
-}
-
-.dark .muted {
-  color: var(--on-noir-muted);
+  color: var(--soft);
 }
 
 .small {
@@ -194,23 +279,38 @@ b {
   font-weight: 600;
 }
 
+sup {
+  font-size: 0.62em;
+  line-height: 0;
+}
+
 .rule {
   width: 14mm;
-  height: 0.35mm;
+  height: 0;
   margin: 4mm 0;
-  background: var(--gold);
+  border-top: 0.2mm solid var(--hair);
 }
 
-.dark .rule {
-  background: var(--gold-fill);
+.mono {
+  font-family: 'DejaVu Sans Mono', monospace;
+  font-size: 6.4pt;
 }
 
-ul.plain {
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.he {
+  font-family: 'Frank Ruhl Libre', 'Assistant', serif;
 }
 
+a.go,
+a.inl {
+  color: inherit;
+  text-decoration: none;
+}
+
+a.inl {
+  border-bottom: 0.2mm solid var(--hair);
+}
+
+ul.plain,
 ul.dots {
   margin: 0;
   padding: 0;
@@ -226,44 +326,70 @@ ul.dots li {
 ul.dots li::before {
   content: '';
   position: absolute;
-  left: 0.4mm;
-  top: 1.75mm;
-  width: 1.5mm;
-  height: 1.5mm;
-  background: var(--gold);
+  left: 0.45mm;
+  top: 1.8mm;
+  width: 1.35mm;
+  height: 1.35mm;
+  background: var(--hair);
   transform: rotate(45deg);
 }
 
-.dark ul.dots li::before {
-  background: var(--gold-fill);
+ul.dots.small li {
+  margin-bottom: 1.4mm;
+  padding-inline-start: 3.6mm;
 }
 
-/* ---------- Numéro de constat ---------- */
+ul.dots.small li::before {
+  top: 1.4mm;
+  width: 1.15mm;
+  height: 1.15mm;
+}
+
+ul.dots.three {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 4mm;
+}
+
+ul.dots.pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 5mm;
+}
+
+ul.dots.three li,
+ul.dots.pair li {
+  margin-bottom: 0;
+}
+
+.two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5mm;
+}
+
+/* ================= Constats ================= */
 
 .constat {
   display: flex;
   align-items: baseline;
-  gap: 3mm;
+  gap: 3.2mm;
   margin-bottom: 3mm;
 }
 
 .constat .n {
   font-family: var(--display);
-  font-size: 30pt;
-  line-height: 0.8;
+  font-size: 34pt;
   font-style: italic;
-  color: var(--gold);
-}
-
-.dark .constat .n {
-  color: var(--gold-fill);
+  line-height: 0.78;
+  color: var(--hair);
 }
 
 .constat .kicker {
   margin: 0;
 }
 
-/* ---------- Captures ---------- */
+/* ================= Captures ================= */
 
 .shots {
   display: flex;
@@ -273,27 +399,27 @@ ul.dots li::before {
 
 .shot {
   position: relative;
-  margin: 0;
   flex: 1 1 0;
   min-width: 0;
+  margin: 0;
 }
 
 .frame {
   position: relative;
   overflow: hidden;
-  border: 0.3mm solid rgba(31, 28, 24, 0.16);
+  border: 0.2mm solid rgba(122, 95, 46, 0.4);
   border-radius: 3.6mm;
   background: #fff;
-  box-shadow: 0 1.4mm 4.5mm rgba(11, 10, 8, 0.16);
+  box-shadow: 0 1.8mm 5mm rgba(11, 10, 8, 0.13);
 }
 
 .dark .frame {
-  border-color: rgba(217, 192, 143, 0.28);
-  box-shadow: 0 1.6mm 6mm rgba(0, 0, 0, 0.6);
+  border-color: rgba(220, 197, 148, 0.42);
+  box-shadow: 0 2mm 7mm rgba(0, 0, 0, 0.65);
 }
 
 .frame.flat {
-  border-radius: 1.6mm;
+  border-radius: 0.9mm;
 }
 
 .frame img {
@@ -306,93 +432,107 @@ ul.dots li::before {
 
 .shot figcaption {
   margin-top: 2.2mm;
-  font-size: 7pt;
+  font-size: 6.9pt;
   line-height: 1.36;
-  color: var(--muted);
-}
-
-.dark .shot figcaption {
-  color: var(--on-noir-muted);
+  color: var(--soft);
 }
 
 .shot figcaption b {
-  color: var(--ink);
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
+  color: var(--fg);
 }
 
-.dark .shot figcaption b {
-  color: var(--ivory);
+.shot.side {
+  display: grid;
+  grid-template-columns: 72mm 1fr;
+  column-gap: 4.5mm;
+  align-items: center;
 }
 
-/* Repère posé sur une capture : cadre + étiquette. Coordonnées en % de la capture. */
+.shot.side figcaption {
+  margin-top: 0;
+}
+
+/* Repère posé sur une capture : cadre, pastille numérotée reprise dans la légende. Coordonnées en % de la capture. */
 .mark {
   position: absolute;
-  border: 0.55mm solid #b3472b;
-  border-radius: 1.6mm;
+  border: 0.5mm solid #a8392b;
+  border-radius: 1.2mm;
   box-shadow: 0 0 0 0.35mm rgba(255, 255, 255, 0.85);
 }
 
-.mark span {
-  position: absolute;
-  left: -0.55mm;
-  bottom: calc(100% + 0.6mm);
-  padding: 0.5mm 1.6mm 0.6mm;
-  border-radius: 0.9mm;
-  background: #b3472b;
+.mark:empty {
+  box-shadow: 0 0 0 0.35mm rgba(255, 255, 255, 0.85), 0 0 2.4mm rgba(168, 57, 43, 0.35);
+}
+
+.mark b,
+.nb {
+  border-radius: 50%;
+  background: #a8392b;
   color: #fff;
-  font-size: 5.8pt;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
+  font-weight: 700;
+  text-align: center;
 }
 
-.mark.below span {
-  bottom: auto;
-  top: calc(100% + 0.6mm);
+.mark b {
+  position: absolute;
+  right: -1.85mm;
+  top: 50%;
+  width: 3.7mm;
+  height: 3.7mm;
+  transform: translateY(-50%);
+  box-shadow: 0 0 0 0.3mm rgba(255, 255, 255, 0.9);
+  font-size: 6.2pt;
+  line-height: 3.7mm;
 }
 
-.mark.right span {
-  left: auto;
-  right: -0.55mm;
+.mark.top b {
+  right: auto;
+  left: 50%;
+  top: -1.85mm;
+  transform: translateX(-50%);
 }
 
-/* ---------- « Chez JR Diamond » ---------- */
+.nb {
+  display: inline-block;
+  width: 3.2mm;
+  height: 3.2mm;
+  font-size: 5.6pt;
+  font-style: normal;
+  line-height: 3.2mm;
+  vertical-align: 0.15mm;
+}
+
+/* ================= Cartouche « Chez JR Diamond » ================= */
 
 .chez {
   position: relative;
-  margin-top: 4.5mm;
-  padding: 3.4mm 4mm 3.2mm 5.2mm;
-  background: var(--ivory);
-  border-inline-start: 0.9mm solid var(--gold);
-}
-
-.cream .chez {
-  background: var(--paper);
-}
-
-.dark .chez {
-  background: var(--noir-soft);
-  border-color: var(--gold-fill);
+  margin-top: 6.2mm;
+  padding: 4.3mm 5mm 3.4mm;
+  border: 0.2mm solid var(--hair);
+  /* second filet, à l'extérieur */
+  box-shadow: 0 0 0 0.8mm var(--bg), 0 0 0 0.95mm color-mix(in srgb, var(--hair) 45%, transparent);
 }
 
 .chez .label {
-  display: block;
-  margin-bottom: 1.4mm;
-  font-size: 6.2pt;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  padding: 0 3mm;
+  transform: translate(-50%, -54%);
+  background: var(--bg);
+  font-size: 5.9pt;
   font-weight: 600;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.26em;
   text-transform: uppercase;
-  color: var(--gold-text);
-}
-
-.dark .chez .label {
-  color: var(--champagne);
+  white-space: nowrap;
+  color: var(--accent);
 }
 
 .chez p {
   margin: 0 0 1.5mm;
-  font-size: 8.4pt;
+  font-size: 8.3pt;
   line-height: 1.42;
 }
 
@@ -400,18 +540,18 @@ ul.dots li::before {
   margin-bottom: 0;
 }
 
-/* État : pastille de forme différente + mot, jamais la couleur seule. */
+/* État : forme et mot, jamais la couleur seule. */
 .etat {
   display: inline-flex;
   align-items: center;
-  gap: 1.2mm;
+  gap: 1.1mm;
   margin-inline-end: 1.2mm;
-  padding: 0.25mm 1.8mm 0.35mm 1.4mm;
-  border: 0.25mm solid currentColor;
-  border-radius: 3mm;
-  font-size: 6.2pt;
+  padding: 0.2mm 1.5mm 0.3mm 1.2mm;
+  border: 0.2mm solid currentColor;
+  border-radius: 0.5mm;
+  font-size: 5.8pt;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   white-space: nowrap;
   vertical-align: 0.2mm;
@@ -419,17 +559,17 @@ ul.dots li::before {
 
 .etat::before {
   content: '';
-  width: 1.5mm;
-  height: 1.5mm;
+  width: 1.4mm;
+  height: 1.4mm;
 }
 
 .etat.fait {
-  color: #2f6b3a;
+  color: #2e6240;
 }
 
 .etat.fait::before {
   background: currentColor;
-  border-radius: 50%;
+  transform: rotate(45deg) scale(0.85);
 }
 
 .etat.afaire {
@@ -437,21 +577,21 @@ ul.dots li::before {
 }
 
 .etat.afaire::before {
-  border: 0.3mm solid currentColor;
-  border-radius: 50%;
-}
-
-.etat.attend {
-  color: #5d5a8a;
-}
-
-.etat.attend::before {
-  background: currentColor;
+  border: 0.28mm solid currentColor;
   transform: rotate(45deg) scale(0.85);
 }
 
+.etat.attend {
+  color: #55527f;
+}
+
+.etat.attend::before {
+  border: 0.28mm solid currentColor;
+  border-radius: 50%;
+}
+
 .dark .etat.fait {
-  color: #8fd19a;
+  color: #93d3a0;
 }
 
 .dark .etat.afaire {
@@ -459,60 +599,72 @@ ul.dots li::before {
 }
 
 .dark .etat.attend {
-  color: #b9b6e6;
+  color: #bcb9e8;
 }
 
-/* ---------- Chiffres ---------- */
+/* ================= Chiffres ================= */
 
 .stats {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 3mm;
+  gap: 3.4mm;
   margin: 5mm 0 5.5mm;
 }
 
 .stat {
-  padding-top: 2.2mm;
-  border-top: 0.3mm solid var(--line);
-}
-
-.dark .stat {
-  border-color: rgba(217, 192, 143, 0.3);
+  padding-top: 2.5mm;
+  border-top: 0.2mm solid var(--hair);
 }
 
 .stat .v {
   display: block;
-  font-family: var(--text);
-  font-size: 19pt;
-  font-weight: 600;
-  line-height: 1.05;
+  font-family: var(--display);
+  font-size: 23pt;
+  font-weight: 400;
+  line-height: 1;
   letter-spacing: -0.01em;
+}
+
+.stat .v small {
+  font-family: var(--text);
+  font-size: 8.6pt;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--soft);
 }
 
 .stat .l {
   display: block;
-  margin-top: 0.8mm;
-  font-size: 6.9pt;
+  margin-top: 1.3mm;
+  font-size: 6.8pt;
   line-height: 1.3;
-  color: var(--muted);
-}
-
-.dark .stat .l {
-  color: var(--on-noir-muted);
+  color: var(--soft);
 }
 
 .hero-fig {
-  font-family: var(--text);
-  font-weight: 600;
-  font-size: 92pt;
-  line-height: 0.82;
-  letter-spacing: -0.03em;
+  font-family: var(--display);
+  font-size: 100pt;
+  font-weight: 400;
+  line-height: 0.8;
+  letter-spacing: -0.02em;
 }
 
-/* Liste de jauges : un nom, une barre, un chiffre par ligne ; barres alignées. */
+.zero-row {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: end;
+  column-gap: 5mm;
+  margin-top: 2mm;
+}
+
+.zero-row h2 {
+  padding-bottom: 2mm;
+}
+
+/* Liste de jauges : un nom, une barre, un chiffre par ligne ; barres alignées, arrondies du côté de la valeur. */
 .meters {
   display: grid;
-  gap: 1.9mm;
+  gap: 2.3mm;
   margin: 3.5mm 0 0;
 }
 
@@ -531,24 +683,16 @@ ul.dots li::before {
 
 .meter .m-bar {
   position: relative;
-  height: 2.5mm;
-  background: var(--viz-track);
-  border-radius: 0 1.1mm 1.1mm 0;
+  height: 1.7mm;
+  background: var(--track);
+  border-radius: 0 0.85mm 0.85mm 0;
 }
 
 .meter .m-bar i {
   position: absolute;
   inset: 0 auto 0 0;
-  background: var(--viz-fill);
-  border-radius: 0 1.1mm 1.1mm 0;
-}
-
-.dark .meter .m-bar {
-  background: var(--viz-track-dark);
-}
-
-.dark .meter .m-bar i {
-  background: var(--viz-fill-dark);
+  background: var(--fill);
+  border-radius: 0 0.85mm 0.85mm 0;
 }
 
 .meter .m-fig {
@@ -558,63 +702,67 @@ ul.dots li::before {
   white-space: nowrap;
 }
 
-.meter.zero .m-name,
-.meter.zero .m-fig {
-  font-weight: 600;
-}
-
 .meter .m-name small {
-  color: var(--muted);
-  font-size: 6.6pt;
-}
-
-.dark .meter .m-name small {
-  color: var(--on-noir-muted);
+  font-size: 6.5pt;
+  color: var(--soft);
 }
 
 .viz-title {
   margin: 0 0 0.6mm;
-  font-size: 8.4pt;
+  font-size: 8.3pt;
   font-weight: 600;
 }
 
 .viz-sub {
   margin: 0;
   font-size: 6.9pt;
-  color: var(--muted);
+  color: var(--soft);
 }
 
-.dark .viz-sub {
-  color: var(--on-noir-muted);
+/* Repères des tableaux : losange plein, demi-losange, tiret. */
+.pt {
+  display: inline-block;
+  width: 1.75mm;
+  height: 1.75mm;
+  vertical-align: -0.1mm;
+  transform: rotate(45deg);
 }
 
-/* ---------- Cartes ---------- */
+.pt-oui {
+  background: var(--fill);
+}
+
+/* demi-losange : un bord épais, sans dégradé */
+.pt-nuance {
+  border: 0.26mm solid var(--fill);
+  border-left-width: 0.875mm;
+}
+
+.pt-non {
+  width: 1.9mm;
+  height: 0;
+  border-top: 0.25mm solid color-mix(in srgb, var(--soft) 55%, transparent);
+  vertical-align: 0.8mm;
+  transform: none;
+}
+
+/* ================= Cartes, citations ================= */
 
 .cards {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 3.2mm;
+  gap: 4mm 5.5mm;
 }
 
 .card {
-  padding: 3.2mm 3.4mm 3mm;
-  background: #fff;
-  border: 0.25mm solid var(--line);
-  border-radius: 1.4mm;
-}
-
-.cream .card {
-  background: var(--paper);
-}
-
-.dark .card {
-  background: var(--noir-soft);
-  border-color: rgba(217, 192, 143, 0.22);
+  padding: 2.7mm 0 0;
+  border-top: 0.2mm solid var(--hair);
 }
 
 .card h3 {
-  margin-bottom: 1.3mm;
-  font-size: 10.6pt;
+  margin-bottom: 1.2mm;
+  font-size: 11pt;
+  font-weight: 500;
 }
 
 .card p {
@@ -623,33 +771,26 @@ ul.dots li::before {
   line-height: 1.4;
 }
 
-.card .who {
-  display: block;
-  margin-top: 1.3mm;
-  font-size: 6.4pt;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-
-.dark .card .who {
-  color: var(--on-noir-muted);
-}
-
 .quote {
   position: relative;
-  padding: 3mm 3.4mm 2.8mm 7mm;
+  padding: 3.8mm 4.2mm 3.4mm 8.2mm;
+  background: var(--noir);
+  color: #f4efe5;
+  outline: 0.15mm solid rgba(220, 197, 148, 0.5);
+  outline-offset: -1.05mm;
+}
+
+.dark .quote {
   background: var(--noir-soft);
-  border-radius: 1.4mm;
 }
 
 .quote::before {
   content: '«';
   position: absolute;
-  left: 2mm;
-  top: 0.4mm;
+  left: 2.9mm;
+  top: 1.6mm;
   font-family: var(--display);
-  font-size: 17pt;
+  font-size: 15pt;
   color: var(--gold-fill);
 }
 
@@ -657,703 +798,214 @@ ul.dots li::before {
   display: block;
   quotes: none;
   font-family: var(--display);
-  font-style: italic;
   font-size: 9.6pt;
-  line-height: 1.26;
-  color: var(--ivory);
+  font-style: italic;
+  line-height: 1.27;
 }
 
 .quote .src {
   display: block;
-  margin-top: 1.2mm;
-  font-size: 6pt;
-  letter-spacing: 0.1em;
+  margin-top: 1.3mm;
+  font-size: 5.7pt;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--on-noir-muted);
 }
 
 .quote .rep {
   display: block;
-  margin-top: 1.6mm;
-  padding-top: 1.4mm;
-  border-top: 0.25mm solid rgba(217, 192, 143, 0.25);
+  margin-top: 1.7mm;
+  padding-top: 1.5mm;
+  border-top: 0.15mm solid rgba(220, 197, 148, 0.3);
   font-size: 7.4pt;
   line-height: 1.36;
   color: var(--champagne);
 }
 
-/* ---------- Tableau d'actions ---------- */
+.cards.big {
+  gap: 3.6mm;
+}
 
-.actions {
+.cards.big .quote {
+  padding: 4mm 4.2mm 3.6mm 8.4mm;
+}
+
+.cards.big .quote q {
+  font-size: 10.4pt;
+  line-height: 1.25;
+}
+
+.cards.big .quote .rep {
+  font-size: 7.7pt;
+}
+
+/* ================= Tableaux ================= */
+
+.actions,
+.bord,
+.mini,
+.matrice {
   width: 100%;
   border-collapse: collapse;
+}
+
+.actions {
   font-size: 8.2pt;
   line-height: 1.34;
+}
+
+.actions th,
+.bord th,
+.mini th {
+  border-bottom: 0.2mm solid var(--hair);
+  font-size: 5.9pt;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
 }
 
 .actions th {
   padding: 0 0 1.4mm;
   text-align: start;
-  font-size: 6.2pt;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--gold-text);
-  border-bottom: 0.3mm solid var(--gold);
 }
 
 .actions td {
   padding: 1.5mm 2mm 1.5mm 0;
+  border-bottom: 0.15mm solid var(--rule);
   vertical-align: top;
-  border-bottom: 0.25mm solid var(--line);
 }
 
 .actions td:first-child {
-  width: 6mm;
+  width: 6.5mm;
   font-family: var(--display);
+  font-size: 10.5pt;
   font-style: italic;
-  font-size: 10pt;
-  color: var(--gold);
+  color: var(--hair);
 }
 
 .actions td:last-child {
-  padding-right: 0;
   width: 25mm;
-  color: var(--muted);
+  padding-right: 0;
   font-size: 6.9pt;
+  color: var(--soft);
 }
 
-/* ---------- Divers ---------- */
-
-.two {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5mm;
-}
-
-.mono {
-  font-family: 'DejaVu Sans Mono', monospace;
-  font-size: 6.6pt;
-}
-
-.he {
-  font-family: 'Frank Ruhl Libre', 'Assistant', serif;
-}
-
-.bleed {
-  position: absolute;
-  inset: 0;
-}
-
-.bleed img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.tag {
-  display: inline-block;
-  padding: 0.3mm 1.8mm 0.45mm;
-  border: 0.25mm solid currentColor;
-  border-radius: 3mm;
-  font-size: 6pt;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-/* ---------- Couverture ---------- */
-
-.cover {
-  padding: 0;
-}
-
-.cover-img {
-  position: absolute;
-  inset: 21mm 0 auto 0;
-  height: 112mm;
-}
-
-.cover-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: 50% 0;
-}
-
-.cover-img::after {
-  content: '';
-  position: absolute;
-  inset: auto 0 0 0;
-  height: 26mm;
-  background: linear-gradient(to bottom, rgba(11, 10, 8, 0), var(--noir) 92%);
-}
-
-.cover-brand {
-  position: absolute;
-  top: 11mm;
-  left: 12mm;
-  display: flex;
-  align-items: center;
-  gap: 2.6mm;
-  font-family: var(--display);
-  font-size: 10.5pt;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--champagne);
-}
-
-.cover-brand svg,
-.back-foot svg {
-  width: 8.5mm;
-  height: 8.5mm;
-  color: var(--gold-fill);
-}
-
-.cover-text {
-  position: absolute;
-  left: 12mm;
-  right: 12mm;
-  bottom: 12mm;
-}
-
-.cover-text h1 {
-  font-size: 31pt;
-}
-
-.cover-text .lede {
-  max-width: 108mm;
-}
-
-.cover-foot {
-  margin-top: 5mm;
-  padding-top: 3mm;
-  border-top: 0.25mm solid rgba(217, 192, 143, 0.3);
-}
-
-/* ---------- L'essentiel ---------- */
-
-.five {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  counter-reset: five;
-}
-
-.five li {
-  position: relative;
-  margin: 0;
-  padding: 2.6mm 9mm 2.6mm 9.5mm;
-  border-top: 0.25mm solid var(--line);
-  counter-increment: five;
-  font-size: 8.9pt;
-  line-height: 1.4;
-}
-
-.five li:last-child {
-  border-bottom: 0.25mm solid var(--line);
-}
-
-.five li::before {
-  content: counter(five);
-  position: absolute;
-  left: 0.5mm;
-  top: 1.4mm;
-  font-family: var(--display);
-  font-style: italic;
-  font-size: 17pt;
-  color: var(--gold);
-}
-
-.go {
-  font-size: 6.4pt;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--gold-text);
-  white-space: nowrap;
-}
-
-.five .go {
-  position: absolute;
-  right: 0;
-  top: 3.1mm;
-}
-
-.dark .go {
-  color: var(--champagne);
-}
-
-/* ---------- Méthode ---------- */
-
-.steps {
-  display: grid;
-  gap: 3mm;
-  margin-top: 5mm;
-}
-
-.step {
-  display: grid;
-  grid-template-columns: 9mm 1fr;
-  align-items: start;
-  font-size: 8.9pt;
-  line-height: 1.42;
-}
-
-.step .sn {
-  font-family: var(--display);
-  font-style: italic;
-  font-size: 19pt;
-  line-height: 0.95;
-  color: var(--gold);
-}
-
-/* ---------- Le zéro ---------- */
-
-.zero-row {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  align-items: end;
-  column-gap: 5mm;
-  margin-top: 2mm;
-}
-
-.zero-row h2 {
-  padding-bottom: 2mm;
-}
-
-/* ---------- Déjà fait ---------- */
-
-.done li {
-  position: relative;
-  margin: 0 0 2.4mm;
-  padding-inline-start: 15.5mm;
-  font-size: 8.4pt;
-  line-height: 1.4;
-}
-
-.done li .etat {
-  position: absolute;
-  left: 0;
-  top: 0.35mm;
-  margin: 0;
-}
-
-/* ---------- Sources ---------- */
-
-.src-list li {
-  display: grid;
-  margin: 0;
-  padding: 2.3mm 0;
-  border-top: 0.25mm solid rgba(217, 192, 143, 0.25);
-  font-size: 8.6pt;
-}
-
-.src-list li:last-child {
-  border-bottom: 0.25mm solid rgba(217, 192, 143, 0.25);
-}
-
-.src-list .mono {
-  margin-top: 0.5mm;
-  color: var(--champagne);
-}
-
-.src-list i {
-  margin-top: 0.6mm;
-  font-style: normal;
-  font-size: 7.4pt;
-  color: var(--on-noir-muted);
-}
-
-.back-foot {
-  position: absolute;
-  left: 12mm;
-  right: 12mm;
-  bottom: 15mm;
-  display: flex;
-  align-items: center;
-  gap: 3.5mm;
-  font-size: 8pt;
-  line-height: 1.4;
-}
-
-.back-foot p {
-  margin: 0;
-}
-
-h3 .tag {
-  margin-inline-start: 1.5mm;
-  font-family: var(--text);
-  color: var(--gold-text);
-  vertical-align: 0.5mm;
-}
-
-.dark h3 .tag {
-  color: var(--champagne);
-}
-
-/* ---------- Ajouts de la mise en page du 26/11 ---------- */
-
-/* Puces en petit corps : losange recalé sur la première ligne. */
-ul.dots.small li {
-  margin-bottom: 1.4mm;
-  padding-inline-start: 3.6mm;
-}
-
-ul.dots.small li::before {
-  top: 1.35mm;
-  width: 1.3mm;
-  height: 1.3mm;
-}
-
-ul.dots.three {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  column-gap: 4mm;
-}
-
-ul.dots.three li {
-  margin-bottom: 0;
-}
-
-/* Bande de vignettes (page « méthode »). */
-.strip {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 2.2mm;
-  margin-top: 5mm;
-}
-
-.strip .frame {
-  aspect-ratio: 9 / 12;
-  border-radius: 1.5mm;
-  box-shadow: 0 0.8mm 2.4mm rgba(11, 10, 8, 0.14);
-}
-
-/* Jauges plus aérées (page Israël). */
-.meters.roomy {
-  gap: 2.35mm;
-}
-
-.meters.roomy .meter {
-  font-size: 8.2pt;
-}
-
-.meters.roomy .meter .m-bar {
-  height: 2.7mm;
-}
-
-/* Citations en grand (page forums). */
-.cards.big {
-  gap: 3.4mm;
-}
-
-.cards.big .quote {
-  padding: 3.4mm 3.6mm 3.2mm 7.4mm;
-}
-
-.cards.big .quote q {
-  font-size: 10.6pt;
-  line-height: 1.24;
-}
-
-.cards.big .quote .rep {
-  font-size: 7.8pt;
-}
-
-/* Repère sans étiquette : la légende sous la capture l'explique. */
-.mark:empty {
-  box-shadow: 0 0 0 0.35mm rgba(255, 255, 255, 0.85), 0 0 2.4mm rgba(179, 71, 43, 0.35);
-}
-
-/* Repère numéroté : pastille sur le bord droit du cadre, reprise dans la légende (aucune étiquette sur la capture). */
-.mark b {
-  position: absolute;
-  right: -1.85mm;
-  top: 50%;
-  width: 3.7mm;
-  height: 3.7mm;
-  transform: translateY(-50%);
-  border-radius: 50%;
-  background: #b3472b;
-  box-shadow: 0 0 0 0.3mm rgba(255, 255, 255, 0.9);
-  color: #fff;
-  font-size: 6.2pt;
-  font-weight: 700;
-  line-height: 3.7mm;
-  text-align: center;
-}
-
-.nb {
-  display: inline-block;
-  width: 3.2mm;
-  height: 3.2mm;
-  border-radius: 50%;
-  background: #b3472b;
-  color: #fff;
-  font-style: normal;
-  font-size: 5.6pt;
-  font-weight: 700;
-  line-height: 3.2mm;
-  text-align: center;
-  vertical-align: 0.15mm;
-}
-
-/* Capture et légende côte à côte. */
-.shot.side {
-  display: grid;
-  grid-template-columns: 72mm 1fr;
-  column-gap: 4.5mm;
-  align-items: center;
-}
-
-.shot.side figcaption {
-  margin-top: 0;
-}
-
-/* Tuiles de chiffres en deux colonnes, dans une colonne de texte. */
-.stats.compact {
-  grid-template-columns: 1fr 1fr;
-  gap: 2.4mm 4mm;
-  margin: 2.6mm 0 3.6mm;
-}
-
-.stats.compact .stat {
-  display: grid;
-  grid-template-columns: 8.5mm 1fr;
-  align-items: center;
-  padding-top: 1.6mm;
-}
-
-.stats.compact .stat .v {
-  font-size: 16pt;
-}
-
-.stats.compact .stat .l {
-  margin-top: 0;
-}
-
-.stat .v small {
-  font-size: 9.5pt;
-  font-weight: 500;
-  letter-spacing: 0;
-  color: var(--muted);
-}
-
-.dark .stat .v small {
-  color: var(--on-noir-muted);
-}
-
-ul.dots.pair {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  column-gap: 5mm;
-}
-
-ul.dots.pair li {
-  margin-bottom: 0;
-}
-
-/* Colonne des chiffres élargie quand une valeur porte « au moins ». */
-.meters.roomy .meter {
-  grid-template-columns: 58mm 1fr 21mm;
-}
-
-.mark.top b {
-  right: auto;
-  left: 50%;
-  top: -1.85mm;
-  transform: translateX(-50%);
-}
-
-/* Liens internes du PDF (renvois de page). */
-a.go,
-a.inl {
-  color: inherit;
-  text-decoration: none;
-}
-
-a.go {
-  color: var(--gold-text);
-}
-
-a.inl {
-  border-bottom: 0.2mm solid var(--gold);
-}
-
-/* ---------- Tour d'horizon : douze sites, trois par marché ---------- */
-.gal-row {
-  margin-top: 3mm;
-}
-
-.gal-row h3 {
-  font-size: 10.6pt;
-}
-
-.gal {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3.2mm;
-  margin-top: 1.8mm;
-}
-
-.gal .shot figcaption {
-  margin-top: 1.3mm;
-  font-size: 6.5pt;
-  line-height: 1.32;
-}
-
-.gal .frame {
-  box-shadow: 0 0.8mm 2.6mm rgba(11, 10, 8, 0.13);
-}
-
-/* ================= Version ciblée (États-Unis, France, Israël) ================= */
-
-sup {
-  font-size: 0.62em;
-  line-height: 0;
-}
-
-/* ---------- Tableau de bord : trois marchés et JR Diamond ---------- */
+/* Tableau de bord : trois marchés et JR Diamond. */
 .bord {
-  width: 100%;
   margin-top: 3.5mm;
-  border-collapse: collapse;
   font-size: 7.9pt;
   line-height: 1.24;
 }
 
 .bord th {
   padding: 0 1mm 1.6mm;
-  border-bottom: 0.3mm solid var(--gold);
   vertical-align: bottom;
   text-align: center;
-  font-size: 6.3pt;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--gold-text);
 }
 
 .bord th small {
   display: block;
-  margin-top: 0.3mm;
-  font-size: 5.6pt;
+  margin-top: 0.4mm;
+  font-size: 5.5pt;
   font-weight: 400;
   letter-spacing: 0.04em;
   text-transform: none;
-  color: var(--muted);
+  color: var(--soft);
 }
 
 .bord td {
-  padding: 1.2mm 1mm;
-  border-bottom: 0.25mm solid var(--line);
+  padding: 0.8mm 1mm;
+  border-bottom: 0.15mm solid var(--rule);
+  font-family: var(--display);
+  font-size: 9.6pt;
   text-align: center;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
 
 .bord td:first-child {
   width: 46mm;
   padding-left: 0;
+  font-family: var(--text);
+  font-size: 7.9pt;
   text-align: start;
-  font-weight: 400;
   white-space: normal;
 }
 
 .bord th.b-jr,
 .bord td.b-jr {
   width: 44mm;
-  padding-left: 2.4mm;
-  background: var(--ivory);
+  padding-left: 2.6mm;
+  background: color-mix(in srgb, var(--gold-fill) 13%, transparent);
   text-align: start;
   white-space: normal;
 }
 
 .bord td.b-jr {
+  font-family: var(--text);
   font-size: 7.1pt;
-  font-weight: 400;
+}
+
+.bord td.b-jr .pt {
+  margin-inline-end: 1.2mm;
 }
 
 .bord .b-zero td:first-child {
   font-weight: 600;
 }
 
-.b-oui {
-  color: #2f6b3a;
-}
-
-.b-promis {
-  color: #8a5a12;
-}
-
-.b-non {
-  color: var(--muted);
-}
-
-/* ---------- Petit tableau comparatif dans une colonne ---------- */
+/* Petit tableau comparatif dans une colonne. */
 .mini {
-  width: 100%;
   margin-top: 3mm;
-  border-collapse: collapse;
   font-size: 7.7pt;
 }
 
 .mini th {
   padding: 0 0 1.2mm 2.5mm;
-  border-bottom: 0.3mm solid var(--gold);
   text-align: end;
-  font-size: 6pt;
-  font-weight: 600;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--gold-text);
 }
 
 .mini td {
   padding: 1.3mm 0 1.3mm 1.5mm;
-  border-bottom: 0.25mm solid var(--line);
-  text-align: end;
+  border-bottom: 0.15mm solid var(--rule);
   font-weight: 600;
   font-variant-numeric: tabular-nums;
+  text-align: end;
   white-space: nowrap;
 }
 
 .mini td:first-child {
   padding-left: 0;
-  text-align: start;
   font-weight: 400;
+  text-align: start;
   white-space: normal;
 }
 
-/* ---------- Tableau site par site (dix critères) ---------- */
+/* Tableau site par site (dix critères). */
 .matrice {
-  width: 100%;
   margin-top: 3mm;
-  border-collapse: collapse;
   font-size: 7.4pt;
   line-height: 1.15;
 }
 
 .matrice thead tr {
-  border-bottom: 0.3mm solid var(--gold);
+  border-bottom: 0.2mm solid var(--hair);
 }
 
 .matrice th.m-site {
   padding-bottom: 1.4mm;
   vertical-align: bottom;
   text-align: start;
-  font-size: 6.2pt;
+  font-size: 5.9pt;
   font-weight: 600;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--gold-text);
+  color: var(--accent);
 }
 
 .matrice th.m-c {
   width: 8mm;
-  height: 27mm;
+  height: 25.5mm;
   padding: 0 0 1.4mm;
   vertical-align: bottom;
 }
@@ -1365,12 +1017,11 @@ sup {
   font-size: 6.3pt;
   font-weight: 500;
   white-space: nowrap;
-  color: var(--ink);
 }
 
 .matrice td {
-  padding: 0.56mm 0;
-  border-bottom: 0.2mm solid var(--line);
+  padding: 0.34mm 0;
+  border-bottom: 0.15mm solid var(--rule);
   text-align: center;
 }
 
@@ -1383,71 +1034,65 @@ sup {
   font-weight: 600;
 }
 
-.m-oui,
-.m-nuance {
-  color: var(--viz-fill);
-}
-
-.m-non {
-  color: #b9b1a3;
-}
-
 .matrice .m-groupe td {
-  padding: 1.5mm 0 0.6mm;
-  border-bottom: 0.2mm solid var(--gold);
+  padding: 1.1mm 0 0.4mm;
+  border-bottom: 0.2mm solid var(--hair);
   text-align: start;
-  font-size: 5.9pt;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--gold-text);
+  font-family: var(--display);
+  font-size: 8.4pt;
+  font-style: italic;
+  color: var(--accent);
 }
 
 .matrice .m-total td {
   padding-top: 1.3mm;
-  border-top: 0.3mm solid var(--ink);
+  border-top: 0.25mm solid var(--fg);
   border-bottom: 0;
+  font-family: var(--display);
+  font-size: 9pt;
+}
+
+.matrice .m-total td.m-site {
+  font-family: var(--text);
+  font-size: 7.4pt;
   font-weight: 600;
-  font-variant-numeric: tabular-nums;
 }
 
 .matrice .m-total td small {
+  font-family: var(--text);
   font-size: 5.4pt;
-  font-weight: 400;
-  color: var(--muted);
+  color: var(--soft);
 }
 
 .matrice .m-jr td {
-  padding: 1.5mm 0;
+  padding: 1.6mm 0;
   border-bottom: 0;
   background: var(--noir);
-  color: var(--ivory);
+  color: #f4efe5;
+  --fill: var(--gold-fill);
+  --soft: #8a8376;
 }
 
 .matrice .m-jr td.m-site {
-  padding-left: 1.8mm;
-}
-
-.matrice .m-jr .m-oui {
-  color: var(--gold-fill);
-}
-
-.matrice .m-jr .m-non {
-  color: #8a8376;
+  padding-left: 2mm;
+  font-family: var(--display);
+  font-size: 9pt;
+  letter-spacing: 0.02em;
 }
 
 .legende {
-  margin-top: 2.2mm;
+  margin-top: 2.4mm;
 }
 
-/* ---------- Fiche d'un site ---------- */
+/* ================= Fiches des sites ================= */
+
 .fiche {
   display: grid;
   grid-template-columns: 33mm 1fr;
-  column-gap: 3.4mm;
+  column-gap: 3.6mm;
   align-items: start;
-  padding: 2.25mm 0;
-  border-top: 0.25mm solid var(--line);
+  padding: 2.3mm 0;
+  border-top: 0.15mm solid var(--rule);
 }
 
 .fiche-img {
@@ -1455,49 +1100,48 @@ sup {
 }
 
 .fiche-img.frame {
-  border-radius: 1.2mm;
-  box-shadow: 0 0.6mm 2mm rgba(11, 10, 8, 0.12);
+  border-radius: 0.8mm;
+  box-shadow: 0 0.8mm 2.4mm rgba(11, 10, 8, 0.12);
 }
 
 .sans-capture {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 1.5mm 2mm;
-  border: 0.25mm dashed #b3a78f;
-  border-radius: 1.2mm;
-  font-size: 5.9pt;
-  line-height: 1.3;
+  padding: 1.5mm 2.2mm;
+  border: 0.15mm solid color-mix(in srgb, var(--hair) 60%, transparent);
+  outline: 0.12mm solid color-mix(in srgb, var(--hair) 30%, transparent);
+  outline-offset: -0.9mm;
+  font-size: 5.8pt;
+  line-height: 1.32;
   text-align: center;
-  color: var(--muted);
+  color: var(--soft);
 }
 
 .fiche h3 {
-  font-family: var(--text);
-  font-size: 8.8pt;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: 1.2;
+  font-size: 10.6pt;
+  font-weight: 500;
+  line-height: 1.15;
 }
 
 .fiche h3 .lieu {
-  margin-inline-start: 1.2mm;
-  font-size: 7pt;
+  margin-inline-start: 1.6mm;
+  font-family: var(--text);
+  font-size: 6.7pt;
   font-weight: 400;
-  color: var(--muted);
+  letter-spacing: 0.02em;
+  color: var(--soft);
 }
 
 .fiche h3 .st {
   float: right;
-  margin-top: 0.25mm;
-  padding: 0.15mm 1.4mm 0.25mm;
-  border: 0.2mm solid currentColor;
-  border-radius: 3mm;
-  font-size: 5.5pt;
+  margin-top: 1.1mm;
+  font-family: var(--text);
+  font-size: 5.2pt;
   font-weight: 600;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--soft);
 }
 
 .fiche .note {
@@ -1510,27 +1154,57 @@ sup {
   margin: 0;
   font-size: 6.9pt;
   line-height: 1.3;
-  color: var(--muted);
+  color: var(--soft);
 }
 
 .fiche .prix b {
   margin-inline-end: 1mm;
-  font-size: 5.7pt;
-  letter-spacing: 0.12em;
+  font-size: 5.6pt;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--gold-text);
+  color: var(--accent);
 }
 
 .fiche-groupe {
-  margin: 3mm 0 1mm;
-  font-size: 6.1pt;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--gold-text);
+  margin: 3mm 0 1.2mm;
+  font-family: var(--display);
+  font-size: 10pt;
+  font-style: italic;
+  color: var(--accent);
 }
 
-/* ---------- Annexe : les États américains, deux colonnes par page (mise en pages par build.mjs) ---------- */
+/* Vignettes en rang. */
+.strip {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 2.2mm;
+  margin-top: 5mm;
+}
+
+.strip .frame {
+  aspect-ratio: 9 / 12;
+  border-radius: 1.5mm;
+}
+
+.gal {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3.2mm;
+  margin-top: 1.8mm;
+}
+
+.gal.quatre {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.gal .shot figcaption {
+  margin-top: 1.3mm;
+  font-size: 6.4pt;
+  line-height: 1.32;
+}
+
+/* ================= Annexe : deux colonnes par page (mise en pages par build.mjs) ================= */
+
 .annexe-page h2 {
   font-size: 15pt;
 }
@@ -1550,10 +1224,12 @@ sup {
 .a-etat {
   margin: 2.4mm 0 0.9mm;
   padding-bottom: 0.5mm;
-  border-bottom: 0.25mm solid var(--gold);
+  border-bottom: 0.2mm solid var(--hair);
   font-family: var(--display);
-  font-size: 8.6pt;
+  font-size: 9pt;
+  font-style: italic;
   line-height: 1.1;
+  color: var(--accent);
 }
 
 .a-col > .a-etat:first-child {
@@ -1567,16 +1243,18 @@ sup {
 .a-etat small {
   margin-inline-start: 1.2mm;
   font-family: var(--text);
-  font-size: 5.4pt;
-  letter-spacing: 0.08em;
+  font-size: 5.3pt;
+  font-style: normal;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--soft);
 }
 
 .a-site {
   margin: 0 0 1.25mm;
   font-size: 6.15pt;
   line-height: 1.27;
+  overflow-wrap: anywhere;
 }
 
 .a-site b {
@@ -1585,71 +1263,357 @@ sup {
 
 .a-st {
   margin-inline-start: 0.6mm;
-  font-size: 5.2pt;
-  letter-spacing: 0.08em;
+  font-size: 5.1pt;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--soft);
 }
 
-.a-prix {
-  color: var(--muted);
-}
-
+.a-prix,
 .a-bloque {
-  color: var(--muted);
+  color: var(--soft);
 }
 
-/* Titres de colonne des pages de marché (fond noir). */
-.dark h3 {
+/* ================= Couverture, ouvertures de partie, dernière page ================= */
+
+/* Noir pur sous les rendus : leur fond est aplati sur #000, sans rectangle visible. */
+.page.cover,
+.page.opener {
+  --bg: #000;
+  padding: 0;
+}
+
+.cover-brand {
+  position: absolute;
+  top: 12.5mm;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.4mm;
+  font-family: var(--display);
+  font-size: 9pt;
+  letter-spacing: 0.46em;
+  text-indent: 0.46em;
+  text-transform: uppercase;
   color: var(--champagne);
 }
 
-/* Repères dessinés (la police du texte n'a pas le demi-disque) : forme et couleur, jamais la couleur seule. */
-.pt {
-  display: inline-block;
-  width: 1.9mm;
-  height: 1.9mm;
-  border-radius: 50%;
-  vertical-align: -0.15mm;
+.cover-brand svg,
+.back-foot svg,
+.opener-mono svg {
+  width: 10.5mm;
+  height: 10.5mm;
+  color: var(--gold-fill);
 }
 
-.pt-oui {
-  background: var(--viz-fill);
+.cover-img {
+  position: absolute;
+  top: 31mm;
+  left: 10mm;
+  right: 10mm;
+  height: 96mm;
 }
 
-.pt-nuance {
-  border: 0.3mm solid var(--viz-fill);
-  background: linear-gradient(90deg, var(--viz-fill) 50%, transparent 50%);
+.cover-img img,
+.opener-img img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 50% 50%;
 }
 
-.pt-non {
-  width: 1.7mm;
-  height: 0.3mm;
-  border-radius: 0;
-  background: #b0a898;
-  vertical-align: 0.75mm;
+.cover-text {
+  position: absolute;
+  left: 17mm;
+  right: 17mm;
+  bottom: 14.5mm;
+  text-align: center;
 }
 
-.matrice .m-jr .pt-oui {
-  background: var(--gold-fill);
+.cover-text .kicker {
+  margin-bottom: 4mm;
 }
 
-.matrice .m-jr .pt-non {
-  background: #8a8376;
+.cover-text h1 {
+  font-size: 27pt;
+  line-height: 1.08;
 }
 
-.bord td.b-jr .pt {
-  margin-inline-end: 1mm;
+.cover-text h1 em {
+  display: block;
+  color: var(--champagne);
 }
 
-.gal.quatre {
+.cover-text .lede {
+  margin: 0 auto;
+  max-width: 96mm;
+  font-size: 9.6pt;
+  line-height: 1.5;
+}
+
+.cover-foot {
+  margin: 4.5mm 0 0;
+  font-size: 5.6pt;
+  letter-spacing: 0.2em;
+  line-height: 1.7;
+  text-transform: uppercase;
+  color: #8f877a;
+}
+
+.opener-img {
+  position: absolute;
+  top: 17mm;
+  left: 13mm;
+  right: 13mm;
+  height: 116mm;
+}
+
+.opener-img.frise {
+  display: grid;
   grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  top: 46mm;
+  left: 8.5mm;
+  right: 8.5mm;
+  height: auto;
 }
 
-.dark .gal .frame {
-  border-color: rgba(217, 192, 143, 0.28);
+.opener-img.frise figure {
+  margin: 0;
+  text-align: center;
 }
 
-.a-site {
-  overflow-wrap: anywhere;
+.opener-img.frise img {
+  height: 56mm;
+}
+
+.opener-img.frise figcaption {
+  margin-top: 1.2mm;
+  font-size: 5.4pt;
+  font-weight: 400;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+/* Gros plan : le cadre prend la forme de l'image, puis fond vers le noir en haut et sur les côtés, pour que la pierre et l'anneau ne s'arrêtent pas net. */
+.opener-img.fondu {
+  top: 31mm;
+  height: auto;
+  aspect-ratio: 1300 / 939;
+}
+
+.opener-img.fondu::after {
+  content: '';
+  position: absolute;
+  inset: -0.2mm;
+  background:
+    linear-gradient(180deg, #000 0%, rgba(0, 0, 0, 0) 19%),
+    linear-gradient(90deg, #000 0%, rgba(0, 0, 0, 0) 16%, rgba(0, 0, 0, 0) 84%, #000 100%);
+}
+
+.opener-body {
+  position: absolute;
+  left: 18mm;
+  right: 18mm;
+  bottom: 25mm;
+  text-align: center;
+}
+
+.opener-num {
+  margin: 0;
+  font-family: var(--display);
+  font-size: 15pt;
+  font-style: italic;
+  letter-spacing: 0.08em;
+  color: var(--champagne);
+}
+
+.opener-body h2 {
+  margin-top: 1.5mm;
+  font-size: 27pt;
+}
+
+.opener-sub {
+  margin: 0 auto;
+  max-width: 92mm;
+  font-size: 8.8pt;
+  font-weight: 300;
+  line-height: 1.55;
+  color: #cfc7b8;
+}
+
+.opener-note {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 11mm;
+  margin: 0;
+  font-size: 5.3pt;
+  letter-spacing: 0.22em;
+  text-align: center;
+  text-transform: uppercase;
+  color: #8f877a;
+}
+
+/* L'essentiel */
+.five {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: five;
+}
+
+.five li {
+  position: relative;
+  margin: 0;
+  padding: 2.6mm 9mm 2.6mm 9.5mm;
+  border-top: 0.15mm solid var(--rule);
+  counter-increment: five;
+  font-size: 8.9pt;
+  line-height: 1.4;
+}
+
+.five li:last-child {
+  border-bottom: 0.15mm solid var(--rule);
+}
+
+.five li::before {
+  content: counter(five);
+  position: absolute;
+  left: 0.5mm;
+  top: 1.2mm;
+  font-family: var(--display);
+  font-size: 18pt;
+  font-style: italic;
+  color: var(--hair);
+}
+
+.go {
+  font-size: 6.2pt;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--accent);
+}
+
+a.go {
+  color: var(--accent);
+}
+
+.five .go {
+  position: absolute;
+  right: 0;
+  top: 3.1mm;
+}
+
+/* Méthode */
+.steps {
+  display: grid;
+  gap: 3mm;
+  margin-top: 5mm;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 9mm 1fr;
+  align-items: start;
+  font-size: 8.9pt;
+  line-height: 1.42;
+}
+
+.step .sn {
+  font-family: var(--display);
+  font-size: 20pt;
+  font-style: italic;
+  line-height: 0.95;
+  color: var(--hair);
+}
+
+/* Déjà fait */
+.done li {
+  position: relative;
+  margin: 0 0 2.4mm;
+  padding-inline-start: 15.5mm;
+  font-size: 8.4pt;
+  line-height: 1.4;
+}
+
+.done li .etat {
+  position: absolute;
+  left: 0;
+  top: 0.35mm;
+  margin: 0;
+}
+
+/* Sources et dernière page */
+.src-list li {
+  display: grid;
+  margin: 0;
+  padding: 1.55mm 0;
+  border-top: 0.15mm solid var(--rule);
+  font-size: 8.6pt;
+}
+
+.src-list li:last-child {
+  border-bottom: 0.15mm solid var(--rule);
+}
+
+.src-list b {
+  font-family: var(--display);
+  font-size: 10.4pt;
+  font-weight: 500;
+}
+
+.src-list .mono {
+  margin-top: 0.5mm;
+  color: var(--champagne);
+}
+
+.src-list i {
+  margin-top: 0.6mm;
+  font-size: 7.4pt;
+  font-style: normal;
+  color: var(--soft);
+}
+
+.back-foot {
+  position: absolute;
+  left: 12mm;
+  right: 12mm;
+  bottom: 12.5mm;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.2mm;
+  font-size: 7.4pt;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.back-foot p {
+  margin: 0;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.3mm 1.8mm 0.45mm;
+  border: 0.2mm solid currentColor;
+  border-radius: 0.5mm;
+  font-size: 5.8pt;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+h3 .tag {
+  margin-inline-start: 1.5mm;
+  font-family: var(--text);
+  vertical-align: 0.5mm;
+  color: var(--accent);
 }

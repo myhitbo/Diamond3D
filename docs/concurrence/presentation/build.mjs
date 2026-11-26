@@ -148,12 +148,13 @@ const report = await page.evaluate(() => {
   const pages = [...document.querySelectorAll('.page')].map((p, k) => {
     const box = p.getBoundingClientRect();
     const folio = p.querySelector('.folio');
-    const limit = folio ? folio.getBoundingClientRect().top - 4 : box.bottom;
+    const foot = p.querySelector('.back-foot'); // signature posée en bas de la dernière page : le texte ne doit pas passer dessous
+    const limit = Math.min(folio ? folio.getBoundingClientRect().top - 4 : box.bottom, foot ? foot.getBoundingClientRect().top - 2 : Infinity);
     let worst = 0;
     let where = '';
     for (const el of p.querySelectorAll(':scope > *:not(.folio):not(.cover-img):not(.back-foot)')) {
       const r = el.getBoundingClientRect();
-      const over = Math.max(r.bottom - limit, r.right - box.right + 0.5, box.left - r.left + 0.5);
+      const over = Math.max(r.bottom - limit, r.right - box.right - 0.5, box.left - r.left - 0.5); // un élément en pleine largeur n'est pas un débordement
       if (over > worst) {
         worst = over;
         where = (r.bottom - limit >= over ? 'bas' : 'côté') + ' de ' + el.tagName.toLowerCase() + (el.className ? '.' + String(el.className).split(' ')[0] : '');

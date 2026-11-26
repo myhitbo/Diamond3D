@@ -1,10 +1,12 @@
 # Présentation de l'étude de concurrence (PDF)
 
-Un PDF de 41 pages au format A5 debout (lisible sur un téléphone sans zoom), pour partager l'étude avec des collègues. Il compare JR Diamond aux joailliers en ligne de **trois marchés : États-Unis, France, Israël** (245 des 371 sites de l'étude ; demande du propriétaire du 26/11). L'Europe hors France et l'Australie n'y figurent pas : elles restent dans `../SYNTHESE.md` et dans `../audit/`.
+Un PDF de 45 pages au format A5 debout (lisible sur un téléphone sans zoom), pour partager l'étude avec des collègues, mis en page comme un catalogue de haute joaillerie (demande du propriétaire du 26/11). Il compare JR Diamond aux joailliers en ligne de **trois marchés : États-Unis, France, Israël** (245 des 371 sites de l'étude ; demande du propriétaire du 26/11). L'Europe hors France et l'Australie n'y figurent pas : elles restent dans `../SYNTHESE.md` et dans `../audit/`.
 
-1. **Synthèse** (15 pages) : l'essentiel, la méthode, le tableau de bord « JR Diamond face aux trois marchés », huit constats avec captures commentées, les forums, l'alliance de kiddouchin.
-2. **Site par site** (13 pages) : pour Israël (21 sites), la France (8) et les vendeurs nationaux américains (12), une page de marché, un tableau de dix critères et une fiche par site. Un site sans capture est décrit comme les autres ; la raison de l'absence d'image est écrite à sa place.
-3. **Conclusions** (5 pages) : nos avantages, ce qu'il ne faut pas copier, ce que l'étude a déjà changé sur le site, qui fait quoi, les limites.
+Après la couverture, l'essentiel en une page et la méthode, quatre parties, chacune ouverte par une page noire qui porte un rendu 3D de la bague :
+
+1. **I · La synthèse** (12 pages) : le tableau de bord « JR Diamond face aux trois marchés », huit constats avec captures commentées, les forums, l'alliance de kiddouchin.
+2. **II · Site par site** (13 pages) : pour Israël (21 sites), la France (8) et les vendeurs nationaux américains (12), une page de marché, un tableau de dix critères et une fiche par site. Un site sans capture est décrit comme les autres ; la raison de l'absence d'image est écrite à sa place.
+3. **III · Ce que nous en faisons** (5 pages) : nos avantages, ce qu'il ne faut pas copier, ce que l'étude a déjà changé sur le site, qui fait quoi, les limites.
 4. **Annexe** (7 pages) : les 204 joailliers des 50 États américains, un par un. Puis la page des sources.
 
 Le PDF est balisé (lecteurs d'écran), porte un signet par page et des liens internes.
@@ -17,7 +19,7 @@ Le PDF est balisé (lecteurs d'écran), porte un signet par page et des liens in
 | `extraire.py` | tire des synthèses d'audit la liste des sites des trois marchés → `donnees/sites.json` | oui |
 | `donnees/sites.json` | 246 lignes : Israël 21, France 9 (dont 1 bloqué), États-Unis 216 ; statut, visuel, prix relevé, rapport, site bloqué, site qui demande une identification | oui |
 | `pages_sites.py` | tableaux, fiches et annexe (`.fragments/`) ; contient les dix critères et la phrase « à retenir » de chaque site | oui |
-| `style.css` | mise en page (identité du site : noir, ivoire, or ; Bodoni Moda et Jost) | oui |
+| `style.css` | mise en page (identité du site : noir, ivoire, or ; Bodoni Moda et Jost) ; voir « Mise en page » plus bas | oui |
 | `build.mjs` | assemble, numérote, met l'annexe en colonnes, contrôle les débordements, imprime le PDF avec Chromium (Playwright) | oui |
 | `signets.py` | pose les signets (un par page) et les métadonnées du PDF ; demande `pypdf` | oui |
 | `images.json`, `crop.py` | liste des images (site, pays, adresse, date, fichier d'origine, recadrage) et recadrage vers `img/` | oui |
@@ -43,6 +45,16 @@ CHROMIUM_PATH=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome \
 - `build.mjs` lance `pages_sites.py`, qui vérifie que les totaux des tableaux recoupent la synthèse (Israël : 16, 7, 2, 1, 16 + 1, 10, 10, 16, 14, 8 ; France : 7, 5, 0, 2, 5, 5, 8, 8, 4, 5) et s'arrête sinon.
 - Dans `etude.html` : `<!--@inclure nom-->` insère `.fragments/nom.html` ; `data-ancre="x"` nomme une page ; `{{page:x}}` et `href="#@x"` y renvoient, avec le bon numéro.
 - Le script doit finir par « aucune page ne dépasse ». Relire ensuite les aperçus page par page : le contrôle automatique ne voit ni un repère mal placé sur une capture, ni un texte qui en recouvre un autre.
+- Poids attendu : 7 Mo environ. S'il double, voir « Mise en page », dernier point.
+
+## Mise en page
+
+- **Thème par page** : chaque page règle ses couleurs par des variables (`--bg`, `--fg`, `--soft`, `--rule`, `--accent`, `--hair`, `--fill`, `--track`) ; `.page` est ivoire, `.page.cream` crème, `.page.dark` noire. Un composant n'écrit jamais une couleur en dur : il lit ces variables.
+- **Typographie** : titres, chiffres et numéros en Bodoni Moda (l'italique doré porte le mot important du titre) ; texte en Jost ; surtitres et étiquettes en petites capitales espacées.
+- **Ornements** : filet et losange en tête de page ; double filet `.cadre` sur la couverture et les ouvertures ; cartouche `.chez` (double filet, étiquette posée sur le bord) pour ce qui nous concerne ; citations de forums sur fond noir ; `.orn.fin` clôt une liste de fiches ou un chapitre.
+- **Pages d'ouverture** (`.opener`) : un rendu 3D, un numéro, un titre, une ligne. Le fond de ces pages et de la couverture est le noir pur `#000`, et les rendus sont aplatis sur `#000000` dans `images.json` : sur un noir différent, le rectangle de l'image se voit.
+- **États et repères** : losange plein, losange à demi rempli, tiret (`.pt`) ; pastilles « Fait », « À faire », « Atelier », « Propriétaire », « Avocat » avec leur mot. Ces formes sont dessinées en CSS (les polices n'ont pas ces signes).
+- **Piège de poids** : un dégradé CSS placé sous une rotation (`transform: rotate`), ou découpé par le texte (`background-clip: text`), fait pixelliser la page entière par Chromium à l'impression : le PDF passe de 7 à 17 Mo. Pour un losange ou un demi-losange, n'employer que des formes pleines (bordure épaisse, `box-shadow`). Un dégradé sans rotation (fondu d'une image vers le noir) ne coûte rien.
 
 ## Règles suivies
 

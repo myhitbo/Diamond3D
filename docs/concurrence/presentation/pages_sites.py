@@ -14,7 +14,7 @@ os.makedirs(OUT, exist_ok=True)
 FOLIO = '  <div class="folio"><span>JR Diamond · Étude de concurrence</span><span class="num"></span></div>\n'
 CRITERES = ['Prix affiché', 'Prix qui suit une option', 'Monture et pierre séparées', '3D en temps réel', 'WhatsApp', 'Rendez-vous, visio ou rappel',
             'Paiement en plusieurs fois', 'Retours écrits', 'Garantie écrite', 'Mise à taille offerte']
-JR = ('JR Diamond', 'Ramat Gan, Bourse', '---xx----x')
+JR = ('JR Diamond', 'Ramat Gan, Bourse', '---xx--o-x')  # retours : la FAQ dit « ni repris ni échangé, sauf défaut », à confirmer
 
 # ---------------------------------------------------------------- Israël : 21 sites
 # (nom dans sites.json, nom affiché, lieu, critères, vignette ou None, raison de l'absence de capture, à retenir, prix repère)
@@ -32,22 +32,22 @@ ISRAEL = [
   ("Levy's Jewelry", "Levy's", 'Ramat Gan, Bourse', 'xx--x-xx-x', None, 'ident',
    'Curseur de poids à 7 crans ; date de livraison sur la fiche ; jusqu\'à 24 paiements. Défaut : 30 jours de retour sur la fiche, 48 heures dans la politique.',
    '« Santorini » ovale synthétique 14 carats : 3 000 ₪ (0,70 ct) à 10 700 ₪ (4 ct)'),
-  ('B-Gem', 'B-Gem', 'Ramat Gan, Jabotinsky 3', 'x-x----xx-', 'th_bgem', '',
-   'Prix en dollars, hors TVA ; 2 513 diamants filtrables jusqu\'à la fluorescence. « Setting price » et « Gemstone price » séparés. Défaut : la vue à 360° était en panne.',
+  ('B-Gem', 'B-Gem', 'Ramat Gan, Jabotinsky 3', 'x-x----xxo', 'th_bgem', '',
+   'Prix en dollars par défaut, hors TVA ; 2 513 diamants filtrables jusqu\'à la fluorescence. « Setting price » et « Gemstone price » séparés. Défaut : la vue à 360° était en panne.',
    'monture 519 $ + diamant 0,60 ct 1 326 $ = 1 845 $ hors TVA'),
   ('Rozenbaum', 'Rozenbaum', 'Ramat Gan, Zisman Shalom 3', 'xx--x-xxxx', None, 'inconnu',
-   'Panier en trois clics, livraison gratuite, 8 paiements. Défaut : 2 jours ouvrés pour un retour, aucun pour le synthétique.',
+   'Panier en trois clics, livraison gratuite au panier, 8 paiements. Défaut : 2 jours ouvrés pour un retour, aucun pour le synthétique.',
    '« Danielle » naturel, or blanc : 3 320 ₪ (0,30 ct) à 14 200 ₪ (1 ct)'),
   ('Daskalo Diamonds', 'Daskalo', 'Bourse, Tuval 23', 'x---xxxxxx', 'th_daskalo', '',
    'Catalogue à prix barrés ; 12 paiements sans intérêt ; rappel par un expert ; livraison offerte et retrait à la Bourse. Défaut : l\'image ne change pas avec la couleur de l\'or.',
    'naturel 1,35 ct : 13 900 ₪ barré, 10 700 ₪'),
   ('IDC – Israel Diamond Center', 'IDC', 'Bourse, bâtiment Maccabi', '----xx-xxx', 'gal_idc', '',
-   'Site en russe, en hébreu et en anglais. Hors d\'Israël, le prix et l\'achat sont masqués. Acompte de 20 % en sur-mesure, garantie à vie, retrait le jour même.',
+   'Site en russe, en hébreu et en anglais. Hors d\'Israël, le prix et l\'achat sont masqués. Acompte de 20 % en sur-mesure, garantie à vie, retrait le jour même le plus souvent.',
    'aucun prix lisible depuis l\'étranger'),
-  ('IDT – Israel Diamond Trade', 'IDT', 'Ramat Gan, « tour du diamant »', '----xx--x-', 'th_idt', '',
+  ('IDT – Israel Diamond Trade', 'IDT', 'Ramat Gan, « tour du diamant »', '----xo--x-', 'th_idt', '',
    'En russe ; ni boutique ni panier : téléphone, WhatsApp, Telegram. Modèle 3D envoyé par e-mail avant la cire ; garantie à vie du sertissage.',
    'aucun prix de bijou ; dollars seulement'),
-  ('Moshe Skapa', 'Moshe Skapa', 'Bourse, bureau 1141', '----xx----', None, 'injoignable',
+  ('Moshe Skapa', 'Moshe Skapa', 'Bourse, bureau 1141', '----xx----', None, 'skapa',
    'En russe (BrillRings et isradiamond.ru) ; aucun prix de bague, « prix sur demande ». Rendez-vous à la Bourse ; micro-gravure de la pierre contrôlable au bureau.',
    'diamants nus en dollars : 868 $ (1,06 ct) à 619 064 $ (9,33 ct)'),
   ('La Perla Jewelry', 'La Perla', 'Ramat Gan, Harakon 9', 'x---o-x---', 'th_laperla', '',
@@ -58,27 +58,27 @@ ISRAEL = [
   ('Diamony', 'Diamony', 'studio en ligne, sans adresse', 'x---xx-xx-', 'gal_diamony', '',
    'Synthétique et naturel côte à côte sur chaque carte. Tout sur une page : acompte de 500 ₪ à la validation de la 3D, garantie de 12 mois, griffes contrôlées à vie. Essayage en réalité augmentée annoncé, non testé.',
    '« Alma » 0,45 ct : dès 3 100 ₪ en synthétique, 6 200 ₪ en naturel'),
-  ('XLAB Diamonds', 'XLAB', 'Petah Tikva, Netanya, Raanana', 'x---x-xxxx', 'th_xlab', '',
+  ('XLAB Diamonds', 'XLAB', 'Petah Tikva, Netanya, Raanana', 'xo--x-xxxx', 'th_xlab', '',
    'Synthétique seul ; 4,9 sur 5 pour 393 avis, avec réponses du propriétaire ; mise à taille à vie. Défauts : essayage annoncé sans bouton ; retour de 2 jours, rien au-dessus de 3 000 ₪.',
-   'solitaire 14 carats, 0,50 à 3 ct : 3 500 à 8 900 ₪, moins 25 % en promotion'),
+   'solitaire 14 carats, 0,50 à 3 ct : 3 500 à 8 900 ₪, moins 25 % le 16/11'),
   ('Inbar Jewelry', 'Inbar', 'Tel-Aviv, Dizengoff 237', '----x-x---', None, 'antirobot',
    'Aucun prix de modèle, aucune option, aucun panier : tout passe par WhatsApp. 24 paiements ; certificat IGL.',
    '« dès 5 000 ₪ » pour une bague de fiançailles'),
-  ('Louisa Jewelry', 'Louisa', 'Tel-Aviv, Shontsino 11', 'xx--xx-xx-', 'th_louisa', '',
-   'En russe ; le prix suit le carat. Vidéo au microscope du numéro gravé sur la pierre, comparé au certificat. Vend deux alliances de kiddouchin (1 290 et 1 690 ₪).',
+  ('Louisa Jewelry', 'Louisa', 'Tel-Aviv, Shontsino 11', 'xx--xxoxx-', 'th_louisa', '',
+   'Lu dans sa version russe ; le prix suit le carat. Vidéo au microscope du numéro gravé sur la pierre, comparé au certificat, en service à part. Alliances de kiddouchin à 1 290 et 1 690 ₪ d\'après l\'inventaire.',
    '« Lotus » ovale synthétique : 5 490 / 5 990 / 6 490 ₪ pour 1,5 / 2 / 2,5 ct'),
  ]),
  ('Le reste du pays', [
   ('Alpha Gold', 'Alpha Gold', 'Haïfa', 'xx--x-xxx-', 'gal_alphagold', '',
-   '152 bagues en synthétique ; suivi de fabrication par SMS ; légende « rendu, le produit réel peut différer ». Annulation acceptée même sur commande.',
+   '152 bagues en synthétique ; suivi de fabrication par SMS ; légende « rendu, le produit réel peut différer légèrement ». Annulation acceptée même sur commande.',
    '« Rosalyn » synthétique 2 ct, 14 carats : 5 179 ₪ TVA comprise'),
   ('Lavi Jewellry', 'Lavi', 'Kiryat Gat, atelier à la Bourse', 'x---x-xxx-', 'th_lavi', '',
    'Sur-mesure avec modèle 3D gratuit avant fabrication, mais par WhatsApp, hors du site ; 12 paiements ; 109 avis Google. Défaut : « sans frais » sur la fiche, 5 % ou 100 ₪ dans la politique.',
    'fiche à 2 933 ₪ (4 190 ₪ barré), soit 12 × 245 ₪'),
   ("L'Émeraude Paris", "L'Émeraude", 'Netanya', '---xxx--x-', 'th_lemeraude', '',
-   'La seule 3D en temps réel d\'Israël : un modèle générique, avec un bouton qui montre le maillage. Ni prix ni panier. Hébreu, français et anglais, mais le configurateur reste en français.',
+   'La seule 3D en temps réel des 21 sites audités : un modèle générique, avec un bouton qui montre le maillage. Ni prix ni panier. Hébreu, français et anglais, mais le configurateur reste en français.',
    'aucun prix'),
-  ('Danny Eliav', 'Danny Eliav', 'Jérusalem', 'x------x--', None, 'ident',
+  ('Danny Eliav', 'Danny Eliav', 'Jérusalem', 'xo-----x--', None, 'ident',
    'En anglais et en dollars ; 24 bagues. Une même fiche oppose le naturel au synthétique en deux phrases neutres.',
    'même solitaire platine : 18 000 $ en naturel, 3 000 $ en synthétique'),
   ('Jerusalem Jeweler', 'Jerusalem Jeweler', 'Jérusalem', 'x------x--', 'th_jj', '',
@@ -105,7 +105,7 @@ FRANCE = [
   'Synthétique par défaut ; gravure offerte avec aperçu ; garantie et mise à taille à vie. Défauts : le même prix pour les quatre métaux ; moins 20 % affiché. Lu sans navigateur.',
   '33 prix, de 880 € (0,30 ct) à 7 456 € (5 ct)'),
  ('Courbet', 'Courbet', 'Paris', 'xx-x-xxx-x', 'th_courbet', '',
-  'Synthétique seul ; une vraie 3D en temps réel (forme, carat, couleur, pureté), mais la société est en liquidation : le 26/11, le site annonce une « pause » de ses collections.',
+  'Synthétique seul ; une vraie 3D en temps réel (forme, carat, couleur, pureté), mais la société a été liquidée et la vente est arrêtée : le 26/11, le site annonce une « pause » de ses collections.',
   'halo pavé or blanc : 3 600 € (0,3 ct) à 6 500 € (1 ct)'),
  ("L'Alliancier", "L'Alliancier", 'France', 'xx-x--xxo-', 'th_alliancier', '',
   'Configurateur 3D d\'alliances, six onglets, gravure visible dans la 3D ; 4,9 sur 5 pour 295 avis. Défauts : 15 à 28 secondes avant la 3D ; garantie « à vie » ici, un an là.',
@@ -142,7 +142,7 @@ USA = [
  ('Frank Darling', 'Frank Darling', 'New York, 14 salles', 'xxx--xxxxx', 'gal_frankdarling', '',
   'Vue à 360° en 321 images par métal ; répliques à essayer chez soi ; croquis gratuits et modèle 3D en sur-mesure ; baguier envoyé. Reprend même le sur-mesure et le gravé.',
   '« Ripple » ovale, 14 carats : 2 560 $ ; au panier 3 896,24 $ avec la pierre'),
- ('Ritani', 'Ritani', 'en ligne', 'ooo---oooo', None, 'bloque',
+ ('Ritani', 'Ritani', 'en ligne', 'o-o---oooo', None, 'bloque',
   'Lu sans visite. Seul à décomposer le prix de la pierre : coût de gros, acheminement, marge. Suivi de fabrication en 7 étapes. Modèle numérique en sur-mesure : 150 $, déduits de l\'achat.',
   'synthétique 3,50 ct : 314,89 + 202,75 + 504,36 = 1 022 $'),
  ('Brilliant Earth', 'Brilliant Earth', 'en ligne, 44 salles', 'ooo--ooooo', None, 'bloque',
@@ -168,7 +168,8 @@ RAISONS = {
  'cookies': 'Pas de capture : page floutée derrière un panneau de cookies sans refus.',
  'antirobot': 'Pas de capture : contrôle anti-robot le 26/11.',
  'injoignable': 'Pas de capture : site injoignable le 26/11.',
- 'inconnu': 'Pas de capture : fichier pour agents illisible.',
+ 'inconnu': 'Pas de capture : le site refuse la lecture de son fichier pour agents.',
+ 'skapa': 'Pas de capture : un de ses deux sites injoignable le 26/11, l\'autre refuse la lecture de son fichier pour agents.',
 }
 MARK = {'x': ('oui', 'oui'), 'o': ('nuance', 'à nuancer'), '-': ('non', 'non')}
 
@@ -253,11 +254,13 @@ def israel():
         rows.append((group, r))
     assert sum(len(s) for _, s in ISRAEL) == len(data) == 21
     table, totals, nuances = matrice(rows)
-    assert totals == [16, 7, 2, 1, 16, 10, 10, 16, 14, 8] and nuances[4] == 1, (totals, nuances)
+    # relevés + à nuancer = totaux de la synthèse (16, 7, 2, 1, 16 ou 17, 10, 10, 16, 14, 8), plus quatre nuances venues de la relecture du 26/11
+    assert totals == [16, 7, 2, 1, 16, 9, 10, 16, 14, 8] and nuances == [0, 2, 0, 0, 1, 1, 1, 0, 0, 1], (totals, nuances)
     pages = [page('Israël · site par site', '21 sites, <em>dix critères</em>',
-                  '  <p class="viz-sub" style="margin-top:2.5mm">Onze des 21 sites sont à Ramat Gan, la plupart à la Bourse du diamant : nos voisins.</p>\n' + table +
-                  LEGENDE.format(nuance='La Perla, WhatsApp relevé le 25/11 mais pas le 16/11', extra=' · <sup>a</sup> site qui demande aux agents de s\'identifier (voir les limites)') +
-                  '\n  <p class="tiny muted">Totaux identiques à ceux de la synthèse de l\'étude. IDC masque ses prix hors d\'Israël : « prix affiché » est un minimum.</p>',
+                  table +
+                  LEGENDE.format(nuance='relevé une fois sur deux (La Perla), lu sans être vu à l\'écran (XLAB, Danny Eliav), relevé à l\'exploration seulement (Louisa, B-Gem), simple formulaire (IDT)', extra=' · <sup>a</sup> demande aux agents de s\'identifier') +
+                  '\n  <p class="tiny muted">Relevés et nuances réunis donnent les totaux de la synthèse. IDC masque ses prix hors d\'Israël : « prix affiché » est un minimum. '
+                  'Le rendez-vous est compté depuis le parcours d\'achat ; pour les quatre sites lus en russe, un rappel ou une consultation suffit.</p>',
                   signet='Israël : 21 sites, dix critères', ancre='israel-tableau')]
     per = 6
     for k in range(0, len(cards), per):
@@ -270,8 +273,9 @@ def israel():
             body += '  ' + card + '\n'
         n = k // per + 1
         if k + per >= len(cards):
-            body += ('  <div class="chez"><span class="label">Non visités, hors décompte</span><p>Eli Paz et Royalty (accès refusé), Love Diamonds, Baltinester et uDiamonds (robots.txt), iLab ; '
-                     'en russe : I.P. Diamonds, Ka Gold, Amberjack, Fuzailov, Divo, Kladshop. Douze sites que nous n\'avons ni ouverts ni contournés.</p></div>\n')
+            body += ('  <div class="chez"><span class="label">Non audités, hors décompte</span><p>Eli Paz et Royalty (accès refusé), Love Diamonds, Baltinester et uDiamonds (robots.txt), iLab ; '
+                     'en russe : I.P. Diamonds, Ka Gold, Amberjack, Fuzailov, Divo, Kladshop. Douze sites non audités ; D\'oro, à Tel-Aviv, a été repéré avec une 3D mais pas audité.</p></div>\n')
+            body += '  <div class="orn fin"></div>\n'
         pages.append(page(f'Israël · site par site · fiches {n} sur {(len(cards) + per - 1) // per}', 'Ce que fait <em>chacun</em>' if n == 1 else 'Ce que fait chacun <em>(suite)</em>', body,
                           cls='cream' if n % 2 else '', signet=f'Israël : fiches des sites ({n})'))
     open(os.path.join(OUT, 'israel.html'), 'w', encoding='utf-8').write('\n'.join(pages))
@@ -286,7 +290,7 @@ def france():
     cards = [fiche(data[name], shown, lieu, crit, thumb, why, note, prix) for name, shown, lieu, crit, thumb, why, note, prix in FRANCE]
     p1 = page('France · site par site', '8 sites, <em>dix critères</em>',
               table + LEGENDE.format(nuance='Laveran, prix par variante non actionné ; L\'Alliancier, garantie « à vie » ou d\'un an selon la page', extra=' · <sup>a</sup> demande aux agents de s\'identifier') +
-              f'\n  <p class="tiny muted">{e(FRANCE_BLOQUES)} Aucun des huit ne propose l\'or 14 carats.</p>\n' +
+              f'\n  <p class="tiny muted">{e(FRANCE_BLOQUES)} Courbet, société liquidée, est compté d\'après son site encore en ligne. Aucun des huit ne propose l\'or 14 carats.</p>\n' +
               '\n'.join('  ' + c for c in cards[:2]), signet='France : 8 sites, dix critères', ancre='france-tableau')
     p2 = page('France · site par site · fiches', 'Ce que fait chacun <em>(suite)</em>', '\n'.join('  ' + c for c in cards[2:]), cls='cream', signet='France : fiches des sites')
     open(os.path.join(OUT, 'france.html'), 'w', encoding='utf-8').write(p1 + '\n' + p2)
@@ -297,7 +301,7 @@ def usa():
     data = by_name('us')
     rows = [(None, [(shown, lieu, crit, data[name]['identification']) for name, shown, lieu, crit, *_ in USA])]
     table, totals, nuances = matrice(rows)
-    assert [t + m for t, m in zip(totals, nuances)] == [12, 12, 12, 1, 1, 9, 12, 12, 12, 12], (totals, nuances)
+    assert [t + m for t, m in zip(totals, nuances)] == [12, 11, 12, 1, 1, 9, 12, 12, 12, 12], (totals, nuances)
     cards = [fiche(data[name], shown, lieu, crit, thumb, why, note, prix) for name, shown, lieu, crit, thumb, why, note, prix in USA]
     p1 = page('États-Unis · vendeurs nationaux', '12 vendeurs, <em>dix critères</em>',
               table + LEGENDE.format(nuance='lu sans visite (5 sites bloqués), ou total non vu (Keyzar, Clean Origin)', extra='') +
@@ -305,7 +309,7 @@ def usa():
               '\n'.join('  ' + c for c in cards[:2]), signet='États-Unis : 12 vendeurs nationaux', ancre='usa-tableau')
     rest = cards[2:]
     p2 = page('États-Unis · vendeurs nationaux · fiches 1 sur 2', 'Ce que fait chacun <em>(suite)</em>', '\n'.join('  ' + c for c in rest[:5]), cls='cream', signet='États-Unis : fiches des vendeurs nationaux (1)')
-    p3 = page('États-Unis · vendeurs nationaux · fiches 2 sur 2', 'Ce que fait chacun <em>(fin)</em>', '\n'.join('  ' + c for c in rest[5:]), signet='États-Unis : fiches des vendeurs nationaux (2)')
+    p3 = page('États-Unis · vendeurs nationaux · fiches 2 sur 2', 'Ce que fait chacun <em>(fin)</em>', '\n'.join('  ' + c for c in rest[5:]) + '\n  <div class="orn fin"></div>', signet='États-Unis : fiches des vendeurs nationaux (2)')
     open(os.path.join(OUT, 'usa.html'), 'w', encoding='utf-8').write('\n'.join([p1, p2, p3]))
     return 3
 

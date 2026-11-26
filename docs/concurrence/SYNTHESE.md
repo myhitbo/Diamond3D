@@ -78,7 +78,7 @@ Classement : priorité (P1 avant le lancement en Israël, P2 dans les 90 jours, 
 
 **Europe** (104 sites, dont 8 en France)
 - France : prix 7/8 et 5/8 qui suit ; délai chiffré ou daté 7/8, dont une date 4/8 ; paiement en plusieurs fois 8/8 ; gravure 5/8 ; rendez-vous à distance 5/8 (3 en vidéo nommément) ; baguier gratuit 3/8 (V) · `P§1`, `O9`.
-- France : 3D chez 2/8 (Courbet en liquidation ; L'Alliancier, alliances, 15 à 28 s) ; « synthétique » respecté par 1 site sur 4 qui en parlent (Histoire d'Or) ; aucune alliance de kiddouchin (V) · `P§3.1`, `P§3.5`, `O23`.
+- France : 3D chez 2/8 (Courbet, société liquidée, vente arrêtée ; L'Alliancier, alliances, 15 à 28 s) ; « synthétique » respecté par 1 site sur 4 qui en parlent (Histoire d'Or) ; aucune alliance de kiddouchin (V) · `P§3.1`, `P§3.5`, `O23`.
 - Reste de l'Europe : NANEA seul prix complet (7 lignes) ; WhatsApp 10/14 (`EU1b`) ; financement 13/20 (repris) ; retours qui citent l'article de loi (Goedert, Klukkan, Alyans) (V) · `O3`, `P6`, `O9`, `O10`.
 - À éviter : cookies précochés (MDA, Gemmyo), prix barrés (MDA −50 %, Laveran −20 %, Aquamarina) ; Liechtenstein sans site pertinent (V) · `P§4`, `O§4`, `P§5`.
 

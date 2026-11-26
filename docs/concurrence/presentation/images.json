@@ -280,7 +280,7 @@
         0,
         0
       ],
-      "bg": "#0b0a08"
+      "bg": "#000000"
     },
     {
       "id": "render_detail",
@@ -295,7 +295,7 @@
         0,
         0
       ],
-      "bg": "#0b0a08"
+      "bg": "#000000"
     },
     {
       "id": "render_jaune",
@@ -310,7 +310,7 @@
         0,
         0
       ],
-      "bg": "#0b0a08"
+      "bg": "#000000"
     },
     {
       "id": "render_solitaire",
@@ -325,7 +325,7 @@
         0,
         0
       ],
-      "bg": "#0b0a08"
+      "bg": "#000000"
     },
     {
       "id": "own_price",
@@ -858,6 +858,51 @@
         1170,
         560
       ]
+    },
+    {
+      "id": "render_blanc",
+      "site": "JR Diamond",
+      "pays": "rendu",
+      "url": "public/images/rendus/ring-001-or-jaune-cycles.webp",
+      "date": "2026-11-20",
+      "src": "repo:public/images/rendus/ring-001-or-blanc-cycles.webp",
+      "crop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "bg": "#000000"
+    },
+    {
+      "id": "render_rose",
+      "site": "JR Diamond",
+      "pays": "rendu",
+      "url": "public/images/rendus/ring-001-or-jaune-cycles.webp",
+      "date": "2026-11-20",
+      "src": "repo:public/images/rendus/ring-001-or-rose-cycles.webp",
+      "crop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "bg": "#000000"
+    },
+    {
+      "id": "render_platine",
+      "site": "JR Diamond",
+      "pays": "rendu",
+      "url": "public/images/rendus/ring-001-or-jaune-cycles.webp",
+      "date": "2026-11-20",
+      "src": "repo:public/images/rendus/ring-001-platine-cycles.webp",
+      "crop": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "bg": "#000000"
     }
   ]
 }

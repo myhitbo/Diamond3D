@@ -82,15 +82,27 @@ const report = await page.evaluate(() => {
     }
     return { page: k + 1, over: Math.round(worst), title: (p.querySelector('h1, h2, h3') || {}).textContent || '' };
   });
-  return { broken, pages };
+  const clean = (el) => (el ? el.textContent.replace(/\s+/g, ' ').trim() : '');
+  const titles = [...document.querySelectorAll('.page')].map((p, k) => p.dataset.signet || clean(p.querySelector('h1, h2')) || `Page ${k + 1}`);
+  return { broken, pages, titles };
 });
 if (report.broken.length) console.log('IMAGES MANQUANTES :', report.broken.join(', '));
 const over = report.pages.filter((p) => p.over > 0);
 console.log(`${report.pages.length} pages` + (over.length ? ' ; DÉPASSEMENTS : ' + over.map((p) => `p. ${p.page} (+${p.over} px, « ${p.title.trim().slice(0, 28)} »)`).join(' ; ') : ' ; aucune page ne dépasse'));
 
-await page.pdf({ path: OUT, width: '148mm', height: '210mm', printBackground: true, preferCSSPageSize: true });
+await page.pdf({ path: OUT, width: '148mm', height: '210mm', printBackground: true, preferCSSPageSize: true, tagged: true });
 await browser.close();
 fs.rmSync(printable);
+
+/* ---------- Signets et métadonnées (pypdf) : sans lui, le PDF reste lisible, sans signets ---------- */
+const titlesFile = path.join(dist, '.titres.json');
+fs.writeFileSync(titlesFile, JSON.stringify(report.titles));
+try {
+  console.log(execFileSync('python3', [path.join(here, 'signets.py'), OUT, titlesFile], { encoding: 'utf8' }).trim());
+} catch (e) {
+  console.log('signets non posés (python3 et pypdf requis) : ' + String(e.message).split('\n')[0]);
+}
+fs.rmSync(titlesFile, { force: true });
 console.log(`${path.relative(process.cwd(), OUT)} : ${(fs.statSync(OUT).size / 1048576).toFixed(1)} Mo`);
 
 if (process.argv.includes('--apercus')) {

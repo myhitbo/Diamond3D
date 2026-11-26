@@ -1,16 +1,17 @@
 # Présentation de l'étude de concurrence (PDF)
 
-Un PDF de 23 pages au format A5 debout (lisible sur un téléphone sans zoom), pour partager l'étude avec des collègues : les huit constats, les captures commentées des sites visités, nos avantages, ce que l'étude a déjà changé sur le site, et qui fait quoi avant le lancement en Israël.
+Un PDF de 24 pages au format A5 debout (lisible sur un téléphone sans zoom), pour partager l'étude avec des collègues : les huit constats, les captures commentées des sites visités, nos avantages, ce que l'étude a déjà changé sur le site, et qui fait quoi avant le lancement en Israël. Le PDF est balisé (lecteurs d'écran), porte un signet par page et des liens internes.
 
 ## Ce qui est dans le dépôt, ce qui n'y est pas
 
 | Fichier | Rôle | Dans le dépôt |
 |---|---|---|
-| `etude.html` | texte et structure des 23 pages | oui |
+| `etude.html` | texte et structure des 24 pages | oui |
 | `style.css` | mise en page (identité du site : noir, ivoire, or ; Bodoni Moda et Jost) | oui |
 | `build.mjs` | fabrique le PDF avec Chromium (Playwright), contrôle les débordements | oui |
 | `images.json` | liste des images : site, pays, adresse, date, fichier d'origine, recadrage | oui |
 | `crop.py` | recadre les captures d'origine vers `img/` | oui |
+| `signets.py` | pose les signets (un par page) et les métadonnées du PDF ; demande `pypdf` | oui |
 | `img/`, `fonts/`, `dist/` | captures recadrées, polices téléchargées, PDF et aperçus | **non** (`.gitignore`) |
 
 Le dépôt est public : **les captures des sites concurrents et le PDF n'y sont pas versionnés**. Le PDF se partage de la main à la main ; les captures d'origine restent dans le dossier de travail de la session qui les a prises (`audit/`, `fresh/`, `own/`).

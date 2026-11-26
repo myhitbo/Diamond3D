@@ -354,6 +354,174 @@
         1170,
         392
       ]
+    },
+    {
+      "id": "gal_oliveave",
+      "site": "Olive Ave Jewelry",
+      "pays": "États-Unis (Utah)",
+      "url": "https://oliveavejewelry.com/shop/products/persephone",
+      "date": "2026-11-25",
+      "src": "audit/us/olive-ave-jewelry/pdp_d.txt.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        860
+      ]
+    },
+    {
+      "id": "gal_angara",
+      "site": "Angara",
+      "pays": "États-Unis",
+      "url": "https://www.angara.com/engagement-rings/settings",
+      "date": "2026-11-15",
+      "src": "audit/us/angara/s2_desktop_fiche.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        860
+      ]
+    },
+    {
+      "id": "gal_frankdarling",
+      "site": "Frank Darling",
+      "pays": "États-Unis (New York)",
+      "url": "https://www.frankdarling.com/engagement-rings/",
+      "date": "2026-11-15",
+      "src": "audit/us/frank-darling/frankdarling_com_engagement_rings_the_ripple_oval_colorkey_YG_.jpg",
+      "crop": [
+        0,
+        100,
+        1366,
+        860
+      ]
+    },
+    {
+      "id": "gal_idc",
+      "site": "IDC – Israel Diamond Center",
+      "pays": "Israël",
+      "url": "https://www.idc-diamond.co.il/ru/",
+      "date": "2026-11-25",
+      "src": "audit/il/idc-israel-diamond-center/pdp_d.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        860
+      ]
+    },
+    {
+      "id": "gal_alphagold",
+      "site": "Alpha Gold",
+      "pays": "Israël (Haïfa)",
+      "url": "https://alpha-gold.co.il/product/rosalyn-round-solitaire-ring-2ct-2000",
+      "date": "2026-11-15",
+      "src": "audit/il/alpha-gold/alpha_gold_co_il_product_rosalyn_round_solitaire_ring_2ct_2000.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        860
+      ]
+    },
+    {
+      "id": "gal_diamony",
+      "site": "Diamony",
+      "pays": "Israël",
+      "url": "https://diamony.me/",
+      "date": "2026-11-25",
+      "src": "audit/il/diamony/nat.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        860
+      ]
+    },
+    {
+      "id": "gal_diamondsbyme",
+      "site": "DiamondsByMe",
+      "pays": "Pays-Bas",
+      "url": "https://www.diamondsbyme.nl/verlovingsring/",
+      "date": "2026-11-15",
+      "src": "audit/eu/diamondsbyme/fiche_nl_ttc.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        860
+      ]
+    },
+    {
+      "id": "gal_auroria",
+      "site": "Auroria",
+      "pays": "Pologne",
+      "url": "https://auroria.pl/",
+      "date": "2026-11-24",
+      "src": "audit/eu/auroria/p1_d.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        860
+      ]
+    },
+    {
+      "id": "gal_maze",
+      "site": "Maze Diamonds",
+      "pays": "Macédoine du Nord",
+      "url": "https://www.mazediamonds.com/en/setting-search",
+      "date": "2026-11-15",
+      "src": "audit/eu/maze/pdp_d.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        860
+      ]
+    },
+    {
+      "id": "gal_larsen",
+      "site": "Larsen Jewellery",
+      "pays": "Australie",
+      "url": "https://www.larsenjewellery.com.au/engagement-rings",
+      "date": "2026-11-25",
+      "src": "audit/au/larsen-jewellery/www_larsenjewellery_com_au_engagement_rings.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        860
+      ]
+    },
+    {
+      "id": "gal_lilydia",
+      "site": "Lily Dia",
+      "pays": "Australie (Victoria)",
+      "url": "https://lilydiajewellery.com/design-your-own-engagement-ring",
+      "date": "2026-11-25",
+      "src": "audit/au/lily-dia/pdp.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        860
+      ]
+    },
+    {
+      "id": "gal_diamondboutique",
+      "site": "Diamond Boutique",
+      "pays": "Australie (Canberra)",
+      "url": "https://diamondboutique.com.au/engagement-rings/",
+      "date": "2026-11-15",
+      "src": "audit/au/diamond-boutique/diamondboutique_com_au_engagement_rings_.jpg",
+      "crop": [
+        0,
+        0,
+        1366,
+        860
+      ]
     }
   ]
 }

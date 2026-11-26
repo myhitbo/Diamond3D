@@ -1,6 +1,6 @@
 # Présentation de l'étude de concurrence (PDF)
 
-Un PDF de 45 pages au format A5 debout (lisible sur un téléphone sans zoom), pour partager l'étude avec des collègues, mis en page comme un catalogue de haute joaillerie (demande du propriétaire du 26/11). Il compare JR Diamond aux joailliers en ligne de **trois marchés : États-Unis, France, Israël** (245 des 371 sites de l'étude ; demande du propriétaire du 26/11). L'Europe hors France et l'Australie n'y figurent pas : elles restent dans `../SYNTHESE.md` et dans `../audit/`.
+Un PDF de 45 pages au format A5 debout (une page par écran de téléphone ; les tableaux et les fiches y demandent un zoom), pour partager l'étude avec des collègues, mis en page comme un catalogue de haute joaillerie (demande du propriétaire du 26/11). Il compare JR Diamond aux joailliers en ligne de **trois marchés : États-Unis, France, Israël** (245 des 371 sites de l'étude ; demande du propriétaire du 26/11). L'Europe hors France et l'Australie n'y figurent pas : elles restent dans `../SYNTHESE.md` et dans `../audit/`.
 
 Après la couverture, l'essentiel en une page et la méthode, quatre parties, chacune ouverte par une page noire qui porte un rendu 3D de la bague :
 

@@ -8,7 +8,7 @@ export type Localized = z.infer<typeof Localized>;
 
 /* ---------- Données générées par le pipeline (faits mesurés dans le fichier CAO) ---------- */
 
-export const StoneShape = z.enum(['round', 'marquise', 'oval', 'pear', 'emerald', 'princess', 'unknown']);
+export const StoneShape = z.enum(['round', 'marquise', 'oval', 'pear', 'emerald', 'princess', 'heart', 'unknown']);
 export type StoneShape = z.infer<typeof StoneShape>;
 
 const Stone = z.object({

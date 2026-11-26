@@ -1,0 +1,56 @@
+{
+  "$comment": "Fichier généré par scripts/models/build-model.mjs. Ne pas modifier à la main.",
+  "modelId": "ring-003",
+  "glb": "/models/ring-003/ring-003.glb",
+  "glbBytes": 340292,
+  "rawGlbBytes": 7819484,
+  "simplification": {
+    "relativeError": 0.0005,
+    "appliesTo": "métal uniquement ; pierres non modifiées"
+  },
+  "compression": "EXT_meshopt_compression + KHR_mesh_quantization (positions 16 bits, normales 12 bits)",
+  "nodes": {
+    "A__gem_side": {
+      "trianglesRaw": 12084,
+      "trianglesWeb": 12084,
+      "maxDeviationMm": 0,
+      "p99DeviationMm": 0
+    },
+    "A__gem_center": {
+      "trianglesRaw": 766,
+      "trianglesWeb": 504,
+      "maxDeviationMm": 0.0067,
+      "p99DeviationMm": 0.0019
+    },
+    "A__metal_settings_side": {
+      "trianglesRaw": 40096,
+      "trianglesWeb": 9466,
+      "maxDeviationMm": 0.0207,
+      "p99DeviationMm": 0.0108
+    },
+    "A__metal_head_center": {
+      "trianglesRaw": 181542,
+      "trianglesWeb": 18966,
+      "maxDeviationMm": 0.015,
+      "p99DeviationMm": 0.0095
+    },
+    "A__metal_shank": {
+      "trianglesRaw": 39316,
+      "trianglesWeb": 6516,
+      "maxDeviationMm": 0.0231,
+      "p99DeviationMm": 0.0122
+    }
+  },
+  "trianglesWeb": 47536,
+  "maxDeviationMm": 0.0231,
+  "webRetouch": {
+    "appliedTo": "modèle simplifié issu du .3dm",
+    "request": "Propriétaire, 26/11/2026 : griffes plus courtes, comme sur une bague finie (demande faite pour le solitaire marquise, appliquée de la même façon ici), pour le web uniquement ; à faire valider par l'atelier",
+    "prongsAdjusted": {
+      "A__metal_head_center": 5
+    },
+    "removedFaces": {},
+    "addedCapTriangles": {},
+    "note": "Écart volontaire par rapport au fichier de fabrication ; maxDeviationMm décrit la simplification, pas la retouche."
+  }
+}

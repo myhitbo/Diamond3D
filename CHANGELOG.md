@@ -12,7 +12,8 @@
 - **Logo de l'atelier** détouré (`scripts/logo/detourer.py`) à la place du losange dessiné (en-tête, pied de page, versions de l'accueil, icône) ; « un petit peu plus grand » à la demande du propriétaire (40 px dans l'en-tête, 32 px sur téléphone, 72 px au pied de page), hauteur de l'en-tête inchangée.
 - **Atelier** : relance du 16/11 et message du 24/11 envoyés le 26/11 selon le propriétaire ; questions 91 à 94 sur le solitaire.
 - Accords du propriétaire du 26/11 : pousser sur `main` dès que les tests sont verts ; fichiers de fabrication de l'atelier versionnés ; logo montré en captures d'abord.
-- Tests : 126 tests unitaires ; suites navigateur complètes en cours à ce commit (résultats dans le commit suivant).
+- **Corrections trouvées par les tests** : sur la page de comparaison, le lien « Voir dans le configurateur » faisait 19 px de haut sur téléphone (24 px exigés) ; le style 5 n'a plus de flou d'arrière-plan (`backdrop-filter`), qui figeait le rendu du moteur de Safari (moins de 10 images en 40 s, 60 images/s sans) sans rien changer à l'œil ; la barre de comparaison ne masque plus l'élément amené en bas de l'écran.
+- Tests (commit `939a3f0`) : 126 tests unitaires ; 23 pipeline CAO ; Chromium 338 (335 passés, 3 ignorés) ; WebKit iPhone, iPad et Firefox : 463 (406 passés, 57 ignorés) ; aucun échec.
 
 ## 2026-11-24 — Réponses de l'atelier du 16/11 : aucun prix automatique, osek patour, textes validés
 

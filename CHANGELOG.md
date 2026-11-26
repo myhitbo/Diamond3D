@@ -10,10 +10,18 @@
 - **Corrections** : dimensions d'une pierre non ronde écrites « 16,5 × 8.5 mm » en français (un seul point était remplacé) ; tailles des pierres rondes dans l'ordre croissant ; mêmes virgules dans l'e-mail de devis.
 - **Drive** : 8 fichiers du 17/11 au soir identifiés (logo JR ; deux fichiers d'alliances lisses venus de CGTrader, non versionnés, licence à relever). Les trois vidéos sont des rendus 360° de trois bagues, compressés en 1080 × 1080 (2 à 3 Mo au lieu de 37 à 49 Mo).
 - **Logo de l'atelier** détouré (`scripts/logo/detourer.py`) à la place du losange dessiné (en-tête, pied de page, versions de l'accueil, icône) ; « un petit peu plus grand » à la demande du propriétaire (40 px dans l'en-tête, 32 px sur téléphone, 72 px au pied de page), hauteur de l'en-tête inchangée.
-- **Atelier** : relance du 16/11 et message du 24/11 envoyés le 26/11 selon le propriétaire ; questions 91 à 94 sur le solitaire.
+- **Atelier** : relance du 16/11 et message du 24/11 envoyés le 26/11 selon le propriétaire ; questions 110 à 113 sur le solitaire.
 - Accords du propriétaire du 26/11 : pousser sur `main` dès que les tests sont verts ; fichiers de fabrication de l'atelier versionnés ; logo montré en captures d'abord.
 - **Corrections trouvées par les tests** : sur la page de comparaison, le lien « Voir dans le configurateur » faisait 19 px de haut sur téléphone (24 px exigés) ; le style 5 n'a plus de flou d'arrière-plan (`backdrop-filter`), qui figeait le rendu du moteur de Safari (moins de 10 images en 40 s, 60 images/s sans) sans rien changer à l'œil ; la barre de comparaison ne masque plus l'élément amené en bas de l'écran.
 - Tests (commit `939a3f0`) : 126 tests unitaires ; 23 pipeline CAO ; Chromium 338 (335 passés, 3 ignorés) ; WebKit iPhone, iPad et Firefox : 463 (406 passés, 57 ignorés) ; aucun échec.
+
+## 2026-11-26 — Devis : date souhaitée, budget, « c'est une surprise » ; note de prix ; étude de concurrence terminée
+
+- **Configurateur** : la note sous « Sur devis » dit que chaque prix est fixé par l'atelier dans un devis envoyé sous 24 à 48 h ouvrées (elle annonçait des « règles de tarification », abandonnées le 16/11) ; « La première mise à taille est offerte » sous la taille ; sur écran étroit, lien « Demander un devis » dans la scène collée en haut (une barre collée en bas recouvrait des boutons de choix, critère 2.5.8).
+- **Devis** : champs facultatifs « Pour quelle date ? » et « Budget indicatif » ; case « C'est une surprise : contactez-moi uniquement par les coordonnées indiquées ici ». Les trois sont repris dans l'e-mail à l'atelier et dans le message WhatsApp ; politique de confidentialité mise à jour dans les trois langues. La case transmet une demande : l'atelier n'a encore rien promis (question 109 de `docs/QUESTIONS_ATELIER.md`).
+- **Pied de page** : WhatsApp, téléphone et e-mail de l'atelier dès que les variables `NEXT_PUBLIC_WHATSAPP_NUMBER`, `NEXT_PUBLIC_CONTACT_PHONE`, `NEXT_PUBLIC_CONTACT_EMAIL` sont saisies (les deux premières le sont).
+- **Étude de concurrence** : 371 sites audités sur quatre marchés, comparaison finale vérifiée et synthèse (`docs/concurrence/SYNTHESE.md`) ; étude de l'alliance de kiddouchin (`docs/concurrence/kiddouchin/`) ; questions de l'étude renumérotées 85 à 108 dans `docs/QUESTIONS_ATELIER.md` (les numéros 67 à 84 étaient pris).
+- Tests du 26/11 : 123 unitaires ; Chromium (ordinateur et téléphone) 301 passés, 3 ignorés ; WebKit iPhone et iPad et Firefox 367 passés, 55 ignorés ; audit d'accessibilité rejoué dans les trois moteurs, déclaration datée du 26/11.
 
 ## 2026-11-24 — Réponses de l'atelier du 16/11 : aucun prix automatique, osek patour, textes validés
 

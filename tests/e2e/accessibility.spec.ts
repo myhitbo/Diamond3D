@@ -330,8 +330,8 @@ test.describe('clavier', () => {
     await page.keyboard.type('Jeanne Martin');
     await page.keyboard.press('Tab');
     await page.keyboard.type('jeanne@example.com');
-    // Téléphone, taille, message, photos, puis la case d'accord.
-    for (let i = 0; i < 5; i++) await page.keyboard.press('Tab');
+    // Téléphone, case « surprise », taille, date souhaitée, budget, message, photos, puis la case d'accord.
+    for (let i = 0; i < 8; i++) await page.keyboard.press('Tab');
     await expect(page.getByRole('checkbox', { name: /uniquement pour répondre/ })).toBeFocused();
     await page.keyboard.press('Space');
     await page.keyboard.press('Tab');

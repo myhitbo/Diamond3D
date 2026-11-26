@@ -318,3 +318,19 @@ test.describe('lien partagé : la configuration dans l’adresse', () => {
     expect(new globalThis.URL(await field.inputValue()).searchParams.get('composition')).toBe('set');
   });
 });
+
+test('raccourci « Demander un devis » dans la scène collée en haut, sur écran étroit seulement', async ({ page }) => {
+  await page.goto(URL);
+  const sticky = page.getByTestId('sticky-quote');
+  // Même seuil que la feuille de style (900 px) : ordinateur et Firefox sont larges, téléphone et tablette debout sont étroits.
+  if (page.viewportSize()!.width > 900) {
+    await expect(sticky).toBeHidden();
+    return;
+  }
+  await expect(sticky).toBeVisible();
+  // Pas de molette : elle n'existe pas dans WebKit mobile.
+  await page.evaluate(() => window.scrollBy(0, 1200));
+  await expect(sticky).toBeInViewport();
+  await sticky.click();
+  await expect(page.getByRole('heading', { name: 'Votre configuration' })).toBeInViewport();
+});

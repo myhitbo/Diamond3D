@@ -470,6 +470,10 @@
   font-size: 18px;
 }
 
+.stageQuote {
+  display: none;
+}
+
 .primary {
   width: 100%;
   min-height: 54px;
@@ -1397,6 +1401,25 @@
     min-height: 0;
     border-inline-start: 0;
     padding: 28px 16px 48px;
+  }
+
+  .stageQuote {
+    display: inline-flex;
+    align-items: center;
+    min-height: 36px;
+    padding: 0 16px;
+    background: var(--noir);
+    color: var(--ivory);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    pointer-events: auto;
+  }
+
+  .stageQuote:focus-visible {
+    outline: 2px solid var(--gold-fill);
+    outline-offset: 2px;
   }
 
   .choice,

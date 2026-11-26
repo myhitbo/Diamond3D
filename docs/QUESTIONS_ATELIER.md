@@ -191,41 +191,42 @@ Les deux pages existent en brouillon (`/fr/accessibilite`, `/fr/confidentialite`
 83. Hébreu : le site écrit maintenant les pierres אזמרגד (émeraude), ספיר (saphir) et אודם (rubis), et garde אמרלד pour la taille émeraude (forme de la pierre). Ces termes vous conviennent-ils, ou vos clients disent-ils plutôt אמרלד et רובי ?
 84. Pierre filmée : la FAQ (« Puis-je voir ma vraie pierre avant d'acheter ? ») dit que l'atelier filme la pierre proposée sur un plateau tournant et envoie la vidéo, une photo de la table et le certificat, comme dans la procédure photo envoyée. Le faites-vous déjà pour chaque client ? La réponse est marquée « À confirmer » jusqu'à votre accord.
 
-## 14. Étude de concurrence (ajouté le 24/11, message `docs/atelier/2026-11-24_message.md`)
+## 16. Étude de concurrence (ajouté le 24/11, message `docs/atelier/2026-11-24_message.md`)
 
-Questions tirées de `docs/concurrence/SYNTHESE.md` (rangs qui dépendent de l'atelier).
+Questions tirées de `docs/concurrence/SYNTHESE.md` (rangs qui dépendent de l'atelier). Numérotées 67 à 90 jusqu'au 26/11 (numéros déjà pris par les sections 14 et 15) : renumérotées 85 à 108 ; le message envoyé à l'atelier garde ses propres numéros de points (23 à 46).
 
-67. Pour chaque commande, tu filmes la pierre avec son numéro de certificat et son inscription laser, avant le sertissage, et on l'envoie au client avec le devis. Ok ?
-68. Après le sertissage, une courte vidéo de la bague finie (avec l'inscription laser visible à la loupe si possible), envoyée avant l'expédition. Ok ?
-69. Le numéro de certificat est écrit sur le devis et sur la facture. Ok ?
-70. Sous le modèle 3D, j'écris : « Modèle tiré du fichier de fabrication de l'atelier. Griffes retouchées pour l'affichage. La finition à la main peut faire varier les cotes de ± 0,1 mm. » La tolérance ± 0,1 mm est-elle juste ?
-71. L'anneau de la bague marquise mesure environ 1,6 mm de large et 1,6 mm d'épaisseur dans le fichier. Sur les forums, beaucoup conseillent au moins 1,8 mm pour une bague portée tous les jours. Tu le gardes à 1,6 ou tu l'épaissis ?
-72. J'affiche la largeur et l'épaisseur de l'anneau et la hauteur de la tête, en mm. Ok ?
-73. Une photo de la bague marquise portée à la main, à côté de la 3D (selon la procédure photo).
-74. Les 14 jours ouvrés comptent à partir de quoi : le paiement, ou ton accord sur la pierre ? Et jusqu'à quoi : la bague prête à l'atelier, ou chez le client ?
-75. Jours ouvrés = dimanche à jeudi, sans les fêtes juives. Ok ? Le site calcule alors « prête au plus tard le … ».
-76. Pendant la fabrication, le client reçoit un message daté à chaque étape : pierre choisie, fonte, sertissage, polissage, prête. Qui l'envoie : toi, ou moi à partir de tes photos ?
-77. Si un délai glisse, le client est prévenu le jour même, avec la nouvelle date. Ok ?
-78. Mise à taille : en combien de jours ?
-79. Un prix donné reste valable 7 jours (l'or bouge). Ok, ou une autre durée ?
-80. J'affiche l'écart de prix sur chaque option : 18 k au lieu de 14 k, platine, naturel au lieu de synthétique. Ok ?
-81. Garantie écrite : 1 an sur la fabrication et le sertissage (pierre qui tombe, griffe qui casse, défaut de fonte), réparation gratuite. Exclus : choc, mauvais usage, intervention d'un autre bijoutier. Ok, ou autre durée ?
-82. Un contrôle des griffes gratuit chaque année. Ok ? Et le prix d'un rhodiage ?
-83. Livraison en Israël par coursier assuré, remise contre signature : combien ça coûte ? Retrait à la Bourse sur rendez-vous possible ?
-84. Je peux te nommer sur le site et montrer ton visage et tes mains à l'établi ? Les clients font confiance à un artisan qu'ils voient.
-85. Un client peut-il venir à l'atelier sur rendez-vous ? Faut-il un badge pour entrer à la Bourse ? Un appel vidéo est-il possible à la place ?
-86. Peux-tu imprimer le modèle en résine pour qu'un client l'essaie avant la fonte ? À quel prix ?
-87. Sur la page de l'alliance, j'écris : lisse, sans pierre, sans gravure par défaut, métal exact indiqué sur la facture au nom du marié, et « demandez l'avis de votre rabbin ». Ok ?
-88. Prix au gramme d'une alliance de kiddouchin, pour un « à partir de » ?
-89. À réception du bijou : photos, pesée filmée, liste des pierres avant le dessertissage. Puis un bilan écrit (or reçu, or utilisé, perte) et on rend au client l'or et les pierres non utilisés. Ok ?
-90. Peux-tu m'envoyer les 20 à 25 polices (noms ou une photo de ta liste), le prix et le délai d'une gravure ?
+85. Pour chaque commande, tu filmes la pierre avec son numéro de certificat et son inscription laser, avant le sertissage, et on l'envoie au client avec le devis. Ok ?
+86. Après le sertissage, une courte vidéo de la bague finie (avec l'inscription laser visible à la loupe si possible), envoyée avant l'expédition. Ok ?
+87. Le numéro de certificat est écrit sur le devis et sur la facture. Ok ?
+88. Sous le modèle 3D, j'écris : « Modèle tiré du fichier de fabrication de l'atelier. Griffes retouchées pour l'affichage. La finition à la main peut faire varier les cotes de ± 0,1 mm. » La tolérance ± 0,1 mm est-elle juste ?
+89. L'anneau de la bague marquise mesure environ 1,6 mm de large et 1,6 mm d'épaisseur dans le fichier. Sur les forums, beaucoup conseillent au moins 1,8 mm pour une bague portée tous les jours. Tu le gardes à 1,6 ou tu l'épaissis ?
+90. J'affiche la largeur et l'épaisseur de l'anneau et la hauteur de la tête, en mm. Ok ?
+91. Une photo de la bague marquise portée à la main, à côté de la 3D (selon la procédure photo).
+92. Les 14 jours ouvrés comptent à partir de quoi : le paiement, ou ton accord sur la pierre ? Et jusqu'à quoi : la bague prête à l'atelier, ou chez le client ?
+93. Jours ouvrés = dimanche à jeudi, sans les fêtes juives. Ok ? Le site calcule alors « prête au plus tard le … ».
+94. Pendant la fabrication, le client reçoit un message daté à chaque étape : pierre choisie, fonte, sertissage, polissage, prête. Qui l'envoie : toi, ou moi à partir de tes photos ?
+95. Si un délai glisse, le client est prévenu le jour même, avec la nouvelle date. Ok ?
+96. Mise à taille : en combien de jours ?
+97. Un prix donné reste valable 7 jours (l'or bouge). Ok, ou une autre durée ?
+98. J'affiche l'écart de prix sur chaque option : 18 k au lieu de 14 k, platine, naturel au lieu de synthétique. Ok ?
+99. Garantie écrite : 1 an sur la fabrication et le sertissage (pierre qui tombe, griffe qui casse, défaut de fonte), réparation gratuite. Exclus : choc, mauvais usage, intervention d'un autre bijoutier. Ok, ou autre durée ?
+100. Un contrôle des griffes gratuit chaque année. Ok ? Et le prix d'un rhodiage ?
+101. Livraison en Israël par coursier assuré, remise contre signature : combien ça coûte ? Retrait à la Bourse sur rendez-vous possible ?
+102. Je peux te nommer sur le site et montrer ton visage et tes mains à l'établi ? Les clients font confiance à un artisan qu'ils voient.
+103. Un client peut-il venir à l'atelier sur rendez-vous ? Faut-il un badge pour entrer à la Bourse ? Un appel vidéo est-il possible à la place ?
+104. Peux-tu imprimer le modèle en résine pour qu'un client l'essaie avant la fonte ? À quel prix ?
+105. Sur la page de l'alliance, j'écris : lisse, sans pierre, sans gravure par défaut, métal exact indiqué sur la facture au nom du marié, et « demandez l'avis de votre rabbin ». Ok ?
+106. Prix au gramme d'une alliance de kiddouchin, pour un « à partir de » ?
+107. À réception du bijou : photos, pesée filmée, liste des pierres avant le dessertissage. Puis un bilan écrit (or reçu, or utilisé, perte) et on rend au client l'or et les pierres non utilisés. Ok ?
+108. Peux-tu m'envoyer les 20 à 25 polices (noms ou une photo de ta liste), le prix et le délai d'une gravure ?
+109. Case « C'est une surprise » du devis (ajoutée le 26/11) : quand un client la coche, peux-tu t'engager à trois choses ? a) Ne le joindre que par l'e-mail ou le numéro qu'il a donnés, avec un objet de message neutre. b) Un colis sans mention de bijou ni de prix, ou un retrait à la Bourse sur rendez-vous. c) Aucun appel sur un autre numéro. Tant que tu n'as pas répondu, le site transmet seulement la demande du client, sans rien promettre.
 
-## 15. Solitaire marquise pavé, en ligne depuis le 26/11 (`ring-002`)
+## 17. Solitaire marquise pavé, en ligne depuis le 26/11 (`ring-002`)
 
-91. Sur le site, les six griffes sont raccourcies (elles s'arrêtent sur la couronne, à 60 % de sa hauteur), à la demande du propriétaire, comme sur une bague finie ; les 52 grains du pavé restent tels que dessinés. Est-ce fidèle à la bague que tu livres ?
-92. Poids réel de la marquise de 16,5 × 8,5 mm (le volume du modèle donne 3,66 ct) et des 35 diamants ronds (16 de 1,9 mm, 19 de 1,1 mm) ; couleur et pureté par défaut.
-93. Pour proposer le choix du carat : de quelle taille à quelle taille de marquise ce modèle peut-il être fabriqué sans le redessiner ?
-94. Le nom du modèle à l'atelier, et la taille de doigt du fichier (mesurée : 17,31 mm de diamètre intérieur, soit 54 ½).
+110. Sur le site, les six griffes sont raccourcies (elles s'arrêtent sur la couronne, à 60 % de sa hauteur), à la demande du propriétaire, comme sur une bague finie ; les 52 grains du pavé restent tels que dessinés. Est-ce fidèle à la bague que tu livres ?
+111. Poids réel de la marquise de 16,5 × 8,5 mm (le volume du modèle donne 3,66 ct) et des 35 diamants ronds (16 de 1,9 mm, 19 de 1,1 mm) ; couleur et pureté par défaut.
+112. Pour proposer le choix du carat : de quelle taille à quelle taille de marquise ce modèle peut-il être fabriqué sans le redessiner ?
+113. Le nom du modèle à l'atelier, et la taille de doigt du fichier (mesurée : 17,31 mm de diamètre intérieur, soit 54 ½).
 
 ## Ce que j'attends concrètement, par ordre d'urgence
 

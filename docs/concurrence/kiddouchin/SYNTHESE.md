@@ -83,7 +83,7 @@ Priorité 3 :
 
 ## 6. Questions
 
-Pour l'atelier (à ajouter au prochain message, à la suite des questions 67 à 90) :
+Pour l'atelier (à ajouter au prochain message, à la suite des questions 85 à 108 (numérotées 67 à 90 jusqu’au 26/11)) :
 - Poids d'une alliance lisse en 2, 3, 4, 5 mm, profil plat et demi-jonc, en 14 et 18 k ? Épaisseur courante en mm ?
 - Fabrication : fonte d'un seul bloc ou bande fermée par soudure ? Peut-on garantir « sans soudure » ?
 - Or blanc : rhodié ou non ? Un or blanc sans rhodiage est-il possible ?

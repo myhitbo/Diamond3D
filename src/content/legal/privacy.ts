@@ -18,7 +18,7 @@ import type { Locale } from '@/lib/configurator/schema';
 import type { LegalLink, LegalPage } from './types';
 
 /** Date de mise à jour de la politique, AAAA-MM-JJ : à changer à chaque modification. */
-export const PRIVACY_UPDATED = '2026-11-16';
+export const PRIVACY_UPDATED = '2026-11-26';
 
 const links = (vercel: string, speed: string, whatsapp: string): LegalLink[] => [
   { label: vercel, url: 'https://vercel.com/legal/privacy-notice' },
@@ -57,7 +57,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
           'Le site a deux formulaires. Les remplir est facultatif, mais les champs marqués d’un astérisque et la case d’accord sont nécessaires : sans eux, la demande ne peut pas partir. Vous pouvez aussi nous écrire ou nous appeler directement (voir plus haut).',
         ],
         list: [
-          'Demande de devis, depuis le configurateur : nom et e-mail (obligatoires) ; téléphone, taille de doigt, message et photos (facultatifs) ; votre accord, facultatif, pour la publication de photos et de vidéos de la fabrication de votre bijou, sans votre nom. La configuration choisie (modèle, composition, métal, pierres, origine du diamant) et la langue de la page sont jointes à la demande.',
+          'Demande de devis, depuis le configurateur : nom et e-mail (obligatoires) ; téléphone, taille de doigt, date souhaitée, budget indicatif, mention « c’est une surprise », message et photos (facultatifs) ; votre accord, facultatif, pour la publication de photos et de vidéos de la fabrication de votre bijou, sans votre nom. La configuration choisie (modèle, composition, métal, pierres, origine du diamant) et la langue de la page sont jointes à la demande.',
           'Transformation d’un bijou de famille : nom, e-mail et description du bijou (obligatoires) ; téléphone, souhait et photos (facultatifs). La langue de la page est jointe à la demande.',
           'Photos : 3 au plus, aux formats JPEG, PNG, WebP ou HEIC, 3 Mo chacune et 4 Mo en tout. Leur nom de fichier est transmis avec elles. Photographiez de préférence le bijou seul, ou votre main, sans votre visage.',
           'Dans les deux formulaires, une case à cocher obligatoire recueille votre accord pour que vos coordonnées servent uniquement à répondre à votre demande.',
@@ -86,7 +86,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
         id: 'whatsapp',
         title: 'Si vous choisissez WhatsApp',
         paragraphs: [
-          'Quand il est proposé, le bouton «\u00a0Envoyer sur WhatsApp\u00a0» ouvre une conversation avec l’atelier, avec un message déjà rédigé à partir de ce que vous avez saisi : configuration ou description du bijou, souhait, taille de doigt, nom, message et adresse de la page. Ce texte est transmis à WhatsApp, service de la société Meta, dès l’ouverture du lien. Rien n’est envoyé à l’atelier tant que vous n’appuyez pas sur Envoyer, et vous joignez vous-même vos photos. La conversation relève ensuite des conditions de WhatsApp.',
+          'Quand il est proposé, le bouton «\u00a0Envoyer sur WhatsApp\u00a0» ouvre une conversation avec l’atelier, avec un message déjà rédigé à partir de ce que vous avez saisi : configuration ou description du bijou, souhait, taille de doigt, date souhaitée, budget indicatif, mention « c’est une surprise », nom, message et adresse de la page. Ce texte est transmis à WhatsApp, service de la société Meta, dès l’ouverture du lien. Rien n’est envoyé à l’atelier tant que vous n’appuyez pas sur Envoyer, et vous joignez vous-même vos photos. La conversation relève ensuite des conditions de WhatsApp.',
         ],
       },
       {
@@ -179,7 +179,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
           'The site has two forms. Filling them in is up to you, but the fields marked with an asterisk and the consent box are needed: without them, the request cannot be sent. You can also write to us or call us directly (see above).',
         ],
         list: [
-          'Quote request, from the configurator: name and email (required); phone, ring size, message and photos (optional); your optional agreement to the publication of photos and videos of your piece being made, without your name. The chosen configuration (model, composition, metal, stones, diamond origin) and the page language are attached to the request.',
+          'Quote request, from the configurator: name and email (required); phone, ring size, needed-by date, approximate budget, the “it’s a surprise” note, message and photos (optional); your optional agreement to the publication of photos and videos of your piece being made, without your name. The chosen configuration (model, composition, metal, stones, diamond origin) and the page language are attached to the request.',
           'Family jewellery transformation: name, email and description of the piece (required); phone, wish and photos (optional). The page language is attached to the request.',
           'Photos: up to 3, in JPEG, PNG, WebP or HEIC format, 3 MB each and 4 MB in total. Each photo’s file name is sent with it. Preferably photograph the piece alone, or your hand, without your face.',
           'On both forms, a required tick box records your agreement that your details are used only to answer your request.',
@@ -208,7 +208,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
         id: 'whatsapp',
         title: 'If you choose WhatsApp',
         paragraphs: [
-          'When it is offered, the “Send on WhatsApp” button opens a conversation with the workshop, with a message already written from what you entered: configuration or description of the piece, wish, ring size, name, message and page address. This text is passed to WhatsApp, a service of Meta, as soon as the link opens. Nothing is sent to the workshop until you press Send, and you attach your photos yourself. The conversation is then governed by WhatsApp’s terms.',
+          'When it is offered, the “Send on WhatsApp” button opens a conversation with the workshop, with a message already written from what you entered: configuration or description of the piece, wish, ring size, needed-by date, approximate budget, the “it’s a surprise” note, name, message and page address. This text is passed to WhatsApp, a service of Meta, as soon as the link opens. Nothing is sent to the workshop until you press Send, and you attach your photos yourself. The conversation is then governed by WhatsApp’s terms.',
         ],
       },
       {
@@ -302,7 +302,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
           'באתר שני טפסים. מילוי הטפסים תלוי ברצונכם, אך השדות המסומנים בכוכבית ותיבת ההסכמה נחוצים: בלעדיהם לא ניתן לשלוח את הפנייה. אפשר גם לכתוב לנו או להתקשר ישירות (ראו למעלה).',
         ],
         list: [
-          'בקשת הצעת מחיר, מתוך עיצוב התכשיט: שם ודוא״ל (חובה); טלפון, מידת טבעת, הודעה ותמונות (לא חובה); הסכמתכם, שאינה חובה, לפרסום תמונות וסרטונים מייצור התכשיט שלכם, ללא שמכם. התצורה שבחרתם (דגם, הרכב, מתכת, אבנים, מקור היהלום) ושפת הדף מצורפות לפנייה.',
+          'בקשת הצעת מחיר, מתוך עיצוב התכשיט: שם ודוא״ל (חובה); טלפון, מידת טבעת, תאריך רצוי, תקציב משוער, הסימון „זו הפתעה”, הודעה ותמונות (לא חובה); הסכמתכם, שאינה חובה, לפרסום תמונות וסרטונים מייצור התכשיט שלכם, ללא שמכם. התצורה שבחרתם (דגם, הרכב, מתכת, אבנים, מקור היהלום) ושפת הדף מצורפות לפנייה.',
           'חיים חדשים לתכשיט משפחתי: שם, דוא״ל ותיאור התכשיט (חובה); טלפון, משאלה ותמונות (לא חובה). שפת הדף מצורפת לפנייה.',
           'תמונות: עד 3, בפורמטים JPEG,‏ PNG,‏ WebP או HEIC, עד 3 MB כל אחת ו־4 MB בסך הכול. שם הקובץ של כל תמונה נשלח יחד איתה. מומלץ לצלם את התכשיט בלבד, או את היד, ללא הפנים.',
           'בשני הטפסים, תיבת סימון שחובה לסמן מתעדת את הסכמתכם לכך שפרטיכם ישמשו רק כדי להשיב לפנייתכם.',
@@ -331,7 +331,7 @@ export const PRIVACY: Record<Locale, LegalPage> = {
         id: 'whatsapp',
         title: 'אם תבחרו בוואטסאפ',
         paragraphs: [
-          'כשהלחצן „שליחה בוואטסאפ” מוצג, הוא פותח שיחה עם הסדנה ובה הודעה כתובה מראש לפי מה שהזנתם: התצורה או תיאור התכשיט, המשאלה, מידת הטבעת, השם, ההודעה וכתובת הדף. הטקסט מועבר לוואטסאפ, שירות של חברת Meta, ברגע שהקישור נפתח. שום דבר אינו נשלח לסדנה עד שתלחצו על שליחה, ואת התמונות אתם מצרפים בעצמכם. מכאן ואילך השיחה כפופה לתנאים של וואטסאפ.',
+          'כשהלחצן „שליחה בוואטסאפ” מוצג, הוא פותח שיחה עם הסדנה ובה הודעה כתובה מראש לפי מה שהזנתם: התצורה או תיאור התכשיט, המשאלה, מידת הטבעת, התאריך הרצוי, התקציב המשוער, הסימון „זו הפתעה”, השם, ההודעה וכתובת הדף. הטקסט מועבר לוואטסאפ, שירות של חברת Meta, ברגע שהקישור נפתח. שום דבר אינו נשלח לסדנה עד שתלחצו על שליחה, ואת התמונות אתם מצרפים בעצמכם. מכאן ואילך השיחה כפופה לתנאים של וואטסאפ.',
         ],
       },
       {

@@ -32,6 +32,11 @@ export const QuoteFields = z.object({
   email: z.email().max(200),
   phone: z.string().trim().max(40).regex(/^[0-9+().\s-]*$/).default(''),
   ringSize: z.string().trim().max(40).default(''),
+  /** Date voulue (texte libre : « fiançailles le 14 février ») et budget indicatif, tous deux facultatifs. */
+  wantedDate: z.string().trim().max(80).default(''),
+  budget: z.string().trim().max(60).default(''),
+  /** Demande surprise : l'atelier ne joint la personne que par les coordonnées saisies, sans rien qui révèle le bijou. */
+  surprise: z.boolean().default(false),
   message: z.string().trim().max(3000).default(''),
   consent: z.literal(true),
   /** Accord facultatif pour publier photos et vidéos de fabrication (sans le nom du client). */
@@ -69,6 +74,9 @@ export function fieldsFromForm(form: FormData): Record<string, unknown> {
     email: get('email')?.trim(),
     phone: get('phone'),
     ringSize: get('ringSize'),
+    wantedDate: get('wantedDate'),
+    budget: get('budget'),
+    surprise: get('surprise') === 'on' || get('surprise') === 'true',
     message: get('message'),
     consent: get('consent') === 'on' || get('consent') === 'true',
     publishConsent: get('publishConsent') === 'on' || get('publishConsent') === 'true',
@@ -155,6 +163,9 @@ export function buildQuoteEmail(
     `E-mail : ${f.email}`,
     `Téléphone : ${f.phone || '—'}`,
     `Taille de doigt indiquée : ${f.ringSize || '—'}`,
+    `Pour quelle date : ${f.wantedDate || '—'}`,
+    `Budget indicatif : ${f.budget || '—'}`,
+    `Surprise : ${f.surprise ? 'OUI. Joindre uniquement par les coordonnées ci-dessus ; rien qui révèle le bijou (objet d’un message, colis)' : 'non signalée'}`,
     `Langue du client : ${lang[f.locale]}`,
     `Publication des photos et vidéos de fabrication : ${f.publishConsent ? 'accord donné (sans le nom du client)' : 'pas d’accord'}`,
     '',

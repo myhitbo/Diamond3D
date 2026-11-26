@@ -35,6 +35,7 @@
 - [x] Reçus aussi le 17/11 au soir, identifiés le 26/11 : logo JR (JPEG sur fond noir, WebP détouré) et deux fichiers d'alliances lisses venus de CGTrader (paire ; jeu de 29 tailles). Inventaire et licence : `docs/atelier/2026-11-17_fichiers_drive.md`.
 - [ ] Alliances CGTrader : relever l'adresse et la licence de chaque fiche (PIP-7) ; ne pas versionner les deux fichiers (dépôt public, §21A.1 des conditions CGTrader) ; confirmation écrite pour la fabrication et la vente.
 - [x] Logo JR de l'atelier à la place du monogramme dessiné (26/11, accord du propriétaire, « un petit peu plus grand »). Reste : obtenir la version d'origine (SVG, PDF ou PNG sans fond).
+- [ ] Accueil : choisir une des trois versions (A, B, C) avec l'atelier (décision du propriétaire du 26/11 ; liens dans `docs/atelier/2026-11-26_message.md`), puis la mettre à la place de l'accueil actuel.
 - [ ] Boutons du configurateur : cinq styles à comparer avec l'atelier (26/11), `/fr/versions/boutons` et `?boutons=1…5` dans le configurateur. Message pour l'atelier : `docs/atelier/2026-11-26_message.md`. Choix du propriétaire et de l'atelier attendu ; ensuite, changer `DEFAULT_BUTTON_STYLE` et retirer les autres styles.
 - [x] Or 14 k (jaune, blanc, rose) au configurateur, choix couleur + titre ; « Synthétique » en français (4/11).
 - [x] Métal par défaut de ring-001 : or jaune 14 k (atelier, 16/11).

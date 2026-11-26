@@ -7,7 +7,7 @@
  * dit quelle solution de remplacement nous proposons. Chaque texte existe dans les trois langues.
  * Changer aussi `ACCESSIBILITY_UPDATED` (`accessibility.ts`), date de mise à jour de la déclaration.
  *
- * Vérification du 15 novembre 2026, refaite le 16 novembre après l'ajout du bouton « Partager cette configuration » et le 17 novembre après la refonte visuelle (bandeaux noirs, scène 3D sombre) ; mêmes résultats : `tests/e2e/accessibility.spec.ts` (axe-core et contrôles complémentaires), tout vert sur
+ * Vérification du 15 novembre 2026, refaite le 16 novembre après l'ajout du bouton « Partager cette configuration » le 17 novembre après la refonte visuelle (bandeaux noirs, scène 3D sombre), le 20 novembre après les versions de l'accueil et le 26 novembre après l'ajout du second modèle (solitaire marquise), du choix du modèle et du logo de l'atelier ; mêmes résultats : `tests/e2e/accessibility.spec.ts` (axe-core et contrôles complémentaires), tout vert sur
  * Chromium (ordinateur et téléphone simulés), WebKit (iPhone et iPad simulés, sans le parcours complet à la touche Tab) et
  * Firefox (pages sans 3D). Les chiffres ci-dessous en viennent : à
  * recompter si la liste des pages du test change. Aucun test avec un vrai lecteur d'écran : ne rien écrire dans `screenReaders`
@@ -40,7 +40,7 @@ export const AXE_VERSION = '4.14.0';
 const dict = (l: (typeof LOCALES)[number]) => DICTIONARIES[l];
 
 export const ACCESSIBILITY_STATUS: AccessibilityStatus = {
-  checkedOn: '2026-11-20',
+  checkedOn: '2026-11-26',
   // Partielle : les contrôles automatiques ne trouvent plus de défaut, mais des limites restent (ci-dessous) et la vérification
   // n'est pas complète (ni audit manuel, ni lecteur d'écran). Ne passer à « full » qu'après ces deux vérifications.
   conformance: 'partial',
@@ -68,9 +68,9 @@ export const ACCESSIBILITY_STATUS: AccessibilityStatus = {
       he: 'לפני התיקונים, axe-core מצא שלוש בעיות: טקסט זהוב בהיר מדי כמעט בכל הדפים (ניגודיות של 3.4 ל־1 במקום 4.5 ל־1 לפחות), קישור „FAQ” בגרסה הצרפתית ששמו כפי שהוא מוקרא בקורא מסך היה שונה מהטקסט המוצג בטלפון, וקישורים למקורות קטנים וצפופים מדי. שלושתן תוקנו.',
     },
     {
-      fr: 'Après corrections : aucun défaut relevé par axe-core sur les 44 vues contrôlées (32 pages et 12 états de formulaire ou du configurateur, dans les trois langues), sur ordinateur, téléphone et tablette, avec les trois moteurs.',
-      en: 'After fixes: no problem found by axe-core on the 44 views checked (32 pages and 12 states of the forms or the configurator, in the three languages), on computer, phone and tablet, with all three engines.',
-      he: 'לאחר התיקונים: axe-core לא מצא אף בעיה ב־44 התצוגות שנבדקו (32 דפים ו־12 מצבים של הטפסים או של עיצוב התכשיט, בשלוש השפות), במחשב, בטלפון ובטאבלט, בשלושת המנועים.',
+      fr: 'Après corrections : aucun défaut relevé par axe-core sur les 50 vues contrôlées (32 pages et 18 états de formulaire ou du configurateur, dans les trois langues), sur ordinateur, téléphone et tablette, avec les trois moteurs.',
+      en: 'After fixes: no problem found by axe-core on the 50 views checked (32 pages and 18 states of the forms or the configurator, in the three languages), on computer, phone and tablet, with all three engines.',
+      he: 'לאחר התיקונים: axe-core לא מצא אף בעיה ב־50 התצוגות שנבדקו (32 דפים ו־18 מצבים של הטפסים או של עיצוב התכשיט, בשלוש השפות), במחשב, בטלפון ובטאבלט, בשלושת המנועים.',
     },
     {
       fr: 'Les contrôles complémentaires et la relecture du code ont révélé, et nous avons corrigé : sur téléphone, des boutons qui recevaient le focus restaient cachés derrière la vue 3D ; quelques boutons et liens de moins de 24 px ; des erreurs de formulaire qui ne s’affichaient que dans une bulle passagère du navigateur ; une vue 3D qu’on ne pouvait pas faire tourner au clavier ; un groupe de boutons dont le nom restait en français dans les autres langues.',

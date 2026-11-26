@@ -137,6 +137,9 @@ test('ce que dit la politique : aucun cookie, aucun stockage, aucune requête ve
   await page.goto('/fr');
   await page.goto('/fr/configurateur/ring-001?debug=1');
   await page.waitForFunction(() => window.__jr?.ready === true, null, { timeout: 60_000 });
+  // Second modèle : son fichier 3D est servi par le site, comme le premier.
+  await page.goto('/fr/configurateur/ring-002?debug=1');
+  await page.waitForFunction(() => window.__jr?.ready === true, null, { timeout: 60_000 });
   await page.goto('/he/faq');
   // Versions de l'accueil à l'essai : même modèle 3D, polices servies par le site.
   for (const id of ['a', 'b', 'c']) {

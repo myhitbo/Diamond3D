@@ -166,13 +166,16 @@ async function tabThrough(page: Page, max = 250) {
   const stops: Stop[] = [];
   // Départ au tout début du document (le focus peut être ailleurs, par exemple dans le formulaire qui vient de s'ouvrir) : un
   // repère hors du parcours (`tabindex="-1"`) placé en tête reçoit le focus, la touche Tab suivante va au premier élément.
-  await page.evaluate(() => {
-    document.querySelectorAll<HTMLElement>('[data-tab-stop]').forEach((el) => delete el.dataset.tabStop);
-    const start = document.createElement('span');
-    start.tabIndex = -1;
-    document.body.prepend(start);
-    start.focus();
-  });
+  const start = () =>
+    page.evaluate(() => {
+      document.querySelectorAll<HTMLElement>('[data-tab-stop]').forEach((el) => delete el.dataset.tabStop);
+      const mark = document.createElement('span');
+      mark.tabIndex = -1;
+      document.body.prepend(mark);
+      mark.focus();
+    });
+  await start();
+  let restarted = false;
   for (let i = 0; i < max; i++) {
     await page.keyboard.press('Tab');
     const stop = await page.evaluate((index) => {
@@ -196,6 +199,15 @@ async function tabThrough(page: Page, max = 250) {
         obscured,
       };
     }, i);
+    // Page encore en cours d'hydratation (la 404 est rendue une seconde fois par le navigateur) : le repère de départ a été
+    // retiré avec le focus avant le premier arrêt. On repart une seule fois du début, la page stabilisée.
+    if (!stop && !stops.length && !restarted) {
+      restarted = true;
+      await page.waitForTimeout(500);
+      await start();
+      i = -1;
+      continue;
+    }
     // Fin du document : le focus en sort (Chromium), reste sur le dernier élément (Firefox) ou revient au premier.
     if (!stop || (stops.length && (stop.key === stops[0].key || stop.key === stops[stops.length - 1].key))) break;
     stops.push(stop);

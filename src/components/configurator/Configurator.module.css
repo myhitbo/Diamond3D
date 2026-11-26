@@ -1337,7 +1337,11 @@
   font-weight: 400;
 }
 
+/* Cible d'au moins 24 px de haut (WCAG 2.5.8) : le lien est seul sur sa ligne, il n'a pas l'exception des liens dans un texte. */
 .showcaseHead a {
+  display: flex;
+  align-items: center;
+  min-height: 32px;
   color: var(--champagne);
   font-size: 13px;
 }

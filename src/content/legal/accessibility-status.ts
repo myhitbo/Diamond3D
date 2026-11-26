@@ -68,9 +68,9 @@ export const ACCESSIBILITY_STATUS: AccessibilityStatus = {
       he: 'לפני התיקונים, axe-core מצא שלוש בעיות: טקסט זהוב בהיר מדי כמעט בכל הדפים (ניגודיות של 3.4 ל־1 במקום 4.5 ל־1 לפחות), קישור „FAQ” בגרסה הצרפתית ששמו כפי שהוא מוקרא בקורא מסך היה שונה מהטקסט המוצג בטלפון, וקישורים למקורות קטנים וצפופים מדי. שלושתן תוקנו.',
     },
     {
-      fr: 'Après corrections : aucun défaut relevé par axe-core sur les 50 vues contrôlées (32 pages et 18 états de formulaire ou du configurateur, dans les trois langues), sur ordinateur, téléphone et tablette, avec les trois moteurs.',
-      en: 'After fixes: no problem found by axe-core on the 50 views checked (32 pages and 18 states of the forms or the configurator, in the three languages), on computer, phone and tablet, with all three engines.',
-      he: 'לאחר התיקונים: axe-core לא מצא אף בעיה ב־50 התצוגות שנבדקו (32 דפים ו־18 מצבים של הטפסים או של עיצוב התכשיט, בשלוש השפות), במחשב, בטלפון ובטאבלט, בשלושת המנועים.',
+      fr: 'Après corrections : aucun défaut relevé par axe-core sur les 56 vues contrôlées (32 pages et 24 états de formulaire ou du configurateur, dans les trois langues), sur ordinateur, téléphone et tablette, avec les trois moteurs.',
+      en: 'After fixes: no problem found by axe-core on the 56 views checked (32 pages and 24 states of the forms or the configurator, in the three languages), on computer, phone and tablet, with all three engines.',
+      he: 'לאחר התיקונים: axe-core לא מצא אף בעיה ב־56 התצוגות שנבדקו (32 דפים ו־24 מצבים של הטפסים או של עיצוב התכשיט, בשלוש השפות), במחשב, בטלפון ובטאבלט, בשלושת המנועים.',
     },
     {
       fr: 'Les contrôles complémentaires et la relecture du code ont révélé, et nous avons corrigé : sur téléphone, des boutons qui recevaient le focus restaient cachés derrière la vue 3D ; quelques boutons et liens de moins de 24 px ; des erreurs de formulaire qui ne s’affichaient que dans une bulle passagère du navigateur ; une vue 3D qu’on ne pouvait pas faire tourner au clavier ; un groupe de boutons dont le nom restait en français dans les autres langues.',

@@ -137,9 +137,11 @@ test('ce que dit la politique : aucun cookie, aucun stockage, aucune requête ve
   await page.goto('/fr');
   await page.goto('/fr/configurateur/ring-001?debug=1');
   await page.waitForFunction(() => window.__jr?.ready === true, null, { timeout: 60_000 });
-  // Second modèle : son fichier 3D est servi par le site, comme le premier.
-  await page.goto('/fr/configurateur/ring-002?debug=1');
-  await page.waitForFunction(() => window.__jr?.ready === true, null, { timeout: 60_000 });
+  // Autres modèles : leur fichier 3D est servi par le site, comme le premier.
+  for (const id of ['ring-002', 'ring-003']) {
+    await page.goto(`/fr/configurateur/${id}?debug=1`);
+    await page.waitForFunction(() => window.__jr?.ready === true, null, { timeout: 60_000 });
+  }
   // Styles de boutons à comparer : le style choisi ne vit que dans l'adresse (ni cookie, ni stockage).
   await page.goto('/fr/configurateur/ring-002?debug=1&boutons=5');
   await page.waitForFunction(() => window.__jr?.ready === true, null, { timeout: 60_000 });

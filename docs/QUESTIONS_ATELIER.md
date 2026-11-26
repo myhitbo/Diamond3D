@@ -228,6 +228,13 @@ Questions tirées de `docs/concurrence/SYNTHESE.md` (rangs qui dépendent de l'a
 112. Pour proposer le choix du carat : de quelle taille à quelle taille de marquise ce modèle peut-il être fabriqué sans le redessiner ?
 113. Le nom du modèle à l'atelier, et la taille de doigt du fichier (mesurée : 17,31 mm de diamètre intérieur, soit 54 ½).
 
+## 18. Solitaire cœur pavé (`ring-003`, 26/11)
+
+114. Sur le site, les cinq griffes du cœur sont raccourcies comme celles du solitaire marquise (elles s'arrêtent sur la couronne, à 60 % de sa hauteur, bout arrondi conservé) ; les 78 grains du pavé restent tels que dessinés. Est-ce fidèle à la bague que tu livres ?
+115. Poids réel du cœur de 7,3 × 7,3 mm (le volume du modèle donne 1,42 ct) et des 38 diamants ronds (de 0,8 à 1,8 mm ; 0,24 ct au total d'après les volumes) ; couleur et pureté par défaut.
+116. Pour proposer le choix du carat : de quelle taille à quelle taille de cœur ce modèle peut-il être fabriqué sans le redessiner ?
+117. Le nom du modèle à l'atelier, et la taille de doigt du fichier (mesurée : 17,2 mm de diamètre intérieur, soit 54).
+
 ## Ce que j'attends concrètement, par ordre d'urgence
 
 1. Réponses aux questions 2 à 6 (validation du modèle actuel).

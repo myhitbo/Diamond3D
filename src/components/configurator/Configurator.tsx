@@ -26,12 +26,16 @@ import {
 } from '@/lib/configurator/logic';
 import type { Quality, ViewName } from './Viewer';
 import { initProbe, setProbe } from './debugProbe';
+import { GemIcon, ShapeIcon } from './ChoiceIcons';
 import DiagnosticPanel from './DiagnosticPanel';
 import QuoteForm from './QuoteForm';
 import styles from './Configurator.module.css';
 
 // Le moteur 3D n'est chargé qu'à l'affichage du configurateur : il ne pèse pas sur le reste du site.
 const Viewer = dynamic(() => import('./Viewer'), { ssr: false });
+
+/** Poinçon de chaque titre, en millièmes (atelier, 16/11 : bagues poinçonnées 585 ou 750 ; platine 950). */
+const HALLMARK = { '14k': '585', '18k': '750', platinum: '950' } as const;
 
 type Action = { type: 'change'; change: Partial<ConfigState> } | { type: 'reset' };
 
@@ -307,8 +311,6 @@ export default function Configurator({
                   role="radio"
                   aria-checked={metal.family === family}
                   tabIndex={radioTabIndex(metal.family === family, i, true)}
-                  aria-label={t.metalFamilies[family]}
-                  title={t.metalFamilies[family]}
                   className={styles.swatch}
                   style={
                     {
@@ -316,7 +318,10 @@ export default function Configurator({
                     } as React.CSSProperties
                   }
                   onClick={() => dispatch({ type: 'change', change: { metal: id } })}
-                />
+                >
+                  <span className={styles.swatchBall} aria-hidden="true" />
+                  <span className={styles.swatchName}>{t.metalFamilies[family]}</span>
+                </button>
               );
             })}
           </div>
@@ -327,6 +332,7 @@ export default function Configurator({
                 options={metalTitres(model, metal.family).map((ti) => ({
                   id: ti,
                   label: t.titres[ti],
+                  sub: `${HALLMARK[ti]} ‰`,
                 }))}
                 value={metal.titre}
                 onChange={(ti) =>
@@ -357,6 +363,7 @@ export default function Configurator({
               options={centerSlot.variants.map((v) => ({
                 id: v.id,
                 label: v.name[locale],
+                icon: <ShapeIcon shape={v.shape} className={styles.choiceIcon} />,
               }))}
               value={state.stones[centerSlot.id]}
               onChange={(id) =>
@@ -379,7 +386,7 @@ export default function Configurator({
                 note={t.otherShapesNote}
                 tag={t.onRequest}
                 enabled={quoteEnabled}
-                options={centerSlot.unavailableShapes.map((u) => ({ id: u.shape, label: t.shapes[u.shape] }))}
+                options={centerSlot.unavailableShapes.map((u) => ({ id: u.shape, label: t.shapes[u.shape], icon: <ShapeIcon shape={u.shape} className={styles.requestIcon} /> }))}
                 onPick={(shape) => ask({ shape })}
               />
             )}
@@ -390,7 +397,7 @@ export default function Configurator({
                 note={t.otherStonesNote}
                 tag={t.onRequest}
                 enabled={quoteEnabled}
-                options={centerSlot.stonesOnRequest.map((stone) => ({ id: stone, label: t.requestStones[stone] }))}
+                options={centerSlot.stonesOnRequest.map((stone) => ({ id: stone, label: t.requestStones[stone], icon: <GemIcon stone={stone} className={styles.requestIcon} /> }))}
                 onPick={(stone) => ask({ stone })}
               />
             )}
@@ -590,7 +597,8 @@ function Choices<T extends string>({
   onChange,
 }: {
   label: string;
-  options: { id: T; label: string }[];
+  /** `sub` : précision sous le libellé (poinçon d'un titre). `icon` : pictogramme décoratif placé avant le libellé. */
+  options: { id: T; label: string; sub?: string; icon?: ReactNode }[];
   value: T;
   onChange: (id: T) => void;
 }) {
@@ -606,7 +614,11 @@ function Choices<T extends string>({
           className={styles.choice}
           onClick={() => onChange(o.id)}
         >
-          {o.label}
+          {o.icon}
+          <span className={styles.choiceText}>
+            <span>{o.label}</span>
+            {o.sub && <span className={styles.choiceSub}>{o.sub}</span>}
+          </span>
         </button>
       ))}
     </div>
@@ -614,7 +626,7 @@ function Choices<T extends string>({
 }
 
 /**
- * Choix non modélisés (formes, pierres) : boutons en pointillés qui ouvrent le devis avec un message pré-rempli.
+ * Choix non modélisés (formes, pierres) : plaques au cadre léger, marquées « sur demande », qui ouvrent le devis avec un message pré-rempli.
  * Ce ne sont pas des options du configurateur (la 3D ne change pas) : un groupe de boutons, pas un groupe radio.
  */
 function OnRequest<T extends string>({
@@ -632,7 +644,7 @@ function OnRequest<T extends string>({
   tag: string;
   /** Faux dans la préversion autonome : pas de devis, boutons inactifs. */
   enabled: boolean;
-  options: { id: T; label: string }[];
+  options: { id: T; label: string; icon?: ReactNode }[];
   onPick: (id: T) => void;
 }) {
   return (
@@ -640,7 +652,7 @@ function OnRequest<T extends string>({
       <p className={styles.onRequestTitle} id={id}>
         {title}
       </p>
-      <div className={styles.choices} role="group" aria-labelledby={id}>
+      <div className={styles.requestGrid} role="group" aria-labelledby={id}>
         {options.map((o) => (
           <button
             key={o.id}
@@ -650,7 +662,8 @@ function OnRequest<T extends string>({
             aria-controls={enabled ? 'quote-form' : undefined}
             onClick={() => onPick(o.id)}
           >
-            {o.label}
+            {o.icon}
+            <span>{o.label}</span>
             <span className={styles.onRequestTag}>{tag}</span>
           </button>
         ))}

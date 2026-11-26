@@ -37,7 +37,7 @@ if (recipe.webRetouch) {
   for (const [node, r] of Object.entries(applied)) if (deviation[node]) deviation[node].trianglesWeb = r.trianglesAfter;
   retouch = {
     appliedTo: 'modèle simplifié issu du .3dm',
-    request: "Atelier, 3/11/2026 : griffes rabattues et « 8 » supprimés, pour le web uniquement",
+    request: recipe.webRetouch.request ?? "Atelier, 3/11/2026 : griffes rabattues et « 8 » supprimés, pour le web uniquement",
     prongsAdjusted: Object.fromEntries(Object.entries(summary.prongs).map(([k, v]) => [k, v.length])),
     removedFaces: summary.removedFaces,
     addedCapTriangles: summary.addedCaps ?? {},

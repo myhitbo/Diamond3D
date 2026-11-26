@@ -8,7 +8,9 @@ import asset from './asset.json';
  * Tout ce qui est écrit ici se lit dans le fichier (`geometry.json`) : une marquise de 16,5 × 8,5 mm tenue par six griffes,
  * seize diamants ronds de 1,9 mm sur l'anneau, dix-neuf de 1,1 mm en galerie sous la pierre. Le fichier n'a ni courbe de
  * taille ni STL de référence : la taille est mesurée sur l'anneau, le volume de métal sur l'union des solides.
- * Affiché tel que modélisé, sans retouche web : l'atelier n'a pas encore vu ce modèle en ligne (`workshopValidated: false`).
+ * Retouche web (demande du propriétaire, 26/11/2026) : les six griffes, qui montent au-dessus de la table dans le fichier de
+ * fabrication, sont ramenées à 60 % de la hauteur de la couronne, comme sur une bague finie (`pipeline/web_retouch.py`, `claws`).
+ * Le reste est affiché tel que modélisé. L'atelier n'a pas encore vu ce modèle en ligne (`workshopValidated: false`).
  */
 export const ring002 = {
   id: 'ring-002',

@@ -45,7 +45,9 @@ Le solitaire marquise reçu de l'atelier le 17/11 n'a ni courbe « Ring Rail »,
 - **mesurer la taille de doigt sur l'anneau** (`"fingerSizeFrom": { "piece": "A", "part": "metal_shank" }`) : profil intérieur par secteur d'angle, cercle des moindres carrés, points hors du cercle écartés. Contrôle : sur ring-001, la mesure redonne exactement la courbe du fichier (16,393 mm, France 51 ½). La taille française est la circonférence intérieure, arrondie à la demi-taille ;
 - **lire la forme d'une pierre dans le nom de son bloc**, suffixe compris (« Diamond_Round 01 » → ronde).
 
-L'extraction de ring-001 reste identique au fichier près (`geometry.json` inchangé). ring-002 : 90 568 triangles bruts, 39 962 sur le web, 285 Ko, écart maximal 0,030 mm ; aucune retouche web (griffes telles que dessinées).
+L'extraction de ring-001 reste identique au fichier près (`geometry.json` inchangé). ring-002 : 90 568 triangles bruts, 39 962 sur le web, 285 Ko, écart maximal 0,030 mm.
+
+**Retouche des grandes griffes** (`"claws"` dans `webRetouch`, ring-002, demande du propriétaire du 26/11/2026). Les six griffes de la marquise sont effilées et montent 2,5 mm au-dessus du rondiste, plus haut que la table (1,2 mm) : sur la bague finie, elles sont coupées et rabattues. Pour le web, la partie au-dessus du rondiste est ramenée à 60 % de la hauteur de la couronne (`crownFraction`). Chaque sommet garde sa place autour de l'axe de la griffe, et cet axe (un polynôme ajusté sur les tranches de la griffe) est suivi moins haut : la griffe retouchée épouse la couronne comme la griffe d'origine à la même hauteur. Rien n'est créé, seuls des sommets bougent ; le rapport `asset.json` (`webRetouch`) dit qui a demandé la retouche (`request` dans la recette). Les tiges droites des petites pierres gardent la retouche `prongs` de ring-001.
 
 ## Ajouter un nouveau modèle
 

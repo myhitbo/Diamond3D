@@ -18,5 +18,11 @@
         { "id": "gem_side", "kind": "gem", "role": "side", "select": { "layer": "Gem 03", "block": "Diamond_Round 01" } }
       ]
     }
+  },
+  "webRetouch": {
+    "$comment": "Retouche web uniquement (pipeline/web_retouch.py) : les six griffes de la marquise montent au-dessus de la table dans le fichier de fabrication ; elles sont ramenées à 60 % de la hauteur de la couronne, comme sur une bague finie. Le fichier de fabrication n'est pas modifié. Les 52 grains du pavé ne sont pas touchés.",
+    "request": "Propriétaire, 26/11/2026 : griffes plus courtes, comme sur une bague finie (photo de référence envoyée), pour le web uniquement ; à faire valider par l'atelier",
+    "ringCentreFrom": ["A__metal_shank"],
+    "claws": [{ "metal": "A__metal_head_center", "gems": ["A__gem_center"], "crownFraction": 0.6 }]
   }
 }

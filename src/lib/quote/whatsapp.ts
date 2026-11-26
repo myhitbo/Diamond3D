@@ -14,7 +14,7 @@ export function normalizeWhatsAppNumber(raw: string | undefined | null): string 
   return /^[1-9]\d{7,14}$/.test(digits) ? digits : null;
 }
 
-export type WhatsAppFields = { name?: string; ringSize?: string; wantedDate?: string; budget?: string; message?: string };
+export type WhatsAppFields = { name?: string; ringSize?: string; wantedDate?: string; budget?: string; surprise?: boolean; message?: string };
 
 export function buildWhatsAppMessage(model: ModelDefinition, state: ConfigState, f: WhatsAppFields, pageUrl?: string): string {
   const clean = (s: string | undefined, max: number) => (s ?? '').replace(/\s+/g, ' ').trim().slice(0, max);
@@ -29,6 +29,7 @@ export function buildWhatsAppMessage(model: ModelDefinition, state: ConfigState,
     ...(ringSize ? [`Taille de doigt : ${ringSize}`] : []),
     ...(wantedDate ? [`Pour quelle date : ${wantedDate}`] : []),
     ...(budget ? [`Budget indicatif : ${budget}`] : []),
+    ...(f.surprise ? ['C’est une surprise : merci de me répondre uniquement ici.'] : []),
     ...(name ? [`Nom : ${name}`] : []),
     ...(message ? ['', message] : []),
     ...(pageUrl ? ['', pageUrl] : []),

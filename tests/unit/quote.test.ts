@@ -160,6 +160,21 @@ describe('demande de devis : WhatsApp', () => {
     expect(parseQuote({ ...valid(), budget: 'x'.repeat(61) }, getModel).ok).toBe(false);
   });
 
+  it('surprise : signalée à l’atelier dans l’e-mail et dans le message WhatsApp, absente sinon', () => {
+    const r = parseQuote({ ...valid(), surprise: true }, getModel);
+    if (!r.ok) throw new Error('demande invalide');
+    expect(buildQuoteEmail(r.model, r.state, r.fields, []).text).toContain('Surprise : OUI. Joindre uniquement par les coordonnées ci-dessus');
+    expect(buildWhatsAppMessage(r.model, r.state, { surprise: true })).toContain('C’est une surprise : merci de me répondre uniquement ici.');
+    const sans = parseQuote(valid(), getModel);
+    if (!sans.ok) throw new Error('demande invalide');
+    expect(buildQuoteEmail(sans.model, sans.state, sans.fields, []).text).toContain('Surprise : non signalée');
+    expect(buildWhatsAppMessage(sans.model, sans.state, {})).not.toContain('surprise');
+    const form = new FormData();
+    form.set('surprise', 'on');
+    expect(fieldsFromForm(form).surprise).toBe(true);
+    expect(fieldsFromForm(new FormData()).surprise).toBe(false);
+  });
+
   it('lien wa.me encodé', () => {
     const link = buildWhatsAppLink('972501234567', 'Bonjour & merci\nà bientôt');
     expect(link).toBe('https://wa.me/972501234567?text=Bonjour%20%26%20merci%0A%C3%A0%20bient%C3%B4t');

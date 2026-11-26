@@ -40,7 +40,7 @@ export const AXE_VERSION = '4.14.0';
 const dict = (l: (typeof LOCALES)[number]) => DICTIONARIES[l];
 
 export const ACCESSIBILITY_STATUS: AccessibilityStatus = {
-  checkedOn: '2026-11-20',
+  checkedOn: '2026-11-26',
   // Partielle : les contrôles automatiques ne trouvent plus de défaut, mais des limites restent (ci-dessous) et la vérification
   // n'est pas complète (ni audit manuel, ni lecteur d'écran). Ne passer à « full » qu'après ces deux vérifications.
   conformance: 'partial',

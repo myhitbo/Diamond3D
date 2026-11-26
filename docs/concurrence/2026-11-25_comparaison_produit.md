@@ -9,7 +9,7 @@ Périmètre : configurateur et parcours, visuels, fidélité du rendu, suivi de 
 - Synthèses d'audit (`docs/concurrence/audit/`) : `USN1`, `USN2` (vendeurs nationaux, 12 sites) ; `US01` à `US10` (50 États, 200 sites) ; `IL` (6 sites) ; `EU1b`, `EU2` à `EU5` (91 sites), plus les rapports `france/*.md` et `belgique/*.md` (5 sites) ; `AU` (18 sites). « n° k » renvoie au rang k de la section 3 de la synthèse, « §2 » à son tableau des fonctions. Un chemin `<territoire>/<site>.md` est un rapport par site, rouvert pour cette comparaison.
 - Forums : `Fo01` à `Fo10` (`forums/2026-11-15_01…10-*.md`), avec le code du fil ou le numéro du constat.
 - Code (chemins sous `src/`) : `Configurator.tsx`, `QuoteForm.tsx`, `Viewer.tsx`, `Configurator.module.css` (`components/configurator/`) ; `SiteFooter.tsx`, `TransformationForm.tsx` (`components/site/`) ; `dictionaries.ts` (`i18n/`) ; `share.ts` (`lib/configurator/`) ; `whatsapp.ts` (`lib/quote/`) ; `engine.ts` (`lib/pricing/`) ; `pricing.ts`, `metals.ts` (`config/`) ; `definition.ts`, `geometry.json`, `asset.json` (`models/ring-001/`) ; `faq.ts`, `transformation.ts` (`content/`) ; `layout.tsx` (`app/[locale]/`). Numéros de ligne du 25/11/2026.
-- Message à l'atelier du 24/11 : `docs/atelier/2026-11-24_message.md`, « point n » (points 23 à 46 ; questions 67 à 90 de `docs/QUESTIONS_ATELIER.md` d'après CLAUDE.md).
+- Message à l'atelier du 24/11 : `docs/atelier/2026-11-24_message.md`, « point n » (points 23 à 46 ; questions 85 à 108 (numérotées 67 à 90 jusqu’au 26/11) de `docs/QUESTIONS_ATELIER.md` d'après CLAUDE.md).
 
 ## 1. En bref
 

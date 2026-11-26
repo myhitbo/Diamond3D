@@ -1,5 +1,13 @@
 # Historique
 
+## 2026-11-26 — Devis : date souhaitée, budget, « c'est une surprise » ; note de prix ; étude de concurrence terminée
+
+- **Configurateur** : la note sous « Sur devis » dit que chaque prix est fixé par l'atelier dans un devis envoyé sous 24 à 48 h ouvrées (elle annonçait des « règles de tarification », abandonnées le 16/11) ; « La première mise à taille est offerte » sous la taille ; sur écran étroit, lien « Demander un devis » dans la scène collée en haut (une barre collée en bas recouvrait des boutons de choix, critère 2.5.8).
+- **Devis** : champs facultatifs « Pour quelle date ? » et « Budget indicatif » ; case « C'est une surprise : contactez-moi uniquement par les coordonnées indiquées ici ». Les trois sont repris dans l'e-mail à l'atelier et dans le message WhatsApp ; politique de confidentialité mise à jour dans les trois langues. La case transmet une demande : l'atelier n'a encore rien promis (question 109 de `docs/QUESTIONS_ATELIER.md`).
+- **Pied de page** : WhatsApp, téléphone et e-mail de l'atelier dès que les variables `NEXT_PUBLIC_WHATSAPP_NUMBER`, `NEXT_PUBLIC_CONTACT_PHONE`, `NEXT_PUBLIC_CONTACT_EMAIL` sont saisies (les deux premières le sont).
+- **Étude de concurrence** : 371 sites audités sur quatre marchés, comparaison finale vérifiée et synthèse (`docs/concurrence/SYNTHESE.md`) ; étude de l'alliance de kiddouchin (`docs/concurrence/kiddouchin/`) ; questions de l'étude renumérotées 85 à 108 dans `docs/QUESTIONS_ATELIER.md` (les numéros 67 à 84 étaient pris).
+- Tests du 26/11 : 123 unitaires ; Chromium (ordinateur et téléphone) 301 passés, 3 ignorés ; WebKit iPhone et iPad et Firefox 367 passés, 55 ignorés ; audit d'accessibilité rejoué dans les trois moteurs, déclaration datée du 26/11.
+
 ## 2026-11-24 — Réponses de l'atelier du 16/11 : aucun prix automatique, osek patour, textes validés
 
 - **Réponses de l'atelier du 16/11** archivées (`docs/atelier/2026-11-16_reponses.txt` : messages WhatsApp ; le fichier joint reste à coller tel quel, il n'a pas été reçu par la session) et rapprochées des 22 points du message du 14/11 (`docs/REPONSES_ATELIER.md`).

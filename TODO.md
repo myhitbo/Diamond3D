@@ -15,7 +15,7 @@
 - [ ] Teintes des métaux conformes aux photos : en attente des photos studio de l'atelier.
 
 - [ ] Archiver tel quel le fichier de réponses de l'atelier du 16/11 dans `docs/atelier/2026-11-16_reponses.txt` (il n'a pas été reçu par la session du 16/11) et comparer avec la section « 16 novembre 2026 » de `docs/REPONSES_ATELIER.md`.
-- [ ] Envoyer la relance du 16/11 (`docs/atelier/2026-11-16_relance.md`, 11 questions, mise à jour le 26/11) puis le message du 24/11 (`docs/atelier/2026-11-24_message.md`) : textes remis au propriétaire le 26/11, envoi non confirmé.
+- [x] Messages à l'atelier : envoyés le 26/11 selon le propriétaire (« Message à Yonathan envoyé »). Textes : `docs/atelier/2026-11-16_relance.md` (11 questions) et `docs/atelier/2026-11-24_message.md` (points 23 à 46). À confirmer : les deux textes sont-ils partis, et avec quelle version de la question 11. Réponses attendues.
 
 ## Modèles
 - [ ] CGTrader, partie gratuite (filtre « Free », formats `.3dm`) : télécharger 2 ou 3 bagues gratuites pour tester le pipeline sur un fichier tiers, sans rien acheter. Candidats vus le 3/11 : « solitaire ring », « Wedding Ring N145 », « Eternal Majesty ring », « Vintage Woman Diamond Ring », « Wedding Rings C29 ». Licence à relever sur chaque fiche. Pas de copies de marques.
@@ -25,7 +25,8 @@
 - [ ] Choix du carat pour les solitaires (pierre + tête agrandies depuis l'ancrage, plage validée par l'atelier) : en attente d'un fichier de solitaire (CGTrader « solitaire ring » ou atelier).
 - [ ] Densités des alliages et taux de perte : indisponibles chez l'atelier (3/11). Poids affichés « ≈ … (± 5 %) » depuis le 4/11.
 - [x] Fichiers de l'atelier reçus le 17/11 par le Drive du propriétaire : 7 modèles (inventaire `docs/atelier/2026-11-17_fichiers_drive.md`). Prêts pour le pipeline : solitaire marquise et bague cœur. Deux `.3dm` sans maillage à faire réenregistrer.
-- [ ] Repasser en accès « Limité » les 7 fichiers du Drive ouverts par lien le 17/11 (propriétaire) : toujours ouverts le 26/11.
+- [ ] Repasser en accès « Limité » les 10 fichiers du Drive ouverts par lien (propriétaire) : les 7 du 17/11, toujours ouverts le 26/11, et les 3 vidéos ouvertes le 26/11 pour la compression.
+- [x] Les 3 vidéos du Drive (26/11) : rendus 360° de trois bagues (solitaire émeraude, torsadée or rose, solitaire marquise), compressés en 1080 × 1080 (2 à 3 Mo). Reste : origine des rendus et accord de l'atelier pour les montrer.
 - [ ] Décision du propriétaire, demandée le 17/11 et restée sans réponse : versionner dans le dépôt public les fichiers CAO des 7 modèles de l'atelier (environ 130 Mo), comme `Ring.3dm`, ou seulement les modèles web allégés (GLB) ? Puis intégrer le solitaire marquise en premier (choix du carat), ensuite la bague cœur.
 - [x] Reçus aussi le 17/11 au soir, identifiés le 26/11 : logo JR (JPEG sur fond noir, WebP détouré) et deux fichiers d'alliances lisses venus de CGTrader (paire ; jeu de 29 tailles). Inventaire et licence : `docs/atelier/2026-11-17_fichiers_drive.md`.
 - [ ] Alliances CGTrader : relever l'adresse et la licence de chaque fiche (PIP-7) ; ne pas versionner les deux fichiers (dépôt public, §21A.1 des conditions CGTrader) ; confirmation écrite pour la fabrication et la vente.

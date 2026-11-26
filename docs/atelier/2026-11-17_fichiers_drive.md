@@ -17,7 +17,7 @@ Marques : **V** vérifié dans le fichier · **I** inféré.
 | **Bague croisée pavée** | 2 STL Rhino (`1kCVoq…`, 18,1 Mo, bague entière ; `1T4uTV…`, 14,2 Mo, partie haute seule) | lisible, métal seul | Sièges de pierres sans pierres |
 | **Bracelet à plaque** | `.3dm` Rhino 5, maillages présents (`1AtVs2…`, 16,1 Mo, 198 mm) + photo portée (`18blYQ…`) | lisible (V), 55 surfaces, aucune pierre | La photo portée ressemble à une photo de catalogue : origine à confirmer avant toute publication (I) |
 
-Vidéos (3, de 37 à 49 Mo : `1O618R…`, `1_e7D_…`, `18_9Ko…`) : pas encore ouvertes.
+Vidéos (3, de 37 à 49 Mo : `1O618R…`, `1_e7D_…`, `18_9Ko…`) : ouvertes le 26/11, voir « Les trois vidéos » plus bas.
 
 ## À demander à l'atelier
 
@@ -58,3 +58,19 @@ Envoyés par l'atelier, mais créés par des vendeurs de CGTrader d'après les i
 6. L'adresse des deux fiches CGTrader.
 7. Le profil d'alliance qu'il fabrique vraiment (largeur, épaisseur, bombé ou plat) : la promesse du site est « ce que vous voyez existe ».
 8. Le logo dans sa version d'origine (SVG, PDF ou PNG sans fond).
+
+## Les trois vidéos (ouvertes le 26/11)
+
+Ce ne sont pas des vidéos de fabrication : trois **rendus 360° photoréalistes** sur fond blanc (V), 1500 × 1500, 20 s, 30 images/s, H.264 de 15 à 20 Mbit/s, sans son. C'est sans doute le « rendu réel de la bague » que le propriétaire citait le 20/11 (I).
+
+| Vidéo (identifiant Drive, taille) | Contenu (V : images extraites) | Rapprochement (I) |
+|---|---|---|
+| `1O618R…` (37 Mo) | Solitaire taille émeraude, quatre griffes, anneau lisse, métal blanc | Aucun des 7 modèles reçus |
+| `1_e7D_…` (49 Mo) | Bague torsadée pavée en or rose, pierre ronde, épaules en feuilles | Peut-être la « bague croisée pavée » (STL sans pierres) |
+| `18_9Ko…` (43 Mo) | Solitaire marquise, griffes cathédrale, corps pavé, métal blanc | Le `.3dm` « solitaire marquise » |
+
+Versions compressées le 26/11 à la demande du propriétaire : 1080 × 1080, H.264 (CRF 23, sans son), 2,2 Mo, 3,1 Mo et 3,4 Mo, fidélité mesurée de 0,993 à 0,997 (SSIM contre l'original réduit) ; versions 720 × 720 de 1,0 à 1,6 Mo gardées pour le web. Envoyées au propriétaire dans la conversation. Déposées dans le Drive : « Rendu 360 - solitaire taille émeraude (compressé 1080).mp4 » (`1e4Gqdzu…`) et « Rendu 360 - bague torsadée or rose (compressé 1080).mp4 » (`1rJfP2U_…`). Celle du solitaire marquise (3,4 Mo) dépasse la limite d'envoi du connecteur (environ 3,1 Mo par fichier) : non déposée.
+
+À confirmer avec l'atelier avant toute publication : qui a fait ces rendus (logiciel, prestataire) et l'accord pour les montrer (question 5). Sur le site, les légender « rendu 3D », jamais « photo ».
+
+**Partage** : les trois vidéos d'origine ont été ouvertes par lien le 26/11, avec l'accord du propriétaire, pour pouvoir les télécharger (plus de 10 Mo). Avec les sept fichiers du 17/11, **dix fichiers** sont à repasser en accès « Limité » par le propriétaire.

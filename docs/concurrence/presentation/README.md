@@ -46,7 +46,7 @@ CHROMIUM_PATH=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome \
 ```
 
 - Sortie : `dist/JR-Diamond_Etude-de-concurrence_2026-11.pdf`.
-- `build.mjs` lance `pages_sites.py`, qui vérifie que les totaux des tableaux recoupent la synthèse (Israël : 16, 7, 2, 1, 16 + 1, 10, 10, 16, 14, 8 ; France : 7, 5, 0, 2, 5, 5, 8, 8, 4, 5) et s'arrête sinon.
+- `build.mjs` lance `pages_sites.py`, qui vérifie que les totaux des tableaux recoupent la synthèse (Israël : 16, 7, 2, 1, 16 + 1, 10, 10, 16, 14, 8 ; France : 7, 5 + 1, 0, 2, 5, 7, 6 + 2, 8, 4 + 1, 6 ; « + n » : cases à nuancer) et s'arrête sinon.
 - Dans `etude.html` : `<!--@inclure nom-->` insère `.fragments/nom.html` ; `data-ancre="x"` nomme une page ; `{{page:x}}` et `href="#@x"` y renvoient, avec le bon numéro.
 - Le script doit dire « mention de droits : sur 45 pages » : sans `droits.txt`, le PDF sort sans mention.
 - Le script doit finir par « aucune page ne dépasse ». Relire ensuite les aperçus page par page : le contrôle automatique ne voit ni un repère mal placé sur une capture, ni un texte qui en recouvre un autre.

@@ -664,6 +664,21 @@
       ]
     },
     {
+      "id": "th_mda",
+      "site": "La Maison de l'Alliance",
+      "pays": "France",
+      "url": "https://www.maisondelalliance.fr/monture/bagues-classiques-platine-950-pt-manae-pt",
+      "date": "2026-11-26",
+      "src": "fresh/fr_mda_refus_d.png",
+      "crop": [
+        0,
+        0,
+        2560,
+        1359
+      ],
+      "note": "cookies refusés avant la capture : « Personnaliser », « Tout refuser », « Fermer »"
+    },
+    {
       "id": "th_mondiamant",
       "site": "MonDiamant",
       "pays": "France",

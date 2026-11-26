@@ -95,34 +95,34 @@ FRANCE = [
  ('Gemmyo', 'Gemmyo', 'Paris, boutiques', 'xx--xxxxxx', 'th_gemmyo', '',
   'Le prix suit la qualité de la pierre, et l\'écart est écrit : + 600, + 1 800, + 3 000 €. Gravure à 30 €, baguier gratuit, rendez-vous vidéo de 30 minutes. Dit lui-même que ses visuels sont retouchés.',
   '« Lady » 0,7 ct, or blanc : 4 600 € ; platine 5 050 €'),
- ("La Maison de l'Alliance", "La Maison de l'Alliance", 'France', 'xx--xxxxxx', None, 'cookies',
+ ("La Maison de l'Alliance", "La Maison de l'Alliance", 'Paris 8e', 'xx--xxxxxx', 'th_mda', '',
   'Vend une pierre en stock avec son numéro GIA, livrée en 4 jours ; grille de 8 poids, 5 couleurs, 7 puretés. Défauts : une seule photo quelle que soit la pierre ; « moins 50 % sur tout ».',
   '« Manae » platine, naturel GIA : 1 129 € (0,30 ct) à 3 583 € (1 ct)'),
- ('MonDiamant', 'MonDiamant', 'Paris 9e', 'xx--x-xxxx', 'th_mondiamant', '',
+ ('MonDiamant', 'MonDiamant', 'Paris 9e', 'xx--xxxxxx', 'th_mondiamant', '',
   'Naturel certifié GIA seulement ; le lien de rendez-vous garde le modèle, le poids et la qualité. Sur-mesure avec rendu 3D : 200 €, 6 semaines. Garantie de 10 ans.',
   '« Dana » or blanc : 1 980 € (0,30 ct) à 29 150 € (2 ct)'),
- ('Laveran Paris', 'Laveran', 'Paris', 'xo--xxxxxx', None, 'ident',
+ ('Laveran Paris', 'Laveran', 'Paris', 'xo--xxoxxx', None, 'ident',
   'Synthétique par défaut ; gravure offerte avec aperçu ; garantie et mise à taille à vie. Défauts : le même prix pour les quatre métaux ; moins 20 % affiché. Lu sans navigateur.',
   '33 prix, de 880 € (0,30 ct) à 7 456 € (5 ct)'),
  ('Courbet', 'Courbet', 'Paris', 'xx-x-xxx-x', 'th_courbet', '',
-  'Synthétique seul ; une vraie 3D en temps réel (forme, carat, couleur, pureté), mais la société a été liquidée et la vente est arrêtée : le 26/11, le site annonce une « pause » de ses collections.',
+  'Synthétique seul ; une vraie 3D en temps réel (forme et carat ; couleur et pureté ne changent que le prix), mais la société a été liquidée et la vente est arrêtée : le 26/11, le site annonce une « pause » de ses collections.',
   'halo pavé or blanc : 3 600 € (0,3 ct) à 6 500 € (1 ct)'),
- ("L'Alliancier", "L'Alliancier", 'France', 'xx-x--xxo-', 'th_alliancier', '',
-  'Configurateur 3D d\'alliances, six onglets, gravure visible dans la 3D ; 4,9 sur 5 pour 295 avis. Défauts : 15 à 28 secondes avant la 3D ; garantie « à vie » ici, un an là.',
+ ("L'Alliancier", "L'Alliancier", 'Bas-Rhin', 'xx-x-xoxox', 'th_alliancier', '',
+  'Configurateur 3D d\'alliances, six onglets, or de 8 à 18 carats, gravure visible dans la 3D ; 4,9 sur 5 pour 295 avis. Défauts : 15 à 28 secondes avant la 3D ; garantie « à vie » ici, un an là.',
   'paire d\'alliances : 1 088 € par défaut, de 458 à 3 178 € selon le métal'),
  ('Bonnot Paris', 'Bonnot', 'Paris', '----xxxx--', 'th_bonnot', '',
-  'Photographie la vraie pierre, puis montre une bague simulée par IA. Le prix de la bague n\'apparaît qu\'après le nom, l\'e-mail et le téléphone. 5 sur 5 pour 105 avis.',
+  'Photographie la vraie pierre, puis montre une bague simulée par IA. Le prix de la bague n\'apparaît qu\'après le prénom, l\'e-mail et le téléphone. 5 sur 5 pour 105 avis.',
   'prix de la pierre seule (exemple : 3 252 €) ; bague non chiffrée'),
  ("Histoire d'Or", "Histoire d'Or", 'chaîne nationale', 'x-----xx--', 'th_histoiredor', '',
-  'Seul des huit à écrire « diamant synthétique ». Aucune configuration : un carrousel de photos, une taille présélectionnée. Retour de 60 jours. Défaut : 17 secondes sur iPhone.',
+  'Seul des huit à s\'en tenir à « diamant synthétique ». Aucune configuration : un carrousel de photos, une taille présélectionnée. Retour de 60 jours. Défaut : 17 secondes sur iPhone.',
   'bague platine, 0,51 ct synthétique : 1 090 €'),
 ]
-FRANCE_BLOQUES = 'Edenly (défi Cloudflare) et Celinni : bloqués, non visités, hors décompte.'
+FRANCE_BLOQUES = 'Edenly (défi Cloudflare) et Celinni : bloqués, non audités, hors décompte ; Mauboussin et Julien d\'Orcel, bloqués aussi, avaient été écartés avant.'
 
 # ---------------------------------------------------------------- États-Unis : 12 vendeurs nationaux
 USA = [
  ('Blue Nile', 'Blue Nile', 'en ligne, 23 salles', 'xxx-xxxxxx', 'th_bluenile', '',
-  'Photo et rotation de la vraie pierre, rapport IGI dans la page ; vue à 360° de la bague ; date d\'expédition dès que la taille est choisie. Seul des douze avec WhatsApp. Défaut : moins 20 % « automatique ».',
+  'Photo et rotation de la vraie pierre, rapport IGI dans la page ; vue à 360° de la bague ; date d\'expédition dès que la taille est choisie. Seul des douze où WhatsApp est relevé. Défaut : moins 20 % « automatique ».',
   'monture 696 $ (14 carats) + synthétique 1,65 ct 1 237 $ = 1 933 $'),
  ('VRAI', 'VRAI', 'en ligne, 10 salles', 'xxx--xxxxx', 'th_vrai', '',
   'Synthétique de sa propre fonderie, certificat maison ; chaque pierre filmée. La 3D est réservée au sur-mesure. Gravure à 60 $, livraison payante.',
@@ -131,29 +131,29 @@ USA = [
   'La « vue à 360° » est une suite de 100 images ; essayage sur téléphone ; une version en dollars pour Israël. Étapes 2 et 3 non retenues : nos relevés y ont suivi des adresses interdites.',
   'monture « Kamellie » : 1 150 $ (14 carats), 1 450 $ (18), 1 750 $ (platine)'),
  ('Angara', 'Angara', 'en ligne', 'xxx---xxxx', 'gal_angara', '',
-  'L\'image, recomposée par couches, suit la forme, le métal, les griffes et la taille de la pierre. 29 variétés de pierres de couleur ; gravure offerte avec aperçu ; paiement en 2 ou 3 fois.',
+  'L\'image, recomposée par couches, suit la forme, les griffes et la taille de la pierre ; le platine y garde l\'image de l\'or blanc. 29 variétés de pierres de couleur ; gravure offerte avec aperçu ; paiement en 2 ou 3 fois.',
   'monture 655 $ + ovale synthétique 1 ct 871 $ = 1 526 $'),
  ('Clean Origin', 'Clean Origin', 'en ligne', 'xxo--xxxxx', 'th_cleanorigin', '',
   'Écrit l\'écart sur l\'option : « 18K White Gold + $251 », « Platinum + $315 ». Vidéo de la vraie pierre, liée au certificat ; retour de 60 jours. Constructeur interdit aux robots, non parcouru.',
   'monture « Stellamarquise » : 1 031 $ (1 375 $ barré)'),
- ('Rare Carat', 'Rare Carat', 'en ligne', 'xxxx--xxxx', 'th_rarecarat', '',
-  'La seule 3D en temps réel des douze, en version d\'essai : la pierre, sur une monture d\'exemple. Essai sur une photo de sa main ; gravure offerte avec aperçu.',
+ ('Rare Carat', 'Rare Carat', 'en ligne', 'xoxx--xxxx', 'th_rarecarat', '',
+  'La seule 3D en temps réel constatée chez les douze, en version d\'essai : la pierre, sur une monture d\'exemple. Essai sur une photo de sa main ; gravure offerte avec aperçu.',
   'monture 600 $ + synthétique 1,25 ct 805 $ = 1 405 $, livraison gratuite'),
  ('Frank Darling', 'Frank Darling', 'New York, 14 salles', 'xxx--xxxxx', 'gal_frankdarling', '',
   'Vue à 360° en 321 images par métal ; répliques à essayer chez soi ; croquis gratuits et modèle 3D en sur-mesure ; baguier envoyé. Reprend même le sur-mesure et le gravé.',
   '« Ripple » ovale, 14 carats : 2 560 $ ; au panier 3 896,24 $ avec la pierre'),
- ('Ritani', 'Ritani', 'en ligne', 'o-o---oooo', None, 'bloque',
+ ('Ritani', 'Ritani', 'en ligne', 'o-o--ooooo', None, 'bloque',
   'Lu sans visite. Seul à décomposer le prix de la pierre : coût de gros, acheminement, marge. Suivi de fabrication en 7 étapes. Modèle numérique en sur-mesure : 150 $, déduits de l\'achat.',
   'synthétique 3,50 ct : 314,89 + 202,75 + 504,36 = 1 022 $'),
  ('Brilliant Earth', 'Brilliant Earth', 'en ligne, 44 salles', 'ooo--ooooo', None, 'bloque',
-  'Lu sans visite. Vidéo de chaque pierre, taille réelle sur une main en trois teintes de peau, essayage sur photo ; visio de 50 minutes ; livre en Israël.',
-  'monture dès 750 $ ; 18 carats : + 200 $'),
+  'Lu sans visite. Vidéo réelle des pierres filmées, taille réelle sur une main en trois teintes de peau, essayage sur photo ; visio de 50 minutes ; livre en Israël.',
+  'monture dès 750 $ ; 18 carats : + 200 $ (extraits non datés)'),
  ('Do Amore', 'Do Amore', 'en ligne', 'ooo--ooooo', None, 'bloque',
-  'Lu sans visite. Le total est écrit sur le bouton ; pierres présélectionnées par monture ; retour de 60 jours ; visio de 30 minutes.',
+  'Lu sans visite. Le total est écrit sur le bouton ; pierres présélectionnées par monture ; retour de 60 jours, de 30 sur une de ses pages ; visio de 30 minutes.',
   'monture « Asha » : 1 080 à 1 480 $ ; 4 640 $ avec 1 ct synthétique'),
  ('With Clarity', 'With Clarity', 'en ligne, 1 salle', 'ooo--ooooo', None, 'bloque',
   'Lu sans visite. Répliques à domicile (200 $ l\'une, rendus en carte cadeau) ; curseur de carats de 0 à 8 ; visio à deux caméras.',
-  'montures de 558 à 4 110 $'),
+  'montures de 558 à 4 110 $ (extraits non datés)'),
  ('Grown Brilliance', 'Grown Brilliance', 'en ligne, 17 salles', 'ooo--ooooo', None, 'bloque',
   'Lu sans visite. Synthétique seul ; récapitulatif en deux lignes, monture et pierre ; sur-mesure avec rendu en 48 heures.',
   'monture 1 780 $ + pierre 1 830 $ = 3 610 $'),
@@ -165,7 +165,6 @@ ECARTES = {'Apex Jewelry Design', "Noe's Jewelry", 'Royal Jewelers', "Rumanoff's
 RAISONS = {
  'ident': 'Pas de capture : ce site demande aux agents de s\'identifier.',
  'bloque': 'Pas de capture : site bloqué, non visité.',
- 'cookies': 'Pas de capture : page floutée derrière un panneau de cookies sans refus.',
  'antirobot': 'Pas de capture : contrôle anti-robot le 26/11.',
  'injoignable': 'Pas de capture : site injoignable le 26/11.',
  'inconnu': 'Pas de capture : le site refuse la lecture de son fichier pour agents.',
@@ -286,11 +285,14 @@ def france():
     data = by_name('fr')
     rows = [(None, [(shown, lieu, crit, data[name]['identification']) for name, shown, lieu, crit, *_ in FRANCE])]
     table, totals, nuances = matrice(rows)
-    assert totals == [7, 5, 0, 2, 5, 5, 8, 8, 4, 5], totals
+    # relevés, puis à nuancer : 7, 5 + 1, 0, 2, 5, 7, 6 + 2, 8, 4 + 1, 6 (rendez-vous sur place et rappel comptés, mise à taille de L'Alliancier : relecture du 26/11)
+    assert totals == [7, 5, 0, 2, 5, 7, 6, 8, 4, 6] and nuances == [0, 1, 0, 0, 0, 0, 2, 0, 1, 0], (totals, nuances)
     cards = [fiche(data[name], shown, lieu, crit, thumb, why, note, prix) for name, shown, lieu, crit, thumb, why, note, prix in FRANCE]
     p1 = page('France · site par site', '8 sites, <em>dix critères</em>',
-              table + LEGENDE.format(nuance='Laveran, prix par variante non actionné ; L\'Alliancier, garantie « à vie » ou d\'un an selon la page', extra=' · <sup>a</sup> demande aux agents de s\'identifier') +
-              f'\n  <p class="tiny muted">{e(FRANCE_BLOQUES)} Courbet, société liquidée, est compté d\'après son site encore en ligne. Aucun des huit ne propose l\'or 14 carats.</p>\n' +
+              table + LEGENDE.format(nuance='Laveran, prix par variante non actionné et paiement en plusieurs fois lu sur un logo ; L\'Alliancier, garantie « à vie » ou d\'un an selon la page, paiement en plusieurs fois annoncé sans détail',
+                                      extra=' · <sup>a</sup> demande aux agents de s\'identifier') +
+              f'\n  <p class="tiny muted">{e(FRANCE_BLOQUES)} Courbet, société liquidée, est compté d\'après son site encore en ligne. Histoire d\'Or : contact, garantie et mise à taille non lus, '
+              'ces totaux sont des minimums. Aucune bague de fiançailles relevée n\'est en or 14 carats ; seul L\'Alliancier le propose, pour des alliances.</p>\n' +
               '\n'.join('  ' + c for c in cards[:2]), signet='France : 8 sites, dix critères', ancre='france-tableau')
     p2 = page('France · site par site · fiches', 'Ce que fait chacun <em>(suite)</em>', '\n'.join('  ' + c for c in cards[2:]), cls='cream', signet='France : fiches des sites')
     open(os.path.join(OUT, 'france.html'), 'w', encoding='utf-8').write(p1 + '\n' + p2)
@@ -301,10 +303,11 @@ def usa():
     data = by_name('us')
     rows = [(None, [(shown, lieu, crit, data[name]['identification']) for name, shown, lieu, crit, *_ in USA])]
     table, totals, nuances = matrice(rows)
-    assert [t + m for t, m in zip(totals, nuances)] == [12, 11, 12, 1, 1, 9, 12, 12, 12, 12], (totals, nuances)
+    # Ritani : aperçu en personne et rappel, lus sans visite (rendez-vous : 9 en visio, 10 en tout) ; Rare Carat : prix par métal relevé sur une adresse interdite, non retenu
+    assert [t + m for t, m in zip(totals, nuances)] == [12, 11, 12, 1, 1, 10, 12, 12, 12, 12], (totals, nuances)
     cards = [fiche(data[name], shown, lieu, crit, thumb, why, note, prix) for name, shown, lieu, crit, thumb, why, note, prix in USA]
     p1 = page('États-Unis · vendeurs nationaux', '12 vendeurs, <em>dix critères</em>',
-              table + LEGENDE.format(nuance='lu sans visite (5 sites bloqués), ou total non vu (Keyzar, Clean Origin)', extra='') +
+              table + LEGENDE.format(nuance='lu sans visite (5 sites bloqués), total non vu (Clean Origin), relevé sur une adresse interdite et non retenu (Keyzar, Rare Carat)', extra='') +
               '\n  <p class="tiny muted">Cinq des douze ont refusé notre navigateur : leurs colonnes viennent de textes du site lus dans des extraits de recherche, sans visite.</p>\n' +
               '\n'.join('  ' + c for c in cards[:2]), signet='États-Unis : 12 vendeurs nationaux', ancre='usa-tableau')
     rest = cards[2:]
@@ -354,8 +357,9 @@ def annexe():
             star = '<sup>a</sup>' if d['identification'] else ''
             mark = '<sup>b</sup>' if d['site'] in ECARTES else ''
             cls = ' a-bloque' if d['bloque'] else ''
-            vu = 'Site bloqué, non visité' if d['bloque'] else premier(d['visuel'])
-            label = "Prix, d'après l'inventaire" if d['bloque'] else 'Prix'
+            lu = d['bloque'] and d['statut'].startswith('bloqué pour')  # outil ou configurateur bloqué, reste du site lu (Dale's, MiaDonna)
+            vu = 'Outil de création bloqué, site lu en partie' if lu else 'Site bloqué, non visité' if d['bloque'] else premier(d['visuel'])
+            label = "Prix, d'après l'inventaire" if d['bloque'] and not lu else 'Prix'
             items.append(f'<p class="a-site{cls}"><b>{e(d["site"])}</b>{star}{mark} <span class="a-st">{statut(d)}</span><br>{e(vu)}. '
                          f'<span class="a-prix">{label} : {e(minuscule(premier(d["prix"])))}.</span></p>')
     intro = (f'  <p class="small a-intro">Les {total} joailliers relevés dans les 50 États, quatre par État le plus souvent. Pour chacun : ce qu\'on voit sur le site, puis le prix relevé, '

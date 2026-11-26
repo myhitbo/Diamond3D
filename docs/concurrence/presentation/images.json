@@ -6,28 +6,30 @@
       "site": "DAZZ",
       "pays": "Israël",
       "url": "https://dazzdiamonds.co.il/il/build",
-      "date": "2026-11-15",
-      "src": "audit/il/dazz/t_build_m.jpg",
+      "date": "2026-11-26",
+      "src": "fresh/dazz_refus_build_m.png",
       "crop": [
         0,
         0,
         1170,
         1992
-      ]
+      ],
+      "note": "cookies refusés avant la capture : « לא תודה »"
     },
     {
       "id": "dazz_whatsapp",
       "site": "DAZZ",
       "pays": "Israël",
       "url": "https://dazzdiamonds.co.il/il/build",
-      "date": "2026-11-15",
-      "src": "audit/il/dazz/t_recap_m.jpg",
+      "date": "2026-11-26",
+      "src": "fresh/dazz_refus_recap_m.png",
       "crop": [
         0,
         0,
         1170,
         1992
-      ]
+      ],
+      "note": "cookies refusés avant la capture : « לא תודה » ; style Toi et Moi, puis onglet « הטבעת »"
     },
     {
       "id": "cullen_pdp",
@@ -119,13 +121,14 @@
       "pays": "Israël",
       "url": "https://lavijewellry.com/wedding-rings/",
       "date": "2026-11-26",
-      "src": "fresh/lavi_list_f1.png",
+      "src": "fresh/lavi_refus_f1.png",
       "crop": [
-        60,
-        1070,
-        550,
-        870
-      ]
+        51,
+        489,
+        558,
+        885
+      ],
+      "note": "cookies publicitaires refusés avant la capture : lien « בלי עוגיות פרסום »"
     },
     {
       "id": "louisa_micro",
@@ -161,13 +164,14 @@
       "pays": "France",
       "url": "https://www.gemmyo.com/bague-or-blanc-18-cts-diamant-lady-0-7-ct.html",
       "date": "2026-11-26",
-      "src": "fresh/gemmyo_full.png",
+      "src": "fresh/gemmyo_refus_full.png",
       "crop": [
         0,
         1840,
         1170,
         1900
-      ]
+      ],
+      "note": "cookies refusés avant la capture : « Gérer les cookies », « Continuer sans accepter »"
     },
     {
       "id": "bluenile_pdp",
@@ -366,8 +370,9 @@
         0,
         0,
         1366,
-        860
-      ]
+        725
+      ],
+      "note": "bandeau de cookies resté affiché (rien accepté) : image cadrée au-dessus du bandeau"
     },
     {
       "id": "gal_angara",
@@ -416,28 +421,30 @@
       "site": "Alpha Gold",
       "pays": "Israël (Haïfa)",
       "url": "https://alpha-gold.co.il/product/rosalyn-round-solitaire-ring-2ct-2000",
-      "date": "2026-11-15",
-      "src": "audit/il/alpha-gold/alpha_gold_co_il_product_rosalyn_round_solitaire_ring_2ct_2000.jpg",
+      "date": "2026-11-26",
+      "src": "fresh/il_alphagold_refus_d.png",
       "crop": [
         0,
         0,
-        1366,
-        860
-      ]
+        2560,
+        1359
+      ],
+      "note": "cookies refusés avant la capture : « דחיית הכול »"
     },
     {
       "id": "gal_diamony",
       "site": "Diamony",
       "pays": "Israël",
-      "url": "https://diamony.me/",
-      "date": "2026-11-25",
-      "src": "audit/il/diamony/nat.jpg",
+      "url": "https://diamony.me/jewelry/women-collection/women-rings/ring-0017-טבעת-יהלומים-עלמה",
+      "date": "2026-11-26",
+      "src": "fresh/il_diamony_refus_d.png",
       "crop": [
         0,
         0,
-        1366,
-        860
-      ]
+        2560,
+        1359
+      ],
+      "note": "cookies refusés avant la capture : « דחה הכל »"
     },
     {
       "id": "gal_diamondsbyme",
@@ -528,14 +535,15 @@
       "site": "DAZZ",
       "pays": "Israël",
       "url": "https://dazzdiamonds.co.il/il/build",
-      "date": "2026-11-15",
-      "src": "audit/il/dazz/dazzdiamonds_co_il_il_build.jpg",
+      "date": "2026-11-26",
+      "src": "fresh/dazz_refus_build_d.png",
       "crop": [
         0,
         0,
-        1366,
-        725
-      ]
+        2560,
+        1359
+      ],
+      "note": "cookies refusés avant la capture : « לא תודה »"
     },
     {
       "id": "th_lavi",
@@ -555,15 +563,16 @@
       "id": "th_louisa",
       "site": "Louisa Jewelry",
       "pays": "Israël",
-      "url": "https://louisa.co.il/ru/",
-      "date": "2026-11-25",
-      "src": "audit/il/louisa-jewelry/louisa_co_il_ru_product_category_rings_D7_98_D7_91_D7_A2_D7_95_D7_AA_D7_90_D7_99.jpg",
+      "url": "https://louisa.co.il/ru/product-category/rings/%D7%98%D7%91%D7%A2%D7%95%D7%AA-%D7%90%D7%99%D7%A8%D7%95%D7%A1%D7%99%D7%9F/",
+      "date": "2026-11-26",
+      "src": "fresh/il_louisa_refus_d.png",
       "crop": [
+        27,
         0,
-        0,
-        1368,
-        726
-      ]
+        2506,
+        1330
+      ],
+      "note": "bandeau sans refus (« Я ПОНЯЛ ») : aucun clic, image cadrée au-dessus du bandeau"
     },
     {
       "id": "th_lemeraude",
@@ -754,13 +763,14 @@
       "pays": "France",
       "url": "https://www.gemmyo.com/bague-or-blanc-18-cts-diamant-lady-0-7-ct.html",
       "date": "2026-11-26",
-      "src": "fresh/fr_gemmyo_d.png",
+      "src": "fresh/fr_gemmyo_refus_d.png",
       "crop": [
         0,
         0,
         2560,
         1359
-      ]
+      ],
+      "note": "cookies refusés avant la capture : « Gérer les cookies », « Continuer sans accepter »"
     },
     {
       "id": "th_bluenile",
@@ -770,39 +780,27 @@
       "date": "2026-11-15",
       "src": "audit/us/blue-nile/www_bluenile_com_engagement_rings.jpg",
       "crop": [
+        66,
         0,
-        0,
-        1366,
-        725
-      ]
-    },
-    {
-      "id": "th_vrai",
-      "site": "VRAI",
-      "pays": "États-Unis",
-      "url": "https://www.vrai.com/",
-      "date": "2026-11-15",
-      "src": "audit/us/vrai/v2/a_end_d.jpg",
-      "crop": [
-        0,
-        0,
-        1366,
-        725
-      ]
+        1234,
+        655
+      ],
+      "note": "avis de cookies resté affiché (rien accepté) : image cadrée hors de l'avis"
     },
     {
       "id": "th_cleanorigin",
       "site": "Clean Origin",
       "pays": "États-Unis",
-      "url": "https://www.cleanorigin.com/engagement/",
-      "date": "2026-11-15",
-      "src": "audit/us/clean-origin/pdp-desk.jpg",
+      "url": "https://www.cleanorigin.com/engagement/stellamarquise-ring-rvr01936-x1-e-2/",
+      "date": "2026-11-26",
+      "src": "fresh/us_cleanorigin_refus_d.png",
       "crop": [
         0,
         0,
-        1366,
-        725
-      ]
+        2560,
+        1359
+      ],
+      "note": "aucun bandeau de cookies le 26/11 ; fenêtre d'inscription à la lettre fermée par « No Thanks », sans saisie"
     },
     {
       "id": "th_rarecarat",
@@ -866,13 +864,14 @@
       "pays": "France",
       "url": "https://www.gemmyo.com/bague-or-blanc-18-cts-diamant-lady-0-7-ct.html",
       "date": "2026-11-26",
-      "src": "fresh/gemmyo_full.png",
+      "src": "fresh/gemmyo_refus_full.png",
       "crop": [
         0,
         2960,
         1170,
         560
-      ]
+      ],
+      "note": "cookies refusés avant la capture : « Gérer les cookies », « Continuer sans accepter »"
     },
     {
       "id": "render_blanc",

@@ -173,3 +173,5 @@ Pages lues ou contrôles actionnés le 15/11/2026.
 - [R23] https://www.cleanorigin.com/our-story/ · [R24] https://www.cleanorigin.com/find-her-ring-size/ · [R25] https://www.cleanorigin.com/en_ca/engagement/stellamarquise-ring-rvr01936-x1-e-2/
 - [R26] En-têtes HTTP : https://pdf.igi.org/FDR689561921.pdf · https://nivoda-inhousemedia.s3.amazonaws.com/inhouse-360-689561921 · https://media2.cleanorigin.com/videos/Engagement/Engagement_Images/VLR01936-M100_WG_video.mp4
 - [R27, sec.] https://www.trustpilot.com/review/cleanorigin.com (extrait de recherche Parallel, 15/11/2026)
+
+**Relevé du 26/11 (captures du PDF).** Aucun bandeau de cookies vu sur la fiche Stellamarquise ; une fenêtre « Join the CO.re Club » (e-mail) couvre la page, fermée par « No Thanks » sans saisie (V). Prix inchangé : 1 031 $ (1 375 $ barré), « EXTRA 5% OFF WITH CODE BFCM5 » (V).

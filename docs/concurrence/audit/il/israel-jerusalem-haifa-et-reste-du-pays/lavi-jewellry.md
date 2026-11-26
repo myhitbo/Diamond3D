@@ -140,3 +140,5 @@ Absents [V : fiche et catalogue] : choix du métal ou de la pierre sur la fiche 
 - https://lavijewellry.com/lab-diamond-oval-solitaire-pave-engagement-ring-white-gold-14k/ (fiche, ordinateur et iPhone)
 - https://lavijewellry.com/engagement-ring-price/ · /shipping-policy/ · /refund-policy/ · /we-are-lavi-jewelry/ · /faq/ · /labgrown-diamonds/ · /find-your-ring-size/ (cible)
 - Captures et journaux (hors dépôt) : `scratchpad/audit/il/lavi-jewelry/` (`accueil_formes.jpg`, `catalogue_d.jpg`, `fiche_m.jpg`, `a2`–`a9`)
+
+**Relevé du 26/11 (captures du PDF).** Sous le bouton « אישור » du bandeau, un lien « בלי עוגיות פרסום » (sans cookies publicitaires) : c'est le refus, cliqué pour la capture de la liste des alliances (V). Alliance lisse classique inchangée : or blanc 14 k, 2,2 g, 1 210 ₪ (1 430 ₪ barré) (V).

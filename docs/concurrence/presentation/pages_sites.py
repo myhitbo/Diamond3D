@@ -21,7 +21,7 @@ JR = ('JR Diamond', 'Ramat Gan, Bourse', '---xx--o-x')  # retours : la FAQ dit �
 ISRAEL = [
  ('Ramat Gan et la Bourse du diamant', [
   ('DAZZ', 'DAZZ', 'Bourse, bâtiment Maccabi', 'xx--xx-xxx', 'th_dazz', '',
-   'Constructeur en 5 étapes ; le prix suit chaque clic. La commande part par WhatsApp avec le modèle, le carat, le prix et le lien. Défaut : la même image de 1 à 4 carats.',
+   'Constructeur en 5 étapes ; le prix suit chaque clic. La commande part par WhatsApp avec le modèle, le carat, le prix et le lien. Défaut : la même image de 1 à 4 carats ; le 26/11, une ligne dit « montré pour illustration ».',
    'solitaire rond 14 carats, TVA comprise : 2 650 ₪ en synthétique (1 ct), 21 200 ₪ en naturel'),
   ('Shiree Odiz', 'Shiree Odiz', 'Bourse, Shoham 5', 'xxx-xxxxxx', None, 'ident',
    'Vend une pierre précise : photo réelle, numéro de stock, certificat GIA. Monture et pierre séparées au panier ; 10 paiements ; 4,9 sur 5 pour 892 avis. Défaut : des retours qui se contredisent.',
@@ -124,7 +124,7 @@ USA = [
  ('Blue Nile', 'Blue Nile', 'en ligne, 23 salles', 'xxx-xxxxxx', 'th_bluenile', '',
   'Photo et rotation de la vraie pierre, rapport IGI dans la page ; vue à 360° de la bague ; date d\'expédition dès que la taille est choisie. Seul des douze où WhatsApp est relevé. Défaut : moins 20 % « automatique ».',
   'monture 696 $ (14 carats) + synthétique 1,65 ct 1 237 $ = 1 933 $'),
- ('VRAI', 'VRAI', 'en ligne, 10 salles', 'xxx--xxxxx', 'th_vrai', '',
+ ('VRAI', 'VRAI', 'en ligne, 10 salles', 'xxx--xxxxx', None, 'conditions',
   'Synthétique de sa propre fonderie, certificat maison ; chaque pierre filmée. La 3D est réservée au sur-mesure. Gravure à 60 $, livraison payante.',
   'monture 1 265 $ + pierre 2,18 ct 3 270 $ = 4 535 $'),
  ('Keyzar', 'Keyzar', 'en ligne, 1 salle', 'xxo--xxxxx', 'th_keyzar', '',
@@ -165,6 +165,7 @@ ECARTES = {'Apex Jewelry Design', "Noe's Jewelry", 'Royal Jewelers', "Rumanoff's
 RAISONS = {
  'ident': 'Pas de capture : ce site demande aux agents de s\'identifier.',
  'bloque': 'Pas de capture : site bloqué, non visité.',
+ 'conditions': 'Pas de capture : refuser ses cookies y vaut acceptation de ses conditions ; non cliqué.',
  'antirobot': 'Pas de capture : contrôle anti-robot le 26/11.',
  'injoignable': 'Pas de capture : site injoignable le 26/11.',
  'inconnu': 'Pas de capture : le site refuse la lecture de son fichier pour agents.',

@@ -184,3 +184,5 @@ Première image ou vidéo de plus de 250 px chargée et visible, ou LCP. Liaison
 - [R14] https://help.vrai.com/en/knowledge/can-i-resize-my-ring · [R15] https://help.vrai.com/en/knowledge/where-can-i-find-a-status-update-on-my-order
 - [R16, sec.] https://help.vrai.com/en-US/articles/ordering-and-payment-314451 · https://help.vrai.com/en-US/articles/policies-and-warranties-314453 · https://help.vrai.com/en-US/do-you-offer-custom-vrai-designs-1-2393494 (extraits de recherche)
 - [R17] https://help.vrai.com (404) · [R18] https://www.vrai.com/robots.txt · [R19] https://www.vrai.com/cart (404)
+
+**Relevé du 26/11 (cookies).** « Cookie Settings » ouvre un panneau : « Accept All Cookies », « Only required cookies », trois interrupteurs éteints et « Confirm Selections » (V). Le texte lie « Confirm Selections » et « Only required cookies » à l'acceptation de la notice de confidentialité et des conditions d'utilisation (V) : non cliqué. Pas de nouvelle capture ; celle du 15/11, prise après « Accept All Cookies », n'est plus utilisée.

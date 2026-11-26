@@ -78,6 +78,8 @@ const PAGES: { name: string; urls: Partial<Record<Locale, string>>; status?: num
   { name: 'version A', urls: { fr: '/fr/versions/a', en: '/en/versions/a', he: '/he/versions/a' } },
   { name: 'version B', urls: { fr: '/fr/versions/b', en: '/en/versions/b', he: '/he/versions/b' } },
   { name: 'version C', urls: { fr: '/fr/versions/c', en: '/en/versions/c', he: '/he/versions/c' } },
+  // Cinq styles de boutons du configurateur à comparer (les cinq peaux sont sur cette page).
+  { name: 'styles des boutons', urls: { fr: '/fr/versions/boutons', en: '/en/versions/boutons', he: '/he/versions/boutons' } },
 ];
 
 const CONFIGURATOR: Record<Locale, string> = { fr: '/fr/configurateur/ring-001', en: '/en/configurator/ring-001', he: '/he/configurator/ring-001' };

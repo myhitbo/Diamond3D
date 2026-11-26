@@ -35,7 +35,18 @@ import styles from './Configurator.module.css';
 const Viewer = dynamic(() => import('./Viewer'), { ssr: false });
 
 /** Poinçon de chaque titre, en millièmes (atelier, 16/11 : bagues poinçonnées 585 ou 750 ; platine 950). */
-const HALLMARK = { '14k': '585', '18k': '750', platinum: '950' } as const;
+export const HALLMARK = { '14k': '585', '18k': '750', platinum: '950' } as const;
+
+/**
+ * Styles des boutons à comparer avec l'atelier (26/11/2026) : « 1 » l'aspect d'origine, par défaut tant que le propriétaire
+ * n'a pas choisi ; « 2 » plaques noires cerclées d'or ; « 3 » plaques d'or ; « 4 » haute joaillerie épurée ; « 5 » verre et
+ * lumière. Le paramètre d'adresse `boutons` choisit le style et affiche la barre de comparaison ; rien n'est mémorisé
+ * ailleurs que dans l'adresse (la politique de confidentialité annonce un site sans stockage).
+ */
+export const BUTTON_STYLES = ['1', '2', '3', '4', '5'] as const;
+export type ButtonStyle = (typeof BUTTON_STYLES)[number];
+export const DEFAULT_BUTTON_STYLE: ButtonStyle = '1';
+const isButtonStyle = (v: string | null): v is ButtonStyle => BUTTON_STYLES.includes(v as ButtonStyle);
 
 type Action = { type: 'change'; change: Partial<ConfigState> } | { type: 'reset' };
 
@@ -54,7 +65,7 @@ function sceneFraming(m: ModelDefinition) {
  * en cours ; les flèches passent au choix voisin et le sélectionnent, comme des boutons radio natifs. En hébreu, gauche et
  * droite suivent le sens de lecture (la flèche gauche va au choix suivant, affiché à gauche).
  */
-function radioKeys(e: KeyboardEvent<HTMLElement>) {
+export function radioKeys(e: KeyboardEvent<HTMLElement>) {
   const radios = Array.from(e.currentTarget.querySelectorAll<HTMLElement>('[role="radio"]'));
   const i = radios.indexOf(e.target as HTMLElement);
   if (i < 0) return;
@@ -68,7 +79,7 @@ function radioKeys(e: KeyboardEvent<HTMLElement>) {
 }
 
 /** Arrêt de tabulation d'un bouton radio : le choix en cours (ou le premier si aucun n'est choisi). */
-const radioTabIndex = (checked: boolean, index: number, anyChecked: boolean) => (checked || (!anyChecked && index === 0) ? 0 : -1);
+export const radioTabIndex = (checked: boolean, index: number, anyChecked: boolean) => (checked || (!anyChecked && index === 0) ? 0 : -1);
 
 function hasWebGL() {
   try {
@@ -119,6 +130,19 @@ export default function Configurator({
   const [requestCount, setRequestCount] = useState(0);
   /** Résultat du bouton « partager » : lien copié, ou lien affiché à copier à la main (presse-papiers refusé). */
   const [shared, setShared] = useState<{ status: 'idle' | 'copied' | 'fallback'; link: string }>({ status: 'idle', link: '' });
+  /** Style des boutons (paramètre d'adresse `boutons`) et mode comparaison (barre de choix du style affichée). */
+  const [buttons, setButtons] = useState<ButtonStyle>(DEFAULT_BUTTON_STYLE);
+  const [compare, setCompare] = useState(false);
+  const pickButtons = (n: ButtonStyle) => {
+    setButtons(n);
+    try {
+      const u = new URL(window.location.href);
+      u.searchParams.set('boutons', n);
+      window.history.replaceState(window.history.state, '', u.href);
+    } catch {
+      // Adresse non modifiable (préversion dans un cadre isolé) : le style change quand même.
+    }
+  };
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
@@ -127,6 +151,9 @@ export default function Configurator({
     if (probe) initProbe();
     setDebug(probe);
     if (q.get('quality') === 'low') setQuality('low');
+    const wanted = q.get('boutons');
+    if (q.has('boutons')) setCompare(true);
+    if (isButtonStyle(wanted)) setButtons(wanted);
     // Lien partagé : la configuration de l'adresse remplace celle par défaut (valeurs non prévues ignorées).
     if (hasConfigParams(model, q)) dispatch({ type: 'change', change: configFromParams(model, q) });
     setWebgl(hasWebGL());
@@ -208,7 +235,7 @@ export default function Configurator({
   };
 
   return (
-    <div className={styles.shell}>
+    <div className={compare ? `${styles.shell} ${styles.withStyleBar}` : styles.shell} data-buttons={buttons}>
       <section className={styles.stage} aria-label={model.name[locale]}>
         {webgl === false ? (
           <p className={styles.notice}>{t.noWebgl}</p>
@@ -574,11 +601,24 @@ export default function Configurator({
           <p className={styles.note}>{t.caratNote}</p>
         </details>
       </div>
+      {/* Comparaison des styles de boutons avec l'atelier : barre fixe, seulement si l'adresse porte `boutons`. */}
+      {compare && (
+        <div className={styles.styleBar} role="group" aria-label={t.buttonStyles.label}>
+          <span className={styles.styleBarLabel} aria-hidden="true">
+            {t.buttonStyles.label}
+          </span>
+          {BUTTON_STYLES.map((n) => (
+            <button key={n} type="button" aria-pressed={buttons === n} aria-label={`${n} · ${t.buttonStyles.names[n]}`} onClick={() => pickButtons(n)}>
+              {n}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
-function Field({ title, aside, children }: { title: string; aside?: string; children: ReactNode }) {
+export function Field({ title, aside, children }: { title: string; aside?: string; children: ReactNode }) {
   return (
     <section className={styles.field}>
       {/* Espace entre les deux parties : sans lui, le nom du titre colle les mots (« MétalOr jaune »). */}
@@ -590,7 +630,7 @@ function Field({ title, aside, children }: { title: string; aside?: string; chil
   );
 }
 
-function Choices<T extends string>({
+export function Choices<T extends string>({
   label,
   options,
   value,
@@ -629,12 +669,13 @@ function Choices<T extends string>({
  * Choix non modélisés (formes, pierres) : plaques au cadre léger, marquées « sur demande », qui ouvrent le devis avec un message pré-rempli.
  * Ce ne sont pas des options du configurateur (la 3D ne change pas) : un groupe de boutons, pas un groupe radio.
  */
-function OnRequest<T extends string>({
+export function OnRequest<T extends string>({
   id,
   title,
   note,
   tag,
   enabled,
+  controls = 'quote-form',
   options,
   onPick,
 }: {
@@ -644,6 +685,8 @@ function OnRequest<T extends string>({
   tag: string;
   /** Faux dans la préversion autonome : pas de devis, boutons inactifs. */
   enabled: boolean;
+  /** Identifiant de la zone ouverte par les boutons (le formulaire de devis) ; `null` s'il n'y en a pas dans la page. */
+  controls?: string | null;
   options: { id: T; label: string; icon?: ReactNode }[];
   onPick: (id: T) => void;
 }) {
@@ -659,7 +702,7 @@ function OnRequest<T extends string>({
             type="button"
             className={styles.choiceOnRequest}
             disabled={!enabled}
-            aria-controls={enabled ? 'quote-form' : undefined}
+            aria-controls={enabled && controls ? controls : undefined}
             onClick={() => onPick(o.id)}
           >
             {o.icon}

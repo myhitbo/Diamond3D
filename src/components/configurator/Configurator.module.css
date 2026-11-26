@@ -153,41 +153,36 @@
   color: var(--gold-text);
 }
 
-/* Choix du modèle : plaques d'ivoire au double filet d'or ; la bague affichée est sur une plaque d'or. */
+/* Choix du modèle : liens vers les autres bagues du catalogue, sous le surtitre. */
 .models {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin: 0 0 24px;
+  gap: 8px;
+  margin: 0 0 20px;
 }
 
 .models a {
   display: inline-flex;
   align-items: center;
-  min-height: 42px;
-  padding: 7px 18px;
-  border: 1px solid #b89b62;
-  background: linear-gradient(180deg, #ffffff 0%, #fbf8f1 45%, #efe6d4 100%);
-  box-shadow: inset 0 0 0 2px var(--paper), inset 0 0 0 3px rgba(168, 131, 71, 0.5), 0 2px 0 -1px #cdb88d, 0 8px 12px -10px rgba(31, 28, 24, 0.45);
-  font-family: var(--font-display);
-  font-size: 16px;
-  line-height: 1.2;
+  min-height: 32px;
+  padding: 4px 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  line-height: 1.3;
   color: var(--ink);
   text-decoration: none;
   transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .models a:hover {
-  border-color: #8d6d3a;
-  box-shadow: inset 0 0 0 2px var(--paper), inset 0 0 0 3px rgba(141, 109, 58, 0.75), 0 2px 0 -1px #b89b62, 0 10px 14px -10px rgba(31, 28, 24, 0.5);
+  border-color: var(--gold-soft);
 }
 
-/* Bague affichée : plaque d'or (texte --noir sur l'or le plus sombre du dégradé, 5,6:1). */
 .models a[aria-current='page'] {
-  border-color: #8d6d3a;
-  background: var(--foil);
-  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.24), inset 0 0 0 3px rgba(88, 62, 22, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 2px 0 -1px #7d6232, 0 10px 14px -10px rgba(88, 62, 22, 0.7);
-  color: var(--noir);
+  border-color: var(--gold-text);
+  color: var(--gold-text);
 }
 
 .title {
@@ -217,22 +212,10 @@
   color: var(--gold-text);
 }
 
-/* Rubrique : filet d'or qui s'efface aux extrémités, losange d'or devant le titre. */
 .field {
-  padding: 28px 0 0;
-  margin-top: 28px;
-  border-top: 1px solid transparent;
-  border-image: var(--foil-line) 1;
-}
-
-.fieldTitle > span:first-child::before {
-  content: '';
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin-inline-end: 12px;
-  background: linear-gradient(135deg, #f3e4bd 0%, #b8915a 55%, #8d6d3a 100%);
-  transform: translateY(-1px) rotate(45deg);
+  padding: 26px 0 0;
+  margin-top: 26px;
+  border-top: 1px solid var(--line);
 }
 
 .fieldTitle {
@@ -255,190 +238,63 @@
   color: var(--muted);
 }
 
-/* Les plaques se partagent la ligne à parts égales ; le texte qui suit ne les touche jamais. */
 .choices {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
-  gap: 12px;
-  margin-bottom: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
-/* Choix : plaque d'ivoire en relief, double filet d'or, coins marqués d'une équerre. Tout tient dans la plaque :
-   rien ne déborde sur le cadre ni sur le texte voisin. */
 .choice {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  min-height: 70px;
-  padding: 12px 18px;
-  border: 1px solid #b89b62;
+  min-height: 44px;
+  padding: 10px 20px;
+  border: 1px solid var(--line);
   border-radius: 0;
-  background: linear-gradient(180deg, #ffffff 0%, #fbf8f1 45%, #efe6d4 100%);
-  box-shadow:
-    inset 0 0 0 3px var(--paper),
-    inset 0 0 0 4px rgba(168, 131, 71, 0.5),
-    0 3px 0 -1px #cdb88d,
-    0 9px 12px -10px rgba(31, 28, 24, 0.5);
-  color: var(--ink);
+  background: var(--paper);
+  font-size: 13px;
+  letter-spacing: 0.04em;
   cursor: pointer;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-}
-
-.choice::before,
-.choice::after,
-.choiceOnRequest::before,
-.choiceOnRequest::after {
-  content: '';
-  position: absolute;
-  width: 8px;
-  height: 8px;
-  border: 0 solid #a88347;
-  pointer-events: none;
-}
-
-.choice::before,
-.choiceOnRequest::before {
-  top: 8px;
-  inset-inline-start: 8px;
-  border-top-width: 1px;
-  border-inline-start-width: 1px;
-}
-
-.choice::after,
-.choiceOnRequest::after {
-  bottom: 8px;
-  inset-inline-end: 8px;
-  border-bottom-width: 1px;
-  border-inline-end-width: 1px;
-}
-
-.choiceText {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  font-family: var(--font-display);
-  font-size: 19px;
-  line-height: 1.15;
-  letter-spacing: 0.01em;
-  text-align: center;
-}
-
-/* Précision sous le libellé (poinçon) : texte doré, 5,2:1 sur le fond clair. */
-.choiceSub {
-  font-family: var(--font-text);
-  font-size: 10.5px;
-  letter-spacing: 0.24em;
-  color: var(--gold-text);
-}
-
-.choiceIcon {
-  flex: none;
-  width: 34px;
-  height: 34px;
-  color: var(--gold-text);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
 }
 
 .choice:hover {
-  border-color: #8d6d3a;
-  box-shadow:
-    inset 0 0 0 3px var(--paper),
-    inset 0 0 0 4px rgba(141, 109, 58, 0.8),
-    0 3px 0 -1px #b89b62,
-    0 11px 14px -10px rgba(31, 28, 24, 0.55);
+  border-color: var(--gold);
 }
 
-/* Choix en cours : plaque d'or (dégradé « feuille »), arête claire en haut, tranche sombre en bas.
-   Texte, précision et pictogramme en --noir : 5,6:1 sur l'or le plus sombre du dégradé. */
+/* Choix en cours : plein noir, filet doré dessous (texte --ivory sur --noir, 17,9:1). */
 .choice[aria-checked='true'] {
-  border-color: #8d6d3a;
-  background: var(--foil);
-  box-shadow:
-    inset 0 0 0 3px rgba(255, 255, 255, 0.24),
-    inset 0 0 0 4px rgba(88, 62, 22, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.75),
-    0 3px 0 -1px #7d6232,
-    0 11px 14px -10px rgba(88, 62, 22, 0.75);
-  color: var(--noir);
+  border-color: var(--noir);
+  background: var(--noir);
+  color: var(--ivory);
+  box-shadow: inset 0 -2px 0 var(--gold-fill);
 }
 
-.choice[aria-checked='true'] .choiceSub,
-.choice[aria-checked='true'] .choiceIcon {
-  color: var(--noir);
-}
-
-.choice[aria-checked='true']::before,
-.choice[aria-checked='true']::after {
-  border-color: rgba(11, 10, 8, 0.55);
-}
-
-/* Formes et pierres non modélisées : cliquables (elles ouvrent le devis), mais visiblement à part des choix réels :
-   pictogramme dans un médaillon, mention « sur demande », jamais d'état « choisi » (jamais de plaque d'or). */
+/* Formes non modélisées : cliquables (ouvrent le devis), mais visiblement à part des choix réels. */
 .onRequest {
-  margin-top: 22px;
+  margin-top: 14px;
 }
 
 .onRequestTitle {
-  margin: 0 0 12px;
+  margin: 0 0 8px;
   font-size: 13px;
   color: var(--muted);
 }
 
-.requestGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
 .choiceOnRequest {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  min-height: 138px;
-  padding: 18px 8px 16px;
-  border: 1px solid var(--gold-soft);
-  border-radius: 0;
-  background: linear-gradient(180deg, #ffffff 0%, #fbf8f1 55%, #f2ead9 100%);
-  box-shadow:
-    inset 0 0 0 3px var(--paper),
-    inset 0 0 0 4px rgba(168, 131, 71, 0.34),
-    0 3px 0 -1px #d9cbaa,
-    0 9px 12px -10px rgba(31, 28, 24, 0.42);
-  color: var(--ink);
-  font-family: var(--font-display);
-  font-size: 16px;
-  line-height: 1.2;
-  text-align: center;
+  min-height: 40px;
+  padding: 8px 14px;
+  border: 1px dashed var(--line);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  letter-spacing: 0.02em;
   cursor: pointer;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
-}
-
-/* Médaillon : le pictogramme dans un cercle cerclé d'or. */
-.requestIcon {
-  flex: none;
-  box-sizing: border-box;
-  width: 50px;
-  height: 50px;
-  padding: 9px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #ffffff 0%, #f6efe0 65%, #e8dcc2 100%);
-  box-shadow: 0 0 0 1px #b89b62, 0 0 0 3px var(--paper), 0 0 0 4px rgba(168, 131, 71, 0.5), 0 6px 8px -5px rgba(31, 28, 24, 0.45);
-  color: var(--gold-text);
+  transition: border-color 0.2s ease, color 0.2s ease;
 }
 
 .choiceOnRequest:hover:not(:disabled) {
-  border-color: #8d6d3a;
-  box-shadow:
-    inset 0 0 0 3px var(--paper),
-    inset 0 0 0 4px rgba(141, 109, 58, 0.7),
-    0 3px 0 -1px #b89b62,
-    0 11px 14px -10px rgba(31, 28, 24, 0.5);
+  border-color: var(--gold-soft);
+  color: var(--ink);
 }
 
 .choiceOnRequest:disabled {
@@ -446,76 +302,68 @@
   opacity: 0.6;
 }
 
-/* « sur demande » : texte doré (5,2:1 sur le fond clair). */
 .onRequestTag {
-  font-family: var(--font-text);
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--gold-text);
+  margin-inline-start: 8px;
+  font-size: 11px;
+  font-style: italic;
 }
 
-/* Métaux : une sphère polie sur son reflet, et son nom ; la sphère choisie est sertie d'un triple jonc d'or. */
 .swatches {
   display: flex;
-  flex-wrap: wrap;
-  gap: 8px 10px;
-  margin-bottom: 20px;
+  gap: 14px;
 }
 
+/* Le bouton enveloppe la sphère et le nom du métal. Dans l'aspect d'origine, le nom reste lu par les lecteurs d'écran
+   mais n'est pas affiché ; les autres versions l'affichent sous la sphère. */
 .swatch {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 14px;
-  min-width: 78px;
-  padding: 10px 4px 8px;
+  position: relative;
+  padding: 0;
   border: 0;
+  border-radius: 50%;
   background: none;
-  color: var(--muted);
   cursor: pointer;
 }
 
 .swatchBall {
-  width: 56px;
-  height: 56px;
-  border: 1px solid rgba(31, 28, 24, 0.22);
+  display: block;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--line);
   border-radius: 50%;
   background:
-    radial-gradient(circle at 30% 26%, rgba(255, 255, 255, 0.95) 0 9%, rgba(255, 255, 255, 0.35) 18%, transparent 40%),
-    radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.3) 0 9%, transparent 28%),
-    radial-gradient(circle at 50% 50%, transparent 52%, rgba(0, 0, 0, 0.3) 100%),
-    linear-gradient(145deg, color-mix(in srgb, var(--swatch) 86%, #ffffff) 0%, var(--swatch) 45%, color-mix(in srgb, var(--swatch) 60%, #3d3122) 100%);
-  box-shadow: 0 0 0 4px var(--ivory), 0 0 0 5px rgba(184, 155, 98, 0.55), 0 14px 12px -9px rgba(31, 28, 24, 0.55);
-  transition: box-shadow 0.25s ease;
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.85) 0 12%, transparent 38%),
+    linear-gradient(145deg, var(--swatch) 0%, color-mix(in srgb, var(--swatch) 70%, #5a4a35) 100%);
+  transition: box-shadow 0.2s ease;
 }
 
 .swatch[aria-checked='true'] .swatchBall {
-  box-shadow: 0 0 0 4px var(--ivory), 0 0 0 6px #b8915a, 0 0 0 7px #f3e4bd, 0 0 0 8px #8d6d3a, 0 16px 12px -9px rgba(31, 28, 24, 0.6);
+  box-shadow: 0 0 0 3px var(--ivory), 0 0 0 4px var(--gold);
 }
 
 .swatchName {
-  padding-bottom: 3px;
-  border-bottom: 1px solid transparent;
-  font-size: 10.5px;
-  letter-spacing: 0.14em;
-  line-height: 1.2;
-  text-transform: uppercase;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
-.swatch[aria-checked='true'] .swatchName {
-  border-bottom-color: var(--gold);
-  color: var(--ink);
+/* Balisage enrichi (pictogrammes, précision sous le libellé) : masqué dans l'aspect d'origine. */
+.choiceText {
+  display: contents;
 }
 
-/* Animations réduites : aucune transition sur les plaques. */
-@media (prefers-reduced-motion: reduce) {
-  .choice,
-  .choiceOnRequest,
-  .swatchBall,
-  .models a {
-    transition: none;
-  }
+.choiceSub,
+.choiceIcon,
+.requestIcon {
+  display: none;
+}
+
+.requestGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 .note {
@@ -538,16 +386,9 @@
 }
 
 .value {
-  margin: 0 0 4px;
+  margin: 0;
   font-size: 14px;
   line-height: 1.6;
-}
-
-/* Une note placée juste sous des plaques : leur marge suffit, pas d'espace en double. */
-.choices + .note,
-.requestGrid + .note,
-.choices + .value {
-  margin-top: 0;
 }
 
 .details {
@@ -572,11 +413,10 @@
 /* ---------- Récapitulatif ---------- */
 
 .summary {
-  margin-top: 36px;
-  padding: 30px 26px;
-  border: 1px solid #b89b62;
-  background: linear-gradient(180deg, #ffffff 0%, var(--paper) 40%, #f6f0e4 100%);
-  box-shadow: inset 0 0 0 4px var(--paper), inset 0 0 0 5px rgba(168, 131, 71, 0.45), 0 4px 0 -1px #cdb88d, 0 22px 28px -22px rgba(31, 28, 24, 0.5);
+  margin-top: 32px;
+  padding: 24px;
+  background: var(--paper);
+  border: 1px solid var(--line);
 }
 
 .summaryTitle {
@@ -630,37 +470,23 @@
   font-size: 18px;
 }
 
-/* Bouton principal : plaque d'or en relief (texte --noir sur l'or le plus sombre du dégradé, 5,6:1) ; au survol, noir cerclé d'or. */
 .primary {
   width: 100%;
-  min-height: 66px;
-  margin-top: 20px;
-  border: 1px solid #8d6d3a;
-  background: var(--foil);
-  box-shadow:
-    inset 0 0 0 3px rgba(255, 255, 255, 0.24),
-    inset 0 0 0 4px rgba(88, 62, 22, 0.55),
-    inset 0 1px 0 rgba(255, 255, 255, 0.75),
-    0 4px 0 -1px #7d6232,
-    0 16px 20px -14px rgba(88, 62, 22, 0.8);
-  color: var(--noir);
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: 0.24em;
+  min-height: 54px;
+  margin-top: 18px;
+  border: 1px solid var(--noir);
+  background: var(--noir);
+  color: var(--ivory);
+  font-size: 12px;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: box-shadow 0.25s ease, color 0.25s ease, background 0.25s ease;
 }
 
 .primary:hover:not(:disabled) {
-  border-color: #b8915a;
-  background: radial-gradient(130% 180% at 50% -20%, #2b2418 0%, var(--noir-soft) 45%, var(--noir) 100%);
-  box-shadow:
-    inset 0 0 0 3px var(--noir),
-    inset 0 0 0 4px rgba(217, 192, 143, 0.55),
-    0 4px 0 -1px #000000,
-    0 16px 20px -14px rgba(11, 10, 8, 0.8);
-  color: var(--ivory);
+  border-color: var(--gold-fill);
+  background: var(--foil);
+  color: var(--noir);
 }
 
 .primary:disabled {
@@ -698,6 +524,835 @@
   color: var(--ink);
   font: inherit;
   font-size: 13px;
+}
+
+/* ---------- Styles des boutons : cinq versions à comparer avec l'atelier (26/11/2026) ----------
+   La racine du configurateur porte `data-buttons` : « 1 » l'aspect d'origine (par défaut), « 2 » plaques noires cerclées d'or,
+   « 3 » plaques d'or, « 4 » haute joaillerie épurée, « 5 » verre et lumière. Le balisage est le même partout ; seule la
+   peau change. Règle commune aux versions 2 à 5 : rien ne déborde d'une plaque, ni sur son cadre ni sur le texte voisin.
+   Contrastes : texte toujours en --ink, --noir ou --ivory sur son fond ; précisions en --gold-text (5,2:1 sur fond clair). */
+
+/* --- Structure commune aux versions 2 à 5 (`:where` : même poids qu'une règle de base, chaque version peut la reprendre) --- */
+
+/* Les plaques se partagent la ligne à parts égales ; le texte qui suit ne les touche jamais. */
+:where([data-buttons]:not([data-buttons='1'])) .choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(96px, 1fr));
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+:where([data-buttons]:not([data-buttons='1'])) .choice {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 70px;
+  padding: 12px 18px;
+  letter-spacing: 0;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+:where([data-buttons]:not([data-buttons='1'])) .choiceText {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-display);
+  font-size: 19px;
+  line-height: 1.15;
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+
+:where([data-buttons]:not([data-buttons='1'])) .choiceSub {
+  display: block;
+  font-family: var(--font-text);
+  font-size: 10.5px;
+  letter-spacing: 0.24em;
+  color: var(--gold-text);
+}
+
+:where([data-buttons]:not([data-buttons='1'])) .choiceIcon {
+  display: block;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  color: var(--gold-text);
+}
+
+:where([data-buttons]:not([data-buttons='1'])) .onRequest {
+  margin-top: 22px;
+}
+
+:where([data-buttons]:not([data-buttons='1'])) .onRequestTitle {
+  margin: 0 0 12px;
+}
+
+:where([data-buttons]:not([data-buttons='1'])) .requestGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+:where([data-buttons]:not([data-buttons='1'])) .choiceOnRequest {
+  position: relative;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 138px;
+  padding: 18px 8px 16px;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: 16px;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-align: center;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+:where([data-buttons]:not([data-buttons='1'])) .requestIcon {
+  display: block;
+  flex: none;
+  width: 34px;
+  height: 34px;
+  color: var(--gold-text);
+}
+
+:where([data-buttons]:not([data-buttons='1'])) .onRequestTag {
+  margin: 0;
+  font-family: var(--font-text);
+  font-size: 10px;
+  font-style: normal;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold-text);
+}
+
+:where([data-buttons]:not([data-buttons='1'])) .swatches {
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  margin-bottom: 20px;
+}
+
+:where([data-buttons]:not([data-buttons='1'])) .swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  min-width: 78px;
+  padding: 10px 4px 8px;
+  border-radius: 0;
+  color: var(--muted);
+}
+
+:where([data-buttons]:not([data-buttons='1'])) .swatchBall {
+  width: 56px;
+  height: 56px;
+}
+
+/* Le nom du métal redevient visible sous sa sphère. */
+:where([data-buttons]:not([data-buttons='1'])) .swatchName {
+  position: static;
+  width: auto;
+  height: auto;
+  overflow: visible;
+  clip-path: none;
+  white-space: normal;
+  padding-bottom: 3px;
+  border-bottom: 1px solid transparent;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+:where([data-buttons]:not([data-buttons='1'])) .swatch[aria-checked='true'] .swatchName {
+  border-bottom-color: var(--gold);
+  color: var(--ink);
+}
+
+:where([data-buttons]:not([data-buttons='1'])) .value {
+  margin-bottom: 4px;
+}
+
+/* Une note placée juste sous des plaques : leur marge suffit. */
+:where([data-buttons]:not([data-buttons='1'])) .choices + .note,
+:where([data-buttons]:not([data-buttons='1'])) .requestGrid + .note,
+:where([data-buttons]:not([data-buttons='1'])) .choices + .value {
+  margin-top: 0;
+}
+
+/* --- Version 2 : plaques d'ivoire au double filet, choix en cours en noir cerclé d'or --- */
+
+[data-buttons='2'] .choice {
+  border: 1px solid var(--gold-soft);
+  background: linear-gradient(180deg, #fffefb 0%, var(--paper) 50%, #f4eee3 100%);
+  box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 4px rgba(201, 179, 138, 0.38);
+  color: var(--ink);
+}
+
+[data-buttons='2'] .choice:hover {
+  border-color: var(--gold);
+  box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 4px rgba(156, 127, 76, 0.5), 0 6px 10px -8px rgba(31, 28, 24, 0.4);
+}
+
+/* Texte --ivory sur --noir (17,9:1), précision et pictogramme en --champagne (10,7:1). */
+[data-buttons='2'] .choice[aria-checked='true'] {
+  border-color: transparent;
+  border-image: var(--foil) 1;
+  background: radial-gradient(130% 160% at 50% -10%, #2b2418 0%, var(--noir-soft) 45%, var(--noir) 100%);
+  box-shadow: inset 0 0 0 3px var(--noir), inset 0 0 0 4px rgba(217, 192, 143, 0.5), 0 6px 10px -8px rgba(11, 10, 8, 0.6);
+  color: var(--ivory);
+}
+
+[data-buttons='2'] .choice[aria-checked='true'] .choiceSub,
+[data-buttons='2'] .choice[aria-checked='true'] .choiceIcon {
+  color: var(--champagne);
+}
+
+[data-buttons='2'] .choiceOnRequest {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.55);
+  box-shadow: inset 0 0 0 3px rgba(251, 249, 245, 0.9), inset 0 0 0 4px rgba(201, 179, 138, 0.24);
+}
+
+[data-buttons='2'] .choiceOnRequest:hover:not(:disabled) {
+  border-color: var(--gold);
+  box-shadow: inset 0 0 0 3px rgba(251, 249, 245, 0.9), inset 0 0 0 4px rgba(156, 127, 76, 0.45), 0 6px 10px -8px rgba(31, 28, 24, 0.4);
+}
+
+[data-buttons='2'] .onRequestTag {
+  color: var(--muted);
+}
+
+[data-buttons='2'] .swatchBall {
+  border-color: rgba(31, 28, 24, 0.16);
+  box-shadow: 0 8px 12px -9px rgba(31, 28, 24, 0.6);
+}
+
+[data-buttons='2'] .swatch[aria-checked='true'] .swatchBall {
+  box-shadow: 0 0 0 3px var(--ivory), 0 0 0 4px var(--gold), 0 10px 14px -9px rgba(31, 28, 24, 0.65);
+}
+
+[data-buttons='2'] .models a {
+  min-height: 38px;
+  padding: 6px 16px;
+  border-color: var(--gold-soft);
+  border-radius: 0;
+  background: linear-gradient(180deg, #fffefb 0%, var(--paper) 60%, #f4eee3 100%);
+  box-shadow: inset 0 0 0 2px var(--paper), inset 0 0 0 3px rgba(201, 179, 138, 0.32);
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: 0;
+}
+
+[data-buttons='2'] .models a[aria-current='page'] {
+  border-color: transparent;
+  border-image: var(--foil) 1;
+  background: radial-gradient(130% 160% at 50% -10%, #2b2418 0%, var(--noir-soft) 45%, var(--noir) 100%);
+  box-shadow: inset 0 0 0 2px var(--noir), inset 0 0 0 3px rgba(217, 192, 143, 0.45);
+  color: var(--ivory);
+}
+
+[data-buttons='2'] .primary {
+  min-height: 60px;
+  border-color: transparent;
+  border-image: var(--foil) 1;
+  background: radial-gradient(130% 180% at 50% -20%, #2b2418 0%, var(--noir-soft) 45%, var(--noir) 100%);
+  box-shadow: inset 0 0 0 3px var(--noir), inset 0 0 0 4px rgba(217, 192, 143, 0.45);
+  letter-spacing: 0.24em;
+}
+
+[data-buttons='2'] .primary:hover:not(:disabled) {
+  background: var(--foil);
+  box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.28), inset 0 0 0 4px rgba(11, 10, 8, 0.35);
+  color: var(--noir);
+}
+
+/* --- Version 3 : plaques d'or. Plaque d'ivoire en relief, double filet d'or, équerres dans les coins ;
+   choix en cours sur une plaque d'or (texte --noir sur l'or le plus sombre du dégradé, 5,6:1) --- */
+
+[data-buttons='3'] .field {
+  border-top: 1px solid transparent;
+  border-image: var(--foil-line) 1;
+}
+
+[data-buttons='3'] .fieldTitle > span:first-child::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  margin-inline-end: 12px;
+  background: linear-gradient(135deg, #f3e4bd 0%, #b8915a 55%, #8d6d3a 100%);
+  transform: translateY(-1px) rotate(45deg);
+}
+
+[data-buttons='3'] .choice {
+  border: 1px solid #b89b62;
+  background: linear-gradient(180deg, #ffffff 0%, #fbf8f1 45%, #efe6d4 100%);
+  box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 4px rgba(168, 131, 71, 0.5), 0 3px 0 -1px #cdb88d, 0 9px 12px -10px rgba(31, 28, 24, 0.5);
+  color: var(--ink);
+}
+
+[data-buttons='3'] .choice::before,
+[data-buttons='3'] .choice::after,
+[data-buttons='3'] .choiceOnRequest::before,
+[data-buttons='3'] .choiceOnRequest::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 0 solid #a88347;
+  pointer-events: none;
+}
+
+[data-buttons='3'] .choice::before,
+[data-buttons='3'] .choiceOnRequest::before {
+  top: 8px;
+  inset-inline-start: 8px;
+  border-top-width: 1px;
+  border-inline-start-width: 1px;
+}
+
+[data-buttons='3'] .choice::after,
+[data-buttons='3'] .choiceOnRequest::after {
+  bottom: 8px;
+  inset-inline-end: 8px;
+  border-bottom-width: 1px;
+  border-inline-end-width: 1px;
+}
+
+[data-buttons='3'] .choice:hover {
+  border-color: #8d6d3a;
+  box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 4px rgba(141, 109, 58, 0.8), 0 3px 0 -1px #b89b62, 0 11px 14px -10px rgba(31, 28, 24, 0.55);
+}
+
+[data-buttons='3'] .choice[aria-checked='true'] {
+  border-color: #8d6d3a;
+  background: var(--foil);
+  box-shadow:
+    inset 0 0 0 3px rgba(255, 255, 255, 0.24),
+    inset 0 0 0 4px rgba(88, 62, 22, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    0 3px 0 -1px #7d6232,
+    0 11px 14px -10px rgba(88, 62, 22, 0.75);
+  color: var(--noir);
+}
+
+[data-buttons='3'] .choice[aria-checked='true'] .choiceSub,
+[data-buttons='3'] .choice[aria-checked='true'] .choiceIcon {
+  color: var(--noir);
+}
+
+[data-buttons='3'] .choice[aria-checked='true']::before,
+[data-buttons='3'] .choice[aria-checked='true']::after {
+  border-color: rgba(11, 10, 8, 0.55);
+}
+
+[data-buttons='3'] .choiceOnRequest {
+  border: 1px solid var(--gold-soft);
+  background: linear-gradient(180deg, #ffffff 0%, #fbf8f1 55%, #f2ead9 100%);
+  box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 4px rgba(168, 131, 71, 0.34), 0 3px 0 -1px #d9cbaa, 0 9px 12px -10px rgba(31, 28, 24, 0.42);
+}
+
+/* Médaillon : le pictogramme dans un cercle cerclé d'or. */
+[data-buttons='3'] .requestIcon {
+  box-sizing: border-box;
+  width: 50px;
+  height: 50px;
+  padding: 9px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #ffffff 0%, #f6efe0 65%, #e8dcc2 100%);
+  box-shadow: 0 0 0 1px #b89b62, 0 0 0 3px var(--paper), 0 0 0 4px rgba(168, 131, 71, 0.5), 0 6px 8px -5px rgba(31, 28, 24, 0.45);
+}
+
+[data-buttons='3'] .choiceOnRequest:hover:not(:disabled) {
+  border-color: #8d6d3a;
+  box-shadow: inset 0 0 0 3px var(--paper), inset 0 0 0 4px rgba(141, 109, 58, 0.7), 0 3px 0 -1px #b89b62, 0 11px 14px -10px rgba(31, 28, 24, 0.5);
+}
+
+/* Sphère polie sur son reflet ; la sphère choisie est sertie d'un triple jonc d'or. */
+[data-buttons='3'] .swatchBall {
+  border-color: rgba(31, 28, 24, 0.22);
+  background:
+    radial-gradient(circle at 30% 26%, rgba(255, 255, 255, 0.95) 0 9%, rgba(255, 255, 255, 0.35) 18%, transparent 40%),
+    radial-gradient(circle at 70% 80%, rgba(255, 255, 255, 0.3) 0 9%, transparent 28%),
+    radial-gradient(circle at 50% 50%, transparent 52%, rgba(0, 0, 0, 0.3) 100%),
+    linear-gradient(145deg, color-mix(in srgb, var(--swatch) 86%, #ffffff) 0%, var(--swatch) 45%, color-mix(in srgb, var(--swatch) 60%, #3d3122) 100%);
+  box-shadow: 0 0 0 4px var(--ivory), 0 0 0 5px rgba(184, 155, 98, 0.55), 0 14px 12px -9px rgba(31, 28, 24, 0.55);
+}
+
+[data-buttons='3'] .swatch[aria-checked='true'] .swatchBall {
+  box-shadow: 0 0 0 4px var(--ivory), 0 0 0 6px #b8915a, 0 0 0 7px #f3e4bd, 0 0 0 8px #8d6d3a, 0 16px 12px -9px rgba(31, 28, 24, 0.6);
+}
+
+[data-buttons='3'] .models a {
+  min-height: 42px;
+  padding: 7px 18px;
+  border-color: #b89b62;
+  border-radius: 0;
+  background: linear-gradient(180deg, #ffffff 0%, #fbf8f1 45%, #efe6d4 100%);
+  box-shadow: inset 0 0 0 2px var(--paper), inset 0 0 0 3px rgba(168, 131, 71, 0.5), 0 2px 0 -1px #cdb88d, 0 8px 12px -10px rgba(31, 28, 24, 0.45);
+  font-family: var(--font-display);
+  font-size: 16px;
+  letter-spacing: 0;
+}
+
+[data-buttons='3'] .models a[aria-current='page'] {
+  border-color: #8d6d3a;
+  background: var(--foil);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.24), inset 0 0 0 3px rgba(88, 62, 22, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.7), 0 2px 0 -1px #7d6232, 0 10px 14px -10px rgba(88, 62, 22, 0.7);
+  color: var(--noir);
+}
+
+[data-buttons='3'] .summary {
+  padding: 30px 26px;
+  border-color: #b89b62;
+  background: linear-gradient(180deg, #ffffff 0%, var(--paper) 40%, #f6f0e4 100%);
+  box-shadow: inset 0 0 0 4px var(--paper), inset 0 0 0 5px rgba(168, 131, 71, 0.45), 0 4px 0 -1px #cdb88d, 0 22px 28px -22px rgba(31, 28, 24, 0.5);
+}
+
+/* Bouton principal : plaque d'or en relief ; au survol, noir cerclé d'or. */
+[data-buttons='3'] .primary {
+  min-height: 66px;
+  border-color: #8d6d3a;
+  background: var(--foil);
+  box-shadow:
+    inset 0 0 0 3px rgba(255, 255, 255, 0.24),
+    inset 0 0 0 4px rgba(88, 62, 22, 0.55),
+    inset 0 1px 0 rgba(255, 255, 255, 0.75),
+    0 4px 0 -1px #7d6232,
+    0 16px 20px -14px rgba(88, 62, 22, 0.8);
+  color: var(--noir);
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+}
+
+[data-buttons='3'] .primary:hover:not(:disabled) {
+  border-color: #b8915a;
+  background: radial-gradient(130% 180% at 50% -20%, #2b2418 0%, var(--noir-soft) 45%, var(--noir) 100%);
+  box-shadow: inset 0 0 0 3px var(--noir), inset 0 0 0 4px rgba(217, 192, 143, 0.55), 0 4px 0 -1px #000000, 0 16px 20px -14px rgba(11, 10, 8, 0.8);
+  color: var(--ivory);
+}
+
+/* --- Version 4 : haute joaillerie épurée. Du blanc, des filets d'or très fins, des capitales espacées, aucune ombre.
+   Un groupe de choix est un seul cadre ; le choix en cours y est cerné d'un filet noir --- */
+
+[data-buttons='4'] .panel {
+  background: #ffffff;
+}
+
+[data-buttons='4'] .field {
+  border-top-color: rgba(156, 127, 76, 0.4);
+}
+
+[data-buttons='4'] .fieldTitle {
+  letter-spacing: 0.3em;
+}
+
+[data-buttons='4'] .choices {
+  gap: 0;
+  border: 1px solid rgba(156, 127, 76, 0.6);
+}
+
+[data-buttons='4'] .choice {
+  min-height: 66px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+}
+
+[data-buttons='4'] .choice + .choice {
+  border-inline-start: 1px solid rgba(156, 127, 76, 0.4);
+}
+
+[data-buttons='4'] .choiceText {
+  gap: 6px;
+  font-family: var(--font-text);
+  font-size: 12px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+}
+
+[data-buttons='4'] .choiceSub {
+  letter-spacing: 0.2em;
+  text-transform: none;
+}
+
+[data-buttons='4'] .choiceIcon {
+  width: 28px;
+  height: 28px;
+}
+
+[data-buttons='4'] .choice:hover {
+  color: var(--ink);
+}
+
+/* Choix en cours : filet noir à l'intérieur de la case, texte en --ink. */
+[data-buttons='4'] .choice[aria-checked='true'] {
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--ink);
+  color: var(--ink);
+}
+
+[data-buttons='4'] .requestGrid {
+  gap: 0;
+  border-top: 1px solid rgba(156, 127, 76, 0.4);
+  border-inline-start: 1px solid rgba(156, 127, 76, 0.4);
+}
+
+[data-buttons='4'] .choiceOnRequest {
+  min-height: 128px;
+  border: 0;
+  border-inline-end: 1px solid rgba(156, 127, 76, 0.4);
+  border-bottom: 1px solid rgba(156, 127, 76, 0.4);
+  background: transparent;
+  font-family: var(--font-text);
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+[data-buttons='4'] .requestIcon {
+  width: 30px;
+  height: 30px;
+}
+
+/* « sur demande » en italique de titre, comme une mention manuscrite. */
+[data-buttons='4'] .onRequestTag {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-style: italic;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--muted);
+}
+
+[data-buttons='4'] .choiceOnRequest:hover:not(:disabled) {
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+
+[data-buttons='4'] .swatchBall {
+  width: 46px;
+  height: 46px;
+  border-color: rgba(31, 28, 24, 0.14);
+  box-shadow: none;
+}
+
+[data-buttons='4'] .swatch[aria-checked='true'] .swatchBall {
+  box-shadow: 0 0 0 5px #ffffff, 0 0 0 6px var(--ink);
+}
+
+[data-buttons='4'] .swatch[aria-checked='true'] .swatchName {
+  border-bottom-color: var(--ink);
+}
+
+[data-buttons='4'] .models {
+  gap: 0 26px;
+}
+
+[data-buttons='4'] .models a {
+  min-height: 32px;
+  padding: 4px 0;
+  border: 0;
+  border-bottom: 1px solid transparent;
+  border-radius: 0;
+  font-size: 11px;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+[data-buttons='4'] .models a:hover {
+  color: var(--ink);
+}
+
+[data-buttons='4'] .models a[aria-current='page'] {
+  border-bottom-color: var(--ink);
+  color: var(--ink);
+}
+
+[data-buttons='4'] .summary {
+  padding: 30px 0 0;
+  border: 0;
+  border-top: 1px solid var(--ink);
+  background: transparent;
+}
+
+[data-buttons='4'] .primary {
+  min-height: 62px;
+  border-color: var(--ink);
+  background: var(--ink);
+  font-size: 11px;
+  letter-spacing: 0.34em;
+}
+
+[data-buttons='4'] .primary:hover:not(:disabled) {
+  border-color: var(--ink);
+  background: #ffffff;
+  color: var(--ink);
+}
+
+/* --- Version 5 : verre et lumière. Plaques translucides arrondies sur un fond de lumière dorée ;
+   le choix en cours s'éclaire d'un liseré d'or et porte une perle d'or dans son coin --- */
+
+[data-buttons='5'] .panel {
+  background:
+    radial-gradient(90% 34% at 100% 4%, rgba(243, 228, 189, 0.7) 0%, transparent 62%),
+    radial-gradient(80% 30% at 0% 30%, rgba(255, 255, 255, 0.95) 0%, transparent 65%),
+    radial-gradient(90% 34% at 100% 62%, rgba(217, 192, 143, 0.4) 0%, transparent 62%),
+    radial-gradient(80% 30% at 0% 92%, rgba(255, 255, 255, 0.9) 0%, transparent 65%),
+    linear-gradient(180deg, #f8f4ec 0%, #efe6d6 100%);
+}
+
+[data-buttons='5'] .field {
+  border-top-color: rgba(255, 255, 255, 0.9);
+}
+
+[data-buttons='5'] .choice {
+  min-height: 68px;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.78) 0%, rgba(255, 255, 255, 0.4) 100%);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  backdrop-filter: blur(14px) saturate(1.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(156, 127, 76, 0.2), 0 12px 22px -14px rgba(120, 95, 50, 0.5);
+  color: var(--ink);
+}
+
+[data-buttons='5'] .choiceText {
+  font-size: 18px;
+}
+
+[data-buttons='5'] .choice:hover {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.6) 100%);
+}
+
+[data-buttons='5'] .choice[aria-checked='true'] {
+  border-color: rgba(184, 145, 90, 0.95);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(247, 236, 208, 0.9) 100%);
+  box-shadow: inset 0 1px 0 #ffffff, 0 0 0 1px rgba(184, 145, 90, 0.5), 0 14px 26px -14px rgba(156, 127, 76, 0.7);
+  color: var(--ink);
+}
+
+/* Perle d'or dans le coin du choix en cours (à l'intérieur de la plaque). */
+[data-buttons='5'] .choice[aria-checked='true']::after {
+  content: '';
+  position: absolute;
+  top: 9px;
+  inset-inline-end: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff6dc 0%, #d9b877 45%, #9a7537 100%);
+}
+
+[data-buttons='5'] .choiceOnRequest {
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.34) 100%);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  backdrop-filter: blur(14px) saturate(1.2);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(156, 127, 76, 0.18), 0 12px 22px -14px rgba(120, 95, 50, 0.45);
+}
+
+[data-buttons='5'] .requestIcon {
+  box-sizing: border-box;
+  width: 50px;
+  height: 50px;
+  padding: 9px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.55) 70%, rgba(243, 228, 189, 0.6) 100%);
+  box-shadow: inset 0 1px 0 #ffffff, 0 0 0 1px rgba(255, 255, 255, 0.9), 0 6px 12px -6px rgba(120, 95, 50, 0.5);
+}
+
+[data-buttons='5'] .choiceOnRequest:hover:not(:disabled) {
+  border-color: rgba(184, 145, 90, 0.8);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.6) 100%);
+}
+
+[data-buttons='5'] .swatchBall {
+  border-color: rgba(255, 255, 255, 0.7);
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.98) 0 10%, rgba(255, 255, 255, 0.4) 20%, transparent 42%),
+    radial-gradient(circle at 72% 82%, rgba(255, 255, 255, 0.4) 0 10%, transparent 30%),
+    radial-gradient(circle at 50% 50%, transparent 55%, rgba(0, 0, 0, 0.22) 100%),
+    linear-gradient(145deg, color-mix(in srgb, var(--swatch) 84%, #ffffff) 0%, var(--swatch) 45%, color-mix(in srgb, var(--swatch) 64%, #3d3122) 100%);
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.6), 0 14px 16px -10px rgba(120, 95, 50, 0.6);
+}
+
+[data-buttons='5'] .swatch[aria-checked='true'] .swatchBall {
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, 0.95), 0 0 0 6px rgba(184, 145, 90, 0.95), 0 14px 16px -10px rgba(156, 127, 76, 0.75);
+}
+
+[data-buttons='5'] .models a {
+  min-height: 38px;
+  padding: 6px 18px;
+  border-color: rgba(255, 255, 255, 0.9);
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.42) 100%);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: inset 0 1px 0 #ffffff, 0 8px 16px -12px rgba(120, 95, 50, 0.5);
+  font-family: var(--font-display);
+  font-size: 15px;
+  letter-spacing: 0;
+}
+
+[data-buttons='5'] .models a[aria-current='page'] {
+  border-color: rgba(184, 145, 90, 0.95);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.96) 0%, rgba(247, 236, 208, 0.9) 100%);
+  box-shadow: inset 0 1px 0 #ffffff, 0 0 0 1px rgba(184, 145, 90, 0.5), 0 10px 18px -12px rgba(156, 127, 76, 0.7);
+  color: var(--ink);
+}
+
+[data-buttons='5'] .summary {
+  padding: 30px 26px;
+  border-color: rgba(255, 255, 255, 0.95);
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.82) 0%, rgba(255, 255, 255, 0.5) 100%);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  backdrop-filter: blur(16px) saturate(1.2);
+  box-shadow: inset 0 1px 0 #ffffff, 0 26px 40px -26px rgba(120, 95, 50, 0.6);
+}
+
+/* Bouton principal : pastille d'or clair (texte --noir, 7:1 au moins sur ce dégradé). */
+[data-buttons='5'] .primary {
+  min-height: 62px;
+  border-color: rgba(255, 255, 255, 0.85);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #fbf1d6 0%, #e6cf9c 45%, #c9a565 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.95), inset 0 -1px 0 rgba(120, 90, 40, 0.35), 0 16px 26px -14px rgba(156, 127, 76, 0.8);
+  color: var(--noir);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+}
+
+[data-buttons='5'] .primary:hover:not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.95);
+  background: linear-gradient(135deg, #fff8e6 0%, #f0dcae 45%, #d6b477 100%);
+  color: var(--noir);
+}
+
+/* Animations réduites : aucune transition sur les plaques, dans toutes les versions. */
+@media (prefers-reduced-motion: reduce) {
+  [data-buttons] .choice,
+  [data-buttons] .choiceOnRequest,
+  [data-buttons] .swatchBall,
+  [data-buttons] .models a,
+  [data-buttons] .primary {
+    transition: none;
+  }
+}
+
+/* --- Comparaison : barre de choix du style (affichée seulement quand l'adresse porte `boutons`) et page de comparaison --- */
+
+.styleBar {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 12px calc(10px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line-noir);
+  background: var(--noir);
+  color: var(--ivory);
+}
+
+.styleBarLabel {
+  margin-inline-end: 6px;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--on-noir-muted);
+}
+
+.styleBar button {
+  min-width: 40px;
+  min-height: 36px;
+  padding: 4px 10px;
+  border: 1px solid var(--line-noir);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ivory);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.styleBar button[aria-pressed='true'] {
+  border-color: var(--gold-fill);
+  background: var(--gold-fill);
+  color: var(--noir);
+}
+
+/* La barre fixe ne recouvre pas la fin de la page. */
+.withStyleBar {
+  padding-bottom: 72px;
+}
+
+.showcase {
+  display: grid;
+  gap: 40px;
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 28px 0 80px;
+}
+
+.showcaseIntro {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.showcaseBlock {
+  border: 1px solid var(--line);
+}
+
+.showcaseHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 16px 20px;
+  background: var(--noir);
+  color: var(--ivory);
+}
+
+.showcaseHead h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+}
+
+.showcaseHead a {
+  color: var(--champagne);
+  font-size: 13px;
+}
+
+/* Dans la page de comparaison, le panneau n'occupe pas tout l'écran. */
+/* Même largeur utile que le panneau du configurateur sur un téléphone (16 px de marge). */
+.showcasePanel {
+  min-height: 0;
+  padding: 8px 16px 28px;
+  border-inline-start: 0;
+}
+
+.showcasePanel > .field:first-child {
+  margin-top: 0;
+  border-top: 0;
 }
 
 /* ---------- Mobile : scène fixe en haut, options défilantes dessous ---------- */
@@ -741,19 +1396,39 @@
     padding: 28px 16px 48px;
   }
 
-  /* Métaux : quatre sphères sur une ligne, même sur un téléphone étroit. */
-  .swatches {
-    gap: 6px 4px;
-    justify-content: space-between;
+  .choice,
+  .choiceOnRequest {
+    min-height: 44px;
   }
 
-  /* Trois plaques (ensemble, solitaire, alliance) tiennent sur une ligne de téléphone. */
-  .choice {
+  .swatchBall {
+    width: 44px;
+    height: 44px;
+  }
+
+  /* Versions 2 à 5 : leurs dimensions priment sur celles de l'aspect d'origine ci-dessus. */
+  :where([data-buttons]:not([data-buttons='1'])) .choice {
+    min-height: 70px;
     padding-inline: 10px;
   }
 
-  .choiceText {
+  :where([data-buttons]:not([data-buttons='1'])) .choiceOnRequest {
+    min-height: 138px;
+  }
+
+  :where([data-buttons]:not([data-buttons='1'])) .choiceText {
     font-size: 17px;
+  }
+
+  :where([data-buttons]:not([data-buttons='1'])) .swatchBall {
+    width: 56px;
+    height: 56px;
+  }
+
+  /* Quatre sphères sur une ligne, même sur un téléphone étroit. */
+  :where([data-buttons]:not([data-buttons='1'])) .swatches {
+    gap: 6px 4px;
+    justify-content: space-between;
   }
 }
 

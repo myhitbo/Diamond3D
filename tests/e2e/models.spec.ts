@@ -116,7 +116,7 @@ test('solitaire cœur : cinq pièces 3D, 39 pierres, forme cœur nommée', async
   await expect(summary).toContainText('38 × Ronde 0,8 – 0,85 – 0,9 – 1 – 1,3 – 1,4 – 1,6 – 1,7 – 1,8 mm');
   await expect(summary).toContainText('Sur devis');
   // Le fichier n'a pas de courbe de taille : la taille est mesurée sur l'anneau.
-  await expect(page.getByText(/Modélisé en France 54, diamètre intérieur 17,(19|2) mm\./)).toBeVisible();
+  await expect(page.getByText('Modélisé en France 54, diamètre intérieur 17,20 mm.')).toBeVisible();
   expect(errors).toEqual([]);
 });
 

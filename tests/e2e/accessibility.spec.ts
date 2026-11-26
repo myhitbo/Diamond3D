@@ -78,6 +78,8 @@ const PAGES: { name: string; urls: Partial<Record<Locale, string>>; status?: num
   { name: 'version A', urls: { fr: '/fr/versions/a', en: '/en/versions/a', he: '/he/versions/a' } },
   { name: 'version B', urls: { fr: '/fr/versions/b', en: '/en/versions/b', he: '/he/versions/b' } },
   { name: 'version C', urls: { fr: '/fr/versions/c', en: '/en/versions/c', he: '/he/versions/c' } },
+  // Cinq styles de boutons du configurateur à comparer (les cinq peaux sont sur cette page).
+  { name: 'styles des boutons', urls: { fr: '/fr/versions/boutons', en: '/en/versions/boutons', he: '/he/versions/boutons' } },
 ];
 
 const CONFIGURATOR: Record<Locale, string> = { fr: '/fr/configurateur/ring-001', en: '/en/configurator/ring-001', he: '/he/configurator/ring-001' };
@@ -94,8 +96,8 @@ const ALL_PAGES = PAGES.flatMap((p) => (Object.entries(p.urls) as [Locale, strin
  * Le configurateur prêt : 3D affichée (sonde `?debug=1`), ou, sans WebGL (Firefox sans écran de cet environnement), le message
  * « WebGL indisponible ». Les contrôles propres à la 3D sont alors ignorés : voir `needsWebGL`.
  */
-async function openConfigurator(page: Page, locale: Locale) {
-  await page.goto(`${CONFIGURATOR[locale]}?debug=1`);
+async function openConfigurator(page: Page, locale: Locale, modelId = 'ring-001') {
+  await page.goto(`${CONFIGURATOR[locale].replace('ring-001', modelId)}?debug=1`);
   await page.waitForFunction(() => window.__jr?.ready === true || document.body.textContent?.includes('WebGL'), null, { timeout: 60_000 });
 }
 
@@ -140,6 +142,18 @@ test.describe('axe-core, WCAG 2.0 à 2.2, niveaux A et AA', () => {
       await expect(page.locator('form [role=alert]')).toBeVisible();
       await expectNoViolations(page, `${locale} configurateur, devis avec erreurs`);
     });
+
+    // Autres modèles : des solitaires, sans choix de composition, avec le choix du modèle en tête du panneau.
+    for (const modelId of ['ring-002', 'ring-003']) {
+      test(`configurateur du solitaire (${modelId}) : 3D chargée, devis ouvert (${locale})`, async ({ page }) => {
+        await openConfigurator(page, locale, modelId);
+        await openAllDetails(page);
+        await expectNoViolations(page, `${locale} configurateur ${modelId}`);
+        await page.getByRole('button', { name: UI[locale].quote, exact: true }).click();
+        await expect(page.locator('#quote-form form')).toBeVisible();
+        await expectNoViolations(page, `${locale} configurateur ${modelId}, devis ouvert`);
+      });
+    }
   }
 });
 
@@ -156,13 +170,16 @@ async function tabThrough(page: Page, max = 250) {
   const stops: Stop[] = [];
   // Départ au tout début du document (le focus peut être ailleurs, par exemple dans le formulaire qui vient de s'ouvrir) : un
   // repère hors du parcours (`tabindex="-1"`) placé en tête reçoit le focus, la touche Tab suivante va au premier élément.
-  await page.evaluate(() => {
-    document.querySelectorAll<HTMLElement>('[data-tab-stop]').forEach((el) => delete el.dataset.tabStop);
-    const start = document.createElement('span');
-    start.tabIndex = -1;
-    document.body.prepend(start);
-    start.focus();
-  });
+  const start = () =>
+    page.evaluate(() => {
+      document.querySelectorAll<HTMLElement>('[data-tab-stop]').forEach((el) => delete el.dataset.tabStop);
+      const mark = document.createElement('span');
+      mark.tabIndex = -1;
+      document.body.prepend(mark);
+      mark.focus();
+    });
+  await start();
+  let restarted = false;
   for (let i = 0; i < max; i++) {
     await page.keyboard.press('Tab');
     const stop = await page.evaluate((index) => {
@@ -186,6 +203,15 @@ async function tabThrough(page: Page, max = 250) {
         obscured,
       };
     }, i);
+    // Page encore en cours d'hydratation (la 404 est rendue une seconde fois par le navigateur) : le repère de départ a été
+    // retiré avec le focus avant le premier arrêt. On repart une seule fois du début, la page stabilisée.
+    if (!stop && !stops.length && !restarted) {
+      restarted = true;
+      await page.waitForTimeout(500);
+      await start();
+      i = -1;
+      continue;
+    }
     // Fin du document : le focus en sort (Chromium), reste sur le dernier élément (Firefox) ou revient au premier.
     if (!stop || (stops.length && (stop.key === stops[0].key || stop.key === stops[stops.length - 1].key))) break;
     stops.push(stop);

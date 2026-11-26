@@ -157,7 +157,8 @@ button {
   grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: 16px;
-  padding: 14px clamp(16px, 4vw, 56px);
+  /* 11 px et non 14 : le logo de l'atelier est passé de 34 à 40 px (26/11), la hauteur de l'en-tête reste de 137 px. */
+  padding: 11px clamp(16px, 4vw, 56px);
 }
 
 .wordmark {
@@ -183,9 +184,10 @@ button {
 /* Monogramme : losange doré et initiales (décoratif, le nom du lien reste « JR Diamond »). */
 .monogram {
   flex: none;
-  width: 34px;
-  height: 34px;
-  color: var(--champagne);
+  width: 40px;
+  height: 40px;
+  /* Logo de l'atelier (image plus haute que large) : entier dans sa boîte carrée, sans déformation. */
+  object-fit: contain;
 }
 
 .site-nav {
@@ -340,7 +342,8 @@ button {
     display: none;
   }
   .header-row {
-    padding: 12px 16px;
+    /* 10 px et non 12 : logo de 32 px au lieu de 28, la hauteur de l'en-tête reste de 56 px. */
+    padding: 10px 16px;
     gap: 10px;
   }
   .wordmark {
@@ -351,8 +354,8 @@ button {
     margin-right: -0.24em;
   }
   .monogram {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
   }
   .lang {
     gap: 10px;
@@ -447,8 +450,8 @@ html[lang='he'] body *:not(.wordmark):not(.footer-brand) {
 }
 
 .footer-brand .monogram {
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
 }
 
 .site-footer nav {

@@ -1,22 +1,11 @@
+import Image from 'next/image';
+
 /**
- * Monogramme JR : losange doré à double filet et initiales. Décoratif (`aria-hidden`) : il accompagne toujours le nom
- * « JR Diamond » écrit en toutes lettres, qui donne son nom au lien.
+ * Logo JR de l'atelier (monogramme or), détouré depuis l'image envoyée par l'atelier le 17/11/2026 (`scripts/logo/detourer.py`).
+ * Décoratif (`alt` vide, `aria-hidden`) : il accompagne toujours le nom « JR Diamond » écrit en toutes lettres, qui donne
+ * son nom au lien. La boîte reste carrée (classe `monogram`) : le logo, plus haut que large, y tient en entier.
+ * `sizes` : la plus grande taille affichée (pied de page, 72 px) ; le navigateur choisit la variante selon l'écran.
  */
 export default function Monogram() {
-  return (
-    <svg className="monogram" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
-      <path d="M24 1.5 46.5 24 24 46.5 1.5 24Z" fill="none" stroke="currentColor" strokeWidth="1" />
-      <path d="M24 5.5 42.5 24 24 42.5 5.5 24Z" fill="none" stroke="currentColor" strokeWidth="0.5" opacity="0.6" />
-      <text
-        x="24"
-        y="24"
-        dy="0.36em"
-        textAnchor="middle"
-        fill="currentColor"
-        style={{ fontFamily: 'var(--font-bodoni), Georgia, serif', fontSize: 15, letterSpacing: '0.04em' }}
-      >
-        JR
-      </text>
-    </svg>
-  );
+  return <Image className="monogram" src="/images/logo-jr-atelier.webp" width={333} height={384} sizes="72px" alt="" aria-hidden="true" loading="eager" />;
 }

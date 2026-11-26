@@ -8,7 +8,8 @@ Principes :
   par Rhino dans le .3dm (avec leurs normales), regroupés selon une recette.
 - Tout objet des calques de production doit être affecté à exactement une pièce.
 - Si un STL de référence est fourni, le volume de métal de chaque bague est
-  recoupé avec la coque STL correspondante.
+  recoupé avec la coque STL correspondante. Sinon, il est mesuré sur l'union
+  booléenne des solides fermés du fichier (mesure seulement : rien n'est exporté).
 
 Usage :
     python pipeline/extract_3dm.py pipeline/recipes/ring-001.json \
@@ -22,10 +23,12 @@ import argparse
 import hashlib
 import json
 import math
+import re
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
 
+import manifold3d
 import numpy as np
 import rhino3dm as r
 import trimesh
@@ -113,6 +116,7 @@ class Obj:
     geometry: object
     block: str | None = None
     xform: np.ndarray | None = None
+    name: str = ""
     claimed_by: list[str] = field(default_factory=list)
 
 
@@ -120,6 +124,16 @@ def matches(o: Obj, sel: dict) -> bool:
     if o.layer != sel["layer"]:
         return False
     if "block" in sel and o.block != sel["block"]:
+        return False
+    # Nom donné à l'objet dans Rhino (ex. « Prong On Surface ») ; `unnamed` : objets sans nom.
+    if "name" in sel and o.name != sel["name"]:
+        return False
+    if sel.get("unnamed") and o.name:
+        return False
+    # Identifiants d'objets (fichier figé par son empreinte) : quand ni calque, ni groupe, ni nom ne distinguent deux pièces.
+    if "ids" in sel and o.id not in sel["ids"]:
+        return False
+    if "idsNone" in sel and o.id in sel["idsNone"]:
         return False
     if sel.get("ungrouped") and o.groups:
         return False
@@ -132,10 +146,143 @@ def matches(o: Obj, sel: dict) -> bool:
     return True
 
 
-def watertight_volume_mm3(m: trimesh.Trimesh) -> float | None:
+
+
+STONE_SHAPES = {"round", "marquise", "oval", "pear", "emerald", "princess", "heart"}
+
+
+def stone_shape(block: str | None) -> str:
+    """Forme d'après le nom du bloc Matrix : « Diamond_Round », « Diamond_Round 01 », « Diamond_Marquise »…"""
+    m = re.match(r"Diamond_([A-Za-z]+)", block or "")
+    shape = m.group(1).lower() if m else ""
+    return shape if shape in STONE_SHAPES else "unknown"
+
+
+CRACK_TOLERANCE_MM = 0.02  # largeur maximale d'une fissure d'arête refermée pour la mesure du volume
+
+
+def close_edge_cracks(w: trimesh.Trimesh, tol: float = CRACK_TOLERANCE_MM) -> int:
+    """Referme les fissures d'arête d'un maillage de rendu (sommets « en T »), pour une mesure de volume seulement.
+
+    Le long de l'arête commune à deux faces d'une polysurface, les deux maillages de rendu n'ont pas toujours les mêmes
+    sommets : l'un a une arête droite de A à B, l'autre suit la courbe par des sommets intermédiaires. Il reste une
+    fissure de quelques microns. Chaque arête ouverte est recoupée aux sommets ouverts qui la longent (à moins de `tol`),
+    ce qui fait coïncider les deux bords. Aucun sommet n'est créé ni déplacé. Renvoie le nombre d'arêtes recoupées.
+    """
+    split_total = 0
+    for _ in range(8):
+        faces = np.asarray(w.faces)
+        directed = np.vstack([faces[:, [0, 1]], faces[:, [1, 2]], faces[:, [2, 0]]])
+        owner = np.tile(np.arange(len(faces)), 3)
+        key = np.sort(directed, axis=1)
+        _, inverse, counts = np.unique(key, axis=0, return_inverse=True, return_counts=True)
+        open_idx = np.flatnonzero(counts[inverse.ravel()] == 1)
+        if len(open_idx) == 0:
+            break
+        open_vertices = np.unique(directed[open_idx])
+        pts = np.asarray(w.vertices)[open_vertices]
+        replaced: dict[int, list[list[int]]] = {}
+        for i in open_idx:
+            face = int(owner[i])
+            if face in replaced:
+                continue  # une arête par triangle et par passe ; la passe suivante traite les autres
+            a, b = (int(x) for x in directed[i])
+            pa, pb = w.vertices[a], w.vertices[b]
+            ab = pb - pa
+            length2 = float(ab @ ab)
+            if length2 == 0:
+                continue
+            t = (pts - pa) @ ab / length2
+            dist = np.linalg.norm(pts - (pa + np.outer(t, ab)), axis=1)
+            between = (t > 1e-9) & (t < 1 - 1e-9) & (dist <= tol) & (open_vertices != a) & (open_vertices != b)
+            if not between.any():
+                continue
+            chain = [a, *(int(v) for v in open_vertices[between][np.argsort(t[between])]), b]
+            c = int(next(v for v in faces[face] if v != a and v != b))
+            replaced[face] = [[chain[k], chain[k + 1], c] for k in range(len(chain) - 1)]
+            split_total += 1
+        if not replaced:
+            break
+        keep = np.ones(len(faces), dtype=bool)
+        keep[list(replaced)] = False
+        w.faces = np.vstack([faces[keep], *(np.array(f, dtype=faces.dtype) for f in replaced.values())])
+    return split_total
+
+
+def solid_for_volume(m: trimesh.Trimesh, report: dict | None = None) -> trimesh.Trimesh | None:
+    """Copie fermée d'un maillage de rendu, pour une mesure de volume : sommets soudés, faces dégénérées ou en double retirées.
+
+    Si le maillage reste ouvert, ses fissures d'arête sont refermées (`close_edge_cracks`) ; `report["cracksClosed"]` compte
+    alors les solides concernés. Un maillage encore ouvert après cela (vrai trou) n'est pas un solide : `None`.
+    """
     w = m.copy()
     w.merge_vertices(digits_vertex=4)
-    return float(abs(w.volume)) if w.is_watertight else None
+    w.update_faces(w.nondegenerate_faces())
+    w.update_faces(w.unique_faces())
+    w.remove_unreferenced_vertices()
+    if not w.is_watertight:
+        if not close_edge_cracks(w):
+            return None
+        w.update_faces(w.nondegenerate_faces())
+        if not w.is_watertight:
+            return None
+        if report is not None:
+            report["cracksClosed"] = report.get("cracksClosed", 0) + 1
+    if w.volume < 0:
+        w.invert()
+    return w
+
+
+def watertight_volume_mm3(m: trimesh.Trimesh) -> float | None:
+    """Volume d'un maillage de rendu fermé (pierre) ; `None` s'il n'est pas un solide."""
+    w = solid_for_volume(m)
+    return float(w.volume) if w is not None else None
+
+
+def union_volume_mm3(meshes: list[trimesh.Trimesh], report: dict | None = None) -> tuple[float, float]:
+    """Volume de l'union booléenne de solides fermés qui se chevauchent (griffes dans le corps…), et somme brute des volumes."""
+    solids, total = [], 0.0
+    for m in meshes:
+        w = solid_for_volume(m, report)
+        if w is None:
+            raise SystemExit("Volume de métal : une polysurface n'est pas un solide fermé ; fournir un STL de référence dans la recette.")
+        total += float(w.volume)
+        solid = manifold3d.Manifold(manifold3d.Mesh(vert_properties=np.asarray(w.vertices, dtype=np.float32), tri_verts=np.asarray(w.faces, dtype=np.uint32)))
+        if solid.is_empty():
+            raise SystemExit("Volume de métal : un solide est refusé par manifold3d ; fournir un STL de référence dans la recette.")
+        solids.append(solid)
+    union = manifold3d.Manifold.batch_boolean(solids, manifold3d.OpType.Add)
+    return float(union.volume()), total
+
+
+def inner_diameter_mm(m: trimesh.Trimesh, sectors: int = 180) -> float:
+    """Diamètre intérieur d'un anneau dont le trou suit l'axe Y de Rhino.
+
+    Profil intérieur : dans chaque secteur d'angle, le sommet le plus proche de l'axe. Un cercle des moindres carrés y est
+    ajusté, puis les points plus éloignés que le cercle (ouverture sous la tête, épaules, bords d'un intérieur bombé) sont
+    écartés et l'ajustement recommence : il reste le cercle le plus étroit, celui du doigt.
+    """
+    xz = m.vertices[:, [0, 2]]
+    centre = (xz.min(axis=0) + xz.max(axis=0)) / 2
+    radius = 0.0
+    for _ in range(6):
+        rel = xz - centre
+        rad = np.linalg.norm(rel, axis=1)
+        sector = ((np.arctan2(rel[:, 1], rel[:, 0]) + math.pi) / (2 * math.pi) * sectors).astype(int) % sectors
+        order = np.lexsort((rad, sector))
+        first = np.concatenate([[True], sector[order][1:] != sector[order][:-1]])
+        pts = xz[order[first]]
+        keep = np.ones(len(pts), dtype=bool)
+        for _ in range(20):
+            q = pts[keep]
+            sol, *_ = np.linalg.lstsq(np.column_stack([2 * q, np.ones(len(q))]), (q**2).sum(axis=1), rcond=None)
+            centre = sol[:2]
+            radius = math.sqrt(sol[2] + (centre**2).sum())
+            inside = np.linalg.norm(pts - centre, axis=1) - radius <= 0.01
+            if inside.sum() < 12 or (inside == keep).all():
+                break
+            keep = inside
+    return 2 * radius
 
 
 def stone_record(o: Obj, block_mesh: trimesh.Trimesh, world: trimesh.Trimesh) -> dict:
@@ -146,7 +293,7 @@ def stone_record(o: Obj, block_mesh: trimesh.Trimesh, world: trimesh.Trimesh) ->
     vol = watertight_volume_mm3(world)
     return {
         "block": o.block,
-        "shape": {"Diamond_Round": "round", "Diamond_Marquise": "marquise"}.get(o.block, "unknown"),
+        "shape": stone_shape(o.block),
         "lengthMm": round(float(length), 3),
         "widthMm": round(float(width), 3),
         "depthMm": round(float(ext[2]), 3),
@@ -188,13 +335,14 @@ def run(recipe_path: Path, out_glb: Path, out_meta: Path) -> dict:
 
     objs: list[Obj] = []
     finger_size = None
+    rail_prefix = recipe.get("fingerSizeCurvePrefix")
     for o in f.Objects:
         layer = f.Layers[o.Attributes.LayerIndex].Name
         name = o.Attributes.Name or ""
-        if name.startswith(recipe["fingerSizeCurvePrefix"]):
+        if rail_prefix and name.startswith(rail_prefix):
             bb = o.Geometry.GetBoundingBox()
             finger_size = {
-                "label": name[len(recipe["fingerSizeCurvePrefix"]):],
+                "label": name[len(rail_prefix):],
                 "innerDiameterMm": round(max(bb.Max.X - bb.Min.X, bb.Max.Z - bb.Min.Z), 3),
             }
         if layer not in recipe["productionLayers"]:
@@ -203,14 +351,16 @@ def run(recipe_path: Path, out_glb: Path, out_meta: Path) -> dict:
         groups = {group_names[i] for i in (o.Attributes.GetGroupList() or [])}
         if isinstance(g, r.InstanceReference):
             d = idefs[g.ParentIdefId]
-            objs.append(Obj(str(o.Attributes.Id), layer, groups, g, d.Name, xform_to_np(g.Xform)))
+            objs.append(Obj(str(o.Attributes.Id), layer, groups, g, d.Name, xform_to_np(g.Xform), name))
         elif isinstance(g, r.Brep):
-            objs.append(Obj(str(o.Attributes.Id), layer, groups, g))
+            objs.append(Obj(str(o.Attributes.Id), layer, groups, g, name=name))
         else:
             raise SystemExit(f"Type non géré sur {layer} : {type(g).__name__}")
 
     scene = trimesh.Scene()
     meta_pieces: dict[str, dict] = {}
+    metal_solids: dict[str, list[trimesh.Trimesh]] = {}
+    part_meshes: dict[tuple[str, str], trimesh.Trimesh] = {}
     for piece_id, piece in recipe["pieces"].items():
         parts_meta = []
         for part in piece["parts"]:
@@ -227,7 +377,10 @@ def run(recipe_path: Path, out_glb: Path, out_meta: Path) -> dict:
                     meshes.append(wm)
                 else:
                     meshes.append(brep_render_mesh(o.geometry))
+                    if part["kind"] == "metal":
+                        metal_solids.setdefault(piece_id, []).append(meshes[-1])
             mesh = concat(meshes)
+            part_meshes[(piece_id, part["id"])] = mesh
             node = f"{piece_id}__{part['id']}"
             web = transformed(mesh, Z_UP_TO_Y_UP)
             web.apply_scale(MM_TO_M)
@@ -282,6 +435,30 @@ def run(recipe_path: Path, out_glb: Path, out_meta: Path) -> dict:
             stl_check.append({"piece": piece_id, "maxBoundsDeviationMm": round(dev, 4)})
             if dev > 0.01:
                 raise SystemExit(f"La pièce {piece_id} ne correspond à aucune coque du STL (écart {dev} mm)")
+    else:
+        # Pas de STL : union booléenne des solides de métal de chaque pièce (les griffes et les paniers pénètrent le corps).
+        for piece_id, pm in meta_pieces.items():
+            report: dict = {}
+            volume, raw_sum = union_volume_mm3(metal_solids[piece_id], report)
+            metal_bounds = np.array([p["boundsMm"] for p in pm["parts"] if p["kind"] == "metal"])
+            pm["metalVolumeMm3"] = round(volume, 2)
+            pm["metalVolumeSource"] = "Union booléenne des solides fermés du fichier CAO (aucun STL de référence)"
+            pm["metalSolidsSumMm3"] = round(raw_sum, 2)
+            if report.get("cracksClosed"):
+                # Pour la mesure seulement : le modèle affiché garde le maillage du fichier.
+                pm["metalSolidsCracksClosed"] = report["cracksClosed"]
+            pm["metalBoundsMm"] = np.round(np.array([metal_bounds[:, 0].min(axis=0), metal_bounds[:, 1].max(axis=0)]), 3).tolist()
+
+    # Taille de doigt mesurée sur l'anneau quand le fichier n'a pas de courbe de taille (recette : `fingerSizeFrom`).
+    measure = recipe.get("fingerSizeFrom")
+    if finger_size is None and measure:
+        diameter = inner_diameter_mm(part_meshes[(measure["piece"], measure["part"])])
+        half_sizes = round(math.pi * diameter * 2)  # taille française = circonférence intérieure en mm, à la demi-taille
+        finger_size = {
+            "label": f"France {half_sizes // 2}" + (" 1/2" if half_sizes % 2 else ""),
+            "innerDiameterMm": round(diameter, 3),
+            "source": "Mesuré sur l'anneau (le fichier n'a pas de courbe de taille) ; taille française = circonférence intérieure arrondie à la demi-taille",
+        }
 
     meta = {
         "$comment": "Fichier généré par pipeline/extract_3dm.py. Ne pas modifier à la main.",

@@ -221,6 +221,20 @@ Questions tirées de `docs/concurrence/SYNTHESE.md` (rangs qui dépendent de l'a
 108. Peux-tu m'envoyer les 20 à 25 polices (noms ou une photo de ta liste), le prix et le délai d'une gravure ?
 109. Case « C'est une surprise » du devis (ajoutée le 26/11) : quand un client la coche, peux-tu t'engager à trois choses ? a) Ne le joindre que par l'e-mail ou le numéro qu'il a donnés, avec un objet de message neutre. b) Un colis sans mention de bijou ni de prix, ou un retrait à la Bourse sur rendez-vous. c) Aucun appel sur un autre numéro. Tant que tu n'as pas répondu, le site transmet seulement la demande du client, sans rien promettre.
 
+## 17. Solitaire marquise pavé, en ligne depuis le 26/11 (`ring-002`)
+
+110. Sur le site, les six griffes sont raccourcies (elles s'arrêtent sur la couronne, à 60 % de sa hauteur), à la demande du propriétaire, comme sur une bague finie ; les 52 grains du pavé restent tels que dessinés. Est-ce fidèle à la bague que tu livres ?
+111. Poids réel de la marquise de 16,5 × 8,5 mm (le volume du modèle donne 3,66 ct) et des 35 diamants ronds (16 de 1,9 mm, 19 de 1,1 mm) ; couleur et pureté par défaut.
+112. Pour proposer le choix du carat : de quelle taille à quelle taille de marquise ce modèle peut-il être fabriqué sans le redessiner ?
+113. Le nom du modèle à l'atelier, et la taille de doigt du fichier (mesurée : 17,31 mm de diamètre intérieur, soit 54 ½).
+
+## 18. Solitaire cœur pavé (`ring-003`, 26/11)
+
+114. Sur le site, les cinq griffes du cœur sont raccourcies comme celles du solitaire marquise (elles s'arrêtent sur la couronne, à 60 % de sa hauteur, bout arrondi conservé) ; les 78 grains du pavé restent tels que dessinés. Est-ce fidèle à la bague que tu livres ?
+115. Poids réel du cœur de 7,3 × 7,3 mm (le volume du modèle donne 1,42 ct) et des 38 diamants ronds (de 0,8 à 1,8 mm ; 0,24 ct au total d'après les volumes) ; couleur et pureté par défaut.
+116. Pour proposer le choix du carat : de quelle taille à quelle taille de cœur ce modèle peut-il être fabriqué sans le redessiner ?
+117. Le nom du modèle à l'atelier, et la taille de doigt du fichier (mesurée : 17,2 mm de diamètre intérieur, soit 54).
+
 ## Ce que j'attends concrètement, par ordre d'urgence
 
 1. Réponses aux questions 2 à 6 (validation du modèle actuel).

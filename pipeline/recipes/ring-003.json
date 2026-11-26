@@ -1,0 +1,99 @@
+{
+  "$comment": "Recette de conversion de la bague cœur reçue de l'atelier le 17/11/2026. Elle ne crée aucune géométrie. Le fichier n'a ni courbe de taille ni STL de référence : la taille est mesurée sur l'anneau, le volume de métal sur l'union des solides. L'anneau est en quatre polysurfaces (deux moitiés basses, deux côtés), désignées par leur identifiant.",
+  "modelId": "ring-003",
+  "source": {
+    "cad": "cad/originals/Bague-coeur.3dm",
+    "sha256": "4149d9142034ffe0f29c15fbbdd0a63ada68056e691b4e378b8f4a3c315d4004"
+  },
+  "productionLayers": [
+    "Metal 04",
+    "Gem 01",
+    "Gem 03"
+  ],
+  "fingerSizeFrom": {
+    "piece": "A",
+    "part": "metal_shank"
+  },
+  "pieces": {
+    "A": {
+      "label": "Bague cœur, corps fendu pavé",
+      "parts": [
+        {
+          "id": "metal_shank",
+          "kind": "metal",
+          "role": "shank",
+          "select": {
+            "layer": "Metal 04",
+            "ids": [
+              "0487ef1d-ddc8-4e1e-8096-5feca3a91e37",
+              "b370167c-0a13-4532-bd08-73e5b94cd633",
+              "7f8511e8-9c6f-4160-9f7d-23444f9e1d98",
+              "fa4cae16-1162-4f34-8b6c-3dc5fcc47cee"
+            ]
+          }
+        },
+        {
+          "id": "metal_head_center",
+          "kind": "metal",
+          "role": "head",
+          "select": {
+            "layer": "Metal 04",
+            "unnamed": true,
+            "idsNone": [
+              "0487ef1d-ddc8-4e1e-8096-5feca3a91e37",
+              "b370167c-0a13-4532-bd08-73e5b94cd633",
+              "7f8511e8-9c6f-4160-9f7d-23444f9e1d98",
+              "fa4cae16-1162-4f34-8b6c-3dc5fcc47cee"
+            ]
+          }
+        },
+        {
+          "id": "metal_settings_side",
+          "kind": "metal",
+          "role": "settings",
+          "select": {
+            "layer": "Metal 04",
+            "name": "Prong"
+          }
+        },
+        {
+          "id": "gem_center",
+          "kind": "gem",
+          "role": "center",
+          "slot": "center",
+          "select": {
+            "layer": "Gem 01",
+            "block": "Diamond_Heart"
+          }
+        },
+        {
+          "id": "gem_side",
+          "kind": "gem",
+          "role": "side",
+          "select": {
+            "layer": "Gem 03",
+            "block": "Diamond_Round"
+          }
+        }
+      ]
+    }
+  },
+  "webRetouch": {
+    "$comment": "Retouche web uniquement (pipeline/web_retouch.py), la même que pour le solitaire marquise : les cinq griffes du cœur montent au-dessus de la table dans le fichier de fabrication ; elles sont ramenées à 60 % de la hauteur de la couronne, comme sur une bague finie. Le fichier de fabrication n'est pas modifié. Les 78 grains du pavé ne sont pas touchés.",
+    "request": "Propriétaire, 26/11/2026 : griffes plus courtes, comme sur une bague finie (demande faite pour le solitaire marquise, appliquée de la même façon ici), pour le web uniquement ; à faire valider par l'atelier",
+    "ringCentreFrom": [
+      "A__metal_shank"
+    ],
+    "claws": [
+      {
+        "metal": "A__metal_head_center",
+        "gems": [
+          "A__gem_center"
+        ],
+        "crownFraction": 0.6,
+        "weldMm": 0.005,
+        "tipMm": 0.55
+      }
+    ]
+  }
+}

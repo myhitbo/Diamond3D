@@ -1,0 +1,28 @@
+{
+  "$comment": "Recette de conversion du solitaire marquise reçu de l'atelier le 17/11/2026. Elle ne crée aucune géométrie. Le fichier n'a ni courbe de taille ni STL de référence : la taille est mesurée sur l'anneau, le volume de métal sur l'union des solides.",
+  "modelId": "ring-002",
+  "source": {
+    "cad": "cad/originals/Solitaire-marquise.3dm",
+    "sha256": "e0fe7b53f16cecc576753debdadfc66fc641550b4f6392a07c3c40fcfa622560"
+  },
+  "productionLayers": ["Metal 01", "Gem 01", "Gem 03"],
+  "fingerSizeFrom": { "piece": "A", "part": "metal_shank" },
+  "pieces": {
+    "A": {
+      "label": "Solitaire marquise, corps pavé",
+      "parts": [
+        { "id": "metal_shank", "kind": "metal", "role": "shank", "select": { "layer": "Metal 01", "ids": ["f4c9f56d-b1ed-416b-b33b-1109a8b1e6e2"] } },
+        { "id": "metal_head_center", "kind": "metal", "role": "head", "select": { "layer": "Metal 01", "unnamed": true, "idsNone": ["f4c9f56d-b1ed-416b-b33b-1109a8b1e6e2"] } },
+        { "id": "metal_settings_side", "kind": "metal", "role": "settings", "select": { "layer": "Metal 01", "name": "Prong On Surface" } },
+        { "id": "gem_center", "kind": "gem", "role": "center", "slot": "center", "select": { "layer": "Gem 01", "block": "Diamond_Marquise" } },
+        { "id": "gem_side", "kind": "gem", "role": "side", "select": { "layer": "Gem 03", "block": "Diamond_Round 01" } }
+      ]
+    }
+  },
+  "webRetouch": {
+    "$comment": "Retouche web uniquement (pipeline/web_retouch.py) : les six griffes de la marquise montent au-dessus de la table dans le fichier de fabrication ; elles sont ramenées à 60 % de la hauteur de la couronne, comme sur une bague finie. Le fichier de fabrication n'est pas modifié. Les 52 grains du pavé ne sont pas touchés.",
+    "request": "Propriétaire, 26/11/2026 : griffes plus courtes, comme sur une bague finie (photo de référence envoyée), pour le web uniquement ; à faire valider par l'atelier",
+    "ringCentreFrom": ["A__metal_shank"],
+    "claws": [{ "metal": "A__metal_head_center", "gems": ["A__gem_center"], "crownFraction": 0.6 }]
+  }
+}

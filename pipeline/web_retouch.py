@@ -8,6 +8,9 @@ des « 8 ». L'atelier demande, pour le web seulement, de rabattre les griffes e
 Ce script calcule les retouches et les écrit en JSON ; scripts/models/apply-web-edits.mjs les applique.
 Il ne crée aucune géométrie : il déplace l'extrémité de chaque griffe et supprime des faces existantes.
 
+Deux sortes de griffes : les tiges droites des petites pierres (`prongs`, ring-001) et les grandes griffes effilées
+d'une pierre centrale (`claws`, ring-002, demande du propriétaire du 26/11/2026 : griffes courtes, comme sur une bague finie).
+
 Usage : python -I pipeline/web_retouch.py <modèle.glb> <recette.json> <retouches.json>
 """
 
@@ -33,6 +36,17 @@ def load_scene(path):
 
 def face_groups(mesh):
     return trimesh.graph.connected_components(mesh.face_adjacency, nodes=np.arange(len(mesh.faces)), min_len=1)
+
+
+def welded_face_groups(mesh, V, tol):
+    """Pièces d'un maillage dont les faces d'une même polysurface ne partagent pas leurs sommets (corps et embout d'une griffe
+    maillés à part) : les sommets confondus, à `tol` mm près, sont réunis avant de chercher les pièces."""
+    n = len(V)
+    pairs = np.array(list(cKDTree(V).query_pairs(tol)) or [(0, 0)])
+    e = np.vstack([pairs, mesh.faces[:, [0, 1]], mesh.faces[:, [1, 2]]])
+    _, lab = connected_components(coo_matrix((np.ones(len(e)), (e[:, 0], e[:, 1])), shape=(n, n)), directed=False)
+    face_lab = lab[mesh.faces[:, 0]]
+    return [np.flatnonzero(face_lab == i) for i in np.unique(face_lab)]
 
 
 def stones(entry, tol=0.02):
@@ -120,6 +134,82 @@ def prong_edits(entry, gem_entries, ring_centre, params):
         for i in top_vi:
             moves[int(i)] = V[i] + delta
         report.append(dict(lengthMm=round(L, 2), radiusMm=round(cy["r"], 2), dropMm=round(drop, 2), leanMm=round(d0 - d_target, 2)))
+    return moves, report
+
+
+def claw_edits(entry, gem_entries, ring_centre, params):
+    """Raccourcit les grandes griffes d'une pierre centrale (griffes effilées, pas des tiges droites).
+
+    Dans le fichier de fabrication, ces griffes montent au-dessus de la table : elles sont coupées et rabattues au
+    sertissage. Pour le web, la partie située au-dessus du rondiste est ramenée à une fraction de la hauteur de la
+    couronne. Chaque sommet garde sa place autour de l'axe de la griffe, mais cet axe est suivi moins haut : la griffe
+    retouchée épouse la couronne comme la griffe d'origine à la même hauteur, sans pénétrer davantage dans la pierre.
+    Le bout effilé, tassé sur une courte hauteur, devient l'extrémité arrondie d'une griffe finie.
+    Aucune géométrie n'est créée : seuls des sommets sont déplacés.
+    """
+    m, V = entry["mesh"], entry["V"]
+    st = max((stone_frame(s, ring_centre) for g in gem_entries for s in stones(g)), key=lambda f: f["R"])
+    u, c = st["u"], st["c"]
+    # Repère du plan du rondiste.
+    e1 = np.cross(u, [0.0, 0.0, 1.0])
+    if np.linalg.norm(e1) < 1e-6:
+        e1 = np.cross(u, [1.0, 0.0, 0.0])
+    e1 /= np.linalg.norm(e1)
+    e2 = np.cross(u, e1)
+    h = (V - c) @ u
+    lat = np.column_stack([(V - c) @ e1, (V - c) @ e2])
+    h0 = st["h_girdle"]
+    h_target = h0 + params["crownFraction"] * (st["h_table"] - h0)
+
+    # Griffes : pièces qui dépassent le rondiste et descendent loin dessous. `weldMm` (recette) : quand le corps et
+    # l'embout d'une griffe sont maillés à part, ils sont réunis par leurs sommets confondus.
+    claws = []
+    for g in welded_face_groups(m, V, params["weldMm"]) if params.get("weldMm") else face_groups(m):
+        vi = np.unique(m.faces[g])
+        if h[vi].max() - h0 > params["minAboveGirdleMm"] and np.ptp(h[vi]) > params["minLengthMm"]:
+            top = h[vi].max()
+            # Axe de la griffe en fonction de la hauteur : centres de tranches, ajustés par un polynôme du second degré.
+            lo, hi = h0 - 1.5, top - 0.35
+            edges = np.linspace(lo, hi, 13)
+            hs, cs = [], []
+            for a, b in zip(edges[:-1], edges[1:]):
+                sel = vi[(h[vi] >= a) & (h[vi] < b)]
+                if len(sel) >= 5:
+                    hs.append((a + b) / 2)
+                    cs.append((lat[sel].min(0) + lat[sel].max(0)) / 2)
+            if len(hs) < 4:
+                continue
+            hs, cs = np.array(hs), np.array(cs)
+            axis = [np.polyfit(hs, cs[:, k], 2) for k in range(2)]
+            claws.append(dict(top=top, axis=axis, at_girdle=np.array([np.polyval(axis[k], h0) for k in range(2)]), radius=float(np.ptp(lat[vi[np.abs(h[vi] - h0) < 0.3]], axis=0).max() / 2)))
+    moves, report = {}, []
+    if not claws:
+        return moves, report
+    centre_at = lambda cl, hh: np.column_stack([np.polyval(cl["axis"][k], hh) for k in range(2)])
+    above = np.where(h > h0)[0]
+    # Chaque sommet au-dessus du rondiste appartient à la griffe dont l'axe est le plus proche (embouts compris).
+    dist = np.stack([np.linalg.norm(lat[above] - centre_at(cl, h[above]), axis=1) for cl in claws])
+    owner = dist.argmin(0)
+    counts = [0] * len(claws)
+    for j, cl in enumerate(claws):
+        idx = above[(owner == j) & (dist[j] < 2.5 * cl["radius"])]
+        if not len(idx):
+            continue
+        tip = float(params.get("tipMm", 0.0))
+        if tip:
+            # Griffe en fil rond coiffée d'un embout arrondi : l'embout descend d'un bloc, seule la tige est raccourcie
+            # (tassé comme le bout d'une griffe effilée, il deviendrait un méplat).
+            body_top = cl["top"] - tip
+            hb = np.minimum(h[idx], body_top)
+            h_new = h0 + (h_target - tip - h0) * np.clip((hb - h0) / (body_top - h0), 0.0, 1.0) + (h[idx] - hb)
+        else:
+            t = np.clip((h[idx] - h0) / (cl["top"] - h0), 0.0, 1.0)
+            h_new = h0 + (h_target - h0) * np.sin(t * np.pi / 2)
+        lat_new = lat[idx] - centre_at(cl, h[idx]) + centre_at(cl, h_new)
+        for i, hn, ln in zip(idx, h_new, lat_new):
+            moves[int(i)] = c + hn * u + ln[0] * e1 + ln[1] * e2
+        counts[j] = len(idx)
+        report.append(dict(heightAboveGirdleBeforeMm=round(float(cl["top"] - h0), 2), heightAboveGirdleAfterMm=round(float(h_target - h0), 2), radiusMm=round(cl["radius"], 2), vertices=int(len(idx))))
     return moves, report
 
 
@@ -219,6 +309,14 @@ def main(glb, recipe_path, out_path):
         local = {str(i): trimesh.transform_points((v / 1000.0)[None], inv)[0].tolist() for i, v in moves.items()}
         edits.setdefault(p["metal"], {}).setdefault("moveVertices", {}).update(local)
         summary["prongs"][p["metal"]] = rep
+    for p in cfg.get("claws", []):
+        entry = scene[p["metal"]]
+        params = {"crownFraction": 0.6, "minAboveGirdleMm": 0.5, "minLengthMm": 3.0, **{k: v for k, v in p.items() if k not in ("metal", "gems")}}
+        moves, rep = claw_edits(entry, [scene[g] for g in p["gems"]], ring_centre, params)
+        inv = np.linalg.inv(entry["T"])
+        local = {str(i): trimesh.transform_points((v / 1000.0)[None], inv)[0].tolist() for i, v in moves.items()}
+        edits.setdefault(p["metal"], {}).setdefault("moveVertices", {}).update(local)
+        summary["prongs"].setdefault(p["metal"], []).extend(rep)
     for b in cfg.get("removeBasketBottoms", []):
         faces = basket_bottom_faces(scene[b["metal"]], [scene[g] for g in b["gems"]], ring_centre, b["tMinMm"], b["tMaxMm"])
         entry = scene[b["metal"]]

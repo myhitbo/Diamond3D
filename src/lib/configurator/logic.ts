@@ -60,6 +60,8 @@ export function stoneSummary(m: ModelDefinition, s: ConfigState): StoneGroup[] {
       }
     }
   }
+  // Dimensions dans l'ordre croissant (« 1,1 – 1,9 mm »), quel que soit l'ordre des pièces dans le fichier.
+  for (const g of groups.values()) g.sizesMm.sort((a, b) => parseFloat(a) - parseFloat(b));
   return [...groups.values()];
 }
 

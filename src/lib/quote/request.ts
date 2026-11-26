@@ -138,7 +138,7 @@ export function configurationLines(model: ModelDefinition, state: ConfigState): 
   }
   for (const g of stoneSummary(model, state)) {
     lines.push(
-      `${t.stones} : ${g.count} × ${t.shapes[g.shape as keyof typeof t.shapes]} ${g.sizesMm.join(' – ')} mm (≈ ${formatNumber('fr', g.caratEstimate, 3)} ct estimés)`,
+      `${t.stones} : ${g.count} × ${t.shapes[g.shape as keyof typeof t.shapes]} ${g.sizesMm.map((x) => x.replaceAll('.', ',')).join(' – ')} mm (≈ ${formatNumber('fr', g.caratEstimate, 3)} ct estimés)`,
     );
   }
   lines.push(`${t.origin} : ${t.origins[state.diamondOrigin]}`);

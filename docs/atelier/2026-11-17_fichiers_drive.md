@@ -1,7 +1,7 @@
 # Fichiers de l'atelier reçus le 17/11 (Google Drive du propriétaire)
 
 16 fichiers déposés le 17/11 entre 12 h 42 et 12 h 44 UTC, sans leur nom d'origine (« Document from . », « Photo from . », « Video from . » : envoi depuis WhatsApp). Le propriétaire confirme qu'ils viennent de l'atelier.
-Identifiés le 17/11 par leur contenu (en-tête du fichier, calques Rhino, vues orthographiques). Rien n'est encore versionné ni publié : les fichiers restent sur le Drive.
+Identifiés le 17/11 par leur contenu (en-tête du fichier, calques Rhino, vues orthographiques). Au 17/11, rien n'était versionné ni publié. Depuis le 26/11 (accord du propriétaire : fichiers de l'atelier versionnés comme `Ring.3dm`), le solitaire marquise est dans le dépôt et en ligne ; les autres restent sur le Drive.
 
 Marques : **V** vérifié dans le fichier · **I** inféré.
 
@@ -9,8 +9,8 @@ Marques : **V** vérifié dans le fichier · **I** inféré.
 
 | Modèle | Fichiers (identifiant Drive, taille) | État pour le pipeline | Remarques |
 |---|---|---|---|
-| **Solitaire marquise, griffes cathédrale, corps pavé** | `.3dm` Rhino 5, maillages d'affichage présents (`1N0cJL…`, 10,7 Mo) | **prêt** (V) : calques Matrix comme `Ring.3dm`, pierres en blocs `Diamond_Marquise` et `Diamond_Round 01`, 52 griffes, 91 052 triangles, 21,7 × 18,9 × 29,7 mm | Solitaire attendu pour le choix du carat (I) ; même forme que ring-001 |
-| **Bague cœur, corps fendu pavé** | `.3dm` Rhino 5, maillages présents (`1m3wB0…`, 17,8 Mo) | **prêt** (V) : blocs `Diamond_Heart` et `Diamond_Round`, 78 griffes, 274 888 triangles, 22,4 × 11,0 × 26,3 mm | Forme cœur absente du schéma (`StoneShape`) : à ajouter |
+| **Solitaire marquise, griffes cathédrale, corps pavé** | `.3dm` Rhino 5, maillages d'affichage présents (`1N0cJL…`, 10,7 Mo) | **prêt** (V) : calques Matrix comme `Ring.3dm`, pierres en blocs `Diamond_Marquise` et `Diamond_Round 01`, 52 griffes, 91 052 triangles, 21,7 × 18,9 × 29,7 mm | Solitaire attendu pour le choix du carat (I) ; même forme que ring-001. **En ligne depuis le 26/11** : `ring-002`, fichier versionné `cad/originals/Solitaire-marquise.3dm`. Mesuré dans le fichier (V) : marquise de 16,5 × 8,5 × 4,51 mm (3,66 ct d'après le volume), 16 diamants ronds de 1,9 mm sur l'anneau, 19 de 1,1 mm en galerie sous la pierre, six griffes, 397 mm³ de métal, diamètre intérieur 17,31 mm (France 54 ½) |
+| **Bague cœur, corps fendu pavé** | `.3dm` Rhino 5, maillages présents (`1m3wB0…`, 17,8 Mo) | **prêt** (V) : blocs `Diamond_Heart` et `Diamond_Round`, 78 griffes, 274 888 triangles, 22,4 × 11,0 × 26,3 mm | **Intégré le 26/11** : `ring-003`, fichier versionné `cad/originals/Bague-coeur.3dm`, forme cœur ajoutée au schéma. Mesuré sur les maillages (V) : cœur de 7,3 × 7,3 × 4,53 mm (1,42 ct d'après le volume), 38 diamants ronds de 0,8 à 1,8 mm, 332,7 mm³ de métal, taille 54. Encombrement mesuré sur les maillages : 22,4 × 9,5 × 26,3 mm ; les 11,0 mm de la colonne précédente venaient de la boîte englobante de la pierre, plus lâche que son maillage. |
 | **Halo ovale festonné, deux variantes** | `.3dm` Rhino 5 **sans maillage** (`1W6Bca…`, 14,6 Mo) + STL netfabb (`1LJoUP…`, 18,6 Mo) | `.3dm` illisible par le pipeline (V : 0 maillage sur 148 surfaces) ; STL lisible, métal seul, 372 596 triangles | Blocs `Diamond_Oval`, `Diamond_Round`, 32 serti-clos ; rail de taille « USA 9 » (V) |
 | **Chevalière, émeraude taille émeraude en demi-clos** | `.3dm` Rhino 5 **sans maillage** (`1ircgH…`, 1,5 Mo) + FBX (`1a6kmE…`, 181 Ko, métal seul, 6 866 triangles) + rendu (`1Ve8OU…`) | `.3dm` illisible tel quel ; FBX lisible mais sans la pierre | Bloc `Diamond_Emerald` (V) ; pierre de couleur, prévue « sur demande » |
 | **Ensemble halo coussin : bague, deux boucles, pendentif** | OBJ en mm (`1icJP4…`, 7,8 Mo) + rendu (`1yfGub…`) | lisible, métal seul (sièges vides), 239 932 triangles | Pas de `.3dm` |

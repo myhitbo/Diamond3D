@@ -3,9 +3,10 @@
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { useProgress } from '@react-three/drei';
-import { getModel } from '@/models';
+import { MODELS, getModel } from '@/models';
 import { METALS } from '@/config/metals';
 import { DICTIONARIES, formatNumber } from '@/i18n/dictionaries';
+import { configuratorPath } from '@/lib/routes';
 import type { ConfigState, Locale, ModelDefinition } from '@/lib/configurator/schema';
 import {
   applyChange,
@@ -25,12 +26,27 @@ import {
 } from '@/lib/configurator/logic';
 import type { Quality, ViewName } from './Viewer';
 import { initProbe, setProbe } from './debugProbe';
+import { GemIcon, ShapeIcon } from './ChoiceIcons';
 import DiagnosticPanel from './DiagnosticPanel';
 import QuoteForm from './QuoteForm';
 import styles from './Configurator.module.css';
 
 // Le moteur 3D n'est chargé qu'à l'affichage du configurateur : il ne pèse pas sur le reste du site.
 const Viewer = dynamic(() => import('./Viewer'), { ssr: false });
+
+/** Poinçon de chaque titre, en millièmes (atelier, 16/11 : bagues poinçonnées 585 ou 750 ; platine 950). */
+export const HALLMARK = { '14k': '585', '18k': '750', platinum: '950' } as const;
+
+/**
+ * Styles des boutons à comparer avec l'atelier (26/11/2026) : « 1 » l'aspect d'origine, par défaut tant que le propriétaire
+ * n'a pas choisi ; « 2 » plaques noires cerclées d'or ; « 3 » plaques d'or ; « 4 » haute joaillerie épurée ; « 5 » verre et
+ * lumière. Le paramètre d'adresse `boutons` choisit le style et affiche la barre de comparaison ; rien n'est mémorisé
+ * ailleurs que dans l'adresse (la politique de confidentialité annonce un site sans stockage).
+ */
+export const BUTTON_STYLES = ['1', '2', '3', '4', '5'] as const;
+export type ButtonStyle = (typeof BUTTON_STYLES)[number];
+export const DEFAULT_BUTTON_STYLE: ButtonStyle = '1';
+const isButtonStyle = (v: string | null): v is ButtonStyle => BUTTON_STYLES.includes(v as ButtonStyle);
 
 type Action = { type: 'change'; change: Partial<ConfigState> } | { type: 'reset' };
 
@@ -49,7 +65,7 @@ function sceneFraming(m: ModelDefinition) {
  * en cours ; les flèches passent au choix voisin et le sélectionnent, comme des boutons radio natifs. En hébreu, gauche et
  * droite suivent le sens de lecture (la flèche gauche va au choix suivant, affiché à gauche).
  */
-function radioKeys(e: KeyboardEvent<HTMLElement>) {
+export function radioKeys(e: KeyboardEvent<HTMLElement>) {
   const radios = Array.from(e.currentTarget.querySelectorAll<HTMLElement>('[role="radio"]'));
   const i = radios.indexOf(e.target as HTMLElement);
   if (i < 0) return;
@@ -63,7 +79,7 @@ function radioKeys(e: KeyboardEvent<HTMLElement>) {
 }
 
 /** Arrêt de tabulation d'un bouton radio : le choix en cours (ou le premier si aucun n'est choisi). */
-const radioTabIndex = (checked: boolean, index: number, anyChecked: boolean) => (checked || (!anyChecked && index === 0) ? 0 : -1);
+export const radioTabIndex = (checked: boolean, index: number, anyChecked: boolean) => (checked || (!anyChecked && index === 0) ? 0 : -1);
 
 function hasWebGL() {
   try {
@@ -91,6 +107,9 @@ export default function Configurator({
   const t = DICTIONARIES[locale];
   // La préversion autonome n'a que cette page : pas de liens vers les guides du site.
   const guideLinks = quoteEnabled ? t.guideLinks : null;
+  // Autres modèles du catalogue : liens simples (page rechargée, la scène 3D repart de zéro). Ni dans la préversion autonome,
+  // qui n'a que cette page, ni sur la page de diagnostic.
+  const otherModels = quoteEnabled && !diagnostic && Object.keys(MODELS).length > 1 ? Object.values(MODELS) : null;
   const [state, dispatch] = useReducer(
     (s: ConfigState, a: Action) => (a.type === 'reset' ? defaultState(model) : applyChange(model, s, a.change)),
     model,
@@ -111,6 +130,19 @@ export default function Configurator({
   const [requestCount, setRequestCount] = useState(0);
   /** Résultat du bouton « partager » : lien copié, ou lien affiché à copier à la main (presse-papiers refusé). */
   const [shared, setShared] = useState<{ status: 'idle' | 'copied' | 'fallback'; link: string }>({ status: 'idle', link: '' });
+  /** Style des boutons (paramètre d'adresse `boutons`) et mode comparaison (barre de choix du style affichée). */
+  const [buttons, setButtons] = useState<ButtonStyle>(DEFAULT_BUTTON_STYLE);
+  const [compare, setCompare] = useState(false);
+  const pickButtons = (n: ButtonStyle) => {
+    setButtons(n);
+    try {
+      const u = new URL(window.location.href);
+      u.searchParams.set('boutons', n);
+      window.history.replaceState(window.history.state, '', u.href);
+    } catch {
+      // Adresse non modifiable (préversion dans un cadre isolé) : le style change quand même.
+    }
+  };
 
   useEffect(() => {
     const q = new URLSearchParams(window.location.search);
@@ -119,6 +151,9 @@ export default function Configurator({
     if (probe) initProbe();
     setDebug(probe);
     if (q.get('quality') === 'low') setQuality('low');
+    const wanted = q.get('boutons');
+    if (q.has('boutons')) setCompare(true);
+    if (isButtonStyle(wanted)) setButtons(wanted);
     // Lien partagé : la configuration de l'adresse remplace celle par défaut (valeurs non prévues ignorées).
     if (hasConfigParams(model, q)) dispatch({ type: 'change', change: configFromParams(model, q) });
     setWebgl(hasWebGL());
@@ -156,7 +191,7 @@ export default function Configurator({
   const stones = stoneSummary(model, state);
   const weight = metalWeightEstimateG(model, state);
   const stoneLine = (g: (typeof stones)[number]) =>
-    `${g.count} × ${t.shapes[g.shape as keyof typeof t.shapes]} ${g.sizesMm.map((x) => (locale === 'fr' ? x.replace('.', ',') : x)).join(' – ')} ${t.mm}` +
+    `${g.count} × ${t.shapes[g.shape as keyof typeof t.shapes]} ${g.sizesMm.map((x) => (locale === 'fr' ? x.replaceAll('.', ',') : x)).join(' – ')} ${t.mm}` +
     (centerVariant?.nominalCarat && g.shape === centerVariant.shape && g.count === 1 ? ` · ≈ ${formatNumber(locale, centerVariant.nominalCarat.value, 2)} ct` : '');
   // Équivalent textuel de la vue 3D (WCAG 1.1.1) : ce qu'elle montre, mis à jour à chaque choix et annoncé poliment.
   const viewerDescription = [
@@ -200,7 +235,7 @@ export default function Configurator({
   };
 
   return (
-    <div className={styles.shell}>
+    <div className={compare ? `${styles.shell} ${styles.withStyleBar}` : styles.shell} data-buttons={buttons}>
       <section className={styles.stage} aria-label={model.name[locale]}>
         {webgl === false ? (
           <p className={styles.notice}>{t.noWebgl}</p>
@@ -270,22 +305,34 @@ export default function Configurator({
       <div className={styles.panel}>
         {diagnostic && <DiagnosticPanel locale={locale} />}
         <p className={styles.eyebrow}>{t.eyebrow}</p>
+        {otherModels && (
+          <nav className={styles.models} aria-label={t.models}>
+            {otherModels.map((m) => (
+              <a key={m.id} href={configuratorPath(locale, m.id)} aria-current={m.id === model.id ? 'page' : undefined}>
+                {m.name[locale]}
+              </a>
+            ))}
+          </nav>
+        )}
         <h1 className={styles.title}>{model.name[locale]}</h1>
         <p className={styles.lede}>{model.description[locale]}</p>
         {!model.workshopValidated && <p className={styles.badge}>{t.draftBadge}</p>}
 
-        <Field title={t.composition}>
-          <Choices
-            label={t.composition}
-            options={model.compositions.map((c) => ({
-              id: c.id,
-              label: c.name[locale],
-            }))}
-            value={state.composition}
-            onChange={(composition) => dispatch({ type: 'change', change: { composition } })}
-          />
-          <p className={styles.note}>{composition.description[locale]}</p>
-        </Field>
+        {/* Un modèle sans variante de composition (un solitaire seul) n'a pas ce choix. */}
+        {model.compositions.length > 1 && (
+          <Field title={t.composition}>
+            <Choices
+              label={t.composition}
+              options={model.compositions.map((c) => ({
+                id: c.id,
+                label: c.name[locale],
+              }))}
+              value={state.composition}
+              onChange={(composition) => dispatch({ type: 'change', change: { composition } })}
+            />
+            <p className={styles.note}>{composition.description[locale]}</p>
+          </Field>
+        )}
 
         <Field title={t.metal} aside={metal.name[locale]}>
           <div className={styles.swatches} role="radiogroup" aria-label={t.metal} onKeyDown={radioKeys}>
@@ -298,8 +345,6 @@ export default function Configurator({
                   role="radio"
                   aria-checked={metal.family === family}
                   tabIndex={radioTabIndex(metal.family === family, i, true)}
-                  aria-label={t.metalFamilies[family]}
-                  title={t.metalFamilies[family]}
                   className={styles.swatch}
                   style={
                     {
@@ -307,7 +352,10 @@ export default function Configurator({
                     } as React.CSSProperties
                   }
                   onClick={() => dispatch({ type: 'change', change: { metal: id } })}
-                />
+                >
+                  <span className={styles.swatchBall} aria-hidden="true" />
+                  <span className={styles.swatchName}>{t.metalFamilies[family]}</span>
+                </button>
               );
             })}
           </div>
@@ -318,6 +366,7 @@ export default function Configurator({
                 options={metalTitres(model, metal.family).map((ti) => ({
                   id: ti,
                   label: t.titres[ti],
+                  sub: `${HALLMARK[ti]} ‰`,
                 }))}
                 value={metal.titre}
                 onChange={(ti) =>
@@ -348,6 +397,7 @@ export default function Configurator({
               options={centerSlot.variants.map((v) => ({
                 id: v.id,
                 label: v.name[locale],
+                icon: <ShapeIcon shape={v.shape} className={styles.choiceIcon} />,
               }))}
               value={state.stones[centerSlot.id]}
               onChange={(id) =>
@@ -370,7 +420,7 @@ export default function Configurator({
                 note={t.otherShapesNote}
                 tag={t.onRequest}
                 enabled={quoteEnabled}
-                options={centerSlot.unavailableShapes.map((u) => ({ id: u.shape, label: t.shapes[u.shape] }))}
+                options={centerSlot.unavailableShapes.map((u) => ({ id: u.shape, label: t.shapes[u.shape], icon: <ShapeIcon shape={u.shape} className={styles.requestIcon} /> }))}
                 onPick={(shape) => ask({ shape })}
               />
             )}
@@ -381,7 +431,7 @@ export default function Configurator({
                 note={t.otherStonesNote}
                 tag={t.onRequest}
                 enabled={quoteEnabled}
-                options={centerSlot.stonesOnRequest.map((stone) => ({ id: stone, label: t.requestStones[stone] }))}
+                options={centerSlot.stonesOnRequest.map((stone) => ({ id: stone, label: t.requestStones[stone], icon: <GemIcon stone={stone} className={styles.requestIcon} /> }))}
                 onPick={(stone) => ask({ stone })}
               />
             )}
@@ -558,11 +608,24 @@ export default function Configurator({
           <p className={styles.note}>{t.caratNote}</p>
         </details>
       </div>
+      {/* Comparaison des styles de boutons avec l'atelier : barre fixe, seulement si l'adresse porte `boutons`. */}
+      {compare && (
+        <div className={styles.styleBar} role="group" aria-label={t.buttonStyles.label}>
+          <span className={styles.styleBarLabel} aria-hidden="true">
+            {t.buttonStyles.label}
+          </span>
+          {BUTTON_STYLES.map((n) => (
+            <button key={n} type="button" aria-pressed={buttons === n} aria-label={`${n} · ${t.buttonStyles.names[n]}`} onClick={() => pickButtons(n)}>
+              {n}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
 
-function Field({ title, aside, children }: { title: string; aside?: string; children: ReactNode }) {
+export function Field({ title, aside, children }: { title: string; aside?: string; children: ReactNode }) {
   return (
     <section className={styles.field}>
       {/* Espace entre les deux parties : sans lui, le nom du titre colle les mots (« MétalOr jaune »). */}
@@ -574,14 +637,15 @@ function Field({ title, aside, children }: { title: string; aside?: string; chil
   );
 }
 
-function Choices<T extends string>({
+export function Choices<T extends string>({
   label,
   options,
   value,
   onChange,
 }: {
   label: string;
-  options: { id: T; label: string }[];
+  /** `sub` : précision sous le libellé (poinçon d'un titre). `icon` : pictogramme décoratif placé avant le libellé. */
+  options: { id: T; label: string; sub?: string; icon?: ReactNode }[];
   value: T;
   onChange: (id: T) => void;
 }) {
@@ -597,7 +661,11 @@ function Choices<T extends string>({
           className={styles.choice}
           onClick={() => onChange(o.id)}
         >
-          {o.label}
+          {o.icon}
+          <span className={styles.choiceText}>
+            <span>{o.label}</span>
+            {o.sub && <span className={styles.choiceSub}>{o.sub}</span>}
+          </span>
         </button>
       ))}
     </div>
@@ -605,15 +673,16 @@ function Choices<T extends string>({
 }
 
 /**
- * Choix non modélisés (formes, pierres) : boutons en pointillés qui ouvrent le devis avec un message pré-rempli.
+ * Choix non modélisés (formes, pierres) : plaques au cadre léger, marquées « sur demande », qui ouvrent le devis avec un message pré-rempli.
  * Ce ne sont pas des options du configurateur (la 3D ne change pas) : un groupe de boutons, pas un groupe radio.
  */
-function OnRequest<T extends string>({
+export function OnRequest<T extends string>({
   id,
   title,
   note,
   tag,
   enabled,
+  controls = 'quote-form',
   options,
   onPick,
 }: {
@@ -623,7 +692,9 @@ function OnRequest<T extends string>({
   tag: string;
   /** Faux dans la préversion autonome : pas de devis, boutons inactifs. */
   enabled: boolean;
-  options: { id: T; label: string }[];
+  /** Identifiant de la zone ouverte par les boutons (le formulaire de devis) ; `null` s'il n'y en a pas dans la page. */
+  controls?: string | null;
+  options: { id: T; label: string; icon?: ReactNode }[];
   onPick: (id: T) => void;
 }) {
   return (
@@ -631,17 +702,18 @@ function OnRequest<T extends string>({
       <p className={styles.onRequestTitle} id={id}>
         {title}
       </p>
-      <div className={styles.choices} role="group" aria-labelledby={id}>
+      <div className={styles.requestGrid} role="group" aria-labelledby={id}>
         {options.map((o) => (
           <button
             key={o.id}
             type="button"
             className={styles.choiceOnRequest}
             disabled={!enabled}
-            aria-controls={enabled ? 'quote-form' : undefined}
+            aria-controls={enabled && controls ? controls : undefined}
             onClick={() => onPick(o.id)}
           >
-            {o.label}
+            {o.icon}
+            <span>{o.label}</span>
             <span className={styles.onRequestTag}>{tag}</span>
           </button>
         ))}

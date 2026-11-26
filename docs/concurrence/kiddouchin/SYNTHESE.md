@@ -1,5 +1,7 @@
 # Alliance de kiddouchin (טבעת קידושין) : synthèse Israël, États-Unis, France
 
+> **Mise à jour du 26/11** : le calcul de prix de cette synthèse (environ 1 810 à 1 990 ₪ « TTC » pour 2,2 g) repose sur `src/config/pricing.ts` et le moteur de prix, abandonnés par décision de l'atelier du 16/11 (chaque prix est fixé à la main dans un devis ; l'atelier est osek patour, sans TVA). Ce chiffre ne vaut plus ; la comparaison avec Lavi (1 210 ₪ pour 2,2 g) reste un repère pour le devis de l'atelier.
+
 > **Baltinester : faits en [P1] (relevé le 25/11)** : www.baltinesterjewelry.com interdit tout aux agents Claude ; les pages ont été lues sur baltinesterjewelry.com, sans cette règle. Par prudence, tout fait attribué à Baltinester vaut [P1] et n'est pas repris comme vérifié.
 
 25 novembre 2026. Tirée des trois rapports vérifiés `2026-11-25_il.md`, `_us.md`, `_fr.md` (seuls les faits qui ont survécu à leur section « Vérification »), de notre guide (`src/content/guides/fr.ts`, guide `kiddouchin`) et de `src/config/pricing.ts`. Aucune page n'a été rouverte pour cette synthèse.

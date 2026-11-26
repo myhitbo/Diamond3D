@@ -1,6 +1,6 @@
 # Historique
 
-## 2026-11-26 — Deuxième modèle : solitaire marquise pavé ; fichiers du Drive, vidéos, logo de l'atelier
+## 2026-11-26 — Deux modèles de l'atelier (solitaire marquise, solitaire cœur) ; cinq styles de boutons ; logo de l'atelier ; fichiers du Drive
 
 - **Solitaire marquise pavé (`ring-002`) en ligne** : fichier de fabrication reçu de l'atelier le 17/11 (`cad/originals/Solitaire-marquise.3dm`, versionné sur accord du propriétaire, comme `Ring.3dm`). Marquise de 16,5 × 8,5 mm tenue par six griffes, 16 diamants ronds de 1,9 mm sur l'anneau, 19 de 1,1 mm en galerie sous la pierre ; 39 962 triangles, 285 Ko, écart maximal 0,03 mm. Affiché tel que dessiné, sans retouche web, badge « Brouillon ».
 - **Choix du modèle** en tête du configurateur ; le choix de composition disparaît pour un modèle qui n'en a qu'une.
@@ -17,6 +17,7 @@
 - **Corrections trouvées par les tests** : sur la page de comparaison, le lien « Voir dans le configurateur » faisait 19 px de haut sur téléphone (24 px exigés) ; le style 5 n'a plus de flou d'arrière-plan (`backdrop-filter`), qui figeait le rendu du moteur de Safari (moins de 10 images en 40 s, 60 images/s sans) sans rien changer à l'œil ; la barre de comparaison ne masque plus l'élément amené en bas de l'écran.
 - Tests (commit `939a3f0`) : 126 tests unitaires ; 23 pipeline CAO ; Chromium 338 (335 passés, 3 ignorés) ; WebKit iPhone, iPad et Firefox : 463 (406 passés, 57 ignorés) ; aucun échec.
 - Fusion avec les changements du devis arrivés sur `main` le même jour (commit `7e7109b`), retestée en entier : 128 tests unitaires ; Chromium 340 (337 passés, 3 ignorés) ; WebKit iPhone, iPad et Firefox : 465 (408 passés, 57 ignorés) ; aucun échec. Questions du solitaire renumérotées 110 à 113.
+- Avec le solitaire cœur (commit `c969763`) : 135 tests unitaires ; 34 pipeline CAO ; Chromium 352 (349 passés, 3 ignorés) ; WebKit iPhone, iPad et Firefox : 480 (423 passés, 57 ignorés) ; aucun échec. Déclaration d'accessibilité : 56 vues contrôlées (32 pages et 24 états). Questions 114 à 117 pour l'atelier.
 
 ## 2026-11-26 — Devis : date souhaitée, budget, « c'est une surprise » ; note de prix ; étude de concurrence terminée
 

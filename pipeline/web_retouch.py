@@ -38,6 +38,17 @@ def face_groups(mesh):
     return trimesh.graph.connected_components(mesh.face_adjacency, nodes=np.arange(len(mesh.faces)), min_len=1)
 
 
+def welded_face_groups(mesh, V, tol):
+    """Pièces d'un maillage dont les faces d'une même polysurface ne partagent pas leurs sommets (corps et embout d'une griffe
+    maillés à part) : les sommets confondus, à `tol` mm près, sont réunis avant de chercher les pièces."""
+    n = len(V)
+    pairs = np.array(list(cKDTree(V).query_pairs(tol)) or [(0, 0)])
+    e = np.vstack([pairs, mesh.faces[:, [0, 1]], mesh.faces[:, [1, 2]]])
+    _, lab = connected_components(coo_matrix((np.ones(len(e)), (e[:, 0], e[:, 1])), shape=(n, n)), directed=False)
+    face_lab = lab[mesh.faces[:, 0]]
+    return [np.flatnonzero(face_lab == i) for i in np.unique(face_lab)]
+
+
 def stones(entry, tol=0.02):
     """Pierres d'un maillage de gemmes : regroupe les facettes qui se touchent."""
     m, V = entry["mesh"], entry["V"]
@@ -150,9 +161,10 @@ def claw_edits(entry, gem_entries, ring_centre, params):
     h0 = st["h_girdle"]
     h_target = h0 + params["crownFraction"] * (st["h_table"] - h0)
 
-    # Griffes : pièces qui dépassent le rondiste et descendent loin dessous.
+    # Griffes : pièces qui dépassent le rondiste et descendent loin dessous. `weldMm` (recette) : quand le corps et
+    # l'embout d'une griffe sont maillés à part, ils sont réunis par leurs sommets confondus.
     claws = []
-    for g in face_groups(m):
+    for g in welded_face_groups(m, V, params["weldMm"]) if params.get("weldMm") else face_groups(m):
         vi = np.unique(m.faces[g])
         if h[vi].max() - h0 > params["minAboveGirdleMm"] and np.ptp(h[vi]) > params["minLengthMm"]:
             top = h[vi].max()
@@ -183,8 +195,16 @@ def claw_edits(entry, gem_entries, ring_centre, params):
         idx = above[(owner == j) & (dist[j] < 2.5 * cl["radius"])]
         if not len(idx):
             continue
-        t = np.clip((h[idx] - h0) / (cl["top"] - h0), 0.0, 1.0)
-        h_new = h0 + (h_target - h0) * np.sin(t * np.pi / 2)
+        tip = float(params.get("tipMm", 0.0))
+        if tip:
+            # Griffe en fil rond coiffée d'un embout arrondi : l'embout descend d'un bloc, seule la tige est raccourcie
+            # (tassé comme le bout d'une griffe effilée, il deviendrait un méplat).
+            body_top = cl["top"] - tip
+            hb = np.minimum(h[idx], body_top)
+            h_new = h0 + (h_target - tip - h0) * np.clip((hb - h0) / (body_top - h0), 0.0, 1.0) + (h[idx] - hb)
+        else:
+            t = np.clip((h[idx] - h0) / (cl["top"] - h0), 0.0, 1.0)
+            h_new = h0 + (h_target - h0) * np.sin(t * np.pi / 2)
         lat_new = lat[idx] - centre_at(cl, h[idx]) + centre_at(cl, h_new)
         for i, hn, ln in zip(idx, h_new, lat_new):
             moves[int(i)] = c + hn * u + ln[0] * e1 + ln[1] * e2

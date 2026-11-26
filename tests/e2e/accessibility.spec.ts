@@ -143,15 +143,17 @@ test.describe('axe-core, WCAG 2.0 à 2.2, niveaux A et AA', () => {
       await expectNoViolations(page, `${locale} configurateur, devis avec erreurs`);
     });
 
-    // Second modèle : un solitaire, sans choix de composition, avec le choix du modèle en tête du panneau.
-    test(`configurateur du solitaire (ring-002) : 3D chargée, devis ouvert (${locale})`, async ({ page }) => {
-      await openConfigurator(page, locale, 'ring-002');
-      await openAllDetails(page);
-      await expectNoViolations(page, `${locale} configurateur ring-002`);
-      await page.getByRole('button', { name: UI[locale].quote, exact: true }).click();
-      await expect(page.locator('#quote-form form')).toBeVisible();
-      await expectNoViolations(page, `${locale} configurateur ring-002, devis ouvert`);
-    });
+    // Autres modèles : des solitaires, sans choix de composition, avec le choix du modèle en tête du panneau.
+    for (const modelId of ['ring-002', 'ring-003']) {
+      test(`configurateur du solitaire (${modelId}) : 3D chargée, devis ouvert (${locale})`, async ({ page }) => {
+        await openConfigurator(page, locale, modelId);
+        await openAllDetails(page);
+        await expectNoViolations(page, `${locale} configurateur ${modelId}`);
+        await page.getByRole('button', { name: UI[locale].quote, exact: true }).click();
+        await expect(page.locator('#quote-form form')).toBeVisible();
+        await expectNoViolations(page, `${locale} configurateur ${modelId}, devis ouvert`);
+      });
+    }
   }
 });
 

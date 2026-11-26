@@ -49,6 +49,25 @@ L'extraction de ring-001 reste identique au fichier près (`geometry.json` incha
 
 **Retouche des grandes griffes** (`"claws"` dans `webRetouch`, ring-002, demande du propriétaire du 26/11/2026). Les six griffes de la marquise sont effilées et montent 2,5 mm au-dessus du rondiste, plus haut que la table (1,2 mm) : sur la bague finie, elles sont coupées et rabattues. Pour le web, la partie au-dessus du rondiste est ramenée à 60 % de la hauteur de la couronne (`crownFraction`). Chaque sommet garde sa place autour de l'axe de la griffe, et cet axe (un polynôme ajusté sur les tranches de la griffe) est suivi moins haut : la griffe retouchée épouse la couronne comme la griffe d'origine à la même hauteur. Rien n'est créé, seuls des sommets bougent ; le rapport `asset.json` (`webRetouch`) dit qui a demandé la retouche (`request` dans la recette). Les tiges droites des petites pierres gardent la retouche `prongs` de ring-001.
 
+## Anneau en plusieurs polysurfaces, maillages fissurés, griffes en fil rond (ring-003, 26/11/2026)
+
+`Bague-coeur.3dm` n'a, comme le solitaire marquise, ni courbe de taille ni STL. Il a demandé trois choses de plus :
+
+- **anneau en quatre polysurfaces** (deux moitiés basses, deux côtés) : la recette les désigne par quatre identifiants (`ids`) ; la tête est « sans nom, sauf l'anneau », les 78 grains portent le nom Rhino `Prong` ;
+- **fissures d'arête** : huit grains ont un maillage de rendu qui n'est pas fermé. Le long de l'arête commune à leurs deux faces, un bord a une arête droite, l'autre suit la courbe par des sommets intermédiaires (sommets « en T ») ; il reste une fissure de quelques microns, que la soudure des sommets ne referme pas. `close_edge_cracks` recoupe chaque arête ouverte aux sommets ouverts qui la longent (à 0,02 mm au plus) : aucun sommet n'est créé ni déplacé, et un vrai trou reste un trou (l'extraction s'arrête, comme avant). C'est fait **pour la mesure du volume seulement** : le modèle affiché garde le maillage du fichier. `geometry.json` le signale (`metalSolidsCracksClosed`: 8) ;
+- **volume des pierres** : mesuré sur un maillage nettoyé (faces dégénérées ou en double retirées), comme pour le métal. Le bloc `Diamond_Heart` a des facettes en double : sans ce nettoyage, le cœur n'avait ni volume ni estimation de poids.
+
+Les `geometry.json` de ring-001 et de ring-002 sont restés identiques à l'octet près (contrôlé le 26/11).
+
+**Dimensions : toujours sur le maillage.** La boîte englobante d'une polysurface lue par rhino3dm est lâche : 11,1 × 11,5 mm pour le bloc du cœur, alors que son maillage fait 10 × 10 mm. Lu sur les boîtes, le cœur ferait 8,1 × 8,4 mm ; il fait 7,3 × 7,3 mm.
+
+**Griffes en fil rond** (`"claws"`, options `weldMm` et `tipMm`). Les cinq griffes du cœur sont des fils ronds coiffés d'un embout arrondi, et non des griffes effilées comme celles de la marquise. Deux différences :
+
+- le corps et l'embout de chaque griffe sont maillés à part (cinq pièces par griffe dans le modèle simplifié) : `weldMm` (0,005) les réunit par leurs sommets confondus avant de chercher les griffes. Sans cela, la retouche traitait chaque bande comme une griffe et déchirait le maillage ;
+- tassé sur une courte hauteur comme le bout d'une griffe effilée, l'embout devenait un méplat à bord vif : `tipMm` (0,55) le descend d'un bloc, seule la tige raccourcit.
+
+Sans ces deux options, le comportement est celui de ring-002, inchangé.
+
 ## Ajouter un nouveau modèle
 
 1. Copier les fichiers dans `cad/originals/`.

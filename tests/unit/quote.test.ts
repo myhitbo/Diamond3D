@@ -102,6 +102,18 @@ describe('demande de devis : e-mail', () => {
     expect(text).toContain(JSON.stringify(r.state));
   });
 
+  it('solitaire cœur : la forme et les tailles des pierres sont écrites en français', () => {
+    const heart = MODELS['ring-003'];
+    const r = parseQuote({ ...valid(), modelId: 'ring-003', config: defaultState(heart) }, getModel);
+    if (!r.ok) throw new Error('demande invalide');
+    const { text } = buildQuoteEmail(r.model, r.state, r.fields, [], 'https://jr.example/');
+    expect(text).toContain('Modèle : Solitaire cœur pavé (ring-003)');
+    expect(text).toContain('Pierre centrale : Cœur 7,3 × 7,3 mm');
+    expect(text).toContain('1 × Cœur 7,3 × 7,3 mm (≈ 1,424 ct estimés)');
+    expect(text).toContain('38 × Ronde 0,8 – 0,85 – 0,9 – 1 – 1,3 – 1,4 – 1,6 – 1,7 – 1,8 mm');
+    expect(text).toContain('https://jr.example/fr/configurateur/ring-003');
+  });
+
   it('indique la langue hébraïque et l’accord de publication', () => {
     const r = parseQuote({ ...valid(), locale: 'he', publishConsent: true }, getModel);
     if (!r.ok) throw new Error('demande invalide');

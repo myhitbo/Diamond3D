@@ -1,0 +1,692 @@
+{
+  "$comment": "Fichier généré par pipeline/extract_3dm.py. Ne pas modifier à la main.",
+  "modelId": "ring-003",
+  "source": {
+    "file": "Bague-coeur.3dm",
+    "sha256": "4149d9142034ffe0f29c15fbbdd0a63ada68056e691b4e378b8f4a3c315d4004",
+    "application": "Rhinoceros 5.0",
+    "units": "mm",
+    "absoluteToleranceMm": 0.001
+  },
+  "fingerSize": {
+    "label": "France 54",
+    "innerDiameterMm": 17.195,
+    "source": "Mesuré sur l'anneau (le fichier n'a pas de courbe de taille) ; taille française = circonférence intérieure arrondie à la demi-taille"
+  },
+  "pieces": {
+    "A": {
+      "label": "Bague cœur, corps fendu pavé",
+      "parts": [
+        {
+          "id": "metal_shank",
+          "node": "A__metal_shank",
+          "kind": "metal",
+          "role": "shank",
+          "sourceObjects": 4,
+          "triangles": 39316,
+          "boundsMm": [
+            [
+              -10.689,
+              -1.588,
+              -10.485
+            ],
+            [
+              10.689,
+              1.587,
+              8.355
+            ]
+          ]
+        },
+        {
+          "id": "metal_head_center",
+          "node": "A__metal_head_center",
+          "kind": "metal",
+          "role": "head",
+          "sourceObjects": 21,
+          "triangles": 181542,
+          "boundsMm": [
+            [
+              -8.012,
+              -6.015,
+              6.209
+            ],
+            [
+              8.012,
+              3.512,
+              15.793
+            ]
+          ]
+        },
+        {
+          "id": "metal_settings_side",
+          "node": "A__metal_settings_side",
+          "kind": "metal",
+          "role": "settings",
+          "sourceObjects": 78,
+          "triangles": 40096,
+          "boundsMm": [
+            [
+              -11.223,
+              -3.517,
+              -6.25
+            ],
+            [
+              11.223,
+              3.455,
+              12.233
+            ]
+          ]
+        },
+        {
+          "id": "gem_center",
+          "node": "A__gem_center",
+          "kind": "gem",
+          "role": "center",
+          "sourceObjects": 1,
+          "triangles": 766,
+          "boundsMm": [
+            [
+              -3.65,
+              -4.564,
+              10.413
+            ],
+            [
+              3.65,
+              2.736,
+              14.943
+            ]
+          ],
+          "slot": "center",
+          "stones": [
+            {
+              "block": "Diamond_Heart",
+              "shape": "heart",
+              "lengthMm": 7.3,
+              "widthMm": 7.3,
+              "depthMm": 4.53,
+              "volumeMm3": 80.9235,
+              "caratEstimate": 1.4243,
+              "positionMm": [
+                0.0,
+                -0.554,
+                13.724
+              ]
+            }
+          ]
+        },
+        {
+          "id": "gem_side",
+          "node": "A__gem_side",
+          "kind": "gem",
+          "role": "side",
+          "sourceObjects": 38,
+          "triangles": 12084,
+          "boundsMm": [
+            [
+              -10.859,
+              -3.173,
+              -5.425
+            ],
+            [
+              10.859,
+              3.11,
+              11.864
+            ]
+          ],
+          "stones": [
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.3,
+              "widthMm": 1.3,
+              "depthMm": 0.809,
+              "volumeMm3": 0.4678,
+              "caratEstimate": 0.0082,
+              "positionMm": [
+                4.805,
+                1.631,
+                10.438
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.9,
+              "widthMm": 0.9,
+              "depthMm": 0.56,
+              "volumeMm3": 0.1552,
+              "caratEstimate": 0.0027,
+              "positionMm": [
+                4.018,
+                2.089,
+                11.318
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.9,
+              "widthMm": 0.9,
+              "depthMm": 0.56,
+              "volumeMm3": 0.1552,
+              "caratEstimate": 0.0027,
+              "positionMm": [
+                5.577,
+                1.043,
+                9.623
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.3,
+              "widthMm": 1.3,
+              "depthMm": 0.809,
+              "volumeMm3": 0.4678,
+              "caratEstimate": 0.0082,
+              "positionMm": [
+                4.805,
+                -1.631,
+                10.438
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.9,
+              "widthMm": 0.9,
+              "depthMm": 0.56,
+              "volumeMm3": 0.1552,
+              "caratEstimate": 0.0027,
+              "positionMm": [
+                4.018,
+                -2.089,
+                11.318
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.9,
+              "widthMm": 0.9,
+              "depthMm": 0.56,
+              "volumeMm3": 0.1552,
+              "caratEstimate": 0.0027,
+              "positionMm": [
+                5.577,
+                -1.043,
+                9.623
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.8,
+              "widthMm": 0.8,
+              "depthMm": 0.498,
+              "volumeMm3": 0.109,
+              "caratEstimate": 0.0019,
+              "positionMm": [
+                9.02,
+                -0.006,
+                -5.085
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.0,
+              "widthMm": 1.0,
+              "depthMm": 0.622,
+              "volumeMm3": 0.2129,
+              "caratEstimate": 0.0037,
+              "positionMm": [
+                9.543,
+                -0.007,
+                -4.174
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.3,
+              "widthMm": 1.3,
+              "depthMm": 0.809,
+              "volumeMm3": 0.4678,
+              "caratEstimate": 0.0082,
+              "positionMm": [
+                10.033,
+                -0.008,
+                -2.982
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.6,
+              "widthMm": 1.6,
+              "depthMm": 0.996,
+              "volumeMm3": 0.8721,
+              "caratEstimate": 0.0153,
+              "positionMm": [
+                10.409,
+                -0.009,
+                -1.428
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.8,
+              "widthMm": 0.8,
+              "depthMm": 0.498,
+              "volumeMm3": 0.109,
+              "caratEstimate": 0.0019,
+              "positionMm": [
+                8.682,
+                -0.006,
+                6.055
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.0,
+              "widthMm": 1.0,
+              "depthMm": 0.622,
+              "volumeMm3": 0.2129,
+              "caratEstimate": 0.0037,
+              "positionMm": [
+                9.253,
+                -0.007,
+                5.17
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.4,
+              "widthMm": 1.4,
+              "depthMm": 0.871,
+              "volumeMm3": 0.5842,
+              "caratEstimate": 0.0103,
+              "positionMm": [
+                9.845,
+                -0.008,
+                3.958
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.7,
+              "widthMm": 1.7,
+              "depthMm": 1.058,
+              "volumeMm3": 1.046,
+              "caratEstimate": 0.0184,
+              "positionMm": [
+                10.338,
+                -0.009,
+                2.332
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.8,
+              "widthMm": 1.8,
+              "depthMm": 1.12,
+              "volumeMm3": 1.2417,
+              "caratEstimate": 0.0219,
+              "positionMm": [
+                10.541,
+                -0.009,
+                0.427
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.8,
+              "widthMm": 1.8,
+              "depthMm": 1.12,
+              "volumeMm3": 1.2417,
+              "caratEstimate": 0.0219,
+              "positionMm": [
+                -10.541,
+                -0.009,
+                0.427
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.7,
+              "widthMm": 1.7,
+              "depthMm": 1.058,
+              "volumeMm3": 1.046,
+              "caratEstimate": 0.0184,
+              "positionMm": [
+                -10.338,
+                -0.009,
+                2.332
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.4,
+              "widthMm": 1.4,
+              "depthMm": 0.871,
+              "volumeMm3": 0.5842,
+              "caratEstimate": 0.0103,
+              "positionMm": [
+                -9.845,
+                -0.008,
+                3.958
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.0,
+              "widthMm": 1.0,
+              "depthMm": 0.622,
+              "volumeMm3": 0.2129,
+              "caratEstimate": 0.0037,
+              "positionMm": [
+                -9.253,
+                -0.007,
+                5.17
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.8,
+              "widthMm": 0.8,
+              "depthMm": 0.498,
+              "volumeMm3": 0.109,
+              "caratEstimate": 0.0019,
+              "positionMm": [
+                -8.682,
+                -0.006,
+                6.055
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.6,
+              "widthMm": 1.6,
+              "depthMm": 0.996,
+              "volumeMm3": 0.8721,
+              "caratEstimate": 0.0153,
+              "positionMm": [
+                -10.409,
+                -0.009,
+                -1.428
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.3,
+              "widthMm": 1.3,
+              "depthMm": 0.809,
+              "volumeMm3": 0.4678,
+              "caratEstimate": 0.0082,
+              "positionMm": [
+                -10.033,
+                -0.008,
+                -2.982
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.0,
+              "widthMm": 1.0,
+              "depthMm": 0.622,
+              "volumeMm3": 0.2129,
+              "caratEstimate": 0.0037,
+              "positionMm": [
+                -9.543,
+                -0.007,
+                -4.174
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.8,
+              "widthMm": 0.8,
+              "depthMm": 0.498,
+              "volumeMm3": 0.109,
+              "caratEstimate": 0.0019,
+              "positionMm": [
+                -9.02,
+                -0.006,
+                -5.085
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.9,
+              "widthMm": 0.9,
+              "depthMm": 0.56,
+              "volumeMm3": 0.1552,
+              "caratEstimate": 0.0027,
+              "positionMm": [
+                -5.577,
+                -1.043,
+                9.623
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.9,
+              "widthMm": 0.9,
+              "depthMm": 0.56,
+              "volumeMm3": 0.1552,
+              "caratEstimate": 0.0027,
+              "positionMm": [
+                -4.018,
+                -2.089,
+                11.318
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.3,
+              "widthMm": 1.3,
+              "depthMm": 0.809,
+              "volumeMm3": 0.4678,
+              "caratEstimate": 0.0082,
+              "positionMm": [
+                -4.805,
+                -1.631,
+                10.438
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.9,
+              "widthMm": 0.9,
+              "depthMm": 0.56,
+              "volumeMm3": 0.1552,
+              "caratEstimate": 0.0027,
+              "positionMm": [
+                -5.577,
+                1.043,
+                9.623
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.9,
+              "widthMm": 0.9,
+              "depthMm": 0.56,
+              "volumeMm3": 0.1552,
+              "caratEstimate": 0.0027,
+              "positionMm": [
+                -4.018,
+                2.089,
+                11.318
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 1.3,
+              "widthMm": 1.3,
+              "depthMm": 0.809,
+              "volumeMm3": 0.4678,
+              "caratEstimate": 0.0082,
+              "positionMm": [
+                -4.805,
+                1.631,
+                10.438
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.85,
+              "widthMm": 0.85,
+              "depthMm": 0.529,
+              "volumeMm3": 0.1308,
+              "caratEstimate": 0.0023,
+              "positionMm": [
+                1.657,
+                2.918,
+                11.447
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.85,
+              "widthMm": 0.85,
+              "depthMm": 0.529,
+              "volumeMm3": 0.1308,
+              "caratEstimate": 0.0023,
+              "positionMm": [
+                1.069,
+                2.726,
+                10.708
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.85,
+              "widthMm": 0.85,
+              "depthMm": 0.529,
+              "volumeMm3": 0.1308,
+              "caratEstimate": 0.0023,
+              "positionMm": [
+                -1.069,
+                2.726,
+                10.708
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.85,
+              "widthMm": 0.85,
+              "depthMm": 0.529,
+              "volumeMm3": 0.1308,
+              "caratEstimate": 0.0023,
+              "positionMm": [
+                -1.657,
+                2.918,
+                11.447
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.85,
+              "widthMm": 0.85,
+              "depthMm": 0.529,
+              "volumeMm3": 0.1308,
+              "caratEstimate": 0.0023,
+              "positionMm": [
+                -1.657,
+                -2.98,
+                11.447
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.85,
+              "widthMm": 0.85,
+              "depthMm": 0.529,
+              "volumeMm3": 0.1308,
+              "caratEstimate": 0.0023,
+              "positionMm": [
+                -1.069,
+                -2.788,
+                10.708
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.85,
+              "widthMm": 0.85,
+              "depthMm": 0.529,
+              "volumeMm3": 0.1308,
+              "caratEstimate": 0.0023,
+              "positionMm": [
+                1.069,
+                -2.788,
+                10.708
+              ]
+            },
+            {
+              "block": "Diamond_Round",
+              "shape": "round",
+              "lengthMm": 0.85,
+              "widthMm": 0.85,
+              "depthMm": 0.529,
+              "volumeMm3": 0.1308,
+              "caratEstimate": 0.0023,
+              "positionMm": [
+                1.657,
+                -2.98,
+                11.447
+              ]
+            }
+          ]
+        }
+      ],
+      "metalVolumeMm3": 332.73,
+      "metalVolumeSource": "Union booléenne des solides fermés du fichier CAO (aucun STL de référence)",
+      "metalSolidsSumMm3": 361.92,
+      "metalSolidsCracksClosed": 8,
+      "metalBoundsMm": [
+        [
+          -11.223,
+          -6.015,
+          -10.485
+        ],
+        [
+          11.223,
+          3.512,
+          15.793
+        ]
+      ]
+    }
+  },
+  "stlCheck": null,
+  "axes": "glTF : Y vers le haut, mètres. Métadonnées : repère Rhino (Z vers le haut), mm."
+}

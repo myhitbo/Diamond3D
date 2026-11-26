@@ -146,10 +146,6 @@ def matches(o: Obj, sel: dict) -> bool:
     return True
 
 
-def watertight_volume_mm3(m: trimesh.Trimesh) -> float | None:
-    w = m.copy()
-    w.merge_vertices(digits_vertex=4)
-    return float(abs(w.volume)) if w.is_watertight else None
 
 
 STONE_SHAPES = {"round", "marquise", "oval", "pear", "emerald", "princess", "heart"}
@@ -162,25 +158,92 @@ def stone_shape(block: str | None) -> str:
     return shape if shape in STONE_SHAPES else "unknown"
 
 
-def solid_for_volume(m: trimesh.Trimesh) -> trimesh.Trimesh | None:
-    """Copie fermée d'un maillage de rendu, pour une mesure de volume : sommets soudés, faces dégénérées ou en double retirées."""
+CRACK_TOLERANCE_MM = 0.02  # largeur maximale d'une fissure d'arête refermée pour la mesure du volume
+
+
+def close_edge_cracks(w: trimesh.Trimesh, tol: float = CRACK_TOLERANCE_MM) -> int:
+    """Referme les fissures d'arête d'un maillage de rendu (sommets « en T »), pour une mesure de volume seulement.
+
+    Le long de l'arête commune à deux faces d'une polysurface, les deux maillages de rendu n'ont pas toujours les mêmes
+    sommets : l'un a une arête droite de A à B, l'autre suit la courbe par des sommets intermédiaires. Il reste une
+    fissure de quelques microns. Chaque arête ouverte est recoupée aux sommets ouverts qui la longent (à moins de `tol`),
+    ce qui fait coïncider les deux bords. Aucun sommet n'est créé ni déplacé. Renvoie le nombre d'arêtes recoupées.
+    """
+    split_total = 0
+    for _ in range(8):
+        faces = np.asarray(w.faces)
+        directed = np.vstack([faces[:, [0, 1]], faces[:, [1, 2]], faces[:, [2, 0]]])
+        owner = np.tile(np.arange(len(faces)), 3)
+        key = np.sort(directed, axis=1)
+        _, inverse, counts = np.unique(key, axis=0, return_inverse=True, return_counts=True)
+        open_idx = np.flatnonzero(counts[inverse.ravel()] == 1)
+        if len(open_idx) == 0:
+            break
+        open_vertices = np.unique(directed[open_idx])
+        pts = np.asarray(w.vertices)[open_vertices]
+        replaced: dict[int, list[list[int]]] = {}
+        for i in open_idx:
+            face = int(owner[i])
+            if face in replaced:
+                continue  # une arête par triangle et par passe ; la passe suivante traite les autres
+            a, b = (int(x) for x in directed[i])
+            pa, pb = w.vertices[a], w.vertices[b]
+            ab = pb - pa
+            length2 = float(ab @ ab)
+            if length2 == 0:
+                continue
+            t = (pts - pa) @ ab / length2
+            dist = np.linalg.norm(pts - (pa + np.outer(t, ab)), axis=1)
+            between = (t > 1e-9) & (t < 1 - 1e-9) & (dist <= tol) & (open_vertices != a) & (open_vertices != b)
+            if not between.any():
+                continue
+            chain = [a, *(int(v) for v in open_vertices[between][np.argsort(t[between])]), b]
+            c = int(next(v for v in faces[face] if v != a and v != b))
+            replaced[face] = [[chain[k], chain[k + 1], c] for k in range(len(chain) - 1)]
+            split_total += 1
+        if not replaced:
+            break
+        keep = np.ones(len(faces), dtype=bool)
+        keep[list(replaced)] = False
+        w.faces = np.vstack([faces[keep], *(np.array(f, dtype=faces.dtype) for f in replaced.values())])
+    return split_total
+
+
+def solid_for_volume(m: trimesh.Trimesh, report: dict | None = None) -> trimesh.Trimesh | None:
+    """Copie fermée d'un maillage de rendu, pour une mesure de volume : sommets soudés, faces dégénérées ou en double retirées.
+
+    Si le maillage reste ouvert, ses fissures d'arête sont refermées (`close_edge_cracks`) ; `report["cracksClosed"]` compte
+    alors les solides concernés. Un maillage encore ouvert après cela (vrai trou) n'est pas un solide : `None`.
+    """
     w = m.copy()
     w.merge_vertices(digits_vertex=4)
     w.update_faces(w.nondegenerate_faces())
     w.update_faces(w.unique_faces())
     w.remove_unreferenced_vertices()
     if not w.is_watertight:
-        return None
+        if not close_edge_cracks(w):
+            return None
+        w.update_faces(w.nondegenerate_faces())
+        if not w.is_watertight:
+            return None
+        if report is not None:
+            report["cracksClosed"] = report.get("cracksClosed", 0) + 1
     if w.volume < 0:
         w.invert()
     return w
 
 
-def union_volume_mm3(meshes: list[trimesh.Trimesh]) -> tuple[float, float]:
+def watertight_volume_mm3(m: trimesh.Trimesh) -> float | None:
+    """Volume d'un maillage de rendu fermé (pierre) ; `None` s'il n'est pas un solide."""
+    w = solid_for_volume(m)
+    return float(w.volume) if w is not None else None
+
+
+def union_volume_mm3(meshes: list[trimesh.Trimesh], report: dict | None = None) -> tuple[float, float]:
     """Volume de l'union booléenne de solides fermés qui se chevauchent (griffes dans le corps…), et somme brute des volumes."""
     solids, total = [], 0.0
     for m in meshes:
-        w = solid_for_volume(m)
+        w = solid_for_volume(m, report)
         if w is None:
             raise SystemExit("Volume de métal : une polysurface n'est pas un solide fermé ; fournir un STL de référence dans la recette.")
         total += float(w.volume)
@@ -375,11 +438,15 @@ def run(recipe_path: Path, out_glb: Path, out_meta: Path) -> dict:
     else:
         # Pas de STL : union booléenne des solides de métal de chaque pièce (les griffes et les paniers pénètrent le corps).
         for piece_id, pm in meta_pieces.items():
-            volume, raw_sum = union_volume_mm3(metal_solids[piece_id])
+            report: dict = {}
+            volume, raw_sum = union_volume_mm3(metal_solids[piece_id], report)
             metal_bounds = np.array([p["boundsMm"] for p in pm["parts"] if p["kind"] == "metal"])
             pm["metalVolumeMm3"] = round(volume, 2)
             pm["metalVolumeSource"] = "Union booléenne des solides fermés du fichier CAO (aucun STL de référence)"
             pm["metalSolidsSumMm3"] = round(raw_sum, 2)
+            if report.get("cracksClosed"):
+                # Pour la mesure seulement : le modèle affiché garde le maillage du fichier.
+                pm["metalSolidsCracksClosed"] = report["cracksClosed"]
             pm["metalBoundsMm"] = np.round(np.array([metal_bounds[:, 0].min(axis=0), metal_bounds[:, 1].max(axis=0)]), 3).tolist()
 
     # Taille de doigt mesurée sur l'anneau quand le fichier n'a pas de courbe de taille (recette : `fingerSizeFrom`).

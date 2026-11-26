@@ -60,8 +60,13 @@ test('version A : le lien ouvre le configurateur dans le métal choisi', async (
   await page.getByRole('button', { name: 'Métal suivant' }).click();
   await page.getByRole('main').getByRole('link', { name: 'Configurer une bague' }).first().click();
   // Délais larges : le configurateur charge sa scène 3D, lentement quand toute la suite tourne en parallèle.
-  await expect(page).toHaveURL(/\/fr\/configurateur\/ring-001\?metal=white-gold-18k$/, { timeout: 30_000 });
+  // L'adresse arrive avec le seul métal choisi, puis le configurateur la complète avec le reste de la configuration
+  // (`configToParams`) : les deux formes sont attendues. Exiger « …?metal=white-gold-18k » en fin d'adresse ne passait que
+  // si le contrôle tombait avant cette réécriture (échec sur iPhone en intégration continue, le 26/11/2026).
+  await expect(page).toHaveURL(/\/fr\/configurateur\/ring-001\?metal=white-gold-18k(&|$)/, { timeout: 30_000 });
   await expect(page.getByRole('radio', { name: 'Or blanc' })).toHaveAttribute('aria-checked', 'true', { timeout: 30_000 });
+  // Une fois la page installée, l'adresse porte la configuration entière, avec le métal choisi.
+  await expect(page).toHaveURL(/\?metal=white-gold-18k&composition=set&origin=natural&stone-center=marquise-6x3$/);
 });
 
 test('version B : la constellation a une étoile par pierre du modèle (17)', async ({ page }) => {

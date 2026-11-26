@@ -14,6 +14,7 @@
 - Accords du propriétaire du 26/11 : pousser sur `main` dès que les tests sont verts ; fichiers de fabrication de l'atelier versionnés ; logo montré en captures d'abord.
 - **Corrections trouvées par les tests** : sur la page de comparaison, le lien « Voir dans le configurateur » faisait 19 px de haut sur téléphone (24 px exigés) ; le style 5 n'a plus de flou d'arrière-plan (`backdrop-filter`), qui figeait le rendu du moteur de Safari (moins de 10 images en 40 s, 60 images/s sans) sans rien changer à l'œil ; la barre de comparaison ne masque plus l'élément amené en bas de l'écran.
 - Tests (commit `939a3f0`) : 126 tests unitaires ; 23 pipeline CAO ; Chromium 338 (335 passés, 3 ignorés) ; WebKit iPhone, iPad et Firefox : 463 (406 passés, 57 ignorés) ; aucun échec.
+- Fusion avec les changements du devis arrivés sur `main` le même jour (commit `7e7109b`), retestée en entier : 128 tests unitaires ; Chromium 340 (337 passés, 3 ignorés) ; WebKit iPhone, iPad et Firefox : 465 (408 passés, 57 ignorés) ; aucun échec. Questions du solitaire renumérotées 110 à 113.
 
 ## 2026-11-26 — Devis : date souhaitée, budget, « c'est une surprise » ; note de prix ; étude de concurrence terminée
 

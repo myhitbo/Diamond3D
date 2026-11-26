@@ -1,5 +1,17 @@
 # Historique
 
+## 2026-11-26 — Deuxième modèle : solitaire marquise pavé ; fichiers du Drive, vidéos, logo de l'atelier
+
+- **Solitaire marquise pavé (`ring-002`) en ligne** : fichier de fabrication reçu de l'atelier le 17/11 (`cad/originals/Solitaire-marquise.3dm`, versionné sur accord du propriétaire, comme `Ring.3dm`). Marquise de 16,5 × 8,5 mm tenue par six griffes, 16 diamants ronds de 1,9 mm sur l'anneau, 19 de 1,1 mm en galerie sous la pierre ; 39 962 triangles, 285 Ko, écart maximal 0,03 mm. Affiché tel que dessiné, sans retouche web, badge « Brouillon ».
+- **Choix du modèle** en tête du configurateur ; le choix de composition disparaît pour un modèle qui n'en a qu'une.
+- **Pipeline** : objets choisis par nom et par identifiant ; volume de métal par union des solides quand le fichier n'a pas de STL ; taille de doigt mesurée sur l'anneau (sur ring-001, la mesure redonne la courbe du fichier : France 51 ½, 16,393 mm) ; forme d'une pierre lue malgré le suffixe du bloc.
+- **Corrections** : dimensions d'une pierre non ronde écrites « 16,5 × 8.5 mm » en français (un seul point était remplacé) ; tailles des pierres rondes dans l'ordre croissant ; mêmes virgules dans l'e-mail de devis.
+- **Drive** : 8 fichiers du 17/11 au soir identifiés (logo JR ; deux fichiers d'alliances lisses venus de CGTrader, non versionnés, licence à relever). Les trois vidéos sont des rendus 360° de trois bagues, compressés en 1080 × 1080 (2 à 3 Mo au lieu de 37 à 49 Mo).
+- **Logo de l'atelier** détouré (`scripts/logo/detourer.py`) et intégré sur la branche `ccr-3126aeaa-7uqikn` (en-tête, pied de page, versions de l'accueil, icône) : captures envoyées, mise en ligne après l'accord du propriétaire.
+- **Atelier** : relance du 16/11 et message du 24/11 envoyés le 26/11 selon le propriétaire ; questions 91 à 94 sur le solitaire.
+- Accords du propriétaire du 26/11 : pousser sur `main` dès que les tests sont verts ; fichiers de fabrication de l'atelier versionnés ; logo montré en captures d'abord.
+- Tests : 126 tests unitaires ; suites navigateur complètes en cours à ce commit (résultats dans le commit suivant).
+
 ## 2026-11-24 — Réponses de l'atelier du 16/11 : aucun prix automatique, osek patour, textes validés
 
 - **Réponses de l'atelier du 16/11** archivées (`docs/atelier/2026-11-16_reponses.txt` : messages WhatsApp ; le fichier joint reste à coller tel quel, il n'a pas été reçu par la session) et rapprochées des 22 points du message du 14/11 (`docs/REPONSES_ATELIER.md`).

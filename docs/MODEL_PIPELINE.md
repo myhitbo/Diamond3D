@@ -36,6 +36,17 @@
 
 Brut : 142 064 triangles de métal, 4,2 Mo. L'écart retenu (2 centièmes de mm) est invisible à l'écran.
 
+## Fichier sans courbe de taille ni STL (ring-002, 26/11/2026)
+
+Le solitaire marquise reçu de l'atelier le 17/11 n'a ni courbe « Ring Rail », ni STL de référence, et ses calques et groupes ne séparent pas l'anneau de la tête. Le script d'extraction sait désormais :
+
+- **choisir des objets par nom ou par identifiant** : `"name": "Prong On Surface"`, `"unnamed": true`, `"ids": [...]`, `"idsNone": [...]` dans un sélecteur de recette (le fichier est figé par son empreinte, les identifiants ne bougent pas) ;
+- **mesurer le volume de métal sans STL** : union booléenne des solides fermés du fichier (manifold3d), car les griffes et les galeries pénètrent le corps ; la somme brute des volumes est gardée dans `metalSolidsSumMm3` (ring-002 : 396,95 mm³ pour l'union, 404,31 mm³ en somme brute). Rien de cette union n'est exporté ;
+- **mesurer la taille de doigt sur l'anneau** (`"fingerSizeFrom": { "piece": "A", "part": "metal_shank" }`) : profil intérieur par secteur d'angle, cercle des moindres carrés, points hors du cercle écartés. Contrôle : sur ring-001, la mesure redonne exactement la courbe du fichier (16,393 mm, France 51 ½). La taille française est la circonférence intérieure, arrondie à la demi-taille ;
+- **lire la forme d'une pierre dans le nom de son bloc**, suffixe compris (« Diamond_Round 01 » → ronde).
+
+L'extraction de ring-001 reste identique au fichier près (`geometry.json` inchangé). ring-002 : 90 568 triangles bruts, 39 962 sur le web, 285 Ko, écart maximal 0,030 mm ; aucune retouche web (griffes telles que dessinées).
+
 ## Ajouter un nouveau modèle
 
 1. Copier les fichiers dans `cad/originals/`.

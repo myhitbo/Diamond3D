@@ -3,9 +3,10 @@
 import dynamic from 'next/dynamic';
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { useProgress } from '@react-three/drei';
-import { getModel } from '@/models';
+import { MODELS, getModel } from '@/models';
 import { METALS } from '@/config/metals';
 import { DICTIONARIES, formatNumber } from '@/i18n/dictionaries';
+import { configuratorPath } from '@/lib/routes';
 import type { ConfigState, Locale, ModelDefinition } from '@/lib/configurator/schema';
 import {
   applyChange,
@@ -91,6 +92,9 @@ export default function Configurator({
   const t = DICTIONARIES[locale];
   // La préversion autonome n'a que cette page : pas de liens vers les guides du site.
   const guideLinks = quoteEnabled ? t.guideLinks : null;
+  // Autres modèles du catalogue : liens simples (page rechargée, la scène 3D repart de zéro). Ni dans la préversion autonome,
+  // qui n'a que cette page, ni sur la page de diagnostic.
+  const otherModels = quoteEnabled && !diagnostic && Object.keys(MODELS).length > 1 ? Object.values(MODELS) : null;
   const [state, dispatch] = useReducer(
     (s: ConfigState, a: Action) => (a.type === 'reset' ? defaultState(model) : applyChange(model, s, a.change)),
     model,
@@ -156,7 +160,7 @@ export default function Configurator({
   const stones = stoneSummary(model, state);
   const weight = metalWeightEstimateG(model, state);
   const stoneLine = (g: (typeof stones)[number]) =>
-    `${g.count} × ${t.shapes[g.shape as keyof typeof t.shapes]} ${g.sizesMm.map((x) => (locale === 'fr' ? x.replace('.', ',') : x)).join(' – ')} ${t.mm}` +
+    `${g.count} × ${t.shapes[g.shape as keyof typeof t.shapes]} ${g.sizesMm.map((x) => (locale === 'fr' ? x.replaceAll('.', ',') : x)).join(' – ')} ${t.mm}` +
     (centerVariant?.nominalCarat && g.shape === centerVariant.shape && g.count === 1 ? ` · ≈ ${formatNumber(locale, centerVariant.nominalCarat.value, 2)} ct` : '');
   // Équivalent textuel de la vue 3D (WCAG 1.1.1) : ce qu'elle montre, mis à jour à chaque choix et annoncé poliment.
   const viewerDescription = [
@@ -263,22 +267,34 @@ export default function Configurator({
       <div className={styles.panel}>
         {diagnostic && <DiagnosticPanel locale={locale} />}
         <p className={styles.eyebrow}>{t.eyebrow}</p>
+        {otherModels && (
+          <nav className={styles.models} aria-label={t.models}>
+            {otherModels.map((m) => (
+              <a key={m.id} href={configuratorPath(locale, m.id)} aria-current={m.id === model.id ? 'page' : undefined}>
+                {m.name[locale]}
+              </a>
+            ))}
+          </nav>
+        )}
         <h1 className={styles.title}>{model.name[locale]}</h1>
         <p className={styles.lede}>{model.description[locale]}</p>
         {!model.workshopValidated && <p className={styles.badge}>{t.draftBadge}</p>}
 
-        <Field title={t.composition}>
-          <Choices
-            label={t.composition}
-            options={model.compositions.map((c) => ({
-              id: c.id,
-              label: c.name[locale],
-            }))}
-            value={state.composition}
-            onChange={(composition) => dispatch({ type: 'change', change: { composition } })}
-          />
-          <p className={styles.note}>{composition.description[locale]}</p>
-        </Field>
+        {/* Un modèle sans variante de composition (un solitaire seul) n'a pas ce choix. */}
+        {model.compositions.length > 1 && (
+          <Field title={t.composition}>
+            <Choices
+              label={t.composition}
+              options={model.compositions.map((c) => ({
+                id: c.id,
+                label: c.name[locale],
+              }))}
+              value={state.composition}
+              onChange={(composition) => dispatch({ type: 'change', change: { composition } })}
+            />
+            <p className={styles.note}>{composition.description[locale]}</p>
+          </Field>
+        )}
 
         <Field title={t.metal} aside={metal.name[locale]}>
           <div className={styles.swatches} role="radiogroup" aria-label={t.metal} onKeyDown={radioKeys}>

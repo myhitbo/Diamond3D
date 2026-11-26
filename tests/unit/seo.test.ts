@@ -1,4 +1,5 @@
 import { readdirSync, statSync } from 'node:fs';
+import { MODELS } from '@/models';
 import { join, relative } from 'node:path';
 import sharp from 'sharp';
 import { describe, expect, it } from 'vitest';
@@ -26,6 +27,9 @@ describe('plan du site', () => {
         '/fr/configurateur/ring-001',
         '/en/configurator/ring-001',
         '/he/configurator/ring-001',
+        '/fr/configurateur/ring-002',
+        '/en/configurator/ring-002',
+        '/he/configurator/ring-002',
         '/fr/transformation',
         '/en/transformation',
         '/he/transformation',
@@ -44,9 +48,9 @@ describe('plan du site', () => {
         '/he/privacy',
       ]),
     );
-    // 3 accueils, 3 configurateurs, 3 transformations, 3 FAQ, 2 listes de guides, 3 déclarations d'accessibilité,
-    // 3 politiques de confidentialité, 6 guides en français et 6 en anglais.
-    expect(urls).toHaveLength(20 + GUIDE_LOCALES.length * GUIDES.fr.length);
+    // 3 accueils, un configurateur par modèle et par langue, 3 transformations, 3 FAQ, 2 listes de guides,
+    // 3 déclarations d'accessibilité, 3 politiques de confidentialité, 6 guides en français et 6 en anglais.
+    expect(urls).toHaveLength(17 + 3 * Object.keys(MODELS).length + GUIDE_LOCALES.length * GUIDES.fr.length);
     expect(new Set(urls).size).toBe(urls.length);
   });
 
@@ -84,7 +88,7 @@ describe('plan du site', () => {
       }
     };
     walk(root);
-    const listed = new Set(SITEMAP_PAGES.map((p) => p.path.replace(/\/ring-001$/, '/[modelId]')));
+    const listed = new Set(SITEMAP_PAGES.map((p) => p.path.replace(/\/ring-\d+$/, '/[modelId]')));
     // Guides : ajoutés un par un (adresse traduite). Diagnostic : jamais indexé. [...rest] : 404. Versions de l'accueil à
     // comparer : pages d'essai non indexées, hors du plan du site tant que le propriétaire n'a pas choisi.
     const excluded = new Set(['/guides/[slug]', '/diagnostic', '/[...rest]', '/versions', '/versions/a', '/versions/b', '/versions/c', '/versions/moteur']);

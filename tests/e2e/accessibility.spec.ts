@@ -94,8 +94,8 @@ const ALL_PAGES = PAGES.flatMap((p) => (Object.entries(p.urls) as [Locale, strin
  * Le configurateur prêt : 3D affichée (sonde `?debug=1`), ou, sans WebGL (Firefox sans écran de cet environnement), le message
  * « WebGL indisponible ». Les contrôles propres à la 3D sont alors ignorés : voir `needsWebGL`.
  */
-async function openConfigurator(page: Page, locale: Locale) {
-  await page.goto(`${CONFIGURATOR[locale]}?debug=1`);
+async function openConfigurator(page: Page, locale: Locale, modelId = 'ring-001') {
+  await page.goto(`${CONFIGURATOR[locale].replace('ring-001', modelId)}?debug=1`);
   await page.waitForFunction(() => window.__jr?.ready === true || document.body.textContent?.includes('WebGL'), null, { timeout: 60_000 });
 }
 
@@ -139,6 +139,16 @@ test.describe('axe-core, WCAG 2.0 à 2.2, niveaux A et AA', () => {
       await page.getByRole('button', { name: UI[locale].send }).click();
       await expect(page.locator('form [role=alert]')).toBeVisible();
       await expectNoViolations(page, `${locale} configurateur, devis avec erreurs`);
+    });
+
+    // Second modèle : un solitaire, sans choix de composition, avec le choix du modèle en tête du panneau.
+    test(`configurateur du solitaire (ring-002) : 3D chargée, devis ouvert (${locale})`, async ({ page }) => {
+      await openConfigurator(page, locale, 'ring-002');
+      await openAllDetails(page);
+      await expectNoViolations(page, `${locale} configurateur ring-002`);
+      await page.getByRole('button', { name: UI[locale].quote, exact: true }).click();
+      await expect(page.locator('#quote-form form')).toBeVisible();
+      await expectNoViolations(page, `${locale} configurateur ring-002, devis ouvert`);
     });
   }
 });

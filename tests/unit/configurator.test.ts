@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { ring001 } from '@/models/ring-001/definition';
+import { ring002 } from '@/models/ring-002/definition';
 import { METALS } from '@/config/metals';
 import { DICTIONARIES } from '@/i18n/dictionaries';
 import { LOCALES, type ModelDefinition } from '@/lib/configurator/schema';
@@ -37,6 +38,54 @@ describe('modèle ring-001', () => {
     expect(stones).toHaveLength(17);
     const center = g.pieces.A.parts.find((p) => p.slot === 'center')!.stones![0];
     expect([center.shape, center.lengthMm, center.widthMm]).toEqual(['marquise', 6, 3]);
+  });
+});
+
+describe('modèle ring-002 (solitaire marquise pavé)', () => {
+  const s0 = defaultState(ring002);
+
+  it('passe la validation', () => {
+    expect(validateModel(ring002)).toEqual([]);
+  });
+
+  it('reprend les faits mesurés dans le fichier CAO', () => {
+    const g = ring002.geometry;
+    expect(g.source.sha256).toBe('e0fe7b53f16cecc576753debdadfc66fc641550b4f6392a07c3c40fcfa622560');
+    // Pas de courbe de taille dans le fichier : diamètre mesuré sur l'anneau, taille française = circonférence.
+    expect(g.fingerSize).toMatchObject({ label: 'France 54 1/2', innerDiameterMm: 17.31 });
+    const stones = g.pieces.A.parts.flatMap((x) => x.stones ?? []);
+    expect(stones).toHaveLength(36);
+    const center = g.pieces.A.parts.find((p) => p.slot === 'center')!.stones![0];
+    expect([center.shape, center.lengthMm, center.widthMm]).toEqual(['marquise', 16.5, 8.5]);
+    const side = stones.filter((st) => st.shape === 'round').map((st) => st.widthMm);
+    expect([side.filter((w) => w === 1.9).length, side.filter((w) => w === 1.1).length]).toEqual([16, 19]);
+    // Pas de STL de référence : volume de l'union des solides du fichier.
+    expect(g.pieces.A.metalVolumeMm3).toBeCloseTo(396.95, 1);
+  });
+
+  it('n’a qu’une composition : toutes ses pièces sont affichées', () => {
+    expect(ring002.compositions).toHaveLength(1);
+    expect(visibleNodes(ring002, s0)).toEqual(['A__gem_center', 'A__gem_side', 'A__metal_head_center', 'A__metal_settings_side', 'A__metal_shank']);
+  });
+
+  it('pèse entre 5 et 9 g selon le métal, et compte 36 pierres', () => {
+    expect(metalVolumeMm3(ring002, s0)).toBeCloseTo(396.95, 1);
+    const weights = ring002.metals.options.map((metal) => metalWeightEstimateG(ring002, { ...s0, metal }));
+    expect(Math.min(...weights)).toBeGreaterThan(5);
+    expect(Math.max(...weights)).toBeLessThan(9);
+    expect(stoneSummary(ring002, s0).reduce((n, g) => n + g.count, 0)).toBe(36);
+    // Dimensions dans l'ordre croissant, quel que soit l'ordre des pierres dans le fichier.
+    expect(stoneSummary(ring002, s0).map((g) => [g.shape, g.sizesMm])).toEqual([
+      ['marquise', ['16.5 × 8.5']],
+      ['round', ['1.1', '1.9']],
+    ]);
+  });
+
+  it('partage sa configuration dans l’adresse et la relit', () => {
+    const s = { ...s0, metal: 'platinum-950' as const, diamondOrigin: 'lab-grown' as const };
+    const params = configToParams(ring002, s);
+    expect(params.get('composition')).toBe('solitaire');
+    expect(configFromParams(ring002, params)).toEqual(s);
   });
 });
 

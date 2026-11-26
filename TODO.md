@@ -15,7 +15,7 @@
 - [ ] Teintes des métaux conformes aux photos : en attente des photos studio de l'atelier.
 
 - [ ] Archiver tel quel le fichier de réponses de l'atelier du 16/11 dans `docs/atelier/2026-11-16_reponses.txt` (il n'a pas été reçu par la session du 16/11) et comparer avec la section « 16 novembre 2026 » de `docs/REPONSES_ATELIER.md`.
-- [ ] Envoyer la relance du 16/11 (`docs/atelier/2026-11-16_relance.md`, 11 questions).
+- [ ] Envoyer la relance du 16/11 (`docs/atelier/2026-11-16_relance.md`, 11 questions, mise à jour le 26/11) puis le message du 24/11 (`docs/atelier/2026-11-24_message.md`) : textes remis au propriétaire le 26/11, envoi non confirmé.
 
 ## Modèles
 - [ ] CGTrader, partie gratuite (filtre « Free », formats `.3dm`) : télécharger 2 ou 3 bagues gratuites pour tester le pipeline sur un fichier tiers, sans rien acheter. Candidats vus le 3/11 : « solitaire ring », « Wedding Ring N145 », « Eternal Majesty ring », « Vintage Woman Diamond Ring », « Wedding Rings C29 ». Licence à relever sur chaque fiche. Pas de copies de marques.
@@ -25,7 +25,11 @@
 - [ ] Choix du carat pour les solitaires (pierre + tête agrandies depuis l'ancrage, plage validée par l'atelier) : en attente d'un fichier de solitaire (CGTrader « solitaire ring » ou atelier).
 - [ ] Densités des alliages et taux de perte : indisponibles chez l'atelier (3/11). Poids affichés « ≈ … (± 5 %) » depuis le 4/11.
 - [x] Fichiers de l'atelier reçus le 17/11 par le Drive du propriétaire : 7 modèles (inventaire `docs/atelier/2026-11-17_fichiers_drive.md`). Prêts pour le pipeline : solitaire marquise et bague cœur. Deux `.3dm` sans maillage à faire réenregistrer.
-- [ ] Repasser en accès « Limité » les 7 fichiers du Drive ouverts par lien le 17/11 (propriétaire).
+- [ ] Repasser en accès « Limité » les 7 fichiers du Drive ouverts par lien le 17/11 (propriétaire) : toujours ouverts le 26/11.
+- [ ] Décision du propriétaire, demandée le 17/11 et restée sans réponse : versionner dans le dépôt public les fichiers CAO des 7 modèles de l'atelier (environ 130 Mo), comme `Ring.3dm`, ou seulement les modèles web allégés (GLB) ? Puis intégrer le solitaire marquise en premier (choix du carat), ensuite la bague cœur.
+- [x] Reçus aussi le 17/11 au soir, identifiés le 26/11 : logo JR (JPEG sur fond noir, WebP détouré) et deux fichiers d'alliances lisses venus de CGTrader (paire ; jeu de 29 tailles). Inventaire et licence : `docs/atelier/2026-11-17_fichiers_drive.md`.
+- [ ] Alliances CGTrader : relever l'adresse et la licence de chaque fiche (PIP-7) ; ne pas versionner les deux fichiers (dépôt public, §21A.1 des conditions CGTrader) ; confirmation écrite pour la fabrication et la vente.
+- [ ] Logo JR : obtenir la version d'origine (SVG, PDF ou PNG sans fond), puis décider s'il remplace le monogramme dessiné du site (`src/components/site/Monogram.tsx`).
 - [x] Or 14 k (jaune, blanc, rose) au configurateur, choix couleur + titre ; « Synthétique » en français (4/11).
 - [x] Métal par défaut de ring-001 : or jaune 14 k (atelier, 16/11).
 - [x] Pierres de couleur au configurateur, « sur demande » (15/11) : diamant de couleur ; émeraude, saphir et rubis naturels. Boutons en pointillés sous la pierre centrale, comme les autres formes : ils ouvrent le devis avec un message pré-rempli (FR/EN/HE), la 3D reste la marquise, aucun prix. En origine « synthétique », le message précise que les autres pierres sont des diamants synthétiques (jamais « émeraude synthétique »).
@@ -37,7 +41,7 @@
 - [x] Page 404 traduite (`/fr|en|he/…`, français hors langue), aperçus de liens partagés (Open Graph, image `public/images/apercu-partage.jpg`), `robots.txt` et plan du site pilotés par l'interrupteur de lancement (15/11). Aperçus invisibles tant que la protection Vercel est active. Relecture native du texte hébreu de la 404 à faire.
 - [x] Statut fiscal (16/11) : osek patour (עוסק פטור), pas de TVA. Mention de TVA de la FAQ « prix » et de la politique de confidentialité pilotée par `vatStatus` (`src/config/business.ts`), testée pour les deux valeurs.
 - [ ] Passage en société : `vatStatus`, nom légal, numéro ח.פ., compte du prestataire de paiement à rouvrir au nom de la société. Plafond de l'osek patour en 2026 : 122 833 ₪ de chiffre d'affaires (prix entier des bijoux vendus, pas le bénéfice), soit 12 à 25 bagues par an environ [I] ; au-delà, osek mourché et TVA de 18 % dès le dépassement (`docs/REPONSES_ATELIER.md`, 16/11, « Points d'attention »). À suivre avec le comptable de l'atelier.
-- [ ] Alliance de kiddouchin : obtenir un modèle simple (atelier ou CGTrader) et faire la page. Guide fait le 14/11 (`/fr/guides/alliance-de-kiddouchin`).
+- [ ] Alliance de kiddouchin : deux fichiers d'alliances lisses reçus de l'atelier le 17/11 au soir (origine CGTrader, licence à relever, voir « Modèles ») ; demander à l'atelier le profil qu'il fabrique, puis faire la page. Guide fait le 14/11 (`/fr/guides/alliance-de-kiddouchin`).
 - [x] Parcours « transformation de bijoux de famille » : photos de l'ancien bijou + demande de devis (`/fr|en|he/transformation`, 14/11). Reste : relecture par l'atelier.
 - [ ] Avocat israélien : la bague configurée relève-t-elle de l'exception « fabriqué sur mesure » au droit d'annulation ? Délai étendu pour nouveaux immigrants ? Poinçon ?
 - [x] Déclaration d'accessibilité et politique de confidentialité en brouillon (15/11), FR/EN/HE : `/fr/accessibilite`, `/en/accessibility`, `/he/accessibility`, `/fr/confidentialite`, `/en/privacy`, `/he/privacy`. Liens dans le pied de page de chaque page et dans un lien d'évitement en tête de page ; lien vers la politique sous la case d'accord des deux formulaires. Contenu : `src/content/legal/`.

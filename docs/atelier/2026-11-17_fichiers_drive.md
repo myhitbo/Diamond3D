@@ -30,3 +30,31 @@ Vidéos (3, de 37 à 49 Mo : `1O618R…`, `1_e7D_…`, `18_9Ko…`) : pas encore
 ## Note de transfert
 
 Les sept fichiers de plus de 10 Mo ont été téléchargés le 17/11 par un lien « Tous les utilisateurs disposant du lien » ouvert pour l'occasion (l'outil Drive refuse au-delà de 10 Mo et ne sait pas retirer un partage). Le propriétaire doit repasser ces sept fichiers en accès « Limité ».
+
+## Fichiers du 17/11 au soir (identifiés le 26/11)
+
+8 fichiers déposés le 17/11 entre 21 h 22 et 21 h 23 UTC, mêmes noms génériques. Absents de l'inventaire ci-dessus, trouvés le 26/11 par une recherche dans le Drive. Le propriétaire confirme le 26/11 qu'ils viennent de l'atelier. Ouverts un par un le 26/11. Rien n'est versionné.
+
+| Fichier (identifiant Drive, taille) | Contenu | Remarques |
+|---|---|---|
+| `.3dm` Rhino 5 (`1CbkInMX…`, 231 Ko) | **Paire d'alliances lisses** (V) : 2 polysurfaces avec maillages (4 736 triangles), diamètres intérieurs 15,5 et 20,0 mm, largeurs 3,90 et 6,22 mm, épaisseurs 2,16 et 2,67 mm, un calque `Default`, aucune pierre | Correspond à la fiche CGTrader « Thick classic wedding rings bands gold fashion », marquée FREE, formats 3dm, fbx, obj, stl (capture `1lTFL-W_…`) (I) |
+| `.3dm` Rhino 8 (`1G0kC8-h…`, 8,4 Mo) | **Jeu de 29 alliances lisses** (V) : diamètre intérieur de 15 à 22 mm par pas de 0,25 mm, largeur 5,00 mm, épaisseur 2,33 mm, 268 576 triangles, un calque « По умолчанию » (« par défaut » en russe) | Correspond à la fiche CGTrader « Wedding Ring Set Free 3D print model », « Sizes 15, 15.25 … 21.75, 22 » (captures `1u-Lue5T…`, `1a3Mehxm…`) (I) |
+| 3 captures d'iPhone (`1lTFL-W_…`, `1u-Lue5T…`, `1a3Mehxm…`) | Pages de cgtrader.com, recherche « Gold ring wedding », prises à 23 h 01, 23 h 02 et 23 h 06 | L'adresse des fiches n'y figure pas |
+| 2 JPEG identiques (`1aRPR6p3…`, `11krD7b8…`, 1230 × 1278, même empreinte) | **Logo JR** : monogramme or texturé sur fond noir | Image, pas de version vectorielle |
+| WebP (`17RgkJQS…`, 512 px) | Le même logo détouré, liseré blanc (format autocollant) | |
+
+Les deux `.3dm` ont leurs maillages d'affichage : lisibles par le pipeline tels quels.
+
+### Licence des deux fichiers d'alliances
+
+Envoyés par l'atelier, mais créés par des vendeurs de CGTrader d'après les indices ci-dessus (I). La règle PIP-7 du cahier des charges s'applique : adresse de la fiche, vendeur, licence et capture de la licence, pour chaque modèle. Conditions générales de CGTrader relues le 26/11 (https://www.cgtrader.com/pages/terms-and-conditions) :
+- §24 : un modèle gratuit porte la licence choisie par le vendeur ; §20.2 : « Royalty Free » si le vendeur n'indique rien.
+- §21A.1 : le modèle ne peut être ni vendu ni donné « in the form it is downloaded from the Site or in 3D printed physical form ». **Ne pas versionner ces deux fichiers** : le dépôt est public.
+- §21A.2 : seul l'usage « incorporé » est permis (images rendues, objet physique dont le modèle est une partie, application où le modèle n'est pas téléchargeable sous sa forme d'origine). La vente d'un bijou fabriqué à partir du fichier n'est pas couverte en toutes lettres : confirmation écrite du vendeur ou de CGTrader à obtenir (risque déjà noté au cahier des charges).
+- Licence réelle des deux fiches : **non relevée**, les adresses manquent. Un résultat de recherche indique « Royalty Free, no AI » pour le jeu de 29 tailles (S).
+
+### À demander à l'atelier
+
+6. L'adresse des deux fiches CGTrader.
+7. Le profil d'alliance qu'il fabrique vraiment (largeur, épaisseur, bombé ou plat) : la promesse du site est « ce que vous voyez existe ».
+8. Le logo dans sa version d'origine (SVG, PDF ou PNG sans fond).

@@ -24,6 +24,7 @@ Le PDF est balisé (lecteurs d'écran), porte un signet par page et des liens in
 | `signets.py` | pose les signets (un par page) et les métadonnées du PDF ; demande `pypdf` | oui |
 | `images.json`, `crop.py` | liste des images (site, pays, adresse, date, fichier d'origine, recadrage) et recadrage vers `img/` | oui |
 | `img/`, `fonts/`, `dist/`, `.fragments/` | captures recadrées, polices téléchargées, PDF et aperçus, pages fabriquées | **non** (`.gitignore`) |
+| `droits.txt` | mention de droits imprimée sur chaque page : une ligne, « © année Nom du titulaire » | **non** (`.gitignore`) : le nom du titulaire n'est pas écrit dans le dépôt public |
 
 Le dépôt est public : **les captures des sites concurrents et le PDF n'y sont pas versionnés**. Le PDF se partage de la main à la main ; les captures d'origine restent dans le dossier de travail de la session qui les a prises (`audit/`, `fresh/`, `own/`).
 
@@ -36,7 +37,10 @@ python3 docs/concurrence/presentation/extraire.py
 # 2. Images : à partir d'un dossier qui contient audit/, fresh/ et own/ (voir images.json)
 python3 docs/concurrence/presentation/crop.py <dossier_des_captures>
 
-# 3. PDF (--apercus : une image par page dans dist/pages/ ; --garder : garde la page assemblée pour une relecture du texte)
+# 3. Mention de droits : une ligne dans droits.txt, à demander au propriétaire (le fichier n'est pas dans le dépôt)
+printf '© 2026 Nom du titulaire\n' > docs/concurrence/presentation/droits.txt
+
+# 4. PDF (--apercus : une image par page dans dist/pages/ ; --garder : garde la page assemblée pour une relecture du texte)
 CHROMIUM_PATH=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome \
   node docs/concurrence/presentation/build.mjs --apercus
 ```
@@ -44,6 +48,7 @@ CHROMIUM_PATH=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome \
 - Sortie : `dist/JR-Diamond_Etude-de-concurrence_2026-11.pdf`.
 - `build.mjs` lance `pages_sites.py`, qui vérifie que les totaux des tableaux recoupent la synthèse (Israël : 16, 7, 2, 1, 16 + 1, 10, 10, 16, 14, 8 ; France : 7, 5, 0, 2, 5, 5, 8, 8, 4, 5) et s'arrête sinon.
 - Dans `etude.html` : `<!--@inclure nom-->` insère `.fragments/nom.html` ; `data-ancre="x"` nomme une page ; `{{page:x}}` et `href="#@x"` y renvoient, avec le bon numéro.
+- Le script doit dire « mention de droits : sur 45 pages » : sans `droits.txt`, le PDF sort sans mention.
 - Le script doit finir par « aucune page ne dépasse ». Relire ensuite les aperçus page par page : le contrôle automatique ne voit ni un repère mal placé sur une capture, ni un texte qui en recouvre un autre.
 - Poids attendu : 7 Mo environ. S'il double, voir « Mise en page », dernier point.
 
@@ -53,6 +58,7 @@ CHROMIUM_PATH=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome \
 - **Typographie** : titres, chiffres et numéros en Bodoni Moda (l'italique doré porte le mot important du titre) ; texte en Jost ; surtitres et étiquettes en petites capitales espacées.
 - **Ornements** : filet et losange en tête de page ; double filet `.cadre` sur la couverture et les ouvertures ; cartouche `.chez` (double filet, étiquette posée sur le bord) pour ce qui nous concerne ; citations de forums sur fond noir ; `.orn.fin` clôt une liste de fiches ou un chapitre.
 - **Pages d'ouverture** (`.opener`) : un rendu 3D, un numéro, un titre, une ligne. Le fond de ces pages et de la couverture est le noir pur `#000`, et les rendus sont aplatis sur `#000000` dans `images.json` : sur un noir différent, le rectangle de l'image se voit.
+- **Mention de droits** (demande du propriétaire du 26/11) : sur chaque page, posée par `build.mjs` après la mise en pages ; au milieu du pied de page, en or, et, sur les pages à cadre (couverture, ouvertures), en étiquette sur le double filet du bas. La dernière page dit que les captures d'écran restent la propriété des sites cités.
 - **États et repères** : losange plein, losange à demi rempli, tiret (`.pt`) ; pastilles « Fait », « À faire », « Atelier », « Propriétaire », « Avocat » avec leur mot. Ces formes sont dessinées en CSS (les polices n'ont pas ces signes).
 - **Piège de poids** : un dégradé CSS placé sous une rotation (`transform: rotate`), ou découpé par le texte (`background-clip: text`), fait pixelliser la page entière par Chromium à l'impression : le PDF passe de 7 à 17 Mo. Pour un losange ou un demi-losange, n'employer que des formes pleines (bordure épaisse, `box-shadow`). Un dégradé sans rotation (fondu d'une image vers le noir) ne coûte rien.
 

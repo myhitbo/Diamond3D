@@ -3,6 +3,7 @@
 //   node docs/concurrence/presentation/build.mjs --apercus  → en plus, une image par page dans dist/pages/
 //   … --garder → garde la page assemblée (.etude.impression.html), pour une relecture du texte complet
 // Les images (img/) ne sont pas dans le dépôt : voir README.md et images.json. Les polices sont téléchargées au premier passage.
+// droits.txt (hors dépôt) : sa première ligne, par exemple « © 2026 Nom du titulaire », est imprimée sur chaque page.
 // Dans etude.html : <!--@inclure nom--> insère .fragments/nom.html ; data-ancre="x" nomme une page ; {{page:x}} et href="#@x" y renvoient.
 import { chromium } from '@playwright/test';
 import { execFileSync } from 'node:child_process';
@@ -142,6 +143,39 @@ const annexPages = await page.evaluate(() => {
 });
 if (annexPages) console.log(`annexe : ${annexPages} pages`);
 
+/* ---------- Mention de droits : la première ligne de droits.txt, posée sur chaque page. Le fichier est hors du dépôt (public) : le nom du titulaire n'y est pas écrit. ---------- */
+const rightsFile = path.join(here, 'droits.txt');
+const rights = fs.existsSync(rightsFile)
+  ? fs
+      .readFileSync(rightsFile, 'utf8')
+      .split('\n')
+      .map((line) => line.trim())
+      .find(Boolean) || ''
+  : '';
+if (rights) {
+  const marked = await page.evaluate((notice) => {
+    const sign = /^©\s*(.*)$/.exec(notice);
+    let count = 0;
+    for (const p of document.querySelectorAll('.page')) {
+      const folio = p.querySelector('.folio');
+      // pied de page : entre le titre courant et le numéro ; page à cadre (couverture, ouvertures) : étiquette sur le filet du bas
+      const holder = document.createElement(folio ? 'span' : 'p');
+      holder.className = folio ? 'droits' : 'droits-cadre';
+      const text = folio ? holder : holder.appendChild(document.createElement('span'));
+      if (sign) {
+        const mark = document.createElement('b');
+        mark.textContent = '©';
+        text.append(mark, sign[1]);
+      } else text.textContent = notice;
+      if (folio) folio.insertBefore(holder, folio.querySelector('.num'));
+      else p.append(holder);
+      count += 1;
+    }
+    return count;
+  }, rights);
+  console.log(`mention de droits : sur ${marked} pages`);
+} else console.log('mention de droits : aucune (droits.txt absent)');
+
 /* ---------- Contrôles avant impression : image manquante, contenu qui dépasse la page ---------- */
 const report = await page.evaluate(() => {
   const broken = [...document.images].filter((i) => !i.naturalWidth).map((i) => i.getAttribute('src'));
@@ -158,6 +192,17 @@ const report = await page.evaluate(() => {
       if (over > worst) {
         worst = over;
         where = (r.bottom - limit >= over ? 'bas' : 'côté') + ' de ' + el.tagName.toLowerCase() + (el.className ? '.' + String(el.className).split(' ')[0] : '');
+      }
+    }
+    // pied de page : titre courant, mention de droits et numéro tiennent sur une ligne, sans se toucher
+    if (folio) {
+      const parts = [...folio.children].map((el) => el.getBoundingClientRect());
+      for (let i = 1; i < parts.length; i += 1) {
+        const touch = parts[i - 1].right + 8 - parts[i].left;
+        if (touch > worst) {
+          worst = touch;
+          where = 'pied de page trop long';
+        }
       }
     }
     return { page: k + 1, over: Math.round(worst), where, title: (p.querySelector('h1, h2, h3') || {}).textContent || '' };

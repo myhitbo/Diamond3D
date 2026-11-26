@@ -4,3 +4,5 @@ fonts/
 dist/
 .etude.impression.html
 .fragments/
+# Mention de droits imprimée sur chaque page (nom du titulaire) : hors du dépôt public.
+droits.txt

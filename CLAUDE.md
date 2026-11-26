@@ -43,6 +43,7 @@ Détails : `TODO.md` (tâches), `CHANGELOG.md` (historique), `docs/` (dossiers d
 
 ## Ce qui est fait
 - **Prototype 3D (phase 2)** : pipeline `.3dm` → GLB optimisé (0,19 Mo), configurateur Next.js 16 / React Three Fiber, modèle pilote `ring-001` (ensemble marquise).
+- **Deuxième modèle `ring-002`, solitaire marquise pavé** (26/11) : fichier de l'atelier `cad/originals/Solitaire-marquise.3dm` (versionné). Marquise de 16,5 × 8,5 mm (3,66 ct d'après le volume du modèle ; poids réel à demander, aucun poids commercial affiché), six griffes, 16 diamants ronds de 1,9 mm sur l'anneau et 19 de 1,1 mm en galerie ; 39 962 triangles, 285 Ko, écart maximal 0,03 mm. Aucune retouche web (griffes telles que dessinées), `workshopValidated: false`. Le fichier n'a ni courbe de taille ni STL : la recette choisit les objets par nom et par identifiant, le volume de métal vient de l'union des solides (397 mm³), la taille est mesurée sur l'anneau (France 54 ½ ; méthode contrôlée sur ring-001), voir `docs/MODEL_PIPELINE.md`. **Choix du modèle** en tête du configurateur (`MODELS`, dans l'ordre d'affichage) ; un modèle à une seule composition n'affiche pas ce choix. Tests : `tests/e2e/models.spec.ts`, `pipeline/tests/test_extract_ring002.py`. L'accueil ne présente encore que l'ensemble marquise.
 - **Retouche web de ring-001** à la demande de l'atelier : griffes rabattues, plaques en « 8 » supprimées (`pipeline/web_retouch.py`, `npm run models:retouch`). Planche : `docs/images/retouche-ring-001-avant-apres.jpg`.
 - **Configurateur** :
   - composition ensemble / solitaire / alliance ;
@@ -151,7 +152,8 @@ Au 14/11 au soir, plus rien ici ne se fait sans une action extérieure : les tro
 - Jour du lancement : `SITE_INDEXABLE = true` dans `src/config/site.ts` (balise robots, plan du site, redirections permanentes ; pas avant, un navigateur garde une redirection permanente en mémoire). Retirer le « garde-fou avant le lancement » de `tests/unit/seo.test.ts`, renseigner `NEXT_PUBLIC_SITE_URL` si le domaine change, lever la protection Vercel (cookie `_vercel_jwt`), choisir la langue de la racine (`/` mène à `/fr`, alors que le lancement se fait en Israël), puis envoyer un lien sur WhatsApp pour vérifier l'aperçu.
 
 ### Dès réception des éléments
-- Sélecteur de carat sur un solitaire.
+- Sélecteur de carat sur le solitaire marquise (`ring-002`, en ligne depuis le 26/11) : attend la plage de tailles de pierre validée par l'atelier (question 93).
+- Bague cœur : fichier de l'atelier prêt sur le Drive (17,8 Mo) ; forme « cœur » à ajouter au schéma.
 - Photo réelle à côté du rendu 3D.
 - Calibrer les teintes des métaux sur les photos studio.
 

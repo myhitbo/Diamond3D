@@ -220,6 +220,13 @@ Questions tirées de `docs/concurrence/SYNTHESE.md` (rangs qui dépendent de l'a
 89. À réception du bijou : photos, pesée filmée, liste des pierres avant le dessertissage. Puis un bilan écrit (or reçu, or utilisé, perte) et on rend au client l'or et les pierres non utilisés. Ok ?
 90. Peux-tu m'envoyer les 20 à 25 polices (noms ou une photo de ta liste), le prix et le délai d'une gravure ?
 
+## 15. Solitaire marquise pavé, en ligne depuis le 26/11 (`ring-002`)
+
+91. Le modèle est affiché tel que dessiné : six griffes longues et pointues, 52 grains de serti. Faut-il les rabattre pour le web, comme sur la bague marquise (question réglée le 3/11 pour ring-001) ?
+92. Poids réel de la marquise de 16,5 × 8,5 mm (le volume du modèle donne 3,66 ct) et des 35 diamants ronds (16 de 1,9 mm, 19 de 1,1 mm) ; couleur et pureté par défaut.
+93. Pour proposer le choix du carat : de quelle taille à quelle taille de marquise ce modèle peut-il être fabriqué sans le redessiner ?
+94. Le nom du modèle à l'atelier, et la taille de doigt du fichier (mesurée : 17,31 mm de diamètre intérieur, soit 54 ½).
+
 ## Ce que j'attends concrètement, par ordre d'urgence
 
 1. Réponses aux questions 2 à 6 (validation du modèle actuel).

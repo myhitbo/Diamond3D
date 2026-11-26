@@ -1326,13 +1326,13 @@ ul.dots.pair li {
 
 .cover-brand {
   position: absolute;
-  top: 12.5mm;
+  top: 11.2mm;
   left: 0;
   right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2.4mm;
+  gap: 2.2mm;
   font-family: var(--display);
   font-size: 9pt;
   letter-spacing: 0.46em;
@@ -1341,12 +1341,15 @@ ul.dots.pair li {
   color: var(--champagne);
 }
 
-.cover-brand svg,
-.back-foot svg,
-.opener-mono svg {
-  width: 10.5mm;
+/* Logo de l'atelier (public/images/logo-jr-atelier.webp, celui de l'en-tête du site). */
+.logo-jr {
+  display: block;
+  width: auto;
+  height: 13mm;
+}
+
+.back-foot .logo-jr {
   height: 10.5mm;
-  color: var(--gold-fill);
 }
 
 .cover-img {
